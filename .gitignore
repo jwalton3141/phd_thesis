@@ -1,0 +1,12 @@
+#Ignore backup files from gedit
+*~
+#Ignore intermediate latex files
+*.pdf
+*.aux
+*.loc
+*.log
+*.synctex.gz
+*.blg
+*.bbl
+#Ignore any data lying around
+*.npy

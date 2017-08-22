@@ -1,0 +1,265 @@
+This is an example of a BibTeX references file.  Any reference you'll ever need
+can go in this one file.  In your thesis/paper you just need to say
+
+\bibliography{references}	%References
+\bibliographystyle{style_file}	%BibTeX (.bst) style file
+
+which will automatically include any references you mention in your thesis.
+Any references you don't make are not included.  If you want to include a
+reference you don't mention just use
+
+\nocite{label}
+
+which will insert the reference 'label' into your bibliography.  I like the
+style file (jfm.bst) provided by the Journal of Fluid Mechanics.  You can
+download it from their website (http://jfm-www.damtp.cam.ac.uk/).
+-------------------------------------------------------------------------------
+
+Define some strings for Journal names.
+@STRING(AA = "Astron.~Astrophys.")
+@STRING(ACP = "Annales de Chimie et de Physique")
+@STRING(AJ = "Astrophys.~J.")
+@STRING(EJMBF = "Eur.~J.~Mech.,~B/Fluids")
+@STRING(FDR = "Fluid Dyn.~Res.")
+@STRING(JCP = "J.~Comput.~Phys.")
+@STRING(JETP = "J~.Exptl.~Theoret.~Phys.~(U.~S.~S.~R.)")
+@STRING(JFM = "J.~Fluid Mech.")
+@STRING(JPA = "J.~Phys.~A: Math.~Gen.")
+@STRING(MPCPS = "Math.~Proc.~Camb.~Phil.~Soc.")
+@STRING(PCPS = "Proc.~Cambridge Phil.~Soc.")
+@STRING(PD = "Physica D")
+@STRING(PF = "Phys.~Fluids")
+@STRING(PLA = "Phys.~Lett.~A")
+@STRING(PRA = "Phys.~Rev.~A")
+@STRING(PRE = "Phys.~Rev.~E")
+@STRING(PRL = "Phys.~Rev.~Lett.")
+@STRING(PRSLA = "Proc.~R.~Soc.~Lond.~A")
+@STRING(TCFD = "Theor.~Comput.~Fluid Dyn.")
+
+@ARTICLE{vicsek95,
+	author =		"Tam\'{a}s Vicsek and Andr\'{a}s Czir\'{o}k and Eshel Ben-Jacob and Inon Cohen and Ofer Shochet",
+	title =		"Novel Type of Phase Transition in a System of Self-Driven Particles",
+	journal =	"Physical Review Letters",
+	volume =		"75",
+	number =		"6",
+	pages =		"1226--1229",
+	year =		"1995"
+}
+
+@ARTICLE{couzin05,
+	author =		"Ian D. Couzin and Jens Krause and Nigel R. Franks and Simon A. Levin",
+	title =		"Effective leadership and decision making in animal groups on the move",
+	journal =		"Nature",
+	volume =		"433",
+	pages =		"513--516",
+	year =		"2005"
+}
+
+@ARTICLE{ballerini08,
+	author =		"M. Ballerini and N. Cabibbo and R. Candelier and A. Cavagna and E. Cisbani and I. Giardina and V. Lecomte and A. Orlandi and G. Parisi and A. Procaccini and M. Viale and V. Zdravkovic",
+	title =		"Interaction ruling animal collective behaviour depends on topological rather than metric distance: Evidence from a field study",
+	journal =	"Proceedings of the National Academy of Sciences of the United States of America",
+	volume =		"105",
+	number =		"4",
+	pages =		"1232--1237",
+	year =		"2008"
+}
+
+@ARTICLE{parrish99,
+	author =		"Julia K. Parrish and Leah Edelstein-Keshet",
+	title =		"Complexity, Pattern, and Evolutionary
+	Trade-Offs in Animal Aggregation",
+	journal =	"Science",
+	volume =		"284",
+	pages =		"99--101",
+	year =		"1999",
+	DOI =		"10.1126/science.284.5411.99"
+}
+
+@ARTICLE{simons04,
+	author =		"Andrew M. Simons",
+	title =		"Many wrongs: the advantage of group navigation",
+	journal =	"TRENDS in Ecology and Evolution",
+	volume =		"19",
+	number =		"9",
+	pages =		"453--455",
+	year =		"2004",
+	DOI =		"10.1016/j.tree.2004.07.001"
+}
+
+@ARTICLE{thorup03,
+	author =		"Kasper Thorup and Thomas Alerstam and Mikael Hake and Nils Kjell\'{e}n",
+	title =		"Bird orientation: compensation for wind drift in migrating raptors is age dependent",
+	journal =	"Proceedings of the Royal Society of London B",
+	volume =		"270",
+	pages =		"S8--S11",
+	year =		"2003",
+	DOI =		"10.1098/rsbl.2003.0014"
+}
+
+@ARTICLE{baggaley15,
+	author =	"A. W. Baggaley",
+	title =		"Model flocks in a steady vortical flow",
+	journal =	"Physical Review E",
+	volume =	"91",
+	pages =		"1--8",
+	year =		"2015",
+	DOI =		"10.1103/PhysRevE.91.053019"
+}
+
+@INBOOK{berthold99,
+	author =    "Peter Berthold",
+	title =     "Bird Migration A General Survey",
+	year =      "1999",
+	publisher = "Oxford University Press",
+}
+
+@ARTICLE{vicsek12,
+    author =     "Tam\'{a}s Vicsek and Anna Zafeiris",
+    title =      "Collective motion",
+    journal =    "Physics Reports",
+    volume =     "517",
+    pages =      "71-140",
+    year =       "2012",
+    DOI =        "10.1016/j.physrep.2012.03.004"
+}
+
+@ARTICLE{lukeman10,
+    author =     "Ryan Lukeman and Yue-Xian Li b and Leah Edelstein-Keshet",
+    title =      "Inferring individual rules from collective behavior",
+    journal =	"Proceedings of the National Academy of Sciences of the United States of America",
+    volume =     "107",
+    number =     "28",
+    pages =      "12576--12580",
+    year =       "2010",
+    DOI =        "10.1073/pnas.1001763107"
+}
+
+@PHDTHESIS{lukeman09,
+    author =     "Ryan Lukeman",
+    title =      "Modelling Collective Behaviour in Animal Groups: From Mathematical Analysis to Field Work",
+    school =     "University of British Columbia",
+    year =       "2009"
+}
+
+@ARTICLE{metropolis53,
+   author =     "Nicholas Metropolis and Arianna W. Rosenbluth and Marshall N. Rosenbluth and Augusta H. Teller and Edward Teller",
+   title =      "Equation of State Calculations by Fast Computing Machines",
+   journal =    "Journal of Chemical Physics",
+   volume =     "21",
+   number =     "6",
+   pages =      "1087--1092",
+   year =       "1953",
+   DOI =        "10.1063/1.1699114"
+}
+
+@ARTICLE{hastings70,
+   author =     "Wilfred Keith Hastings",
+   title =      "Monte carlo sampling methods using markov chains and their
+applications",
+   journal =    "Biometrika",
+   volume =     "57",
+   number =     "1",
+   pages =      "97--109",
+   year =       "1970"
+}
+
+@ARTICLE{roberts01,
+   author =     "Gareth O. Roberts and Jefferey S. Rosenthal",
+   title =      "Optimal Scaling for Various Metropolis–Hastings Algorithms",
+   journal =    "Statistical Science",
+   volume =     "16",
+   number =     "4",
+   year =       "2001",
+   pages =      "351--367"
+}
+
+@ARTICLE{li08,
+   author =     "Yue-Xian Li and Ryan Lukeman and Leah Edelstein-Keshet",
+   title =      "Minimal mechanisms for school formation in self-propelled particles",
+   journal =    "Physica D: Nonlinear Phenomena",
+   volume =     "237",
+   number =     "5",
+   year =       "2008",
+   pages =      "699--720"
+}
+
+@ARTICLE{aoki82,
+    author =    "Ichiro Aoki",
+    title =     "A Simulation Study on the Schooling Mechanism in Fish",
+    journal =   "Bulletin of the Japanese Society of Scientific Fisheries",
+    volume  =   "48",
+    number  =   "8",
+    pages =     "1081--1088",
+    year =      "1982"
+}
+
+@ARTICLE{okubo86,
+    author =    "Akira Okubo", 
+    title =     "Dynamical aspects of animal grouping: swarms, schools, flocks, and herds",
+    journal =   "Advanced Biophysics",
+    volume =    "21",
+    pages =     "1--94",
+    year =      "1986"
+}
+
+@ARTICLE{huth92,
+    author =    "Andreas Huth and Christian Wissel",
+    title =     "The Simulation of the Movement of Fish Schools",
+    journal =   "Journal of Theoretical Biology",
+    volume =    "156",
+    number =    "3",
+    year =      "1992",
+    pages =     "365--385"
+}
+
+@ARTICLE{reynolds87,
+    author =    "Craig W. Reynolds",
+    title =     "Flocks, Herds, and Schools: A Distributed Behavioral Model",
+    journal =   "Computer Graphics",
+    volume =    "24",
+    number =    "4",
+    year =      "1987",
+    pages =     "25--34"
+}
+
+@ARTICLE{couzin02,
+    author =    "Iain D. Couzin and Jens Krausew and Richard Jamesz and Graeme D. Ruxtony and Nigel R. Franksz",
+    title =     "Collective Memory and Spatial Sorting in Animal Groups",
+    journal =   "Journal of Theoretical Biology",
+    volume =    "218",
+    pages =     "1--11",
+    year =      "2002",
+    DOI =       "10.1006/yjtbi.3065"
+}
+
+@ARTICLE{gueron93,
+    author =    "Shay Guernon and Simon A. Levin",
+    title =     "Self-organization of Front Patterns in Large Wildebeest Herds",
+    journal =   "Journal of Theoretical Biology",
+    volume =    "165",
+    number =    "4",
+    year =      "1993",
+    pages =     "541--552"
+}
+
+@ARTICLE{topaz04,
+
+
+    author =    "Chad M. Topaz and Andrea L. Bertozzi",
+    title =     "Swarming Patterns in a Two-Dimensional Kinematic Model for Biological Groups",
+    journal =   "SIAM Journal on Applied Mathematics",
+    volume =    "65",
+    number =    "1",
+    pages =     "152--174",
+    year =      "2004"
+}
+
+@ARTICLE{topaz06,
+    author =    "Chad M. Topaz and Andrea L. Bertozzi and Mark A. Lewis",
+    title =     "A Nonlocal Continuum Model for Biological Aggregation",
+    journal =   "Bulletin of Mathematical Biology",
+    volume  =   "68",
+    pages =     "1601--1623",
+    year =     "2006"
+}

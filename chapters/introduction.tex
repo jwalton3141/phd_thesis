@@ -1,0 +1,153 @@
+\chapter{Introduction}
+\label{cha:introduction}
+
+\section{Motivation}
+Many of us have been struck by the inherent beauty of animals moving collectively. Starlings at dusk gather in huge numbers to perform the most mesmerising of ballets, the entire flock moving as if some fluid object. Fish form tight milling structures in defence against predation; in the blink of an eye and with a flash of silver, the school changes direction. There are many other examples of group behaviour, occurring at different length scales and in both the living and non-living domains.
+
+Over the years collective behaviour has become a thriving topic of multidisciplinary research, capturing the imaginations of physicists, biologists, mathematicians and statisticians. Much work has been invested in theoretical models which seek to explain emergent behaviour by interactions at an individual level. Such models have shown that interactions at an individual level are sufficient to produce group-level structures, and many simulations produce behaviour reminiscent of real flocking systems. However, these models have largely only been verified with comparison to empirical data at a qualitative level, and a thorough quantitative comparison has been lacking. As observed by \citet{li08}, emergence of a desired pattern from simulation is not evidence of model correctness.
+
+In recent years technological and methodological advances have made it possible to capture the movements of large groups of animal aggregates. With this data, it is only now that we are in a position to make a robust comparison between model predictions and real-world observations.
+
+In this thesis we utilise real data to perform statistical inference on theoretical models. Our inference is made in a Bayesian framework. With this we seek to fit empirical data to a generalisation of an existing model from the literature. Aligned with Aristotle's observation that ``Nature operates in the shortest way possible.", we desire to fit the simplest model which best explains the empirical data.
+
+\section{Theoretical Models}
+\label{sec:models}
+\subsection{Lagrangian Models}
+\label{ssec:lagrangian_models}
+
+So called agent-based models (ABMs), also referred to as Lagrangian models, have proven a useful tool in modelling collective behaviours. In these models the behaviour of an agent is modelled at the individual level. An agent's behaviour is determined by social interactions with neighbouring individuals. Examples of typical interactions include the desire to move in the same direction as neighbours, the desire to avoid collisions and a desire to remain close to neighbours. Along with specifying individual behaviours, ABMs stipulate methods in which agents identify neighbours to interact with. An individual may identify neighbours as those agents; within a certain distance away; positioned inside a field of vision or as being one of the $n$ closest agents.
+	
+In a pioneering paper, \citet{aoki82} developed an agent-based model to simulate the movements of schooling fish in two-dimensions. Here it was shown that collective behaviour can arise from simple interactions at an individual level and without the need of a leader. The model simulated zonal interactions in which the area around an individual is partitioned into zones of repulsion, alignment and attraction. As well as zonal interactions this model made inclusions for agents having an incomplete field of vision. Further models were too devised to simulate fish schools \citep{okubo86, huth92}.
+
+Later, \citet{reynolds87} formulated a theoretical model motivated by the production of computer animations, which described the movement of flocking birds in three-dimensional space. To produce more aesthetically pleasing animations, the developed software, ``Boids'', included sophistications such as banking during turns. The focus on developing simulations which produce behaviour which looks good made rigorous scientific analysis difficult. Interestingly, Tim Burton's 1992 Batman Returns used a modified version of the Boids software to simulate animations of bat swarms and penguin flocks.
+
+Motivated by research within statistical physics, \citet{vicsek95} introduced a simple two-dimensional model in which self-propelled particles move with a fixed absolute velocity and align with neighbours within an interaction zone. This model is commonly referred to as ``Vicsek Model" (VM), which we shall later use to formulate our ``Generalised Vicsek Model" (GVM). Despite its simplicity this model produces complex-behaviour resembling that of a real biological system. Vicsek et al. investigated the phase transition between ordered and disordered motion as the density of particles and noise in the system varied.
+
+Later, models were developed to explore the movements of mammals and other vertebrate groups. \citet{couzin02} showed major group-level behavioural changes in three-dimensions, as minor changes in individual interaction rules were made. With small changes in the parameters groups transitioned from disordered, swarm like behaviour, to toroidal milling structures, to the formation of dynamic and highly parallel groups. 
+
+Lagrangian models are very appealing in their intuitiveness, and in the ease of implementing explicit behavioural rules. Though for many years the simulation and exploration of these models was limited by computing power; modern computing allows for the simulations of large groups over many time steps. With such advances, a significant proportion of the literature focuses on the analysis and exploration of agent-based models.
+	
+\subsection{Eulerian Models}
+\label{ssec:eulerian_models}
+
+Sometimes known as continuum models, Eulerian models are complementary to the Lagrangian method. This approach describes a group by the density of organisms at a point in space. Eulerian models are typically constructed of a set of partial differential equations which describe how density develops over time.
+
+One such Eulerian approach by \citet{gueron93} modelled the movements of large groups of wildebeests. The predictions of the model were compared with aerial observations of migrating wildebeest in the Serengeti. The large-scale front patterns seen in the aerial photography were reproduced by the model.
+
+Eulerian models have also been used to analyse vortex solutions \citep{topaz04} and stationary clump solutions \citep{topaz06}. However, the Eulerian approach is limited. Most analyses are restricted to 1-dimension and the approach has not proven appropriate for modelling groups of low densities.
+
+With this in mind, and with the advantages of the Lagrangian approach, in this thesis we will concentrate entirely on modelling in the Lagrangian framework.
+
+\section{Empirical Studies}
+\label{empirical_studies}
+
+Real data of animal aggregations is essential to ensure that theoretical models are falsifiable. The emergence of a desired pattern from simulation is not sufficient evidence that a model is correctly capturing the interactions of individuals. This observation is further compounded by the understanding that models employing different local interactions can produce similar looking behaviour at the group level.
+
+Thorough comparison between real data and model predictions have proven difficult largely because of the scarcity of appropriate data. The collection of suitable data can be a complicated and convoluted process. Taking observations in the field is technically demanding, requiring the precise calibration of sensitive measurement equipment, not to mention the additional difficulty of the typically three-dimensional nature of animal aggregations. Collecting data in a laboratory setting seems an obvious workaround - however this imposes restrictions on the types of behaviour which can be captured. A laboratory may be an appropriate environment to capture the movements of fish in a tank, but it certainly isn't appropriate to capture the movements flocking of birds.
+
+
+\section{Bayesian Statistcs}	
+\label{sec:bayes_intro}
+
+As part of this project we wish to infer the parameters of collective-behaviour models, given real field observations. We shall perform our statistical inference within a Bayesian framework. In this chapter we shall introduce and give overviews of some important concepts of Bayesian inference, and outline schemes we can use to infer parameters in the case of intractable likelihoods.
+
+\subsection{Bayesian Inference}
+\label{ssec:bayes}
+
+Using Bayesian inference we wish to quantify beliefs and uncertainties about parameters $\bm{\theta} = (\theta_1, \theta_2,\dots,\theta_n)$, using data $\bm{x}$ which we observe. Given this observed data, the likelihood function for the parameters is defined
+\[
+    L(\bm{\theta}|\bm{x}) = f(\bm{x}|\bm{\theta}).
+\]
+The likelihood quantifies the probability distribution of the data in terms of the parameters. We may then specify our prior knowledge about the parameters $\bm{\theta}$ through the prior distribution $\pi(\bm{\theta})$. Bayes Theorem can then be used to incorporate both the likelihood function and our prior beliefs, to form the posterior distribution
+\begin{equation}
+\label{eq:bayes_theorem}
+    \pi(\bm{\theta}|\bm{x}) = \frac{\pi({\bm{\theta}})L(\bm{\theta}|\bm{x})}{\int_{\bm{\theta}} \pi(\bm{\theta})L(\bm{\theta}|\bm{x})d\bm{\theta}}.
+\end{equation}
+Because the integral in the denominator is not a function of $\bm{\theta}$, we may consider it a constant of proportionality and express our posterior beliefs as proportional to the product of the likelihood and prior, that is
+\begin{align*}
+    \pi(\bm{\theta}|\bm{x}) &\propto \pi(\bm{\theta}) \times L(\bm{\theta}|\bm{x})\\
+    \text{posterior} &\propto \text{prior} \times \text{likelihood}
+\end{align*}
+
+\subsection{Markov chain Monte Carlo (MCMC)}
+\label{ssec:mcmc}
+
+For the most part, the normalising constant (given in the denominator of Equation \eqref{eq:bayes_theorem}) will have multiple dimensions, not produce a density function of standard form, and be difficult to evaluate in all but the most trivial cases. Markov chain Monte Carlo algorithms provide methods to sample from the targeted density $\pi(\bm{\theta}|\bm{x})$, whilst avoiding evaluating the troublesome normalising constant.
+
+\subsubsection{Gibbs sampling}
+\label{sssec:gibbs_sampling}
+One may use the full conditional distributions of parameters to sample from a multivariate density. Doing so is to implement the Gibbs algorithm. So, instead of sampling from the full posterior, we sample from the conditional posteriors of the parameters one at a time. The Gibbs algorithm is useful when the conditional densities can be expressed in standard form and are easy to sample form.
+
+Say we wish to target the density $\pi(\bm{\theta})$ where $\theta = (\theta_1, \theta_2, \dots, \theta_p)'$, where the full conditional densities are $\pi(\theta_i|\theta_1, \theta_2, \dots, \theta_{i-1}, \theta_{i+1}, \dots, \theta_p)$, for $i=1,\dots,p$, then we may use the Gibbs sampler, as described in Algorithm \ref{alg:gibbs}.
+
+\begin{algorithm}
+\caption{Gibbs}
+\label{alg:gibbs}
+\begin{enumerate}
+    \setcounter{enumi}{-1}
+    \item Initialise chain with $\bm{\theta}^{0}$. Set $j=1$.
+    \item Generate $\bm{\theta}^{j}$ from $\bm{\theta}^{j-1}$ by simulating from:
+    \begin{align*}
+            {\theta_1}^{j} &\sim \pi({\theta_1}^{j}|{\theta_2}^{j-1},\dots,{\theta_p}^{j-1},\bm{x})\\
+            {\theta_2}^{j} &\sim \pi({\theta_2}^{j}|{\theta_1}^{j}, {\theta_3}^{j-1}, \dots, {\theta_p}^{j-1},\bm{x})\\
+            &\hspace{0.25cm}\vdots \\
+            {\theta_p}^{j} &\sim \pi({\theta_n}^{j}|{\theta_1}^{j}, \dots, {\theta_{p-1}}^{j-1},\bm{x})
+    \end{align*}
+    \item Increment $j$ to $j+1$. Repeat from step $1$.
+\end{enumerate}
+\end{algorithm}
+
+\subsubsection{Metropolis-Hastings}
+\label{sssec:metropolis_hastings}
+The Metropolis-Hastings algorithm is another MCMC scheme. The algorithm was introduced by \cite{metropolis53}, and this work was later generalised by \cite{hastings70}. The algorithm works by constructing a Markov chain which has stationary distribution equivalent to the distribution of interest.
+\begin{algorithm}
+\caption{Metropolis-Hastings}
+\label{alg:metropolis_hastings}
+\begin{enumerate}
+    \setcounter{enumi}{-1}
+    \item Initialise chain with $\bm{\theta}^{0}$. Set $j=1$.
+    \item Propose ${\bm{\theta}}^*$ by sampling from $q(\cdot|{\bm{\theta}}^{j-1})$, where $q$ is some proposal distribution
+    \item Construct the acceptance probability $\alpha({\bm{\theta}}^*|{\bm{\theta}^{j-1}})$ as
+    \begin{equation*}
+		\alpha({\bm{\theta}}^*|\bm{\theta}) = \text{min}\bigg\{ 1, \frac{\pi({\bm{\theta}}^*)}{\pi({\bm{\theta}}^{j-1})} \frac{L(\bm{\theta}^*|\bm{x})}{L({\bm{\theta}}^{j-1}|\bm{x})} \frac{q({\bm{\theta}}^{j-1}|{\bm{\theta}}^*)}{q({\bm{\theta}}^*|{\bm{\theta}}^{j-1})} \bigg\}.
+    \end{equation*}
+    \item With probability $\alpha({\bm{\theta}}^*|{\bm{\theta}^{j-1}})$ set ${\bm{\theta}}^j = {\bm{\theta}}^*$, otherwise set ${\bm{\theta}}^j = {\bm{\theta}}^{j-1}$.
+    \item Increment $j$ to $j+1$. Repeat from step $1$.
+\end{enumerate}
+\end{algorithm}
+
+The algorithm begins by initialising the chain with parameters $\bm{\theta}^{0}$. Next, the algorithm proposes new values ${\bm{\theta}}^*$ from a proposal distribution, $q(\bm{\theta}^*|{\bm{\theta}}^{j-1})$, which is chosen to have the same support as the target distribution. After this, the proposed values ${\bm{\theta}}^*$ are either accepted or rejected, depending on the evaluation of the acceptance probability $\alpha({\bm{\theta}}^*|{\bm{\theta}^{j-1}})$. Because the acceptance probability depends on a ratio of $\pi(\cdot|\bm{x})$, the normalising constants cancel and therefore the target distribution only has to be known to a constant of proportionality.
+
+\subsubsection*{Choosing a Proposal Distribution}
+\label{sssec:proposal_distribution}
+The practitioner must choose a suitable proposal distribution $q(\bm{\theta}^*|\bm{\theta})$. Ideally the choice of proposal distribution will give rapid convergence to $\pi(\bm{\theta}|\bm{x})$ and efficiently explore the support of $\pi(\bm{\theta}|\bm{x})$.
+
+A special case of Metropolis-Hastings arises when the proposal distribution is symmetric, that is
+\begin{equation*}
+	q(\bm{\theta}^*|\bm{\theta}) = q(\bm{\theta}|\bm{\theta}^*).
+\end{equation*}
+In this case we get some cancellation in the acceptance ratio, and it simplifies to become 
+\begin{equation*}
+\alpha({\bm{\theta}}^*|\bm{\theta}) = \text{min}\bigg\{ 1, \frac{\pi({\bm{\theta}}^*)}{\pi({\bm{\theta}}^{j-1})} \frac{L(\bm{\theta}^*|\bm{x})}{L({\bm{\theta}}^{j-1}|\bm{x})} \bigg\}.
+\end{equation*}
+
+Another special case of Metropolis-Hastings is the random walk sampler. In this case one makes proposals as
+\begin{equation*}
+	\bm{\theta}^* = \bm{\theta}^{j-1} + \bm{\omega}^{j-1},
+\end{equation*}
+where the $\bm{\omega}$ are drawn from
+\begin{equation*}
+	\bm{\omega}^{j-1} \sim \mathcal{N}_p(\bm{0}, \Sigma).
+\end{equation*}
+The parameter $\Sigma$ is called the tuning parameter and controls how the chain moves around the sample space. Mixing describes how well the chain moves around the sample space and how long it takes for the chain to converge to the target distribution.
+
+Crucially then, the parameter $\Sigma$ controls the mixing of the chain. So, naturally, we wish to choose $\Sigma$ in some optimum way, to try and improve mixing. If the target distribution is Gaussian, it has been shown that $0.234$ is an optimum acceptance probability. \citep{roberts01}. In an attempt to tune $\Sigma$ to obtain the optimum acceptance probability, a common technique is to use 
+\begin{equation*}
+	\Sigma = \frac{2.38^2}{2} \widehat{\text{Var}}(\bm{\theta}|\bm{x}).
+\end{equation*}
+
+\subsubsection*{Convergence Diagnostics}
+\label{sssec:convergence_diagnostics}
+Though there are theoretical methods to assess the convergence of chains, it is an attractive idea to analyse the output of our scheme in an attempt to assess whether the chain has converged. One of the simplest ways to assess convergence with this informal method is to inspect the trace plots of our scheme, and check for any irregularities. It is also good to use autocorrelation plots to assess autocorrelation between samples at different lags.
+
+One way to lower autocorrelation between samples is to thin the output. When thinning, every $k$-th sample from a chain is kept, and the rest are discarded. Another common technique is to allow for a burn-in period. The purpose of a burn-in period is to discard any samples from before the chain has converged.
