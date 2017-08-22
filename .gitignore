@@ -8,5 +8,7 @@
 *.synctex.gz
 *.blg
 *.bbl
+*.out
+*.toc
 #Ignore any data lying around
 *.npy
