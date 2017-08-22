@@ -1,9 +1,0 @@
-\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.1.1}{Motivation}{chapter.1}% 2
-\BOOKMARK [1][-]{section.1.2}{Theoretical Models}{chapter.1}% 3
-\BOOKMARK [2][-]{subsection.1.2.1}{Lagrangian Models}{section.1.2}% 4
-\BOOKMARK [2][-]{subsection.1.2.2}{Eulerian Models}{section.1.2}% 5
-\BOOKMARK [1][-]{section.1.3}{Empirical Studies}{chapter.1}% 6
-\BOOKMARK [1][-]{section.1.4}{Bayesian Inference}{chapter.1}% 7
-\BOOKMARK [2][-]{subsection.1.4.1}{Bayesian Inference}{section.1.4}% 8
-\BOOKMARK [2][-]{subsection.1.4.2}{Markov chain Monte Carlo \(MCMC\)}{section.1.4}% 9
