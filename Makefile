@@ -3,7 +3,7 @@
 OBJECT		= thesis
 BIBTEX		= true
 LATEX		= pdflatex
-SOURCES		= $(OBJECT).tex masthesis.sty $(wildcard *.tex) $(wildcard ./*/*.tex)
+SOURCES		= $(OBJECT).tex inputs/masthesis.sty $(wildcard *.tex) $(wildcard ./*/*.tex)
 .SUFFIXES: .tex .dvi .ps .pdf .ps.gz .bbl .dat
 
 

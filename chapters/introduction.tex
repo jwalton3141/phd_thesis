@@ -4,29 +4,62 @@
 \section{Motivation}
 \label{sec:motivation}
 
-Many of us have been struck by the inherent beauty of animals moving collectively. Starlings gather at dusk in huge numbers to perform the most mesmerising of ballets, the entire flock moving as if some fluid object. Fish form tight milling structures in defence against predation; in the blink of an eye and with a flash of silver the school changes direction. At different length scales, and in both the living and non-living domains, startling examples of collective behaviours have been observed.
+Many of us have been struck by the inherent beauty of animals moving collectively; starlings gathering at dusk in huge numbers to perform the most mesmerising of ballets, the entire flock moving as if some fluid object; fish forming tight milling structures in defence against predation, changing direction in the blink of an eye and with a flash of silver. At different length scales, and in both the living and non-living domains, startling examples of collective behaviours have been observed.
 
-Over the years collective behaviour has become a thriving topic of multidisciplinary research, capturing the imaginations of physicists, biologists, mathematicians and statisticians. The field has evolved significantly from early suggestions that collective behaviour results from thought-transference and telepathy between individuals \citep{selous31}. 
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=\textwidth]{fig/murmuration.jpg}
+	\caption{A particularly startling example of a starling murmuration, captured near Gretna in the Scotish Borders. Photograph: Owen Humphreys/PA.}
+	\label{fig:murmuration}
+\end{figure}
 
-Now, much work has been invested in theoretical models which seek to explain emergent behaviour by interactions at an individual level. Such models have shown that individual interactions are sufficient to produce group-level structures. Many simulations implementing differing rules are able to produce behaviour reminiscent of real flocking systems. However, these models have largely only been verified with comparison to empirical observation at a qualitative level, and a thorough quantitative comparison with field data has been lacking.
+Over the years collective behaviour has become a thriving topic of multidisciplinary research, capturing the imaginations of physicists, biologists, mathematicians and statisticians. Our understanding has evolved significantly from early suggestions that collective behaviour results from thought-transference and telepathy between individuals \citep{selous31}. Though we can often explain why animal aggregations are evolutionary advantageous, little is in fact known about how these structures are formed in the first place.
+
+Much work has been invested in developing theoretical models which seek to explain emergent behaviour by interactions at an individual level. Such models have shown that individual interactions are sufficient to produce group-level structures. Many different simulations, implementing disparate interaction rules, are able to produce behaviour reminiscent of real flocking systems. However, these models have largely only been verified with comparison to empirical observation at a qualitative level, and a thorough quantitative comparison between field data and theory has been lacking.
 
 In recent years technological and methodological advances have made it possible to capture the movements of large groups of animal aggregates. With this data, it is only now that we are in a position to make a robust comparison between model predictions and real-world observations.
 
 In this thesis we utilise real data to perform statistical inference on theoretical models. Our inference is made in a Bayesian framework. Bayesian inference allows the capture of uncertainty about fitted model parameters, flexible model structures and potential inclusion of expert information via the prior distribution. With this we seek to fit empirical data to a generalisation of a popular model from the literature.
 
-%\section{Biological Function}
-%\label{sec:biological_function}
+\section{Biological Function}
+\label{sec:biological_function}
+
+\color{red} In which I plan to discuss the `why' of collective behaviour. That is, to discuss the evolutionary advantages which aggregations offer individuals. \color{black}
 
 \section{Theoretical Models}
 \label{sec:models}
+
+Models of collective behaviour can largely be divided into two classes: Lagrangian and Eulerian. These descriptions are analogous to the models of fluid dynamics, where Lagrangian models consider the flow in terms of interactions of fluid parcels and Eulerian models consider the changing fluid properties at a given point in space and time. In the context of collective behaviour Lagrangian models simulate the movements of interactions and Eulerian models typically model the density of a group through space and time.
+
 \subsection{Lagrangian Models}
 \label{ssec:lagrangian_models}
 
-So called agent-based models (ABMs), also referred to as Lagrangian models, have proven a useful tool in modelling collective behaviours. In these models the behaviour of an agent is modelled at the individual level. An agent's behaviour is determined by social interactions with neighbouring individuals. Examples of typical interactions include the desire to move in the same direction as neighbours, the desire to avoid collisions and a desire to remain close to neighbours. Along with specifying social behaviours ABMs suggest methods of how agents identify neighbours to interact with. An individual may identify neighbours as; within a certain distance away; positioned inside a field of vision or as one of a fixed number of closest agents.
-	
-In a pioneering paper, \citet{aoki82} developed an ABM to simulate the movements of schooling fish in two-dimensions. Here it was shown that collective behaviour can arise from simple interactions at an individual level and without the need of a leader. The model simulated zonal interactions in which the area around an individual is partitioned into zones of repulsion, alignment and attraction. As well as zonal interactions this model accounted for fish having incomplete fields of vision. Further models were also devised to simulate fish schools \citep{okubo86, huth92}.
+So called agent-based models (ABMs), also referred to as Lagrangian models, have proven a useful tool in modelling collective behaviours. In these models the behaviour of an agent is modelled at the individual level. An agent's behaviour is determined by social interactions with neighbouring individuals. Examples of typical interactions include the desire to move in the same direction as neighbours (alignment, or orientation), the desire to avoid collisions (repulsion) and a desire to remain close to neighbours (attraction). Along with specifying social behaviours ABMs suggest methods by which agents identify neighbours to interact with. An individual may identify neighbours as; within a certain distance; positioned inside a field of vision or as one of a fixed number of closest agents.
 
-\citet{reynolds87} formulated a theoretical model, motivated by the production of computer animations, which described the movement of flocking birds in three-dimensional space. To produce more aesthetically pleasing animations, the developed software, ``Boids'', included sophistications such as banking during turns. This focus on developing simulations which produce elegant behaviour made rigorous scientific analysis difficult. Interestingly, Tim Burton's 1992 Batman Returns used a modified version of the Boids software to simulate animations of bat swarms and penguin flocks.
+In a pioneering paper, \citet{aoki82} developed an ABM to simulate the movements of schooling fish in two-dimensions. Here it was shown that collective behaviour can arise from simple interactions at an individual level and without the need of a leader. The model simulated zonal interactions in which the area around an individual is partitioned into zones of repulsion, alignment and attraction. The partitioning of space in this way is illustrated in Figure \ref{fig:zone_illustration}. As well as zonal interactions this model accounted for fish having incomplete fields of vision. Further models were also devised to simulate fish schools \citep{okubo86, huth92}.
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}[rotate=30]
+	   \draw [thick, domain=0:145, samples=100] plot ({cos(\x)}, {sin(\x)});
+	   \draw [thick, domain=215:360, samples=100] plot ({cos(\x)}, {sin(\x)});
+	   \draw [thick, domain=0:145, samples=100] plot ({2*cos(\x)}, {2*sin(\x)});
+	   \draw [thick, domain=215:360, samples=100] plot ({2*cos(\x)}, {2*sin(\x)});
+	   \draw [thick, domain=0:145, samples=100] plot ({3*cos(\x)}, {3*sin(\x)});
+	   \draw [thick, domain=215:360, samples=100] plot ({3*cos(\x)}, {3*sin(\x)});
+	   \draw [thick] (0, 0) -- ({-3*sin(270-145)}, {-3*cos(270-145)});
+	   \draw [thick] (0, 0) -- ({3*sin(145-200)}, {-3*cos(145-200)});
+	   % make that sweet sweet fish curve
+	   \draw [fill=blue!60!white, thick, domain=-200:200, samples=100] plot ({0.5*(cos(\x) - sin(\x)^2/1.41)-0.5}, {0.5*sin(\x)*cos(\x)});
+	   \node [text width=1cm] at (0.25, 0.5) {zor};
+	   \node [text width=1cm] at (0.25, 1.5) {zoo};
+	   \node [text width=1cm] at (0.25, 2.5) {zoa};
+	\end{tikzpicture}
+	\caption{An illustration of the area around an agent partitioned into multiple zones. zor: zone of repulsion, zoo: zone of orientation (or alignment), zoa: zone of attraction. The missing segment behind the agent represents the blind zone in which it cannot see.}
+	\label{fig:zone_illustration}
+\end{figure}
+
+\citet{reynolds87} formulated a theoretical model, motivated by the production of computer animations, which described the movement of flocking birds in three-dimensional space. To produce more aesthetically pleasing animations, the software, ``Boids'', included sophistications such as banking during turns. This focus on developing simulations which produce elegant behaviour made rigorous scientific analysis difficult. Interestingly, Tim Burton's 1992 Batman Returns used a modified version of the Boids software to simulate animations of bat swarms and penguin flocks.
 
 Motivated by research within statistical physics, \citet{vicsek95} introduced a simple two-dimensional model in which self-propelled particles move with a fixed absolute velocity and align with neighbours within an interaction zone. This model is commonly referred to as ``Vicsek Model" (VM), which we shall later use to formulate our ``Generalised Vicsek Model" (GVM). Despite its simplicity this model produces complex-behaviour resembling that of a real biological system. Vicsek et al. investigated the phase transition between ordered and disordered motion as the density of particles and noise in the system varied.
 
@@ -46,11 +79,18 @@ Eulerian models have also been used to analyse vortex solutions \citep{topaz04} 
 However, the Eulerian approach is limited. Most analyses are restricted to 1-dimension and the approach has not proven appropriate for modelling groups of low densities. With this in mind, and with the advantages of the Lagrangian approach, in this thesis we will concentrate entirely on modelling in the Lagrangian framework.
 
 \section{Empirical Studies}
-\label{empirical_studies}
+\label{sec:empirical_studies}
 
 Real data of animal aggregations is essential to ensure that theoretical models are falsifiable. The emergence of a desired pattern from simulation is not sufficient evidence that a model is correctly capturing the interactions of individuals. This observation is further compounded by the understanding that models employing different local interactions can produce similar looking behaviour at the group level.
 
 Thorough comparison between real data and model predictions have proven difficult largely because of the scarcity of appropriate data. The collection of suitable data can be a complicated and convoluted process. Taking observations in the field is technically demanding, requiring the precise calibration of sensitive measurement equipment, not to mention the additional difficulty of the typically three-dimensional nature of animal aggregations. Collecting data in a laboratory setting seems an obvious workaround - however this imposes restrictions on the types of behaviour which can be captured. A laboratory may be an appropriate environment to capture the movements of fish in a tank, but it certainly isn't appropriate to capture the movements flocking of birds. Despite the difficulties associated with collecting data, significant effort has been made to track the movements and dynamics of groups of individuals.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{/data/thesis/fig/lukeman_data.jpg}
+	\caption{Image field data and the process of transformations to extract positions of a flock of surf scoters \citep{lukeman10}.}
+	\label{fig:lukeman_data}
+\end{figure}
 
 Initial work was limited to tracking small numbers of individuals in groups. In these studies individuals were not linked through frames and hence the collected data had no dynamic component. The first breakthrough came from \citet{cullen65} who used stereo photography to record the positions of fish in three dimensions. Fish are an appealing subject to study as experiments are easily conducted in a laboratory setting. Furthermore, the movements of fish can effectively be restricted to two dimensions by conducting the experiments in shallow water. Because of these benefits, further research also concentrated on fish \citep{van_long85, partridge80}. Having collected empirical data, these studies investigate properties such as the distance of individuals to their nearest neighbour, or the direction toward the nearest neighbour. Empirical studies were also made of small groups of flocking birds, with similar statistics and properties realised \citep{major78, budgey98}.
 
@@ -60,8 +100,15 @@ A significant contribution to the field was made by \citet{lukeman10}, whom coll
 
 Analysis of empirical data has focused on properties of individuals such as nearest neighbour distances or angular neighbour densities. Research has then focused on fitting models which best replicate these properties.
 
+\section{Numerical Studies}
+\label{sec:numerical_studies}
+
+\color{red} In which I plan to discuss the work by \citet{mann11}, and how our work extends on his. \color{black}
+
 \section{Bayesian Statistcs}	
 \label{sec:bayes_intro}
+
+\color{red} NOTE: move this section to its own chapter. \color{black}
 
 As part of this project we wish to infer the parameters of collective-behaviour models, given real field observations. We shall perform our statistical inference within a Bayesian framework. In this chapter we shall introduce and give overviews of some important concepts of Bayesian inference, and outline schemes we can use to infer parameters in the case of intractable likelihoods.
 
@@ -165,3 +212,9 @@ Crucially then, the parameter $\Sigma$ controls the mixing of the chain. So, nat
 Though there are theoretical methods to assess the convergence of chains, it is an attractive idea to analyse the output of our scheme in an attempt to assess whether the chain has converged. One of the simplest ways to assess convergence with this informal method is to inspect the trace plots of our scheme, and check for any irregularities. It is also good to use autocorrelation plots to assess autocorrelation between samples at different lags.
 
 One way to lower autocorrelation between samples is to thin the output. When thinning, every $k$-th sample from a chain is kept, and the rest are discarded. Another common technique is to allow for a burn-in period. The purpose of a burn-in period is to discard any samples from before the chain has converged.
+
+\subsubsection*{Blocking Parameters}
+\label{sssec:blocking_parameters}
+In the schemes considered so far the proposal, acceptance and rejection of the entire parameter space $\bm{\theta}$ happened simultaneously. This approach becomes inefficient for high-dimensional problems. Consider that as the dimension of the problem increases, the chances of proposing a value $\theta_i^*$ in the tails of the posterior distribution increases. Increasing the likelihood of proposing a component $\theta_i$ out in the tails of the distribution in turn decreases the acceptance rate of the chain and leads to slower convergence.
+
+To overcome this problem the parameter space $\bm{\theta}$ can be split into blocks of parameters $\bm{\theta}_1, \bm{\theta}_2, \dots, \bm{\theta}_d$ which are proposed and accepted or rejected separately. There are no theoretical results which determine how best to block the parameter space, though typically blocks are chosen to contain related parameters.
