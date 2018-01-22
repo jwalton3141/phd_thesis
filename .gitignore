@@ -1,8 +1,8 @@
 #Ignore backup files from gedit
 *~
 #Ignore intermediate latex files
-thesis.pdf
 introduction.pdf
+*.dvi
 *.aux
 *.loc
 *.log
