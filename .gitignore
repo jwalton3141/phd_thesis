@@ -1,7 +1,8 @@
 #Ignore backup files from gedit
 *~
 #Ignore intermediate latex files
-*.pdf
+thesis.pdf
+introduction.pdf
 *.aux
 *.loc
 *.log
@@ -12,3 +13,6 @@
 *.toc
 #Ignore any data lying around
 *.npy
+
+# Ignore progress scripts
+/progress/*
