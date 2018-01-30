@@ -24,7 +24,9 @@ In this thesis we utilise real data to perform statistical inference on theoreti
 \section{Biological Function}
 \label{sec:biological_function}
 
-\color{red} In which I plan to discuss the `why' of collective behaviour. That is, to discuss the evolutionary advantages which aggregations offer individuals. \color{black}
+Behaving as a group can bring many advantages to the individuals involved. One classically considered  benefit of aggregation is in the defence against predation. Shoaling fish groups have the ability to confuse predators, as predators have difficulty selecting an individual target \citep{landeau86}. As well as a confusion effect groups of individuals can be more vigilant than a single individual, allowing for the earlier detection of predators \citep{pitcher93}. Despite these advantages, groups may in fact attract predators \citep{wittenberger85}.
+
+As well as providing defence against predation grouping can aid in foraging for food; collections of individuals are able to gather more information than lone individuals. Other benefits to collective motion 
 
 \section{Theoretical Models}
 \label{sec:models}
@@ -41,19 +43,28 @@ In a pioneering paper, \citet{aoki82} developed an ABM to simulate the movements
 \begin{figure}
 	\centering
 	\begin{tikzpicture}[rotate=30]
+		% draw zor
 	   \draw [thick, domain=0:145, samples=100] plot ({cos(\x)}, {sin(\x)});
 	   \draw [thick, domain=215:360, samples=100] plot ({cos(\x)}, {sin(\x)});
+	   % draw zoo
 	   \draw [thick, domain=0:145, samples=100] plot ({2*cos(\x)}, {2*sin(\x)});
 	   \draw [thick, domain=215:360, samples=100] plot ({2*cos(\x)}, {2*sin(\x)});
+	   %draw zoa
 	   \draw [thick, domain=0:145, samples=100] plot ({3*cos(\x)}, {3*sin(\x)});
 	   \draw [thick, domain=215:360, samples=100] plot ({3*cos(\x)}, {3*sin(\x)});
+	   % close circle segments
 	   \draw [thick] (0, 0) -- ({-3*sin(270-145)}, {-3*cos(270-145)});
 	   \draw [thick] (0, 0) -- ({3*sin(145-200)}, {-3*cos(145-200)});
+	   % line behind fish
+	   \draw [thick, dashed] (0, 0) -- (-3, 0);
 	   % make that sweet sweet fish curve
 	   \draw [fill=blue!60!white, thick, domain=-200:200, samples=100] plot ({0.5*(cos(\x) - sin(\x)^2/1.41)-0.5}, {0.5*sin(\x)*cos(\x)});
 	   \node [text width=1cm] at (0.25, 0.5) {zor};
 	   \node [text width=1cm] at (0.25, 1.5) {zoo};
 	   \node [text width=1cm] at (0.25, 2.5) {zoa};
+	   % illustrate blind zone
+	   \draw [<->, thick, domain=145:180, samples=100] plot ({1.75*cos(\x)}, {1.75*sin(\x)});
+	   \node [text width=3cm] at (-1.5, 0.3) {$2\pi - \alpha$};
 	\end{tikzpicture}
 	\caption{An illustration of the area around an agent partitioned into multiple zones. zor: zone of repulsion, zoo: zone of orientation (or alignment), zoa: zone of attraction. The missing segment behind the agent represents the blind zone in which it cannot see.}
 	\label{fig:zone_illustration}
