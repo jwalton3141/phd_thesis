@@ -1,0 +1,111 @@
+\chapter{Bayesian Statistcs}	
+\label{sec:bayes_intro}
+
+As part of this project we wish to infer the parameters of collective-behaviour models, given real field observations. We shall perform our statistical inference within a Bayesian framework. In this chapter we shall introduce and give overviews of some important concepts of Bayesian inference, and outline schemes we can use to infer parameters in the case of intractable likelihoods.
+
+\section{Bayesian Inference}
+\label{ssec:bayes}
+
+Using Bayesian inference we wish to quantify beliefs and uncertainties about parameters $\bm{\theta} = (\theta_1, \theta_2,\dots,\theta_n)$, using data $\bm{x}$ which we observe. Given this observed data, the likelihood function for the parameters is defined
+\[
+    L(\bm{\theta}|\bm{x}) = f(\bm{x}|\bm{\theta}).
+\]
+The likelihood quantifies the probability distribution of the data in terms of the parameters. We may then specify our prior knowledge about the parameters $\bm{\theta}$ through the prior distribution $\pi(\bm{\theta})$. Bayes Theorem can then be used to incorporate both the likelihood function and our prior beliefs, to form the posterior distribution
+\begin{equation}
+\label{eq:bayes_theorem}
+    \pi(\bm{\theta}|\bm{x}) = \frac{\pi({\bm{\theta}})L(\bm{\theta}|\bm{x})}{\int_{\bm{\theta}} \pi(\bm{\theta})L(\bm{\theta}|\bm{x})d\bm{\theta}}.
+\end{equation}
+Because the integral in the denominator is not a function of $\bm{\theta}$, we may consider it a constant of proportionality and express our posterior beliefs as proportional to the product of the likelihood and prior, that is
+\begin{align*}
+    \pi(\bm{\theta}|\bm{x}) &\propto \pi(\bm{\theta}) \times L(\bm{\theta}|\bm{x})\\
+    \text{posterior} &\propto \text{prior} \times \text{likelihood}
+\end{align*}
+
+\section{Markov chain Monte Carlo (MCMC)}
+\label{ssec:mcmc}
+
+For the most part, the normalising constant (given in the denominator of Equation \eqref{eq:bayes_theorem}) will have multiple dimensions, not produce a density function of standard form, and be difficult to evaluate in all but the most trivial cases. Markov chain Monte Carlo algorithms provide methods to sample from the targeted density $\pi(\bm{\theta}|\bm{x})$, whilst avoiding evaluating the troublesome normalising constant.
+
+\subsection{Gibbs sampling}
+\label{sssec:gibbs_sampling}
+One may use the full conditional distributions of parameters to sample from a multivariate density. Doing so is to implement the Gibbs algorithm. So, instead of sampling from the full posterior, we sample from the conditional posteriors of the parameters one at a time. The Gibbs algorithm is useful when the conditional densities can be expressed in standard form and are easy to sample form.
+
+Say we wish to target the density $\pi(\bm{\theta})$ where $\theta = (\theta_1, \theta_2, \dots, \theta_p)'$, where the full conditional densities are $\pi(\theta_i|\theta_1, \theta_2, \dots, \theta_{i-1}, \theta_{i+1}, \dots, \theta_p)$, for $i=1,\dots,p$, then we may use the Gibbs sampler, as described in Algorithm \ref{alg:gibbs}.
+
+\begin{algorithm}
+\caption{Gibbs}
+\label{alg:gibbs}
+\begin{enumerate}
+    \setcounter{enumi}{-1}
+    \item Initialise chain with $\bm{\theta}^{0}$. Set $j=1$.
+    \item Generate $\bm{\theta}^{j}$ from $\bm{\theta}^{j-1}$ by simulating from:
+    \begin{align*}
+            {\theta_1}^{j} &\sim \pi({\theta_1}^{j}|{\theta_2}^{j-1},\dots,{\theta_p}^{j-1},\bm{x})\\
+            {\theta_2}^{j} &\sim \pi({\theta_2}^{j}|{\theta_1}^{j}, {\theta_3}^{j-1}, \dots, {\theta_p}^{j-1},\bm{x})\\
+            &\hspace{0.25cm}\vdots \\
+            {\theta_p}^{j} &\sim \pi({\theta_n}^{j}|{\theta_1}^{j}, \dots, {\theta_{p-1}}^{j-1},\bm{x})
+    \end{align*}
+    \item Increment $j$ to $j+1$. Repeat from step $1$.
+\end{enumerate}
+\end{algorithm}
+
+\subsection{Metropolis-Hastings}
+\label{sssec:metropolis_hastings}
+The Metropolis-Hastings algorithm is another MCMC scheme. The algorithm was introduced by \cite{metropolis53}, and this work was later generalised by \cite{hastings70}. The algorithm works by constructing a Markov chain which has stationary distribution equivalent to the distribution of interest.
+\begin{algorithm}
+\caption{Metropolis-Hastings}
+\label{alg:metropolis_hastings}
+\begin{enumerate}
+    \setcounter{enumi}{-1}
+    \item Initialise chain with $\bm{\theta}^{0}$. Set $j=1$.
+    \item Propose ${\bm{\theta}}^*$ by sampling from $q(\cdot|{\bm{\theta}}^{j-1})$, where $q$ is some proposal distribution
+    \item Construct the acceptance probability $\alpha({\bm{\theta}}^*|{\bm{\theta}^{j-1}})$ as
+    \begin{equation*}
+		\alpha({\bm{\theta}}^*|\bm{\theta}) = \text{min}\bigg\{ 1, \frac{\pi({\bm{\theta}}^*)}{\pi({\bm{\theta}}^{j-1})} \frac{L(\bm{\theta}^*|\bm{x})}{L({\bm{\theta}}^{j-1}|\bm{x})} \frac{q({\bm{\theta}}^{j-1}|{\bm{\theta}}^*)}{q({\bm{\theta}}^*|{\bm{\theta}}^{j-1})} \bigg\}.
+    \end{equation*}
+    \item With probability $\alpha({\bm{\theta}}^*|{\bm{\theta}^{j-1}})$ set ${\bm{\theta}}^j = {\bm{\theta}}^*$, otherwise set ${\bm{\theta}}^j = {\bm{\theta}}^{j-1}$.
+    \item Increment $j$ to $j+1$. Repeat from step $1$.
+\end{enumerate}
+\end{algorithm}
+
+The algorithm begins by initialising the chain with parameters $\bm{\theta}^{0}$. Next, the algorithm proposes new values ${\bm{\theta}}^*$ from a proposal distribution, $q(\bm{\theta}^*|{\bm{\theta}}^{j-1})$, which is chosen to have the same support as the target distribution. After this, the proposed values ${\bm{\theta}}^*$ are either accepted or rejected, depending on the evaluation of the acceptance probability $\alpha({\bm{\theta}}^*|{\bm{\theta}^{j-1}})$. Because the acceptance probability depends on a ratio of $\pi(\cdot|\bm{x})$, the normalising constants cancel and therefore the target distribution only has to be known to a constant of proportionality.
+
+\subsection*{Choosing a Proposal Distribution}
+\label{sssec:proposal_distribution}
+The practitioner must choose a suitable proposal distribution $q(\bm{\theta}^*|\bm{\theta})$. Ideally the choice of proposal distribution will give rapid convergence to $\pi(\bm{\theta}|\bm{x})$ and efficiently explore the support of $\pi(\bm{\theta}|\bm{x})$.
+
+A special case of Metropolis-Hastings arises when the proposal distribution is symmetric, that is
+\begin{equation*}
+	q(\bm{\theta}^*|\bm{\theta}) = q(\bm{\theta}|\bm{\theta}^*).
+\end{equation*}
+In this case we get some cancellation in the acceptance ratio, and it simplifies to become 
+\begin{equation*}
+\alpha({\bm{\theta}}^*|\bm{\theta}) = \text{min}\bigg\{ 1, \frac{\pi({\bm{\theta}}^*)}{\pi({\bm{\theta}}^{j-1})} \frac{L(\bm{\theta}^*|\bm{x})}{L({\bm{\theta}}^{j-1}|\bm{x})} \bigg\}.
+\end{equation*}
+
+Another special case of Metropolis-Hastings is the random walk sampler. In this case one makes proposals as
+\begin{equation*}
+	\bm{\theta}^* = \bm{\theta}^{j-1} + \bm{\omega}^{j-1},
+\end{equation*}
+where the $\bm{\omega}$ are drawn from
+\begin{equation*}
+	\bm{\omega}^{j-1} \sim \mathcal{N}_p(\bm{0}, \Sigma).
+\end{equation*}
+The parameter $\Sigma$ is called the tuning parameter and controls how the chain moves around the sample space. Mixing describes how well the chain moves around the sample space and how long it takes for the chain to converge to the target distribution.
+
+Crucially then, the parameter $\Sigma$ controls the mixing of the chain. So, naturally, we wish to choose $\Sigma$ in some optimum way, to try and improve mixing. If the target distribution is Gaussian, it has been shown that $0.234$ is an optimum acceptance probability. \citep{roberts01}. In an attempt to tune $\Sigma$ to obtain the optimum acceptance probability, a common technique is to use 
+\begin{equation*}
+	\Sigma = \frac{2.38^2}{2} \widehat{\text{Var}}(\bm{\theta}|\bm{x}).
+\end{equation*}
+
+\subsection*{Convergence Diagnostics}
+\label{sssec:convergence_diagnostics}
+Though there are theoretical methods to assess the convergence of chains, it is an attractive idea to analyse the output of our scheme in an attempt to assess whether the chain has converged. One of the simplest ways to assess convergence with this informal method is to inspect the trace plots of our scheme, and check for any irregularities. It is also good to use autocorrelation plots to assess autocorrelation between samples at different lags.
+
+One way to lower autocorrelation between samples is to thin the output. When thinning, every $k$-th sample from a chain is kept, and the rest are discarded. Another common technique is to allow for a burn-in period. The purpose of a burn-in period is to discard any samples from before the chain has converged.
+
+\subsection*{Blocking Parameters}
+\label{sssec:blocking_parameters}
+In the schemes considered so far the proposal, acceptance and rejection of the entire parameter space $\bm{\theta}$ happened simultaneously. This approach becomes inefficient for high-dimensional problems. Consider that as the dimension of the problem increases, the chances of proposing a value $\theta_i^*$ in the tails of the posterior distribution increases. Increasing the likelihood of proposing a component $\theta_i$ out in the tails of the distribution in turn decreases the acceptance rate of the chain and leads to slower convergence.
+
+To overcome this problem the parameter space $\bm{\theta}$ can be split into blocks of parameters $\bm{\theta}_1, \bm{\theta}_2, \dots, \bm{\theta}_d$ which are proposed and accepted or rejected separately. There are no theoretical results which determine how best to block the parameter space, though typically blocks are chosen to contain related parameters.
