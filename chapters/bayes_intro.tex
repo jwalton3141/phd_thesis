@@ -1,7 +1,7 @@
 \chapter{Bayesian Statistcs}	
 \label{sec:bayes_intro}
 
-Working in a Bayesian framework gives  In this chapter we shall introduce and give overviews of some important concepts of Bayesian inference, and outline schemes we can use to infer parameters.
+In this chapter we shall introduce and give overviews of some important concepts of Bayesian inference, outline schemes which can be used to infer model parameters, and discuss some of the problems which may arise and how we might address them.
 
 \section{Bayesian Inference}
 \label{ssec:bayes}
@@ -110,4 +110,6 @@ In the schemes considered so far the proposal, acceptance and rejection of the e
 
 To overcome this problem the parameter space $\bm{\theta}$ can be split into blocks of parameters $\bm{\theta}_1, \bm{\theta}_2, \dots, \bm{\theta}_d$ which are proposed and accepted or rejected separately. There are no theoretical results which determine how best to block the parameter space, though typically blocks are chosen to contain related parameters.
 
-Blocking doesn't reduce the risk of a parameter being proposed in the tails of the distribution, however when such a proposal does occur only a subset of the entire parameter space is affected. In this way blocking can alleviate the lower acceptance rates that are associated with high dimensionality.
+Blocking doesn't reduce the risk of a parameter being proposed in the tails of the distribution, however when such a proposal does occur only a subset of all the chains are affected. In this way blocking can alleviate the lower acceptance rates that are associated with high dimensionality.
+
+There is, however, an additional computational cost that comes with blocking parameters. Consider that if the parameter space $\bm{\theta}$ is partitioned into $d$ blocks, then for each iteration of the scheme the acceptance ratio, and therefore the likelihood, proposal density and prior distribution must be evaluated $d$ times. In application the practitioner will likely seek some compromise between acceptance rate and computation time.
