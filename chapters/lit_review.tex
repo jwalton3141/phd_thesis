@@ -1,18 +1,21 @@
 \chapter{Literature review of collective behaviour}
+\label{cha:lit_review}
 
-\section{Biological Function}
+There is a large body of literature relating to the phenomenon of collective behaviour. Particularly unique to this literature is the variety of specialisations of the authors. Biologists, physicists, applied mathematicians and statisticians have all made significant contributions to the field. 
+
+\section{Biological function}
 \label{sec:biological_function}
 
 Behaving as a group can bring many advantages to the individuals involved. One classically considered  benefit of aggregation is in the defence against predation. Shoaling fish groups have the ability to confuse predators, as predators have difficulty selecting an individual target \citep{landeau86}. As well as a confusion effect groups of individuals can be more vigilant than a single individual, allowing for the earlier detection of predators \citep{pitcher93}. Despite these advantages, groups may in fact attract predators \citep{wittenberger85}.
 
 As well as providing defence against predation grouping can aid in foraging for food; collections of individuals are able to gather more information than lone individuals. In addition to foraging collective motion aids group navigation and migration \citep{simmons04}. For birds group navigation often brings an energetic advantage as individuals can work to form aerodynamically efficient shapes \citep{weimerskirch01}.
 
-\section{Theoretical Models}
+\section{Theoretical models}
 \label{sec:models}
 
 Models of collective behaviour can largely be divided into two classes: Lagrangian and Eulerian. These descriptions are analogous to the models of fluid dynamics, where Lagrangian models consider the flow in terms of interactions of fluid parcels and Eulerian models consider the changing fluid properties at a given point in space and time. In the context of collective behaviour Lagrangian models simulate the movements of interactions and Eulerian models typically model the density of a group through space and time.
 
-\subsection{Lagrangian Models}
+\subsection{Lagrangian models}
 \label{ssec:lagrangian_models}
 
 So called agent-based models (ABMs), also referred to as Lagrangian models, have proven a useful tool in modelling collective behaviours. In these models the behaviour of an agent is modelled at the individual level. An agent's behaviour is determined by social interactions with neighbouring individuals. Examples of typical interactions include the desire to move in the same direction as neighbours (alignment, or orientation), the desire to avoid collisions (repulsion) and a desire to remain close to neighbours (attraction). Along with specifying social behaviours ABMs suggest methods by which agents identify neighbours to interact with. An individual may identify neighbours as; within a certain distance; positioned inside a field of vision or as one of a fixed number of closest agents.
@@ -20,7 +23,6 @@ So called agent-based models (ABMs), also referred to as Lagrangian models, have
 In a pioneering paper, \citet{aoki82} developed an ABM to simulate the movements of schooling fish in two-dimensions. Here it was shown that collective behaviour can arise from simple interactions at an individual level and without the need of a leader. The model simulated zonal interactions in which the area around an individual is partitioned into zones of repulsion, alignment and attraction. The partitioning of space in this way is illustrated in Figure \ref{fig:zone_illustration}. As well as zonal interactions this model accounted for fish having incomplete fields of vision. Further models were also devised to simulate fish schools \citep{okubo86, huth92}.
 
 \begin{figure}
-	\centering
 	\begin{tikzpicture}[rotate=30]
 		% draw zor
 	   \draw [thick, domain=0:145, samples=100] plot ({cos(\x)}, {sin(\x)});
@@ -57,7 +59,7 @@ Later, models were developed to explore the movements of mammals and other verte
 
 As a method for exploring collective behaviour, Lagrangian models are very appealing in their intuitiveness and in the ease of implementing explicit behavioural rules. Though for many years the simulation and exploration of these models was limited by computing power; modern computation allows for the simulations of large groups over many time steps. With these advances in computing, and a growing interest in the field, a significant proportion of the literature focuses on the analysis and exploration of agent-based models.
 
-\subsection{Eulerian Models}
+\subsection{Eulerian models}
 \label{ssec:eulerian_models}
 
 Sometimes known as continuum models, Eulerian models are complementary to the Lagrangian method. This approach describes a group by the density of organisms at a point in space. Eulerian models are typically constructed of a set of partial differential equations which describe how density develops over time.
@@ -68,7 +70,7 @@ Eulerian models have also been used to analyse vortex solutions \citep{topaz04} 
 
 However, the Eulerian approach is limited. Most analyses are restricted to 1-dimension and the approach has not proven appropriate for modelling groups of low densities. With this in mind, and with the advantages of the Lagrangian approach, in this thesis we will concentrate entirely on modelling in the Lagrangian framework.
 
-\section{Empirical Studies}
+\section{Empirical studies}
 \label{sec:empirical_studies}
 
 Real data of animal aggregations is essential to ensure that theoretical models are falsifiable. The emergence of a desired pattern from simulation is not sufficient evidence that a model is correctly capturing the interactions of individuals. This observation is further compounded by the understanding that models employing different local interactions can produce similar looking behaviour at the group level.
@@ -76,7 +78,6 @@ Real data of animal aggregations is essential to ensure that theoretical models 
 Thorough comparison between real data and model predictions have proven difficult largely because of the scarcity of appropriate data. The collection of suitable data can be a complicated and convoluted process. Taking observations in the field is technically demanding, requiring the precise calibration of sensitive measurement equipment, not to mention the additional difficulty of the typically three-dimensional nature of animal aggregations. Collecting data in a laboratory setting seems an obvious workaround - however this imposes restrictions on the types of behaviour which can be captured. A laboratory may be an appropriate environment to capture the movements of fish in a tank, but it certainly isn't appropriate to capture the movements flocking of birds. Despite the difficulties associated with collecting data, significant effort has been made to track the movements and dynamics of groups of individuals.
 
 \begin{figure}
-	\centering
 	\includegraphics[width=\textwidth]{/data/thesis/fig/lukeman_data.jpg}
 	\caption{Image field data and the process of transformations to extract positions of a flock of surf scoters \citep{lukeman10}.}
 	\label{fig:lukeman_data}
@@ -90,7 +91,7 @@ A significant contribution to the field was made by \citet{lukeman10}, whom coll
 
 Analysis of empirical data has focused on properties of individuals such as nearest neighbour distances or angular neighbour densities. Research has then focused on fitting models which best replicate these properties.
 
-\section{Numerical Studies}
+\section{Numerical studies}
 \label{sec:numerical_studies}
 
 \color{red} In which I plan to discuss the work by \citet{mann11}, \citet{ballerini}. \color{black}
