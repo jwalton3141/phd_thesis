@@ -226,3 +226,10 @@
 \renewcommand{\bottomfraction}{0.9}
 \renewcommand{\floatpagefraction}{0.8}
 %------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Automatically center all floats and remove need to add \centering all the
+% time 
+\makeatletter
+\g@addto@macro\@floatboxreset{\centering}
+\makeatother
