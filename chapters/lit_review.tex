@@ -1,7 +1,7 @@
 \chapter{Literature review of collective behaviour}
 \label{cha:lit_review}
 
-There is a large body of literature relating to the phenomenon of collective behaviour. Particularly unique to this literature is the variety of backgrounds of the authors. Biologists, physicists, applied mathematicians and statisticians have all made significant contributions to the field.
+There is a large body of literature relating to the phenomenon of collective behaviour. Particularly unique to this literature is the variety of backgrounds in which the authors are trained. Biologists, physicists, applied mathematicians and statisticians have all made significant contributions to the field.
 
 In this chapter we shall discuss some of the most important ideas and results from the literature surrounding collective behaviour.
 
@@ -15,16 +15,16 @@ As well as providing defence against predation grouping can aid in foraging for 
 \section{Theoretical models}
 \label{sec:models}
 
-Models of collective behaviour can largely be divided into two classes: Lagrangian and Eulerian. These descriptions are analogous to the models of fluid dynamics, where Lagrangian models consider the flow in terms of interactions of fluid parcels and Eulerian models consider the changing fluid properties at a given point in space and time. In the context of collective behaviour Lagrangian models simulate the movements of interactions and Eulerian models typically model the density of a group through space and time.
+Models of collective behaviour can largely be divided into two classes: Lagrangian and Eulerian. These descriptions are analogous to the models of fluid dynamics, where Lagrangian models consider the flow in terms of interactions of fluid parcels and Eulerian models consider the changing fluid properties at a given point in space and time. In the context of collective behaviour, Lagrangian models simulate the movements of interactions and Eulerian models typically model the density of a group through space and time.
 
 \subsection{Lagrangian models}
 \label{ssec:lagrangian_models}
 
-So called agent-based models (ABMs), also referred to as Lagrangian models, have proven a useful tool in modelling collective behaviours. In these models the behaviour of an agent is modelled at the individual level. An agent's behaviour is determined by social interactions with neighbouring individuals. Examples of typical interactions include the desire to move in the same direction as neighbours (alignment, or orientation), the desire to avoid collisions (repulsion) and a desire to remain close to neighbours (attraction). Along with specifying social behaviours ABMs suggest methods by which agents identify neighbours to interact with. An individual may identify neighbours as; within a certain distance; positioned inside a field of vision or as one of a fixed number of closest agents.
+So called agent-based models (ABMs), also referred to as Lagrangian models, have proven a useful tool in modelling collective behaviours. In these models the behaviour of an agent is modelled at the individual level. An agent's behaviour is determined by social interactions with neighbouring individuals. Examples of typical interactions include the desire to move in the same direction as neighbours (alignment, or orientation), the desire to avoid collisions (repulsion) and a desire to remain close to neighbours (attraction). Along with specifying social behaviours ABMs suggest methods by which agents identify neighbours to interact with. Models also specify how an individual identifies neighbours with which to interact as; within a certain distance (metric distance); positioned inside a field of vision or as one of a fixed number of closest agents (topological distance).
 
-In a pioneering paper, \citet{aoki82} developed an ABM to simulate the movements of schooling fish in two-dimensions. Here it was shown that collective behaviour can arise from simple interactions at an individual level and without the need of a leader. The model simulated zonal interactions in which the area around an individual is partitioned into zones of repulsion, alignment and attraction. The partitioning of space in this way is illustrated in Figure \ref{fig:zone_illustration}. As well as zonal interactions this model accounted for fish having incomplete fields of vision. Further models were also devised to simulate fish schools \citep{okubo86, huth92}.
+In a pioneering paper, \citet{aoki82} developed an ABM to simulate the movements of schooling fish in two-dimensions. Here it was shown that collective behaviour can arise from simple interactions at an individual level and without the need of a leader. The model simulated zonal interactions in which the area around an individual is partitioned into zones of repulsion, alignment and attraction. The partitioning of space in this way is illustrated in Figure \ref{fig:zone_illustration} and has remained a popular idea in following literature. As well as zonal interactions this model accounted for fish having incomplete fields of vision. Further models were also devised to simulate fish schools \citep{okubo86, huth92}.
 
-\begin{figure}
+\begin{figure}[!htbp]
 	\begin{tikzpicture}[rotate=30]
 		% draw zor
 	   \draw [thick, domain=0:145, samples=100] plot ({cos(\x)}, {sin(\x)});
@@ -49,15 +49,21 @@ In a pioneering paper, \citet{aoki82} developed an ABM to simulate the movements
 	   \draw [<->, thick, domain=145:180, samples=100] plot ({1.75*cos(\x)}, {1.75*sin(\x)});
 	   \node [text width=3cm] at (-1.5, 0.3) {$2\pi - \alpha$};
 	\end{tikzpicture}
-	\caption{An illustration of the area around an agent partitioned into multiple zones. zor: zone of repulsion, zoo: zone of orientation (or alignment), zoa: zone of attraction. The missing segment behind the agent represents the blind zone in which it cannot see.}
+	\caption{An illustration of the area around an agent partitioned into multiple zones. zor: zone of repulsion, zoo: zone of orientation (or alignment), zoa: zone of attraction. The missing segment behind the agent represents a blind zone into which it cannot see.}
 	\label{fig:zone_illustration}
 \end{figure}
 
 \citet{reynolds87} formulated a theoretical model, motivated by the production of computer animations, which described the movement of flocking birds in three-dimensional space. To produce more aesthetically pleasing animations, the software, ``Boids'', included sophistications such as banking during turns. This focus on developing simulations which produce elegant behaviour made rigorous scientific analysis difficult. Interestingly, Tim Burton's 1992 Batman Returns used a modified version of the Boids software to simulate animations of bat swarms and penguin flocks.
 
-Motivated by research within statistical physics, \citet{vicsek95} introduced a simple two-dimensional model in which self-propelled particles move with a fixed absolute velocity and align with neighbours within an interaction zone. This model is commonly referred to as ``Vicsek Model" (VM), which we shall later use to formulate our ``Generalised Vicsek Model" (GVM). Despite its simplicity this model produces complex-behaviour resembling that of a real biological system. Vicsek et al. investigated the phase transition between ordered and disordered motion as the density of particles and noise in the system varied.
+Motivated by research within statistical physics, \citet{vicsek95} introduced a simple two-dimensional model in which self-propelled particles move with a fixed absolute velocity and align with neighbours within an interaction zone. This model is commonly referred to as ``Vicsek Model" (VM), which we shall later use to formulate our ``Generalised Vicsek Model" (GVM). Despite its simplicity this model produces complex-behaviour resembling that of a real biological system. \citet{vicsek95} investigated the phase transition between ordered and disordered motion as the density of particles and noise in the system varied.
 
 Later, models were developed to explore the movements of mammals and other vertebrate groups. \citet{couzin02} showed major group-level behavioural changes as minor changes in individual interaction rules were made. With small changes in the model parameters, groups transitioned from disordered, swarm like behaviour, to toroidal milling structures, to forming dynamic and highly parallel groups. Further research was made by \citet{couzin05} which investigated how leaders influence the motion of travelling groups. This work showed that only a small proportion of leaders are necessary to guide groups with a high degree of accuracy. Further results investigated how groups of individuals make collective decisions in the face of conflicting desires.
+
+\begin{figure}[!htbp]
+	\includegraphics[width=0.75\textwidth]{fig/couzin.png}
+	\caption{Taken from \citet{couzin02}, the different steady-state solutions (swarm, torus, dynamically parallel and highly parallel) obtained by making small changes to model parameters of a three-dimensional flocking model.}
+	\label{fig:couzin}
+\end{figure}
 
 As a method for exploring collective behaviour, Lagrangian models are very appealing in their intuitiveness and in the ease of implementing explicit behavioural rules. Though for many years the simulation and exploration of these models was limited by computing power; modern computation allows for the simulations of large groups over many time steps. With these advances in computing, and a growing interest in the field, a significant proportion of the literature focuses on the analysis and exploration of agent-based models.
 
@@ -66,7 +72,7 @@ As a method for exploring collective behaviour, Lagrangian models are very appea
 
 Sometimes known as continuum models, Eulerian models are complementary to the Lagrangian method. This approach describes a group by the density of organisms at a point in space. Eulerian models are typically constructed of a set of partial differential equations which describe how density develops over time.
 
-One such Eulerian approach by \citet{gueron93} modelled the movements of large groups of wildebeests. The predictions of the model were compared with aerial observations of migrating wildebeest in the Serengeti. The large-scale front patterns seen in the aerial photography were reproduced by the model.
+One such Eulerian approach by \citet{gueron93} modelled the movements of large groups of wildebeests. The predictions of the model were compared with aerial observations of migrating wildebeest in the Serengeti. The large-scale front patterns seen in the aerial photography were reproduced by the model. However, the ability of a model to reproduce an observable pattern isn't sufficient evidence that the model is correct.
 
 Eulerian models have also been used to analyse vortex solutions \citep{topaz04} and stationary clump solutions \citep{topaz06}.
 
@@ -77,21 +83,23 @@ However, the Eulerian approach is limited. Most analyses are restricted to 1-dim
 
 Real data of animal aggregations is essential to ensure that theoretical models are falsifiable. The emergence of a desired pattern from simulation is not sufficient evidence that a model is correctly capturing the interactions of individuals. This observation is further compounded by the understanding that models employing different local interactions can produce similar looking behaviour at the group level.
 
-Thorough comparison between real data and model predictions have proven difficult largely because of the scarcity of appropriate data. The collection of suitable data can be a complicated and convoluted process. Taking observations in the field is technically demanding, requiring the precise calibration of sensitive measurement equipment, not to mention the additional difficulty of the typically three-dimensional nature of animal aggregations. Collecting data in a laboratory setting seems an obvious workaround - however this imposes restrictions on the types of behaviour which can be captured. A laboratory may be an appropriate environment to capture the movements of fish in a tank, but it certainly isn't appropriate to capture the movements flocking of birds. Despite the difficulties associated with collecting data, significant effort has been made to track the movements and dynamics of groups of individuals.
+Thorough comparison between real data and model predictions have proven difficult largely because of the scarcity of appropriate data. The collection of suitable data can be a complicated and convoluted process. Taking observations in the field is technically demanding, requiring the precise calibration of sensitive measurement equipment, not to mention the additional difficulty of the typically three-dimensional nature of animal aggregations. Collecting data in a laboratory setting seems an obvious workaround, however this imposes restrictions on the types of behaviour which can be captured. A laboratory may be an appropriate environment to capture the movements of fish in a tank, but it certainly isn't appropriate to capture the movements of flocking of birds. Despite the difficulties associated with collecting data, significant effort has been made to track the movements and dynamics of groups of individuals.
 
-\begin{figure}
+\begin{figure}[!htbp]
 	\includegraphics[width=\textwidth]{fig/lukeman_data.jpg}
 	\caption{Image field data and the process of transformations to extract positions of a flock of surf scoters \citep{lukeman10}.}
 	\label{fig:lukeman_data}
 \end{figure}
 
-Initial work was limited to tracking small numbers of individuals in groups. In these studies individuals were not linked through frames and hence the collected data had no dynamic component. The first breakthrough came from \citet{cullen65} who used stereo photography to record the positions of fish in three dimensions. Fish are an appealing subject to study as experiments are easily conducted in a laboratory setting. Furthermore, the movements of fish can effectively be restricted to two dimensions by conducting the experiments in shallow water. Because of these benefits, further research also concentrated on fish \citep{van_long85, partridge80}. Having collected empirical data, these studies investigate properties such as the distance of individuals to their nearest neighbour, or the direction toward the nearest neighbour. Empirical studies were also made of small groups of flocking birds, with similar statistics and properties realised \citep{major78, budgey98}.
+Initial work was limited to tracking small numbers of individuals in groups. In these studies individuals were not linked through frames and hence the collected data had no dynamic component. The first breakthrough came from \citet{cullen65} who used stereo photography to record the positions of fish in three dimensions.
+
+Fish are an appealing subject to study as experiments are easily conducted in a laboratory setting. Furthermore, the movements of fish can effectively be restricted to two dimensions by conducting the experiments in shallow water. Because of these benefits, further research also concentrated on fish \citep{van_long85, partridge80}. Having collected empirical data, these studies investigate properties such as the distance of individuals to their nearest neighbour, or the direction toward their nearest neighbour. Empirical studies were also made of small groups of flocking birds, with similar statistics and properties realised \citep{major78, budgey98}.
 
 More recently, a breakthrough study by \citet{ballerini08} reconstructed the three dimensional positions of flocks of starlings consisting of up to $3,000$ individual members. The study made a static analysis of the resulting 3D dataset. Their analysis suggested that interactions are not dependent on metric distance (interactions with agents within a fixed distance), as most models in the literature assume, but on a topological distance (interaction with a fixed number of closest agents, irrespective of distance). This analysis suggested that on average a starling interacts with between six and seven of its closest neighbours. They argue that a topological interaction improved group cohesion when under attack from predation.
 
-A significant contribution to the field was made by \citet{lukeman10}, whom collected and analysed data of large numbers of diving ducks interacting on the surface of a lake. Crucially, this dataset tracked individuals between frames and therefore allowed the reconstruction of a bird's trajectory through space and time. This data showed an increase by factor of $10$ the number of individuals which could be reliably tracked though time \citep{lukeman09}.
+A significant contribution to the field was made by \citet{lukeman10}, whom collected and analysed data of large numbers of diving ducks interacting on the surface of a lake. Crucially, this dataset tracked individuals between frames and therefore allowed the reconstruction of a bird's trajectory through space and time. This data showed an increase by factor of $10$ the number of individuals which could be reliably tracked though time \citep{lukeman09}. The resulting analysis focused on fitting zonal models which were best able to reproduce the spatial and angular neighbour-distributions seen in the collected data. It was concluded that a zonal repulsion-alignment-attraction model with an additional frontal interaction was best able to reproduce the desired spatial and angular neighbour-distributions.
 
-Analysis of empirical data has focused on properties of individuals such as nearest neighbour distances or angular neighbour densities. Research has then focused on fitting models which best replicate these properties.
+Analysis of empirical data has so far focused on properties of individuals such as nearest neighbour distances or angular neighbour densities. Research has then focused on fitting models which are best able to replicate these properties. With technological advances we expect that more and more empirical data will become available in the future.
 
 \section{Numerical studies}
 \label{sec:numerical_studies}
