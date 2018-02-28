@@ -25,30 +25,7 @@ So called agent-based models (ABMs), also referred to as Lagrangian models, have
 In a pioneering paper, \citet{aoki82} developed an ABM to simulate the movements of schooling fish in two-dimensions. Here it was shown that collective behaviour can arise from simple interactions at an individual level and without the need of a leader. The model simulated zonal interactions in which the area around an individual is partitioned into zones of repulsion, alignment and attraction. The partitioning of space in this way is illustrated in Figure \ref{fig:zone_illustration} and has remained a popular idea in following literature. As well as zonal interactions this model accounted for fish having incomplete fields of vision. Further models were also devised to simulate fish schools \citep{okubo86, huth92}.
 
 \begin{figure}[!htbp]
-	\begin{tikzpicture}[rotate=30]
-		% draw zor
-	   \draw [thick, domain=0:145, samples=100] plot ({cos(\x)}, {sin(\x)});
-	   \draw [thick, domain=215:360, samples=100] plot ({cos(\x)}, {sin(\x)});
-	   % draw zoo
-	   \draw [thick, domain=0:145, samples=100] plot ({2*cos(\x)}, {2*sin(\x)});
-	   \draw [thick, domain=215:360, samples=100] plot ({2*cos(\x)}, {2*sin(\x)});
-	   %draw zoa
-	   \draw [thick, domain=0:145, samples=100] plot ({3*cos(\x)}, {3*sin(\x)});
-	   \draw [thick, domain=215:360, samples=100] plot ({3*cos(\x)}, {3*sin(\x)});
-	   % close circle segments
-	   \draw [thick] (0, 0) -- ({-3*sin(270-145)}, {-3*cos(270-145)});
-	   \draw [thick] (0, 0) -- ({3*sin(145-200)}, {-3*cos(145-200)});
-	   % line behind fish
-	   \draw [thick, dashed] (0, 0) -- (-3, 0);
-	   % make that sweet sweet fish curve
-	   \draw [fill=blue!60!white, thick, domain=-200:200, samples=100] plot ({0.5*(cos(\x) - sin(\x)^2/1.41)-0.5}, {0.5*sin(\x)*cos(\x)});
-	   \node [text width=1cm] at (0.25, 0.5) {zor};
-	   \node [text width=1cm] at (0.25, 1.5) {zoo};
-	   \node [text width=1cm] at (0.25, 2.5) {zoa};
-	   % illustrate blind zone
-	   \draw [<->, thick, domain=145:180, samples=100] plot ({1.75*cos(\x)}, {1.75*sin(\x)});
-	   \node [text width=3cm] at (-1.5, 0.3) {$2\pi - \alpha$};
-	\end{tikzpicture}
+	\input{fig/zonal_tikz.tex}
 	\caption{An illustration of the area around an agent partitioned into multiple zones. zor: zone of repulsion, zoo: zone of orientation (or alignment), zoa: zone of attraction. The missing segment behind the agent represents a blind zone into which it cannot see.}
 	\label{fig:zone_illustration}
 \end{figure}
