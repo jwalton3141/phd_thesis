@@ -23,7 +23,7 @@
      \mbox{}
      \vspace{0.6cm}\\
      \emph{\small
-       School of Mathematics \& Statistics\\
+       School of Mathematics, Statistics \& Physics\\
        Newcastle University\\
        Newcastle upon Tyne\\
        United Kingdom\\
@@ -140,8 +140,8 @@
 \pgfplotsset{compat=1.13}
 \usepackage{pgfplotstable}
 \usepackage{physics}
-\usepackage{subcaption}
 \usepackage{standalone}
+\usepackage{subcaption}
 \usepackage{tikz}
 
 
@@ -234,3 +234,19 @@
 \makeatletter
 \g@addto@macro\@floatboxreset{\centering}
 \makeatother
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Make my own custom colours to match the default color cycle provided by the
+% python plotting package seaborn
+\definecolor{seaborn_blue}{HTML}{4C72B0}
+\definecolor{seaborn_green}{HTML}{55A868}
+\definecolor{seaborn_red}{HTML}{C44E52}
+\definecolor{seaborn_purple}{HTML}{8172B2}
+\definecolor{seaborn_yellow}{HTML}{CCB974}
+\definecolor{seaborn_cyan}{HTML}{64B5CD}
+\definecolor{seaborn_grid}{HTML}{EAEAF2}
+
+\colorlet{seaborn_blue2}{seaborn_blue!30}
+
+
