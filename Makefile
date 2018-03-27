@@ -23,7 +23,3 @@ clean: tidy
 	rm -f $(OBJECT).dvi $(OBJECT).synctex.gz $(OBJECT)-compress.pdf $(OBJECT).pdf $(OBJECT)-figure*.pdf $(OBJECT)-figure*.dep $(OBJECT)-figure*.dpth $(OBJECT)-figure*.table $(OBJECT)-figure*.gnuplot $(OBJECT).ps
 compress:
 	 gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -sOutputFile=$(OBJECT)-compress.pdf $(OBJECT).pdf
-
-spell:
-	 for file in $(TEXSOURCES); do echo $$file; cat $$file | aspell list -t | sort | uniq; echo "\n"; done
-
