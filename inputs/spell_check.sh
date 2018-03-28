@@ -9,16 +9,11 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-# If anspell.conf does not exist then create and prepopulate with ignores
-if [ ! -f ~/.aspell.conf ]; then
-    cat inputs/aspell.conf >> ~/.aspell.conf
-fi
-
 printf "\n${RED}SPELL CHECK RESULTS${NC}\n\n"
 
 for file in chapters/*.tex
 do 
     printf "${GREEN}$file${NC}\n"
-    cat $file | aspell list -t | sort | uniq
+    cat $file | aspell list -t --conf=/data/thesis/inputs/ignore_tex --add-extra-dicts=/data/thesis/inputs/ignore_spelling | sort | uniq
     echo -e "\n"
 done
