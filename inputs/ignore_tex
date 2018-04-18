@@ -1,0 +1,7 @@
+# Tex commands to be ignored in Aspell spell check
+
+add-tex-command hypersetup op
+add-tex-command bibliographystyle op
+add-tex-command citet op
+add-tex-command citep op
+add-tex-command eqref op
