@@ -133,7 +133,17 @@
 \usepackage{bm}
 \usepackage{booktabs}
 \usepackage{calc}
+\usepackage[labelfont={color=my_purple,bf}]{caption}
 \usepackage{float}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+	linktocpage=true,
+	pdfmenubar=true,
+    colorlinks=true,
+    linkcolor=my_purple,
+    urlcolor=my_purple,
+    citecolor=black,
+}
 \usepackage{multirow}
 \usepackage{pgf}
 \usepackage{pgfplots}
@@ -141,7 +151,8 @@
 \usepackage{pgfplotstable}
 \usepackage{physics}
 \usepackage{standalone}
-\usepackage{subcaption}
+\usepackage[labelformat=simple]{subcaption} % Remove extra brackets around
+% subfigure caption created when adding brackets to subref
 \usepackage{tikz}
 
 
@@ -246,7 +257,10 @@
 \definecolor{seaborn_yellow}{HTML}{CCB974}
 \definecolor{seaborn_cyan}{HTML}{64B5CD}
 \definecolor{seaborn_grid}{HTML}{EAEAF2}
-
 \colorlet{seaborn_blue2}{seaborn_blue!30}
+\definecolor{my_purple}{HTML}{660066}
 
-
+%------------------------------------------------------------------------------
+% Extra commands which I've added to the style file
+% Bracket references to subfigures
+\renewcommand\thesubfigure{\textbf{(\alph{subfigure})}}
