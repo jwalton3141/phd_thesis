@@ -15,7 +15,7 @@ figure.facecolor: white
 figure.figsize: 5.90551196900512, 3.6498071178144804
 
 font.family: serif
-font.sans-serif: Arial, Liberation Sans, DejaVu Sans, Bitstream Vera Sans, sans-serif
+font.serif: Computer modern roman
 font.size: 10
 
 grid.color: white
