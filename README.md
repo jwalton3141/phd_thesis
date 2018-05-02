@@ -1,3 +1,7 @@
+## Font
+
+Text is typeset with MinionPro. To install it on your system follow the instructions at https://github.com/sebschub/FontPro. Otherwise, to compile without the font simply comment out ```\usepackage{MinionPro}``` in ```inputs/masthesis.sty``` and ```fig/*.tikz```.
+
 ## Spell check
 
 Spell checking in TexMaker leaves much to be desired as it flags the contents of LaTex commands such as \ref, \cite, etc. So I've added a custom spell checker - which ignore LaTex commands - to run at compile time
