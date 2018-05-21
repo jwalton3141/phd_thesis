@@ -1,3 +1,9 @@
+## Style
+
+I have adapted masthesis.sty to implement my only custom style. We're concerned that this may cause problems further down the line as it departs from the university guidelines. As such I've ensured that everything is backwards compatible and that we can swap back to the offical style with minimal effort if we decide it prudent.
+
+I took much inspiration (and many commands) from [Dave Robertson's attempt](https://mas-gitlab.ncl.ac.uk/b0036119/thesis-template) at recreating [Aaron Turin's thesis](https://people.mpi-sws.org/~turon/turon-thesis.pdf).
+
 ## Font
 
 Text is typeset with MinionPro. To install it on your system follow the instructions at https://github.com/sebschub/FontPro. Otherwise, to compile without the font simply comment out ```\usepackage{MinionPro}``` in ```inputs/masthesis.sty``` and ```fig/*.tikz```.
