@@ -1,5 +1,7 @@
 \documentclass[crop,tikz,11pt]{standalone}
-\usepackage[masthlf]{MinionPro}
+\usepackage[mathlf]{MinionPro}
+
+\definecolor{seaborn_blue}{HTML}{4C72B0}
 
 \begin{document}
 \begin{tikzpicture}[rotate=30]
@@ -18,7 +20,7 @@
    % line behind fish
    \draw [thick, dashed] (0, 0) -- (-3, 0);
    % make that sweet sweet fish curve
-   \draw [fill=blue!60!white, thick, domain=-200:200, samples=100] plot ({0.5*(cos(\x) - sin(\x)^2/1.41)-0.5}, {0.5*sin(\x)*cos(\x)});
+   \draw [fill=seaborn_blue, thick, domain=-200:200, samples=100] plot ({0.5*(cos(\x) - sin(\x)^2/1.41)-0.5}, {0.5*sin(\x)*cos(\x)});
    \node [text width=1cm] at (0.25, 0.5) {zor};
    \node [text width=1cm] at (0.25, 1.5) {zoo};
    \node [text width=1cm] at (0.25, 2.5) {zoa};

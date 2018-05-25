@@ -25,7 +25,7 @@ So called agent-based models (ABMs), also referred to as Lagrangian models, have
 In a pioneering paper, \citet{aoki82} developed an ABM to simulate the movements of schooling fish in two-dimensions. Here it was shown that collective behaviour can arise from simple interactions at an individual level and without the need of a leader. The model simulated zonal interactions in which the area around an individual is partitioned into zones of repulsion, alignment and attraction. The partitioning of space in this way is illustrated in Figure \ref{fig:zone_illustration} and has remained a popular idea in following literature. As well as zonal interactions this model accounted for fish having incomplete fields of vision. Further models were also devised to simulate fish schools \citep{okubo86, huth92}.
 
 \begin{figure}[!htbp]
-	\includegraphics{fig/zonal_tikz.pdf}
+	\includegraphics{zonal_tikz.pdf}
 	\caption{An illustration of the area around an agent partitioned into multiple zones. zor: zone of repulsion, zoo: zone of orientation (or alignment), zoa: zone of attraction. The missing segment behind the agent represents a blind zone into which it cannot see.}
 	\label{fig:zone_illustration}
 \end{figure}
@@ -37,7 +37,7 @@ Motivated by research within statistical physics, \citet{vicsek95} introduced a 
 Later, models were developed to explore the movements of mammals and other vertebrate groups. \citet{couzin02} showed major group-level behavioural changes as minor changes in individual interaction rules were made. With small changes in the model parameters, groups transitioned from disordered, swarm like behaviour, to toroidal milling structures, to forming dynamic and highly parallel groups. Further research was made by \citet{couzin05} which investigated how leaders influence the motion of travelling groups. This work showed that only a small proportion of leaders are necessary to guide groups with a high degree of accuracy. Further results investigated how groups of individuals make collective decisions in the face of conflicting desires.
 
 \begin{figure}[!htbp]
-	\includegraphics[width=0.75\textwidth]{fig/couzin.png}
+	\includegraphics[width=0.75\textwidth]{couzin.png}
 	\caption{Taken from \citet{couzin02}, the different steady-state solutions (swarm, torus, dynamically parallel and highly parallel) obtained by making small changes to model parameters of a three-dimensional flocking model.}
 	\label{fig:couzin}
 \end{figure}
@@ -63,7 +63,7 @@ Real data of animal aggregations is essential to ensure that theoretical models 
 Thorough comparison between real data and model predictions have proven difficult largely because of the scarcity of appropriate data. The collection of suitable data can be a complicated and convoluted process. Taking observations in the field is technically demanding, requiring the precise calibration of sensitive measurement equipment, not to mention the additional difficulty of the typically three-dimensional nature of animal aggregations. Collecting data in a laboratory setting seems an obvious workaround, however this imposes restrictions on the types of behaviour which can be captured. A laboratory may be an appropriate environment to capture the movements of fish in a tank, but it certainly isn't appropriate to capture the movements of flocking of birds. Despite the difficulties associated with collecting data, significant effort has been made to track the movements and dynamics of groups of individuals.
 
 \begin{figure}[!htbp]
-	\includegraphics[width=\textwidth]{fig/lukeman_data.jpg}
+	\includegraphics[width=\textwidth]{lukeman_data.jpg}
 	\caption{Image field data and the process of transformations to extract positions of a flock of surf scoters \citep{lukeman10}.}
 	\label{fig:lukeman_data}
 \end{figure}

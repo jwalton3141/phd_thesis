@@ -1,9 +1,9 @@
 \documentclass[12pt]{report}
 
 % Two-sided draft --- doesn't allow for binding room
-%\usepackage[a4paper,twoside,left=35mm,right=35mm,top=40mm,bottom=35mm]{geometry}
+\usepackage[a4paper,twoside,left=30mm,right=30mm,top=40mm,bottom=35mm]{geometry}
 % Two-sided final --- uneven margins to allow for binding
-\usepackage[a4paper,twoside,left=35mm,right=25mm,top=40mm,bottom=35mm]{geometry}
+%\usepackage[a4paper,twoside,left=35mm,right=25mm,top=40mm,bottom=35mm]{geometry}
 
 % This line prevents LaTeX complaining about \headheight being too small.
 \setlength{\headheight}{15pt}
@@ -46,9 +46,17 @@
 
   %\part{Title of My First Part}
 
+  \graphicspath{{fig/introduction/}}
   \include{chapters/introduction}
+
+  \graphicspath{{fig/lit_review/}}
   \include{chapters/lit_review}
+ 
+  \graphicspath{{fig/bayes_intro/}}
   \include{chapters/bayes_intro}
+
+  \graphicspath{{fig/circ_stats_intro/}}
+  \include{chapters/circ_stats_intro}
 
   %\appendix
 
