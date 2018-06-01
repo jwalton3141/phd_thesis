@@ -19,7 +19,7 @@
      \emph{\small
        Thesis submitted for the degree of\\
        \hspace{2mm}
-       Doctor of Philosophy\\
+       Doctor of Philosophy\\%
        \vspace{0.2cm}
        to the\\
        \vspace{0.3cm}
@@ -87,6 +87,7 @@
 % Use microtype with settings as found online
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,
 stretch=10,shrink=10]{microtype}
+\microtypecontext{spacing=nonfrench}
 % Use MinionPro font --- comment this line if not installed on system
 % MinionPro can be installed to use with pdflatex with the fontpro package
 \usepackage[mathlf]{MinionPro}
@@ -101,8 +102,12 @@ stretch=10,shrink=10]{microtype}
 \usepackage{standalone}
 % Remove extra brackets around subfigure caption created when adding brackets to subref
 \usepackage[labelformat=simple]{subcaption}
+\usepackage{textcomp}
 \usepackage{titlesec}
 \usepackage{tikz}
+
+% must be loaded after hyperref
+\usepackage[capitalise,noabbrev]{cleveref}
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
@@ -110,6 +115,7 @@ stretch=10,shrink=10]{microtype}
 \definecolor{my_purple}{HTML}{660066}
 \colorlet{grey}{white!40!black}
 \definecolor{seaborn_face}{HTML}{EAEAF2}
+\definecolor{seaborn_blue}{HTML}{4C72B0}
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------

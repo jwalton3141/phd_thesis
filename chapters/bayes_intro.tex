@@ -1,10 +1,10 @@
-\chapter{Bayesian Statistics}	
+\chapter{Bayesian statistics}	
 \label{cha:bayes_intro}
 In this thesis we utilise techniques from Bayesian inference to fit theoretical models of collective behaviour to real data. Bayesian inference allows the practitioner to capture uncertainty about fitted model parameters. In addition to this the Bayesian framework permits flexible model structures and potential inclusion of expert information via the prior distribution. With this we seek to fit empirical data to a generalisation of a popular model from the literature.
 
 In this chapter we shall introduce and give overviews of some important concepts of Bayesian inference, outline schemes which can be used to infer model parameters, and discuss some of the problems which may arise and how we might address them.
 
-\section{Bayesian Inference}
+\section{Bayesian inference}
 \label{sec:bayesian_inference}
 Using Bayesian inference we wish to quantify beliefs and uncertainties about parameters $\bm{\theta} = (\theta_1, \theta_2,\dots,\theta_p)'$, using data $\bm{x}$ which we observe. Given this observed data, the likelihood function for the parameters is defined
 \[
@@ -29,7 +29,7 @@ For the most part, the normalising constant (given in the denominator of Equatio
 \label{ssec:gibbs_sampling}
 One may use the full conditional distributions of parameters to sample from a multivariate density. Doing so is to implement the Gibbs algorithm. So, instead of sampling from the full posterior, we sample from the conditional posteriors of the parameters one at a time. The Gibbs algorithm is useful when the conditional densities can be expressed in standard form and are easy to sample form.
 
-Say we wish to target the density $\pi(\bm{\theta})$ where $\theta = (\theta_1, \theta_2, \dots, \theta_p)'$, where the full conditional densities are $\pi(\theta_i|\theta_1, \theta_2, \dots, \theta_{i-1}, \theta_{i+1}, \dots, \theta_p)$, for $i=1,\dots,p$, then we may use the Gibbs sampler, as described in Algorithm~\ref{alg:gibbs}.
+Say we wish to target the density $\pi(\bm{\theta})$ where $\theta = (\theta_1, \theta_2, \dots, \theta_p)'$, where the full conditional densities are $\pi(\theta_i|\theta_1, \theta_2, \dots, \theta_{i-1}, \theta_{i+1}, \dots, \theta_p)$, for $i=1,\dots,p$, then we may use the Gibbs sampler, as described in \cref{alg:gibbs}.
 
 \begin{algorithm}
 	\caption{Gibbs}
@@ -67,7 +67,7 @@ The Metropolis-Hastings algorithm is another MCMC scheme. The algorithm was intr
 	\end{enumerate}
 \end{algorithm}
 
-The algorithm begins by initialising the chain with parameters $\bm{\theta}^{0}$. Next, the algorithm proposes new values ${\bm{\theta}}^*$ from a proposal distribution, $q(\bm{\theta}^*|{\bm{\theta}}^{j-1})$, which is chosen to have the same support as the target distribution. After this, the proposed values ${\bm{\theta}}^*$ are either accepted or rejected, depending on the evaluation of the acceptance probability $\alpha({\bm{\theta}}^*|{\bm{\theta}^{j-1}})$. Because the acceptance probability depends on a ratio of $\pi(\cdot|\bm{x})$, the normalising constants cancel and therefore the target distribution only has to be known to a constant of proportionality. Metropolis-Hastings is described more formally in Algorithm~\ref{alg:metropolis_hastings}.
+The algorithm begins by initialising the chain with parameters $\bm{\theta}^{0}$. Next, the algorithm proposes new values ${\bm{\theta}}^*$ from a proposal distribution, $q(\bm{\theta}^*|{\bm{\theta}}^{j-1})$, which is chosen to have the same support as the target distribution. After this, the proposed values ${\bm{\theta}}^*$ are either accepted or rejected, depending on the evaluation of the acceptance probability $\alpha({\bm{\theta}}^*|{\bm{\theta}^{j-1}})$. Because the acceptance probability depends on a ratio of $\pi(\cdot|\bm{x})$, the normalising constants cancel and therefore the target distribution only has to be known to a constant of proportionality. Metropolis-Hastings is described more formally in \cref{alg:metropolis_hastings}.
 
 \subsection*{Choosing a Proposal Distribution}
 \label{ssec:proposal_distribution}
