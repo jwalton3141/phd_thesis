@@ -13,8 +13,8 @@ NO_COLOUR="\033[0m"
 
 # Directory of this script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-# Files to spell check
-files=$(find -type f -name "*.tex")
+# Spell check all chapters, dedication, appendix etc.
+files=$(find chapters/ . -maxdepth 1 -type f -name "*.tex")
 
 echo -e "\n`EXT_COLOUR 75`SPELL CHECK RESULTS$NO_COLOUR\n"
 for file in $files

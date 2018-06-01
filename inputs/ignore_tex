@@ -2,6 +2,13 @@
 
 add-tex-command hypersetup op
 add-tex-command bibliographystyle op
+add-tex-command cref op
 add-tex-command citet op
 add-tex-command citep op
 add-tex-command eqref op
+add-tex-command include op
+add-tex-command subref op
+add-tex-command table oP
+add-tex-command graphicspath op
+add-tex-command definecolor op
+add-tex-command includegraphics op
