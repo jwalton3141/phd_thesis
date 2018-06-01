@@ -1,6 +1,6 @@
 ## Style
 
-I have adapted masthesis.sty to implement my only custom style. We're concerned that this may cause problems further down the line as it departs from the university guidelines. As such I've ensured that everything is backwards compatible and that we can swap back to the offical style with minimal effort if we decide it prudent.
+I have adapted [masthesis.sty](https://wiki.mas.ncl.ac.uk/mas/ThesisTemplate?highlight=%28thesis%29%7C%28style%29%7C%28file%29) to implement a custom style. We're concerned that this may cause problems further down the line as it departs from the university guidelines. As such I've ensured that everything is backwards compatible and that we can swap back to the offical style with minimal effort if we decide it prudent.
 
 I took much inspiration (and many commands) from [Dave Robertson's attempt](https://mas-gitlab.ncl.ac.uk/b0036119/thesis-template) at recreating [Aaron Turin's thesis](https://people.mpi-sws.org/~turon/turon-thesis.pdf).
 
