@@ -51,12 +51,16 @@
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
+% Change the font. This should be definitely done before \bm, and maybe other packages too
+% Loads amsmath, MnSymbol and textcomp
+\usepackage[mathlf,minionint]{MinionPro}
+
 % Packages used by default style file
 \usepackage[round]{natbib}              % BiBTeX style
 \usepackage{fancyhdr}                   % Fancy headers
-\usepackage[centertags]{amsmath}        % AMS Stuff
-\usepackage{amsfonts}
-\usepackage{amssymb}
+% amsfonts and amssymb incompatible with MinionPro (well, MnSymbol really)
+%\usepackage{amsfonts}
+%\usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{psfrag}                     % PSFrag (LaTeX style labels)
 \usepackage{dcolumn}                    % Line up at decimal point in a table
@@ -79,6 +83,7 @@
 \usepackage{bm}
 \usepackage{booktabs}
 \usepackage{calc}
+\usepackage{dsfont}
 % Color captions in figures
 \usepackage[labelfont={color=my_purple}]{caption}
 \usepackage{etoolbox}
@@ -90,7 +95,6 @@ stretch=10,shrink=10]{microtype}
 \microtypecontext{spacing=nonfrench}
 % Use MinionPro font --- comment this line if not installed on system
 % MinionPro can be installed to use with pdflatex with the fontpro package
-\usepackage[mathlf]{MinionPro}
 \usepackage{multirow}
 \usepackage{pgf}
 \usepackage{pgfornament}
