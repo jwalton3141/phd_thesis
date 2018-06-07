@@ -16,15 +16,14 @@ Recall that angles may be represented in units of degrees or radians. To convert
 
 In this thesis we shall define the zero angle as the direction from $(0, 0)$ and along the positive $x$--axis. For the most part, we shall measure angles in units of radians, and take anti--clockwise rotations as the positive direction. The schematics of this setup are illustrated in \cref{subfig:radian_axes}. Occasionally, we shall appeal to degrees and their comparative intuitiveness, and in these cases we shall use the setup illustrated in  \cref{subfig:degree_axes}.
 
-\begin{figure}[!htbp]
-	\begin{subfigure}[b]{0.4\textwidth}
-		\hspace{-0.1\textwidth}
+\begin{figure}[!tbp]
+\centering
+	\begin{subfigure}[b]{0.5\textwidth}
 		\includegraphics{radian_axes.pdf}
 		\caption{}
 		\label{subfig:radian_axes}
-	\end{subfigure}
-	\hspace{0.1\textwidth}
-	\begin{subfigure}[b]{0.4\textwidth}
+	\end{subfigure}%
+	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics{degree_axes.pdf}
 		\caption{}
@@ -41,16 +40,14 @@ In possession of a dataset, one of the first instincts of the scientist is to vi
 
 Traditional histograms are not very good for visualising directional data. Polar histograms (sometimes known as rose plots) make the visualisation of such data easier. Instead of using bars, as the histogram does, the rose plot bins data into sectors of a circle. The area of each sector is proportional to the frequency of data points in the corresponding bin.
 
-\begin{figure}[!htbp]
-	\centering
-	\begin{subfigure}[b]{0.49\textwidth}
-		\centering
+\begin{figure}[!tbp]
+	\begin{subfigure}[b]{0.48\textwidth}
 		\includegraphics{unif_angle_hist.pdf}
 		\caption{}
 		\label{subfig:unif_angle_hist}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.49\textwidth}
-		\centering
+	\end{subfigure}%
+	\hspace{0.01\textwidth}
+	\begin{subfigure}[b]{0.48\textwidth}
 		\includegraphics{norm_angle_hist.pdf}
 		\caption{}
 		\label{subfig:norm_angle_hist}
@@ -59,21 +56,14 @@ Traditional histograms are not very good for visualising directional data. Polar
 	\label{fig:angle_hist}
 \end{figure}
 
-To advocate the advantages of the rose plot we shall visualise two randomly generated datasets. The first dataset consists of $100$ realisations from a uniform $U(-\pi,\pi)$ distribution, and the second dataset consists of $10,000$ draws from a normal $N(0, 1)$ distribution.
-
-In \cref{fig:angle_hist} we visualise the two datasets using traditional histogram plots. From this figure we get a good idea of the distribution of the data, however we get no sense of direction. The traditional histogram leaves us to interpret the directions ourselves.
-
-In \cref{fig:angle_rose} we visualise the same data as before. Here we also get a good idea of how the directions are distributed. However, using the rose plot means we get a very intuitive representation of direction. We therefore consider the rose plot a very useful method of displaying circular data which is easy to interpret.
-
-\begin{figure}[!htbp]
-	\begin{subfigure}[b]{0.4\textwidth}
-		\hspace{-0.1\textwidth}
+\begin{figure}[!tbp]
+	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics{unif_angle_rose.pdf}
 		\caption{}
 		\label{subfig:unif_angle_rose}
-	\end{subfigure}
-	\hspace{0.1\textwidth}
-	\begin{subfigure}[b]{0.4\textwidth}
+	\end{subfigure}%
+	\hspace{0.05\textwidth}%
+	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics{norm_angle_rose.pdf}
 		\caption{}
 		\label{subfig:norm_angle_rose}
@@ -81,6 +71,11 @@ In \cref{fig:angle_rose} we visualise the same data as before. Here we also get 
 	\caption{Using polar histograms to visualise the dataset generated from \subref{subfig:unif_angle_rose}: $U(-\pi,\pi)$ and \subref{subfig:norm_angle_rose}: $N(0, 1)$.}
 	\label{fig:angle_rose}
 \end{figure}
+To advocate the advantages of the rose plot we shall visualise two randomly generated datasets. The first dataset consists of $100$ realisations from a uniform $U(-\pi,\pi)$ distribution, and the second dataset consists of $10,000$ draws from a normal $N(0, 1)$ distribution.
+
+In \cref{fig:angle_hist} we visualise the two datasets using traditional histogram plots. From this figure we get a good idea of the distribution of the data, however we get no sense of direction. The traditional histogram leaves us to interpret the directions ourselves.
+
+In \cref{fig:angle_rose} we visualise the same data as before. Here we also get a good idea of how the directions are distributed. However, using the rose plot means we get a very intuitive representation of direction. We therefore consider the rose plot a very useful method of displaying circular data which is easy to interpret.
 
 \section{Summary statistics}
 \label{sec:summary_stats}
@@ -89,15 +84,14 @@ Summary statistics are a useful tool to give an idea of the general characterist
 
 Consider that we wish to take an average of the angles $10$\textdegree and $350$\textdegree. Using the arithmetic mean we compute an average of $180$\textdegree --- however, this average points in the opposite direction to which we intuitively expect. In \cref{subfig:arith_mean} we visualise this surprising result.
 
-\begin{figure}[!htbp]
-	\begin{subfigure}[b]{0.4\textwidth}
-		\hspace{-0.1\textwidth}
+\begin{figure}[!tbp]
+	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics{arith_mean.pdf}
 		\caption{Arithmetic mean (red).}
 		\label{subfig:arith_mean}
-	\end{subfigure}
-	\hspace{0.1\textwidth}
-	\begin{subfigure}[b]{0.4\textwidth}
+	\end{subfigure}%
+	\hspace{0.05\textwidth}
+	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics{circ_mean.pdf}
 		\caption{Circular mean (green).}
 		\label{subfig:circ_mean}
@@ -108,7 +102,7 @@ Consider that we wish to take an average of the angles $10$\textdegree and $350$
 
 Before introducing the circular mean it is first necessary to introduce the $\atantwo$ function. The $\atantwo$ function dates back to the Fortran programming language \citep{organick66}. It was introduced to overcome some of the inconveniences inherent in the $\atan$ (or $\tan^{-1}$) function. For starters, the inverse tangent function has codomain $(-\pi/2, \pi/2)$, though we are often interested in directions in the range $(-\pi, \pi]$. In addition to this, the $\arctan$ function is not quadrant--aware --- it cannot distinguish between opposite directions (directions which differ by $\pi$ radians). As an example, consider calculating the direction from the $x$--axis to the ray extending from the origin to $(1, 1)$. Naturally, we'd reach for $\tan^{-1}$ to compute the angle as $\tan^{-1}(1/1) = \pi/4$, as expected. Now, consider that we wish to calculate the direction from the $x$--axis to the ray extending from $(0, 0)$ to $(-1, -1)$. By inspection, or intuitively, we expect an answer of $-3\pi/4$ --- however, we compute the answer as $\tan^{-1}(-1/-1) = \pi/4$. The angle calculated using the inverse tangent function points in the opposite direction to what we expect.
 
-\begin{figure}[!htbp]
+\begin{figure}[!tbp]
 	\includegraphics{atan_quadrants.pdf}
 	\caption{An illustration of the quadrant corrections made by $\atantwo$.}
 	\label{fig:atan_quadrants}

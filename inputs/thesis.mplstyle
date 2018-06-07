@@ -50,7 +50,6 @@ xtick.major.width: 1
 xtick.minor.size: 0
 xtick.minor.width: .5
 
-
 ytick.color: .15
 ytick.labelsize: 8
 ytick.direction: out
@@ -60,6 +59,6 @@ ytick.major.width: 1
 ytick.minor.size: 0
 ytick.minor.width: .5
 
-savefig.bbox: tight
+#savefig.bbox: tight
 savefig.format: pdf
-savefig.pad_inches: 0
+#savefig.pad_inches: 0.05

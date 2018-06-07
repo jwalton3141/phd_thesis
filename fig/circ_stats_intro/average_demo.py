@@ -6,10 +6,10 @@
 import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms
 import numpy as np
-from plot.pretty_plot import set_size, savefig
+from plot.pretty_plot import set_size
 
 if __name__ == "__main__":
-    fig, ax = plt.subplots(1, 1, figsize=set_size(fraction=0.4, aspect='equal'),
+    fig, ax = plt.subplots(1, 1, figsize=set_size(fraction=0.45, aspect='equal'),
                            subplot_kw=dict(projection='polar'))
     # Turn of radial grid
     ax.grid(False)
@@ -44,9 +44,11 @@ if __name__ == "__main__":
          head_width=0.08)
 
     ax.set_ylim([0, 1.05])
-    savefig('/data/thesis/fig/circ_stats_intro/', 'arith_mean')
+    fig.tight_layout(pad=0.1)
+    fig.subplots_adjust(left=1-fig.subplotpars.right)
+    fig.savefig('/data/thesis/fig/circ_stats_intro/arith_mean')
 
-    fig, ax = plt.subplots(1, 1, figsize=set_size(fraction=0.4, aspect='equal'),
+    fig, ax = plt.subplots(1, 1, figsize=set_size(fraction=0.45, aspect='equal'),
                            subplot_kw=dict(projection='polar'))
     # Turn of radial grid
     ax.grid(False)
@@ -81,4 +83,6 @@ if __name__ == "__main__":
          head_width=0.08)
 
     ax.set_ylim([0, 1.05])
-    savefig('/data/thesis/fig/circ_stats_intro/', 'circ_mean')
+    fig.tight_layout(pad=0.1)
+    fig.subplots_adjust(left=1-fig.subplotpars.right)
+    fig.savefig('/data/thesis/fig/circ_stats_intro/circ_mean')
