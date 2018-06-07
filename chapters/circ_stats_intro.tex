@@ -106,19 +106,19 @@ Consider that we wish to take an average of the angles $10$\textdegree and $350$
 	\label{fig:visualise_mean}
 \end{figure}
 
-Before introducing the circular mean it is first necessary to introduce the $\atan2$ function. The $\atan2$ function dates back to the Fortran programming language \citep{organick66}. It was introduced to overcome some of the inconveniences inherent in the $\atan$ (or $\tan^{-1}$) function. For starters, the inverse tangent function has codomain $(-\pi/2, \pi/2)$, though we are often interested in directions in the range $(-\pi, \pi]$. In addition to this, the $\arctan$ function is not quadrant--aware --- it cannot distinguish between opposite directions (directions which differ by $\pi$ radians). As an example, consider calculating the direction from the $x$--axis to the ray extending from the origin to $(1, 1)$. Naturally, we'd reach for $\tan^{-1}$ to compute the angle as $\tan^{-1}(1/1) = \pi/4$, as expected. Now, consider that we wish to calculate the direction from the $x$--axis to the ray extending from $(0, 0)$ to $(-1, -1)$. By inspection, or intuitively, we expect an answer of $-3\pi/4$ --- however, we compute the answer as $\tan^{-1}(-1/-1) = \pi/4$. The angle calculated using the inverse tangent function points in the opposite direction to what we expect.
+Before introducing the circular mean it is first necessary to introduce the $\atantwo$ function. The $\atantwo$ function dates back to the Fortran programming language \citep{organick66}. It was introduced to overcome some of the inconveniences inherent in the $\atan$ (or $\tan^{-1}$) function. For starters, the inverse tangent function has codomain $(-\pi/2, \pi/2)$, though we are often interested in directions in the range $(-\pi, \pi]$. In addition to this, the $\arctan$ function is not quadrant--aware --- it cannot distinguish between opposite directions (directions which differ by $\pi$ radians). As an example, consider calculating the direction from the $x$--axis to the ray extending from the origin to $(1, 1)$. Naturally, we'd reach for $\tan^{-1}$ to compute the angle as $\tan^{-1}(1/1) = \pi/4$, as expected. Now, consider that we wish to calculate the direction from the $x$--axis to the ray extending from $(0, 0)$ to $(-1, -1)$. By inspection, or intuitively, we expect an answer of $-3\pi/4$ --- however, we compute the answer as $\tan^{-1}(-1/-1) = \pi/4$. The angle calculated using the inverse tangent function points in the opposite direction to what we expect.
 
 \begin{figure}[!htbp]
 	\includegraphics{atan_quadrants.pdf}
-	\caption{An illustration of the quadrant corrections made by $\atan2$.}
+	\caption{An illustration of the quadrant corrections made by $\atantwo$.}
 	\label{fig:atan_quadrants}
 \end{figure}
 
-The $\atan2$ function, however, does not have these shortcomings. The function is constructed to be quadrant--aware: correcting the computations of $\tan^{-1}$ to return the directions we intuitively expect. It does this by adding a correction term that depends on which quadrant contains the point $(x, y)$. The handling of the four quadrants by $\atan2$ is visualised in \cref{fig:atan_quadrants}. With these considerations, $\atan2$ can be realised as:
+The $\atantwo$ function, however, does not have these shortcomings. The function is constructed to be quadrant--aware: correcting the computations of $\tan^{-1}$ to return the directions we intuitively expect. It does this by adding a correction term that depends on which quadrant contains the point $(x, y)$. The handling of the four quadrants by $\atantwo$ is visualised in \cref{fig:atan_quadrants}. With these considerations, $\atantwo$ can be realised as:
 
 \begin{equation}
-\label{eq:atan2}
-	\atan2(y, x) = 
+\label{eq:atantwo}
+	\atantwo(y, x) = 
 	\begin{cases}
 		\atan(y/x) & \text{ if } x > 0, \\
 		\atan(y/x) + \pi & \text{ if } x < 0 \text{ and } y \geq 0, \\
@@ -132,8 +132,8 @@ The $\atan2$ function, however, does not have these shortcomings. The function i
 When averaging a set of angles we must not use the arithmetic mean. Instead, we must refer to the circular mean. Given a set of angles $\bm{\theta} = (\theta_1, \ldots, \theta_n)^T$, we may compute their circular mean as:
 \begin{equation}
 	\label{eq:circ_mean}
-	\langle \bm{\theta} \rangle = \atan2\bigg(\frac{1}{n} \sum_{j=1}^n \sin(\theta_j), \frac{1}{n} \sum_{j=1}^n \cos(\theta_j)\bigg),
+	\langle \bm{\theta} \rangle = \atantwo\bigg(\frac{1}{n} \sum_{j=1}^n \sin(\theta_j), \frac{1}{n} \sum_{j=1}^n \cos(\theta_j)\bigg),
 \end{equation}
-where the $\atan2$ function is defined in \cref{eq:atan2}.
+where the $\atantwo$ function is defined in \cref{eq:atantwo}.
 
 The definition of the circular mean given in equation \cref{eq:circ_mean} works by converting the angles into Cartesian co--ordinates --- representing the directions as points on the unit circle. The centre of mass of the Cartesian co--ordinates is then computed, and the resulting position is converted back to a direction, resulting in our mean angle.
