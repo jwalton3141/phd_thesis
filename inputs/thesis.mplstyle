@@ -38,7 +38,7 @@ patch.facecolor: 4C72B0
 patch.linewidth: .3
 
 text.usetex: True
-text.latex.preamble: \usepackage{bm}, \usepackage[mathlf]{MinionPro}
+text.latex.preamble: \usepackage[mathlf]{MinionPro}, \usepackage{bm}
 text.color: .15
 
 xtick.color: .15
