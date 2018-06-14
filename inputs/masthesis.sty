@@ -53,7 +53,18 @@
 %------------------------------------------------------------------------------
 % Change the font. This should be definitely done before \bm, and maybe other packages too
 % Loads amsmath, MnSymbol and textcomp
-\usepackage[mathlf,minionint]{MinionPro}
+\IfFileExists{MinionPro.sty}{%
+	\usepackage[mathlf,minionint]{MinionPro}
+}
+
+\makeatletter
+% detach \eqref and \tag making
+\renewcommand{\eqref}[1]{\textup{\eqreftagform@{\ref{#1}}}}
+\let\eqreftagform@\tagform@
+\def\tagform@#1{%
+  \maketag@@@{\color{my_purple}(\ignorespaces#1\unskip\@@italiccorr)}%
+}
+\makeatother
 
 % Packages used by default style file
 \usepackage[round]{natbib}              % BiBTeX style
@@ -77,7 +88,7 @@
 
 % Extra packages which I've added
 \usepackage{adforn}
-\usepackage{algorithm}
+\usepackage[boxed]{algorithm}
 \usepackage{algorithmic}
 \usepackage{array}
 \usepackage{bm}
@@ -93,6 +104,7 @@
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,
 stretch=10,shrink=10]{microtype}
 \microtypecontext{spacing=nonfrench}
+\usepackage{movie15}
 % Use MinionPro font --- comment this line if not installed on system
 % MinionPro can be installed to use with pdflatex with the fontpro package
 \usepackage{multirow}
@@ -109,9 +121,11 @@ stretch=10,shrink=10]{microtype}
 \usepackage{textcomp}
 \usepackage{titlesec}
 \usepackage{tikz}
+\usepackage{xifthen}
+\usepackage{xstring}
 
 % must be loaded after hyperref
-\usepackage[capitalise,noabbrev]{cleveref}
+\usepackage[capitalise,noabbrev,nameinlink]{cleveref}
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
@@ -162,7 +176,7 @@ stretch=10,shrink=10]{microtype}
 
 \titleformat{\section}%
   [block]% shape
-  {\Large}% format applied to label+text
+  {\large}% format applied to label+text
   {\titlehang\thesection}% label
   {0em}% horizontal separation between label and title body
   {\scshape}% before the title body
@@ -176,9 +190,10 @@ stretch=10,shrink=10]{microtype}
   {\itshape}% before the title body
   []% after the title body
 
+%\titlespacing{command}{left}{before}{after}
 \titlespacing*{\chapter}{0pt}{10pt}{2ex plus 1ex}
-\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
-\titlespacing*{\subsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus.2ex}
+\titlespacing*{\section}{0pt}{2.3ex plus .2ex}{2.3ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{1.5ex plus.2ex}{1.5ex plus.2ex}
 
 %----------------------------------------------------------------------------
 
@@ -220,11 +235,44 @@ stretch=10,shrink=10]{microtype}
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-% Extra commands which I've added to the style file
+% Redefine amsmath specification of cases to add a little padding after the 
+% brace (https://tex.stackexchange.com/a/173086)
+\makeatletter
+\def\env@cases{%
+  \let\@ifnextchar\new@ifnextchar
+  \left\lbrace
+  \def\arraystretch{1.2}%
+  \array{l@{\quad}l@{}}% Formerly @{}l@{\quad}l@{}
+}
+\makeatother
+%------------------------------------------------------------------------------
+
+%-----------------------------------------------------------------------------
+% cdot looks too small for products, try
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Change algorithm env
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Stats stuff
+\newcommand{\Ga}{\textrm{Ga}}
+\newcommand{\Normal}{N}
+% command to be used in conditional statements, distributions, likelihoods FCDs etc.
+\newcommand{\given}{\,|\,}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
 % Bracket references to subfigures
 \renewcommand\thesubfigure{(\alph{subfigure})}
 % Atan2 command
 \newcommand{\atantwo}{\textrm{atan$2$}}
+
 % Automatically center all floats and remove need to add \centering all the
 % time 
 \makeatletter
