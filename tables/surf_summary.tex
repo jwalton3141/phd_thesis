@@ -1,26 +1,9 @@
-\documentclass[tikz]{standalone}
-
-\usepackage[a4paper,left=35mm,right=25mm,top=40mm,bottom=35mm]{geometry}
-\usepackage{booktabs}
-\usepackage{pgfplotstable}
-\usepackage{array}
-\usepackage{colortbl}
-\usepackage{siunitx}
-\usepackage{multirow}
-% For backwards compatability
-\pgfplotsset{compat=1.13}
-
-\begin{document}
-\begin{table}[!htbp]
-	\centering
-%	\caption{Summary of dataset and how many timesteps are missing from each sequence.}
-	\label{tab:summary}
 	\pgfplotstabletypeset[col sep=&,
 		% Set order of columns
 		columns={number, numagents, numframes, begmiss, endmiss, totalmiss},
 		columns/number/.style={
 			column name={},
-			column type=c
+			column type=@{} >{\columncolor{white}[0pt][\tabcolsep]}c
 			},
 		columns/numagents/.style={
 			column name={},
@@ -31,7 +14,7 @@
 			},
 		columns/begmiss/.style={
 			column name=Beginning,
-			column type=c,
+			column type=@{}c,
 			fixed, precision=0
 			},
 		columns/endmiss/.style={
@@ -41,14 +24,14 @@
 			},
 		columns/totalmiss/.style={
 			column name=Total,
-			column type=c,
+			column type=>{\columncolor{white}[\tabcolsep][0pt]}c@{},
 			fixed, precision=0
 			},
 		every head row/.style={
 			before row={
 				\toprule
 				% dec sep align splits columns in two to format, so there are really 6 data missing columns
-				\multirow{2}{*}{Sequence} & \multirow{2}{*}{Agents} & \multirow{2}{*}{Frame} & \multicolumn{3}{c}{Data missing (\%)} \\
+				\multirow{2}{*}{Sequence} & \multirow{2}{*}{Agents} & \multirow{2}{*}{\hspace{0.2cm}Frames\hspace{0.4cm}} & \multicolumn{3}{c}{Data missing (\%)} \\
 				\cmidrule(){4-6}
 				},
 			after row={
@@ -57,13 +40,11 @@
 			},
 		every even row/.style={
 			before row={
-				\rowcolor[gray]{0.9}
+				\rowcolor{seaborn_face}
 				}
 			},
 		every last row/.style={
 			after row=\bottomrule
 			}
 	]
-	{summary.csv}
-\end{table}
-\end{document}
+	{/data/thesis/tables/summary.csv}
