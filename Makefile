@@ -11,7 +11,8 @@ $(OBJECT).pdf: $(OBJECT).bbl $(OBJECT).tex $(SOURCES)
 	$(LATEX) -shell-escape $* --enable-write18
 	$(LATEX) -shell-escape $* --enable-write18
 	@ inputs/spell_check.sh
-	@ xdg-open $(OBJECT).pdf &> /dev/null &
+    # Open thesis if NOT compiling in ssh session
+	@ inputs/openif.sh
 
 $(OBJECT).bbl: $(OBJECT).tex references.bib $(SOURCES)
 	$(LATEX) -shell-escape $* --enable-write18
