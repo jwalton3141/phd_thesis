@@ -31,18 +31,18 @@
 			before row={
 				\toprule
 				% dec sep align splits columns in two to format, so there are really 6 data missing columns
-				\multirow{2}{*}{Sequence} & \multirow{2}{*}{Agents} & \multirow{2}{*}{\hspace{0.2cm}Frames\hspace{0.4cm}} & \multicolumn{3}{c}{Data missing (\%)} \\
-				\cmidrule(){4-6}
+				\multirow{2}{*}{Sequence} & \multirow{2}{*}{Agents} & \multirow{2}{*}{\hspace{0.2cm}Frames\hspace{0.4cm}} & \multicolumn{3}{c}{Data missing ($\%$)} \\
+				\cmidrule{4-6}
 				},
 			after row={
 				\midrule
 				},
 			},
-		every even row/.style={
-			before row={
-				\rowcolor{seaborn_face}
-				}
-			},
+%		every even row/.style={
+%			before row={
+%				\rowcolor{seaborn_face}
+%				}
+%			},
 		every last row/.style={
 			after row=\bottomrule
 			}
