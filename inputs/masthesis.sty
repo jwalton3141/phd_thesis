@@ -8,11 +8,11 @@
      \vspace{30mm}
    \end{tabular}
    \begin{center}
-     \huge{\sc{#1}}\\
+     \huge{\scshape #1}\\
      \vspace{2.5cm}
      \color{black!75}\pgfornament[width=1.5cm]{8}\color{black}\\
      \vspace{2.5cm}
-     \Large{\sc{\hspace{2mm}#2}}
+     \Large{\scshape \hspace{2mm} #2}
      \vspace{0.5cm}\\
    	 \Large{#3}\\ 
      \vspace{2.5cm}
@@ -23,7 +23,7 @@
        \vspace{0.2cm}
        to the\\
        \vspace{0.3cm}
-       School of Mathematics \& Statistics\\
+       School of Maths, Statistics \& Physics\\
        Newcastle University\\
        Newcastle upon Tyne\\
        United Kingdom\\
@@ -105,8 +105,6 @@
 stretch=10,shrink=10]{microtype}
 \microtypecontext{spacing=nonfrench}
 \usepackage{movie15}
-% Use MinionPro font --- comment this line if not installed on system
-% MinionPro can be installed to use with pdflatex with the fontpro package
 \usepackage{multirow}
 \usepackage{pgf}
 \usepackage{pgfornament}
@@ -129,11 +127,16 @@ stretch=10,shrink=10]{microtype}
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-% Custom colors
+% Custom colors --- seaborn pulled from thesis.mplstyle
 \definecolor{my_purple}{HTML}{660066}
 \colorlet{grey}{white!40!black}
 \definecolor{seaborn_face}{HTML}{EAEAF2}
 \definecolor{seaborn_blue}{HTML}{4C72B0}
+\definecolor{seaborn_green}{HTML}{55A868}
+\definecolor{seaborn_red}{HTML}{C44E52}
+\definecolor{seaborn_purple}{HTML}{8172B2}
+\definecolor{seaborn_yellow}{HTML}{CCB974}
+\definecolor{seaborn_light_blue}{HTML}{64B5CD}
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
@@ -171,7 +174,7 @@ stretch=10,shrink=10]{microtype}
   {\YUGE\color{black!75}}% format applied to label
   {$\thechapter$}% label (use mathmode to use lined figures)
   {-1cm}% horizontal separation between label and title body
-  {\huge\itshape\color{grey}}% format of title
+  {\huge\slshape\color{grey}}% format of title
   [\hrule]% after the title body
 
 \titleformat{\section}%
@@ -187,7 +190,15 @@ stretch=10,shrink=10]{microtype}
   {\large}% format applied to label+text
   {\titlehang\thesubsection}% label
   {0em}% horizontal separation between label and title body
-  {\itshape}% before the title body
+  {\slshape}% before the title body
+  []% after the title body
+
+\titleformat{\subsubsection}%
+  [block]% shape
+  {\large}% format applied to label+text
+  {}
+  {0em}% horizontal separation between label and title body
+  {\slshape}% before the title body
   []% after the title body
 
 %\titlespacing{command}{left}{before}{after}
@@ -256,7 +267,10 @@ stretch=10,shrink=10]{microtype}
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-% Change algorithm env
+% Chapters from zero, and make sure equation numbers are correct.
+% Supervisors will probably hate this...
+%\setcounter{chapter}{-1}
+%\renewcommand{\theequation}{\thechapter.\arabic{equation}}
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
@@ -278,3 +292,4 @@ stretch=10,shrink=10]{microtype}
 \makeatletter
 \g@addto@macro\@floatboxreset{\centering}
 \makeatother
+%------------------------------------------------------------------------------
