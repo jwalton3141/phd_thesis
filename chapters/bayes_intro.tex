@@ -48,44 +48,45 @@ Say we wish to target the density $\pi(\bm{\theta})$ where $\bm{\theta} = (\thet
 	\label{alg:gibbs}
 \end{algorithm}
 
-\subsection{Metropolis--Hastings}
+\subsection{Metropolis-Hastings}
 \label{ssec:metropolis_hastings}
-The Metropolis--Hastings algorithm is another MCMC scheme. The algorithm was introduced by \cite{metropolis53}, and this work was later generalised by \cite{hastings70}. The algorithm works by constructing a Markov chain which has stationary distribution equivalent to the distribution of interest.
+The Metropolis-Hastings algorithm is another MCMC scheme. The algorithm was introduced by \cite{metropolis53}, and this work was later generalised by \cite{hastings70}. The algorithm works by constructing a Markov chain which has stationary distribution equivalent to the distribution of interest.
 
+% Add thin space after \min ???
 \begin{algorithm}[!htbp]
 	\begin{enumerate}
 	    \setcounter{enumi}{-1}
 	    \item Initialise chain with $\bm{\theta}^{0}$. Set $j=1$.
-	    \item Propose ${\bm{\theta}}^*$ by sampling from $q(\cdot \given {\bm{\theta}}^{j-1})$, where $q$ is some proposal distribution
-	    \item Construct the acceptance probability $\alpha({\bm{\theta}}^* \given {\bm{\theta}^{j-1}})$ as
+	    \item Propose ${\bm{\theta}}^\star$ by sampling from $q(\cdot \given {\bm{\theta}}^{j-1})$, where $q$ is some proposal distribution
+	    \item Construct the acceptance probability $\alpha({\bm{\theta}}^\star \given {\bm{\theta}^{j-1}})$ as
 	    \begin{equation*}
-			\alpha({\bm{\theta}}^* \given \bm{\theta}) = \text{min}\bigg\{ 1, \frac{\pi({\bm{\theta}}^*)}{\pi({\bm{\theta}}^{j-1})} \frac{L(\bm{\theta}^* \given \bm{x})}{L({\bm{\theta}}^{j-1} \given \bm{x})} \frac{q({\bm{\theta}}^{j-1} \given {\bm{\theta}}^*)}{q({\bm{\theta}}^* \given {\bm{\theta}}^{j-1})} \bigg\}.
+			\alpha({\bm{\theta}}^\star \given \bm{\theta}) = \min\bigg\{ 1, \frac{\pi({\bm{\theta}}^\star)}{\pi({\bm{\theta}}^{j-1})} \frac{L(\bm{\theta}^\star \given \bm{x})}{L({\bm{\theta}}^{j-1} \given \bm{x})} \frac{q({\bm{\theta}}^{j-1} \given {\bm{\theta}}^\star)}{q({\bm{\theta}}^\star \given {\bm{\theta}}^{j-1})} \bigg\}.
 	    \end{equation*}
-	    \item With probability $\alpha({\bm{\theta}}^* \given {\bm{\theta}^{j-1}})$ set ${\bm{\theta}}^j = {\bm{\theta}}^*$, otherwise set ${\bm{\theta}}^j = {\bm{\theta}}^{j-1}$.
+	    \item With probability $\alpha({\bm{\theta}}^\star \given {\bm{\theta}^{j-1}})$ set ${\bm{\theta}}^j = {\bm{\theta}}^\star$, otherwise set ${\bm{\theta}}^j = {\bm{\theta}}^{j-1}$.
 	    \item Increment $j$ to $j+1$. Repeat from step $1$.
 	\end{enumerate}
-	\caption{The Metropolis--Hastings can be used to target the posterior distribution $\pi(\bm{\theta} \given \bm{x})$}
+	\caption{The Metropolis-Hastings can be used to target the posterior distribution $\pi(\bm{\theta} \given \bm{x})$}
 	\label{alg:metropolis_hastings}
 \end{algorithm}
 
-The algorithm begins by initialising the chain with parameters $\bm{\theta}^{0}$. Next, the algorithm proposes new values ${\bm{\theta}}^*$ from a proposal distribution, $q(\bm{\theta}^* \given {\bm{\theta}}^{j-1})$, which is chosen to have the same support as the target distribution. After this, the proposed values ${\bm{\theta}}^*$ are either accepted or rejected, depending on the evaluation of the acceptance probability $\alpha({\bm{\theta}}^* \given {\bm{\theta}^{j-1}})$. Because the acceptance probability depends on a ratio of $\pi(\cdot \given \bm{x})$, the normalising constants cancel and therefore the target distribution only has to be known to a constant of proportionality. Metropolis--Hastings is described more formally in \cref{alg:metropolis_hastings}.
+The algorithm begins by initialising the chain with parameters $\bm{\theta}^{0}$. Next, the algorithm proposes new values ${\bm{\theta}}^\star$ from a proposal distribution, $q(\bm{\theta}^\star \given {\bm{\theta}}^{j-1})$, which is chosen to have the same support as the target distribution. After this, the proposed values ${\bm{\theta}}^\star$ are either accepted or rejected, depending on the evaluation of the acceptance probability $\alpha({\bm{\theta}}^\star \given {\bm{\theta}^{j-1}})$. Because the acceptance probability depends on a ratio of $\pi(\cdot \given \bm{x})$, the normalising constants cancel and therefore the target distribution only has to be known to a constant of proportionality. Metropolis-Hastings is described more formally in \cref{alg:metropolis_hastings}.
 
 \subsection{Choosing a Proposal Distribution}
 \label{ssec:proposal_distribution}
-The practitioner must choose a suitable proposal distribution $q(\bm{\theta}^* \given \bm{\theta})$. Ideally the choice of proposal distribution will give rapid convergence to $\pi(\bm{\theta} \given \bm{x})$ and efficiently explore the support of $\pi(\bm{\theta} \given \bm{x})$.
+The practitioner must choose a suitable proposal distribution $q(\bm{\theta}^\star \given \bm{\theta})$. Ideally the choice of proposal distribution will give rapid convergence to $\pi(\bm{\theta} \given \bm{x})$ and efficiently explore the support of $\pi(\bm{\theta} \given \bm{x})$.
 
-A special case of Metropolis--Hastings arises when the proposal distribution is symmetric, that is
+A special case of Metropolis-Hastings arises when the proposal distribution is symmetric, that is
 \begin{equation*}
-	q(\bm{\theta}^* \given \bm{\theta}) = q(\bm{\theta} \given \bm{\theta}^*).
+	q(\bm{\theta}^\star \given \bm{\theta}) = q(\bm{\theta} \given \bm{\theta}^\star).
 \end{equation*}
 In this case we observe cancellation in the acceptance ratio, as it simplifies to become 
 \begin{equation*}
-	\alpha({\bm{\theta}}^* \given \bm{\theta}) = \text{min}\bigg\{ 1, \frac{\pi({\bm{\theta}}^*)}{\pi({\bm{\theta}}^{j-1})} \frac{L(\bm{\theta}^* \given \bm{x})}{L({\bm{\theta}}^{j-1} \given \bm{x})} \bigg\}.
+	\alpha({\bm{\theta}}^\star \given \bm{\theta}) = \text{min}\bigg\{ 1, \frac{\pi({\bm{\theta}}^\star)}{\pi({\bm{\theta}}^{j-1})} \frac{L(\bm{\theta}^\star \given \bm{x})}{L({\bm{\theta}}^{j-1} \given \bm{x})} \bigg\}.
 \end{equation*}
 
-Another special case of Metropolis--Hastings is the random walk sampler. In this case proposals are realised as
+Another special case of Metropolis-Hastings is the random walk sampler. In this case proposals are realised as
 \begin{equation*}
-	\bm{\theta}^* = \bm{\theta}^{j-1} + \bm{\omega}^{j-1},
+	\bm{\theta}^\star = \bm{\theta}^{j-1} + \bm{\omega}^{j-1},
 \end{equation*}
 where the $\bm{\omega}$ are drawn from
 \begin{equation*}
@@ -102,11 +103,11 @@ Crucially then, the parameter $\Sigma$ controls the mixing of the chain. So, nat
 \label{ssec:convergence_diagnostics}
 Though there are theoretical methods to assess the convergence of chains, it is an attractive idea to analyse the output of our schemes in an attempt to assess whether the chains have converged. One of the simplest informal methods to assess convergence is to inspect the trace plots of the scheme and check for any irregularities. It is also good to use autocorrelation plots to assess autocorrelation between samples at different lags.
 
-One way to lower autocorrelation between samples is to thin the output. When thinning, every $k$--th sample from a chain is kept and the remaining samples are discarded. Another common technique is to allow for a burn--in period. The purpose of a burn--in period is to discard any samples from before the chain has converged.
+One way to lower autocorrelation between samples is to thin the output. When thinning, every $k$--th sample from a chain is kept and the remaining samples are discarded. Another common technique is to allow for a burn-in period. The purpose of a burn-in period is to discard any samples from before the chain has converged.
 
 \subsection{Blocking Parameters}
 \label{ssec:blocking}
-In the schemes considered so far the proposal, acceptance and rejection of the entire parameter space $\bm{\theta}$ happened simultaneously. This approach becomes inefficient for high--dimensional problems. Consider that as the dimension of the problem increases, the chances of proposing a value $\theta_i^*$ in the tails of the posterior distribution increases. Increasing the chance of proposing a component $\theta_i$ out in the tails of the distribution in turn decreases the acceptance rate of the chain and leads to slower convergence.
+In the schemes considered so far the proposal, acceptance and rejection of the entire parameter space $\bm{\theta}$ happened simultaneously. This approach becomes inefficient for high-dimensional problems. Consider that as the dimension of the problem increases, the chances of proposing a value $\theta_i^\star$ in the tails of the posterior distribution increases. Increasing the chance of proposing a component $\theta_i$ out in the tails of the distribution in turn decreases the acceptance rate of the chain and leads to slower convergence.
 
 To overcome this problem the parameter space $\bm{\theta}$ can be split into blocks of parameters $\bm{\theta}_1, \ldots, \bm{\theta}_d$ which are proposed and accepted or rejected separately. There are no theoretical results which determine how best to block the parameter space, though typically blocks are chosen to contain related parameters.
 
