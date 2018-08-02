@@ -13,6 +13,7 @@ axes.prop_cycle: cycler('color', ['4C72B0', '55A868', 'C44E52', '8172B2', 'CCB97
 figure.facecolor: white
 # Default size of single figure spanning textwidth of thesis
 figure.figsize: 5.90551196900512, 3.6498071178144804
+figure.titlesize: 10
 
 font.family: serif
 font.size: 10
@@ -23,7 +24,7 @@ grid.linewidth: 1
 
 image.cmap: Greys
 
-legend.fontsize: 8
+legend.fontsize: 10
 legend.frameon: False
 legend.numpoints: 1
 legend.scatterpoints: 1
@@ -38,6 +39,7 @@ patch.facecolor: 4C72B0
 patch.linewidth: .3
 
 text.usetex: True
+# Make sure to load font before bm!
 text.latex.preamble: \usepackage[mathlf]{MinionPro}, \usepackage{bm}
 text.color: .15
 
@@ -59,6 +61,4 @@ ytick.major.width: 1
 ytick.minor.size: 0
 ytick.minor.width: .5
 
-#savefig.bbox: tight
 savefig.format: pdf
-#savefig.pad_inches: 0.05
