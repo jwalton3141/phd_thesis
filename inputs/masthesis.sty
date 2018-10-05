@@ -88,7 +88,7 @@
 
 % Extra packages which I've added
 \usepackage{adforn}
-\usepackage[boxed]{algorithm}
+\usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{array}
 \usepackage{bm}
@@ -267,13 +267,6 @@ stretch=10,shrink=10]{microtype}
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-% Chapters from zero, and make sure equation numbers are correct.
-% Supervisors will probably hate this...
-%\setcounter{chapter}{-1}
-%\renewcommand{\theequation}{\thechapter.\arabic{equation}}
-%------------------------------------------------------------------------------
-
-%------------------------------------------------------------------------------
 % Stats stuff
 \newcommand{\Ga}{\textrm{Ga}}
 \newcommand{\Normal}{N}
@@ -291,5 +284,31 @@ stretch=10,shrink=10]{microtype}
 % time 
 \makeatletter
 \g@addto@macro\@floatboxreset{\centering}
+\makeatother
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% \bar command looks too small and \overline looks to big! Define \xoverline
+% which is in the middle of the two. Use as \xoverline[width percent]{symb}
+% Note that this will not scale inside sub or superscript
+\makeatletter
+\newsavebox\myboxA
+\newsavebox\myboxB
+\newlength\mylenA
+
+\newcommand*\xoverline[2][0.75]{%
+    \sbox{\myboxA}{$\m@th#2$}%
+    \setbox\myboxB\null% Phantom box
+    \ht\myboxB=\ht\myboxA%
+    \dp\myboxB=\dp\myboxA%
+    \wd\myboxB=#1\wd\myboxA% Scale phantom
+    \sbox\myboxB{$\m@th\overline{\copy\myboxB}$}%  Overlined phantom
+    \setlength\mylenA{\the\wd\myboxA}%   calc width diff
+    \addtolength\mylenA{-\the\wd\myboxB}%
+    \ifdim\wd\myboxB<\wd\myboxA%
+       \rlap{\hskip 0.5\mylenA\usebox\myboxB}{\usebox\myboxA}%
+    \else
+        \hskip -0.5\mylenA\rlap{\usebox\myboxA}{\hskip 0.5\mylenA\usebox\myboxB}%
+    \fi}
 \makeatother
 %------------------------------------------------------------------------------
