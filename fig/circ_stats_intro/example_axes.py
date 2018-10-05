@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 """ Script to generate plots which compare different angle measuring conventions. """
 
-from plot.pretty_plot import set_size
+from plot.pretty import set_size
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":    

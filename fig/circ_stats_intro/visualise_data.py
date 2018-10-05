@@ -3,7 +3,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
-from plot.pretty_plot import set_size
+from plot.pretty import set_size
 import plot.data as dplt
 
 if __name__ == "__main__":

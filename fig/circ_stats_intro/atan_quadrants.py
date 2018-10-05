@@ -2,7 +2,7 @@
 """ Plot quadrants of R2 and the correction term which atan2 adds to atan. """
 
 import matplotlib.pyplot as plt
-from plot.pretty_plot import set_size, savefig
+from plot.pretty import set_size, savefig
 
 if __name__ == "__main__":
     fig, ax = plt.subplots(1, 1, figsize=set_size(fraction=0.65, aspect='equal'))

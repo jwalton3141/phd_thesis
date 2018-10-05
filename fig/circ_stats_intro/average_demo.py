@@ -6,7 +6,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms
 import numpy as np
-from plot.pretty_plot import set_size
+from plot.pretty import set_size
 
 if __name__ == "__main__":
     fig, ax = plt.subplots(1, 1, figsize=set_size(fraction=0.45, aspect='equal'),
