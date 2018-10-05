@@ -10,9 +10,11 @@ SOURCES		= $(TEXSOURCES) inputs/masthesis.sty
 $(OBJECT).pdf: $(OBJECT).bbl $(OBJECT).tex $(SOURCES)
 	$(LATEX) -shell-escape $* --enable-write18
 	$(LATEX) -shell-escape $* --enable-write18
+
 	@ inputs/spell_check.sh
-    # Open thesis if NOT compiling in ssh session
 	@ inputs/openif.sh
+	@ inputs/word_count.sh
+    
 
 $(OBJECT).bbl: $(OBJECT).tex references.bib $(SOURCES)
 	$(LATEX) -shell-escape $* --enable-write18
@@ -28,3 +30,5 @@ compress:
 	 gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -sOutputFile=$(OBJECT)-compress.pdf $(OBJECT).pdf
 spell:
 	 @ inputs/spell_check.sh
+count:
+	 @ inputs/word_count.sh
