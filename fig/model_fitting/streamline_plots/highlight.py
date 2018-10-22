@@ -36,15 +36,15 @@ def plot_sequence(ax, data, highlight=[]):
         # Use darker line for highlighted agents
         if agent in highlight:
             ax.plot(data[frames, agent, 0], data[frames, agent, 1], c='C0')
-            ax.scatter(data[frames[0], agent, 0], data[frames[0], agent, 1], c='C1', s=20)
-            ax.scatter(data[frames[-1], agent, 0], data[frames[-1], agent, 1], c='C2', s=20)
+            ax.scatter(data[frames[0], agent, 0], data[frames[0], agent, 1], c='C2', s=20)
+            ax.scatter(data[frames[-1], agent, 0], data[frames[-1], agent, 1], c='C3', s=20)
         # Use a lighter line for agents which aren't highlighted
         else:
             ax.plot(data[frames, agent, 0], data[frames, agent, 1], c='C0', alpha=shade)
             ax.scatter(data[frames[0], agent, 0], data[frames[0], agent, 1],
-                       c='C1', s=20, alpha=shade)
-            ax.scatter(data[frames[-1], agent, 0], data[frames[-1], agent, 1],
                        c='C2', s=20, alpha=shade)
+            ax.scatter(data[frames[-1], agent, 0], data[frames[-1], agent, 1],
+                       c='C3', s=20, alpha=shade)
 
     ax.set_aspect('equal')
     ax.set_axis_off()

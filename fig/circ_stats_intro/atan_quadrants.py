@@ -24,9 +24,9 @@ if __name__ == "__main__":
     # Shade x > 0
     ax.fill([0, 1, 1, 0], [-1, -1, 1, 1], 'C0', alpha=0.8)
     # Shade x < 0, y > 0
-    ax.fill([0, -1, -1, 0], [0, 0, 1, 1], 'C4', alpha=0.8)
+    ax.fill([0, -1, -1, 0], [0, 0, 1, 1], 'C1', alpha=0.8)
     # Shade x < 0, y < 0
-    ax.fill([0, -1, -1, 0], [-1, -1, 0, 0], 'C1', alpha=0.8)
+    ax.fill([0, -1, -1, 0], [-1, -1, 0, 0], 'C2', alpha=0.8)
 
     # Annotate quadrants
     ax.text(0.5, 0.5, r'atan$(y/x)$', horizontalalignment='center', verticalalignment='center')

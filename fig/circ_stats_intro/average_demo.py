@@ -28,7 +28,7 @@ if __name__ == "__main__":
     # Plot lines first to ensure uniform thickness of arrow tails
     ax.plot([0, 10*np.pi/180], [0, 0.9], c='C0', lw=2)
     ax.plot([0, 350*np.pi/180], [0, 0.9], c='C0', lw=2)
-    ax.plot([0, np.pi], [0, 0.9], c='C2', lw=2)
+    ax.plot([0, np.pi], [0, 0.9], c='C3', lw=2)
 
     # Bug in plotting arrows on polar plot. Work around is to plot at 0 and transform
     ax.arrow(0, 0, 0, 1, color='C0', linewidth=1, width=0.01, length_includes_head=True,
@@ -38,8 +38,8 @@ if __name__ == "__main__":
     ax.arrow(0, 0, 0, 1, color='C0', linewidth=1, width=0.01, length_includes_head=True,
          transform=mtransforms.Affine2D().translate(350*np.pi/180, 0) + ax.transData,
          head_width=0.08)
-    
-    ax.arrow(0, 0, 0, 1, color='C2', linewidth=1, width=0.01, length_includes_head=True,
+
+    ax.arrow(0, 0, 0, 1, color='C3', linewidth=1, width=0.01, length_includes_head=True,
          transform=mtransforms.Affine2D().translate(np.pi, 0) + ax.transData,
          head_width=0.08)
 
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     # Plot lines first to ensure uniform thickness of arrow tails
     ax.plot([0, 10*np.pi/180], [0, 0.9], c='C0', lw=2)
     ax.plot([0, 350*np.pi/180], [0, 0.9], c='C0', lw=2)
-    ax.plot([0, 0], [0, 0.9], c='C1', lw=2)
+    ax.plot([0, 0], [0, 0.9], c='C2', lw=2)
 
     # Bug in plotting arrows on polar plot. Work around is to plot at 0 and transform
     ax.arrow(0, 0, 0, 1, color='C0', linewidth=1, width=0.01, length_includes_head=True,
@@ -78,7 +78,7 @@ if __name__ == "__main__":
          transform=mtransforms.Affine2D().translate(350*np.pi/180, 0) + ax.transData,
          head_width=0.08)
     
-    ax.arrow(0, 0, 0, 1, color='C1', linewidth=1, width=0.01, length_includes_head=True,
+    ax.arrow(0, 0, 0, 1, color='C2', linewidth=1, width=0.01, length_includes_head=True,
          transform=mtransforms.Affine2D().translate(0, 0) + ax.transData,
          head_width=0.08)
 

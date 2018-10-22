@@ -3,7 +3,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
-from plot.pretty_plot import set_size
+from plot.pretty import set_size
 
 if __name__ == "__main__":
     # Plot showing just in and just out case
@@ -25,18 +25,18 @@ if __name__ == "__main__":
             rotation=270-180/np.pi*5*np.pi/4)
     
     # Agent just inside r
-    ax.scatter(0.9, 0.4, s=30, c='C1')
+    ax.scatter(0.9, 0.4, s=30, c='C2')
     ang = np.arctan2(0.4, 0.9)
-    ax.arrow(0, 0, 0.9, 0.4, color='C1', length_includes_head=True, width=0.005, head_width=0.04)
-    ax.arrow(0.9, 0.4, -0.9, -0.4, color='C1', length_includes_head=True, width=0.005,
+    ax.arrow(0, 0, 0.9, 0.4, color='C2', length_includes_head=True, width=0.005, head_width=0.04)
+    ax.arrow(0.9, 0.4, -0.9, -0.4, color='C2', length_includes_head=True, width=0.005,
              head_width=0.04)
     ax.text(0.45, 0.3, '$r - |\, \epsilon \,|$', ha='center', va='center', rotation=180/np.pi*ang)
     
     # Agent just outside r
-    ax.scatter(0.9, -0.5, s=30, c='C2')
+    ax.scatter(0.9, -0.5, s=30, c='C3')
     ang = np.arctan2(-0.5, 0.9)
-    ax.arrow(0, 0, 0.9, -0.5, color='C2', length_includes_head=True, width=0.005, head_width=0.04)
-    ax.arrow(0.9, -0.5, -0.9, 0.5, color='C2', length_includes_head=True, width=0.005,
+    ax.arrow(0, 0, 0.9, -0.5, color='C3', length_includes_head=True, width=0.005, head_width=0.04)
+    ax.arrow(0.9, -0.5, -0.9, 0.5, color='C3', length_includes_head=True, width=0.005,
              head_width=0.04)
     ax.text(0.45, -0.35, '$r + |\, \epsilon \,|$', ha='center', va='center', rotation=180/np.pi*ang)
     fig.tight_layout(pad=0.1)
@@ -62,19 +62,19 @@ if __name__ == "__main__":
             rotation=270-180/np.pi*5*np.pi/4)
 
     # Agent just inside r
-    ax.scatter(0.9, 0.4, s=30, c='C1')
+    ax.scatter(0.9, 0.4, s=30, c='C2')
     ang = np.arctan2(0.4, 0.9)
-    ax.arrow(0, 0, 0.9, 0.4, color='C1', length_includes_head=True, width=0.005, head_width=0.04)
-    ax.arrow(0.9, 0.4, -0.9, -0.4, color='C1', length_includes_head=True, width=0.005,
+    ax.arrow(0, 0, 0.9, 0.4, color='C2', length_includes_head=True, width=0.005, head_width=0.04)
+    ax.arrow(0.9, 0.4, -0.9, -0.4, color='C2', length_includes_head=True, width=0.005,
              head_width=0.04)
     ax.text(0.45, 0.3, '$r - |\, \epsilon \,|$', ha='center', va='center', rotation=180/np.pi*ang)
 
     # Agent very close to center
     s = 0.2
-    ax.scatter(0.9*s, -0.5*s, s=30, c='C1')
+    ax.scatter(0.9*s, -0.5*s, s=30, c='C2')
     ang = np.arctan2(-0.5, 0.9)
-    ax.arrow(0, 0, 0.9*s, -0.5*s, color='C1', length_includes_head=True, width=0.005, head_width=0.04)
-    ax.arrow(0.9*s, -0.5*s, -0.9*s, 0.5*s, color='C1', length_includes_head=True, width=0.005,
+    ax.arrow(0, 0, 0.9*s, -0.5*s, color='C2', length_includes_head=True, width=0.005, head_width=0.04)
+    ax.arrow(0.9*s, -0.5*s, -0.9*s, 0.5*s, color='C2', length_includes_head=True, width=0.005,
              head_width=0.04)
     ax.text(0.05, -0.15, '$|\, \epsilon \,|$', ha='center', va='center', rotation=180/np.pi*ang)
     fig.tight_layout(pad=0.1)
