@@ -38,13 +38,8 @@
 				\midrule
 				},
 			},
-%		every even row/.style={
-%			before row={
-%				\rowcolor{seaborn_face}
-%				}
-%			},
 		every last row/.style={
 			after row=\bottomrule
 			}
 	]
-	{/data/thesis/tables/summary.csv}
+	{/data/thesis/tables/surf_summary.csv}
