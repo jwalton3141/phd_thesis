@@ -13,6 +13,8 @@
 \onehalfspacing
 %\doublespacing
 
+%\includeonly{chapters/bayes_intro}
+
 \begin{document}
 
   \phdtitle{Collective Behaviour}
@@ -62,12 +64,16 @@
   \include{chapters/model_fitting}
 
   \appendix
+  \fancyhead[RO]{\textsc{\leftmark}\quad\thepage}
+  \fancyhead[LE]{\thepage\quad\textsc{\appendixname~\thechapter}}
   \include{appendix_data_plots}
 
-  % Uncomment the line below if you want your Bibliography to appear in the
-  % table of contents.
   %\addcontentsline{toc}{chapter}{Bibliography}
-  \bibliography{references}             % References.
   \bibliographystyle{inputs/jfm}
+
+  % Change headers for bibliography
+  \fancyhead[LE]{\thepage\quad\textsc{Bibliography}}
+  \fancyhead[RO]{\textsc{Bibliography}\quad\thepage}
+  \bibliography{references}             % References.
 
 \end{document}
