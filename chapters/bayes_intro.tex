@@ -1,4 +1,6 @@
-\chapter{Bayesian statistics}	
+\graphicspath{{fig/bayes_intro/}}
+
+\chapter{Bayesian statistics}
 \label{cha:bayes_intro}
 In this thesis we utilise techniques from Bayesian inference to fit theoretical models of collective behaviour to real data. Bayesian inference allows the practitioner to capture uncertainty about fitted model parameters. In addition to this the Bayesian framework permits flexible model structures and potential inclusion of expert information via the prior distribution. With this we seek to fit empirical data to a generalisation of a popular model from the literature.
 
@@ -31,7 +33,7 @@ One may use the full conditional distributions of parameters to sample from a mu
 
 Say we wish to target the density $\pi(\bm{\theta})$ where $\bm{\theta} = (\theta_1, \theta_2, \dots, \theta_p)^T$, where the full conditional densities are $\pi(\theta_i \given \theta_1, \theta_2, \dots, \theta_{i-1}, \theta_{i+1}, \dots, \theta_p)$, for $i=1,\dots,p$, then we may use the Gibbs sampler, as described in \cref{alg:gibbs}.
 
-\begin{algorithm}[!htbp]
+\begin{algorithm}[htbp]
 	\begin{enumerate}
 	    \setcounter{enumi}{-1}
 	    \item Initialise chain with $\bm{\theta}^{0}$. Set $j=1$.
@@ -53,7 +55,7 @@ Say we wish to target the density $\pi(\bm{\theta})$ where $\bm{\theta} = (\thet
 The Metropolis-Hastings algorithm is another MCMC scheme. The algorithm was introduced by \cite{metropolis53}, and this work was later generalised by \cite{hastings70}. The algorithm works by constructing a Markov chain which has stationary distribution equivalent to the distribution of interest.
 
 % Add thin space after \min ???
-\begin{algorithm}[!htbp]
+\begin{algorithm}[htbp]
 	\begin{enumerate}
 	    \setcounter{enumi}{-1}
 	    \item Initialise chain with $\bm{\theta}^{0}$. Set $j=1$.
@@ -94,9 +96,9 @@ where the $\bm{\omega}$ are drawn from
 \end{equation*}
 and $\mathcal{N}_p$ denotes a $p$--dimensional multivariate normal distribution. The parameter $\Sigma$ is called the tuning parameter and controls how the chain moves around the parameter space. Mixing describes how efficiently the chain moves around the sample space and how long it takes for the chain to converge to the target distribution.
 
-Crucially then, the parameter $\Sigma$ controls the mixing of the chain. So, naturally, we wish to select some optimum $\Sigma$ to try and improve mixing. If the target distribution is Gaussian, it has been shown that $0.234$ is an optimum acceptance probability \citep{roberts01}. In an attempt to tune $\Sigma$ to obtain the optimum acceptance probability, a common technique is to use 
+Crucially then, the parameter $\Sigma$ controls the mixing of the chain. So, naturally, we wish to select some optimum $\Sigma$ to try and improve mixing. If the target distribution is Gaussian, it has been shown that 0.234 is an optimum acceptance probability \citep{roberts01}. In an attempt to tune $\Sigma$ to obtain the optimum acceptance probability, a common technique is to use 
 \begin{equation*}
-	\Sigma = \frac{2.38^2}{2} \widehat{\text{Var}}(\bm{\theta} \given \bm{x}).
+	\Sigma = \frac{2.38^2}{p} \widehat{\text{Var}}(\bm{\theta} \given \bm{x}).
 \end{equation*}
 
 \subsubsection{Blocking Parameters}
@@ -113,4 +115,4 @@ There is, however, an additional computational cost that comes with blocking par
 \label{ssec:convergence_diagnostics}
 Though there are theoretical methods to assess the convergence of chains, it is an attractive idea to analyse the output of our schemes in an attempt to assess whether the chains have converged. One of the simplest informal methods to assess convergence is to inspect the trace plots of the scheme and check for any irregularities. It is also good to use autocorrelation plots to assess autocorrelation between samples at different lags.
 
-One way to lower autocorrelation between samples is to thin the output. When thinning, every $k$--th sample from a chain is kept and the remaining samples are discarded. Another common technique is to allow for a burn-in period. The purpose of a burn-in period is to discard any samples from before the chain has converged.
+One way to lower autocorrelation between samples is to thin the output. When thinning, every $k$-th sample from a chain is kept and the remaining samples are discarded. Another common technique is to allow for a burn-in period. The purpose of a burn-in period is to discard any samples from before the chain has converged.
