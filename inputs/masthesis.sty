@@ -53,8 +53,12 @@
 %------------------------------------------------------------------------------
 % Change the font. This should be definitely done before \bm, and maybe other packages too
 % Loads amsmath, MnSymbol and textcomp
+
+% mathlf uses lining figures in math mode
+% mathtabular uses tabular figures in math mode
+% minionint use minionpro's integral symbol instead of mnsymbols (ugly)
 \IfFileExists{MinionPro.sty}{%
-	\usepackage[mathlf,minionint]{MinionPro}
+	\usepackage[mathlf,mathtabular,minionint]{MinionPro}
 }
 
 \makeatletter
