@@ -2,18 +2,12 @@
 
 % Two-sided draft --- doesn't allow for binding room
 \usepackage[a4paper,twoside,left=30mm,right=30mm,top=40mm,bottom=35mm]{geometry}
-% Two-sided final --- uneven margins to allow for binding
+% Two-sided final --- allow room for binding
 %\usepackage[a4paper,twoside,left=35mm,right=25mm,top=40mm,bottom=35mm]{geometry}
 
-% This line prevents LaTeX complaining about \headheight being too small.
 \setlength{\headheight}{15pt}
 \usepackage{inputs/masthesis}
-
-% One-and-a-half or double-line spacing.  I used 1.5 for final submission.
 \onehalfspacing
-%\doublespacing
-
-%\includeonly{chapters/bayes_intro}
 
 \begin{document}
 
@@ -25,27 +19,23 @@
   \cleardoublepage
 
   %\input{dedication}
-
   %\input{acknowledge}
-
   %\input{abstract}
 
-  \pagenumbering{roman}                 % Change the page numbering style for
+  \pagenumbering{roman}
 
-  \microtypesetup{protrusion=false} % disables protrusion locally in the document
+  % protrusion should be disable for toc, lof, lot
+  \microtypesetup{protrusion=false}
   \tableofcontents
-  \microtypesetup{protrusion=true} % enable protrusion
-
   %\listoffigures
-
   %\listoftables
+  \microtypesetup{protrusion=true}
 
-  \clearpage                            % End the current page making sure all
-  \thispagestyle{empty}                 % tables/figures are printed.
-  \cleardoublepage                      % Necessary for correct page numbering.
+  \clearpage
+  \thispagestyle{empty}
+  \cleardoublepage
 
   \pagenumbering{arabic}                % Reset the page numbering style.
-
   %\part{Title of My First Part}
 
   \include{chapters/introduction}
@@ -55,16 +45,12 @@
   \include{chapters/model_fitting}
 
   \appendix
-  \fancyhead[RO]{\textsc{\leftmark}\quad\thepage}
-  \fancyhead[LE]{\thepage\quad\textsc{\appendixname~\thechapter}}
   \include{appendix_data_plots}
 
-  %\addcontentsline{toc}{chapter}{Bibliography}
   \bibliographystyle{inputs/jfm}
-
   % Change headers for bibliography
   \fancyhead[LE]{\thepage\quad\textsc{Bibliography}}
   \fancyhead[RO]{\textsc{Bibliography}\quad\thepage}
-  \bibliography{references}             % References.
+  \bibliography{references}
 
 \end{document}
