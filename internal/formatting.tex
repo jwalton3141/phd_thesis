@@ -1,0 +1,155 @@
+%------------------------------------------------------------------------------
+% Geometry of page must be altered before playing around with fancy headers
+\ifoptiondraft{
+  % Even margins for draft mode
+  \geometry{left=30mm, right=30mm, top=40mm, bottom=35mm}
+}
+{
+  % Allow extra room for binding in final mode
+  \geometry{left=35mm, right=25mm, top=40mm, bottom=35mm}
+}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\setlength{\headheight}{15pt}
+\onehalfspacing
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Formatting of part, chapter, section etc.
+
+\newcommand\titlehang[1]{%
+	\llap{%
+		#1\hspace{2.5mm}
+	}%
+}
+
+% Get that big font
+\newcommand\YUGE{\fontsize{100}{120}\selectfont}
+
+\titleformat{\part}%
+  [display]% shape
+  {\centering\Huge\scshape}% format applied to label+text
+  {\color{partcolor}\textsc{\partname~\thepart}}% label
+  {0pt}% horizontal separation between label and title body
+  {}% code before the title body
+  []% after the title body
+
+\titleformat{\chapter}%
+  [display]% shape
+  {\YUGE\color{black!75}}% format applied to label+text
+  {$\thechapter$}% label (use mathmode to get lined figures)
+  {-1cm}% horizontal separation between label and title body
+  {\huge\slshape\color{grey}}% before the title body
+  [\hrule]% after the title body
+
+\titleformat{\section}%
+  [block]% shape
+  {\large}% format applied to label+text
+  {\titlehang\thesection}% label
+  {0em}% horizontal separation between label and title body
+  {\scshape}% code before the title body
+  []% after the title body
+
+\titleformat{\subsection}%
+  [block]% shape
+  {\large}% format applied to label+text
+  {\titlehang\thesubsection}% label
+  {0em}% horizontal separation between label and title body
+  {\slshape}% before the title body
+  []% after the title body
+
+\titleformat{\subsubsection}%
+  [block]% shape
+  {\large}% format applied to label+text
+  {}% label
+  {0em}% horizontal separation between label and title body
+  {\slshape}% before the title body
+  []% after the title body
+
+%\titlespacing{command}{left}{before}{after}
+\titlespacing*{\chapter}{0pt}{30pt}{2ex plus 1ex}
+\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex} 
+\titlespacing*{\subsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus.2ex}
+%----------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------
+% Fancy headers
+\pagestyle{fancy}
+
+% Remove hrule underneath header
+\renewcommand{\headrulewidth}{0pt}
+
+% See Figure 3 of fancyhdr documentation
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+
+% Headers for mainmatter
+\fancypagestyle{main}{%
+  \fancyhf{}
+  % Chapter title
+  \fancyhead[RO]{\textsc{\rightmark}\quad\thepage}
+  % Section title
+  \fancyhead[LE]{\thepage\quad\textsc{\leftmark}}}
+
+% Headers for plain pages and frontmatter
+\fancypagestyle{plain}{%
+  \fancyhf{} 
+  \fancyfoot[LE,RO]{\thepage}}
+
+% Headers for backmatter
+\fancypagestyle{back}{%
+  \fancyhf{}
+  \fancyhead[LE]{\thepage\quad}
+  \fancyhead[RO]{\quad\thepage}}
+
+\appto\frontmatter{\pagestyle{plain}}
+\appto\mainmatter{\pagestyle{main}}
+\appto\backmatter{\pagestyle{back}}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Colour equation tag
+\makeatletter
+\renewcommand{\eqref}[1]{\textup{\eqreftagform@{\ref{#1}}}}
+\let\eqreftagform@\tagform@
+\def\tagform@#1{%
+  \maketag@@@{\color{my_purple}(\ignorespaces#1\unskip\@@italiccorr)}%
+}
+\makeatother
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Make latex more willing to fill a page with large floats and small 
+% amounts of text.
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\floatpagefraction}{0.8}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Custom colors --- seaborn pulled from thesis.mplstyle
+\definecolor{my_purple}{HTML}{660066}
+\colorlet{grey}{white!40!black}
+\definecolor{seaborn_face}{HTML}{EAEAF2}
+\definecolor{seaborn_blue}{HTML}{4C72B0}
+\definecolor{seaborn_green}{HTML}{55A868}
+\definecolor{seaborn_red}{HTML}{C44E52}
+\definecolor{seaborn_purple}{HTML}{8172B2}
+\definecolor{seaborn_yellow}{HTML}{CCB974}
+\definecolor{seaborn_light_blue}{HTML}{64B5CD}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Set up hyperlinks
+\hypersetup{
+	final,
+	linktocpage,
+	pdfmenubar,
+    colorlinks,
+    linkcolor=my_purple,
+    urlcolor=my_purple,
+    citecolor=black
+}
+%------------------------------------------------------------------------------

@@ -8,7 +8,9 @@ add-tex-command citep op
 add-tex-command eqref op
 add-tex-command include op
 add-tex-command subref op
-add-tex-command table oP
+add-tex-command table op
+add-tex-command tabular op
 add-tex-command graphicspath op
 add-tex-command definecolor op
 add-tex-command includegraphics op
+add-tex-command "bibliographystyle op"

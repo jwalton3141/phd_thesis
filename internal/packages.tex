@@ -1,0 +1,82 @@
+% Change the font. This should be definitely done before \bm, and maybe other packages too
+% Loads amsmath, MnSymbol and textcomp
+
+% mathlf uses lining figures in math mode
+% mathtabular uses tabular figures in math mode
+% minionint use minionpro's integral symbol instead of mnsymbols (ugly)
+\IfFileExists{MinionPro.sty}{%
+	\usepackage[mathlf,mathtabular,minionint]{MinionPro}
+}
+
+% Double stroke fonts, I like it to typeset the indicator function
+\usepackage{dsfont}
+% Bold fonts
+\usepackage{bm}
+
+% Improve spacing and allow punctuation to bleed at the end of lines, using options suggested
+% by internet strangers
+\usepackage[activate={true, nocompatibility}, final, tracking=true, kerning=true, spacing=true,
+factor=1100, stretch=10, shrink=10]{microtype}
+\microtypecontext{spacing=nonfrench}
+
+% Pretty tables and improved spacing with \toprule, \midrule and \bottomrule
+\usepackage{booktabs}
+% Introduce \multirow for use in tables
+\usepackage{multirow}
+
+% Change margins
+\usepackage{geometry}
+% Setting the spacing between lines
+\usepackage{setspace}
+
+% Make nice clicky things
+\usepackage[hidelinks]{hyperref}
+% Must be loaded after hyperref. Use \cref for easier references
+% Do capitalise reference but don't abbreviate to fig. tab. etc.
+% Also link word Figure, Table etc. not just the corresponding number
+\usepackage[capitalise, noabbrev, nameinlink]{cleveref}
+
+% Introduces \ifdraftoption
+\usepackage{ifdraft}
+% Programming tools
+\usepackage{etoolbox}
+
+% Format page headers
+\usepackage{fancyhdr}
+% Introduce \titleformat to format chapter, section, titles etc.
+\usepackage{titlesec}
+
+% Float wrapper for algorithms
+\usepackage{algorithm}
+% Algorithm enviornment
+\usepackage{algorithmic}
+
+% Colour, including support for tables and links
+\usepackage[table, hyperref]{xcolor}
+% PGF and tikz
+\usepackage{tikz, pgf, pgfplots, pgfplotstable}
+% For backwards compatability (?)
+\pgfplotsset{compat=1.13}
+
+% Allow formatting of figure, table captions etc. Use small font with indentation and colour
+\usepackage[small, hang, labelfont={color=my_purple}]{caption}
+% Remove extra brackets around subfigure caption created when adding brackets to subref
+\usepackage[labelformat=simple]{subcaption}
+
+% Introduce \citet and \citep for text and paranthetical references
+\usepackage[round]{natbib}
+
+% Fun symbols
+\usepackage{adforn, pgfornament}
+
+% Adding numbers and that
+\usepackage{calc}
+
+% Remove headers from empty pages (useful when using book class with openright)
+\usepackage{emptypage}
+
+% Nice macros for derivatives, partial derivatives and trig
+\usepackage{physics}
+
+% Include animations
+\usepackage{movie15}

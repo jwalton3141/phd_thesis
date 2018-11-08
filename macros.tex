@@ -1,0 +1,127 @@
+%------------------------------------------------------------------------------
+% Titlepage, adapted from masthesis.sty
+\newcommand{\phdtitle}[4]{%
+ \begin{titlepage}
+   \begin{tabular}{c}
+     \vspace{30mm}
+   \end{tabular}
+   \begin{center}
+     \huge{\scshape #1}\\
+     \vspace{2.5cm}
+     \color{black!75}\pgfornament[width=1.5cm]{8}\color{black}\\
+     \vspace{2.5cm}
+     \Large{\scshape \hspace{2mm} #2}
+     \vspace{0.5cm}\\
+   	 \Large{#3}\\ 
+     \vspace{2.5cm}
+     \emph{\small
+       Thesis submitted for the degree of\\
+       \hspace{2mm}
+       Doctor of Philosophy\\
+       \vspace{0.2cm}
+       to the\\
+       \vspace{0.3cm}
+       School of Maths, Statistics \& Physics\\
+       Newcastle University\\
+       Newcastle upon Tyne\\
+       United Kingdom\\
+     }        
+   \end{center}
+ \end{titlepage}
+ \thispagestyle{empty}
+ \cleardoublepage
+}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% A new acknowledgements environment. Taken from masthesis.sty
+\makeatletter
+\newenvironment{acknowledgements}{
+  \titlepage\null\vfil
+  \@beginparpenalty\@lowpenalty
+  \begin{center}%
+    \bfseries Acknowledgements \@endparpenalty\@M
+  \end{center}%
+  }{
+  \par\vfil\null\endtitlepage
+}
+\makeatother
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Array strut to make delimiters come out right size both ends.
+\newsavebox{\astrutbox}
+\sbox{\astrutbox}{\rule[-5pt]{0pt}{20pt}}
+\newcommand{\astrut}{\usebox{\astrutbox}}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Redefine amsmath specification of cases to add a little padding after the 
+% brace (https://tex.stackexchange.com/a/173086)
+\makeatletter
+\def\env@cases{%
+  \let\@ifnextchar\new@ifnextchar
+  \left\lbrace
+  \def\arraystretch{1.2}%
+  \array{l@{\quad}l@{}}% Formerly @{}l@{\quad}l@{}
+}
+\makeatother
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% cdot looks too small for products, make something a little bigger
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{%
+\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Stats stuff
+\newcommand{\Ga}{\textrm{Ga}}
+\newcommand{\Normal}{N}
+% Use given in conditionals etc.
+\newcommand{\given}{\,|\,}
+% atan2 command
+\newcommand{\atantwo}{\textrm{atan$2$}}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Bracket references to subfigures
+\renewcommand\thesubfigure{(\alph{subfigure})}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Automatically center all floats and remove need to add \centering all the
+% time 
+\makeatletter
+\g@addto@macro\@floatboxreset{\centering}
+\makeatother
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% \bar command looks too small and \overline looks to big! Define \xoverline
+% which is in the middle of the two. Use as \xoverline[width percent]{symb}
+% Note that this will not scale inside sub or superscript
+\makeatletter
+\newsavebox\myboxA
+\newsavebox\myboxB
+\newlength\mylenA
+
+\newcommand*\xoverline[2][0.75]{%
+    \sbox{\myboxA}{$\m@th#2$}%
+    \setbox\myboxB\null% Phantom box
+    \ht\myboxB=\ht\myboxA%
+    \dp\myboxB=\dp\myboxA%
+    \wd\myboxB=#1\wd\myboxA% Scale phantom
+    \sbox\myboxB{$\m@th\overline{\copy\myboxB}$}%  Overlined phantom
+    \setlength\mylenA{\the\wd\myboxA}%   calc width diff
+    \addtolength\mylenA{-\the\wd\myboxB}%
+    \ifdim\wd\myboxB<\wd\myboxA%
+       \rlap{\hskip 0.5\mylenA\usebox\myboxB}{\usebox\myboxA}%
+    \else
+        \hskip -0.5\mylenA\rlap{\usebox\myboxA}{\hskip 0.5\mylenA\usebox\myboxB}%
+    \fi}
+\makeatother
+%------------------------------------------------------------------------------

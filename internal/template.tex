@@ -1,0 +1,25 @@
+\input{internal/packages}
+\input{internal/formatting}
+\input{macros}
+
+\begin{document}
+
+\phdtitle{Collective Behaviour}
+         {Jack Walton}
+         {March 2020}
+
+\frontmatter
+
+% Switch off microtype for toc
+\microtypesetup{protrusion=false}
+% Remove coloured links for final version
+\ifoptiondraft{}{
+   \hypersetup{linkcolor=black}
+}
+\tableofcontents
+% Switch microtype back on after toc
+\microtypesetup{protrusion=true}
+
+\input{chapters/structure}
+
+\end{document}

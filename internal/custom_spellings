@@ -1,5 +1,6 @@
 personal_ws-1.1 en 1
 autocorrelation
+anisotropy
 bivariate
 boids
 codomain
@@ -7,6 +8,7 @@ covariance
 dataset
 datasets
 dimensionality
+epiphenomena
 eulerian
 fortran
 gitlab
@@ -17,6 +19,7 @@ hyperparameter
 hyperparameters
 LaTex
 makefile
+missingness
 mcmc
 murmuration
 parameterise
