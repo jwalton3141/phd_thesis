@@ -8,6 +8,8 @@
 	\usepackage[mathlf,mathtabular,minionint]{MinionPro}
 }
 
+% Font encoding
+\usepackage[T1]{fontenc}
 % Double stroke fonts, I like it to typeset the indicator function
 \usepackage{dsfont}
 % Bold fonts
@@ -64,7 +66,10 @@ factor=1100, stretch=10, shrink=10]{microtype}
 \usepackage[labelformat=simple]{subcaption}
 
 % Introduce \citet and \citep for text and paranthetical references
-\usepackage[round]{natbib}
+%\usepackage[round]{natbib}
+\usepackage[UKenglish]{babel}
+\usepackage{csquotes}
+\usepackage[natbib=true]{biblatex}
 
 % Fun symbols
 \usepackage{adforn, pgfornament}
