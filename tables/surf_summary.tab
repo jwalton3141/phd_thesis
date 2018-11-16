@@ -42,4 +42,4 @@
 			after row=\bottomrule
 			}
 	]
-	{/data/thesis/tables/surf_summary.csv}
+	{tables/surf_summary.csv}
