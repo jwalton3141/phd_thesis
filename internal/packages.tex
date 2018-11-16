@@ -7,6 +7,8 @@
 \IfFileExists{MinionPro.sty}{%
 	\usepackage[mathlf,mathtabular,minionint]{MinionPro}
 }
+% Force inclusion of fonts in plots
+\pdfinclusioncopyfonts=1
 
 % Font encoding
 \usepackage[T1]{fontenc}
@@ -70,7 +72,7 @@ factor=1100, stretch=10, shrink=10]{microtype}
 % Biblatex and recommended packages
 \usepackage[UKenglish]{babel}
 \usepackage{csquotes}
-\usepackage[backend=biber, citestyle=authoryear]{biblatex}
+\usepackage[backend=biber, style=authoryear, maxbibnames=10]{biblatex}
 
 % Fun symbols
 \usepackage{adforn, pgfornament}
