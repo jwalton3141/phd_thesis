@@ -10,6 +10,8 @@
 
 % Font encoding
 \usepackage[T1]{fontenc}
+% Input enconding
+\usepackage[utf8]{inputenc}
 % Double stroke fonts, I like it to typeset the indicator function
 \usepackage{dsfont}
 % Bold fonts
@@ -65,11 +67,10 @@ factor=1100, stretch=10, shrink=10]{microtype}
 % Remove extra brackets around subfigure caption created when adding brackets to subref
 \usepackage[labelformat=simple]{subcaption}
 
-% Introduce \citet and \citep for text and paranthetical references
-%\usepackage[round]{natbib}
+% Biblatex and recommended packages
 \usepackage[UKenglish]{babel}
 \usepackage{csquotes}
-\usepackage[natbib=true]{biblatex}
+\usepackage[backend=biber, citestyle=authoryear]{biblatex}
 
 % Fun symbols
 \usepackage{adforn, pgfornament}

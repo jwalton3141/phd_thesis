@@ -10,11 +10,11 @@ Though some work has been made at fitting theoretical models to field data, thes
 \section{Surf scoter dataset}
 \label{sec:surf_data}
 
-We were fortunate enough to receive a high quality dataset from a researcher in Canada \citep{lukeman10}. The dataset consists of $25$ sequences which describe the movements of surf scoters (a large sea duck) interacting on the surface of a lake. We are interested in this dataset because it provides tracking of individuals \emph{between} frames. Tracking individuals between frames is necessary to reproduce the trajectories of individuals.
+We were fortunate enough to receive a high quality dataset from a researcher in Canada \parencite{lukeman10}. The dataset consists of $25$ sequences which describe the movements of surf scoters (a large sea duck) interacting on the surface of a lake. We are interested in this dataset because it provides tracking of individuals \emph{between} frames. Tracking individuals between frames is necessary to reproduce the trajectories of individuals.
 
 \subsection{Visualisation}
 
-The dataset was captured by fixing a camera at a vantage point above a lake and, in the presence of surf scoters, taking photographs every $3$ seconds. From the images, \citet{lukeman10} extracted the positions (recorded in pixel units) of agents in every frame. Every bird is assigned an ID number which allows the tracking of individuals between frames. The data extraction process is visualised in \cref{fig:lukeman_extraction}.
+The dataset was captured by fixing a camera at a vantage point above a lake and, in the presence of surf scoters, taking photographs every $3$ seconds. From the images, \textcite{lukeman10} extracted the positions (recorded in pixel units) of agents in every frame. Every bird is assigned an ID number which allows the tracking of individuals between frames. The data extraction process is visualised in \cref{fig:lukeman_extraction}.
 
 We received the dataset as $25$ arrays detailing the positions of every agent in every frame. Manually inspecting an array, however, does not give us much knowledge about the motion of the birds in that sequence. To counter this we produce animations of every sequence. (Digital) In \cref{anim:sequence05} we see an animation of the data contained in sequence $5$. The position of every agent in every frame is shown, along with its identification number.
 
@@ -107,7 +107,7 @@ Now that we have a feel for our dataset, we are ready to consider theoretical mo
 \subsection{Vicsek Model}
 \label{sec:vicsek_model}
 
-\citet{vicsek95} devised a model which has now become a cornerstone of agent-based modelling. In their paper, \citet{vicsek95} showed that a simple model in which agents interact with neighbours only through alignment can produce movement reminiscent of real flocking behaviours. Furthermore, they showed the output of this model undergoes phase transitions as the amount of noise in the system is varied.
+\textcite{vicsek95} devised a model which has now become a cornerstone of agent-based modelling. In their paper, \textcite{vicsek95} showed that a simple model in which agents interact with neighbours only through alignment can produce movement reminiscent of real flocking behaviours. Furthermore, they showed the output of this model undergoes phase transitions as the amount of noise in the system is varied.
 
 The Vicsek model simulates the movements of $N$ agents over $T$ timesteps. In the model agents seek to align their direction with that of their neighbours. Agents identify their neighbours as individuals which lie less than some fixed distance away. More formally, agent $i$'s neighbours at time $t$ are given by the set $n_{i,t} = \{\,j \mid d_{ij, t} < r, \, j=1,\ldots,N \,\}$, where $r$ is the interaction radius and $d_{ij, t}$ is the Euclidean-distance between agents $i$ and $j$ at time $t$.
 

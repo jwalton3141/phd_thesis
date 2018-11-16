@@ -96,7 +96,7 @@ where the $\bm{\omega}$ are drawn from
 \end{equation*}
 and $\mathcal{N}_p$ denotes a $p$--dimensional multivariate normal distribution. The parameter $\Sigma$ is called the tuning parameter and controls how the chain moves around the parameter space. Mixing describes how efficiently the chain moves around the sample space and how long it takes for the chain to converge to the target distribution.
 
-Crucially then, the parameter $\Sigma$ controls the mixing of the chain. So, naturally, we wish to select some optimum $\Sigma$ to try and improve mixing. If the target distribution is Gaussian, it has been shown that 0.234 is an optimum acceptance probability \citep{roberts01}. In an attempt to tune $\Sigma$ to obtain the optimum acceptance probability, a common technique is to use 
+Crucially then, the parameter $\Sigma$ controls the mixing of the chain. So, naturally, we wish to select some optimum $\Sigma$ to try and improve mixing. If the target distribution is Gaussian, it has been shown that 0.234 is an optimum acceptance probability \parencite{roberts01}. In an attempt to tune $\Sigma$ to obtain the optimum acceptance probability, a common technique is to use 
 \begin{equation*}
 	\Sigma = \frac{2.38^2}{p} \widehat{\text{Var}}(\bm{\theta} \given \bm{x}).
 \end{equation*}
