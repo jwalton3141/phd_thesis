@@ -39,13 +39,13 @@ Of course, animations aren't always an appropriate way to visualise sequences. A
 \begin{figure}[!tbp]
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\includegraphics{streamline_plots/sequence05.pdf}
+		\includegraphics{sequence05.pdf}
 		\caption{}
 		\label{subfig:seq05_traj_no_highlight}
 	\end{subfigure}%
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\includegraphics{streamline_plots/sequence05_highlight.pdf}
+		\includegraphics{sequence05_highlight.pdf}
 		\caption{}
 		\label{subfig:seq05_traj_highlight}
 	\end{subfigure}
@@ -76,21 +76,21 @@ Though \cref{tab:summary_data} gives a general idea of how much data is missing 
 	\hfill
 	\begin{subfigure}[b]{0.25\textwidth}
 		\hspace{0.075cm}
-		\includegraphics{missingness_plots/sequence01.pdf}
+		\includegraphics{missingness/sequence01.pdf}
 		\caption{}
 		\label{subfig:missing1}
 	\end{subfigure}%
 	\hfill
 	\begin{subfigure}[b]{0.25\textwidth}
 		\hspace{0.3cm}
-		\includegraphics{missingness_plots/sequence02.pdf}
+		\includegraphics{missingness/sequence02.pdf}
 		\caption{}
 		\label{subfig:missing2}
 	\end{subfigure}%
 	\hfill
 	\begin{subfigure}[b]{0.25\textwidth}
 		\hspace{0.35cm}
-		\includegraphics{missingness_plots/sequence05.pdf}
+		\includegraphics{missingness/sequence05.pdf}
 		\caption{}
 		\label{subfig:missing5}
 	\end{subfigure}
@@ -299,42 +299,42 @@ From \cref{fig:trace_sigmay,fig:hist_sigmay} we see that our chains over the $\s
 Looking at the chains over the first four $\sigma_X$ parameters and the corresponding posterior beliefs, given in \cref{fig:trace_sigmax,fig:hist_sigmax} respectively, we see that our chains have not finished converging. To reach convergence our scheme needs running for longer with more thinning applied. (Alternatively we could attempt to tune the random walk better, after all the acceptance rate of the $\sigma_X$ chains was $0.19$, which is a little low.)  Despite this, we can see that our chains are beginning to converge. \emph{It is not obvious how to interpret the $\sigma_X$ parameters --- we have tried a few approaches. I shall omit them for now until we are completely satisfied with the measures we use.}
 
 \begin{figure}[tbp]
-	\includegraphics{seq05_trace_hyper.pdf}
+	\includegraphics{output/seq05_trace_hyper.pdf}
 	\caption{Trace plots over the hyperparameters.}
 	\label{fig:trace_hyper}
 \end{figure}
 \begin{figure}[bp]
-	\includegraphics{seq05_hist_hyper.pdf}
+	\includegraphics{output/seq05_hist_hyper.pdf}
 	\caption{Histogram plots of our posterior beliefs about the hyperparameters $m_X$, $v_X$, $m_Y$ and $v_Y$.}
 	\label{fig:hist_hyper}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{seq05_trace_sigmay.pdf}
+	\includegraphics{output/seq05_trace_sigmay.pdf}
 	\caption{Trajectories of the chains over the first four $\sigma_Y$ parameters.}
 	\label{fig:trace_sigmay}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{seq05_hist_sigmay.pdf}
+	\includegraphics{output/seq05_hist_sigmay.pdf}
 	\caption{Posterior beliefs about the parameters $\sigma_{Y_1}$, $\sigma_{Y_2}$, $\sigma_{Y_3}$ and $\sigma_{Y_4}$.}
 	\label{fig:hist_sigmay}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{noise_plot.pdf}
+	\includegraphics{output/noise_plot.pdf}
 	\caption{Taking the mean values of the chains over $\sigma_{Y_1}$, $\sigma_{Y_2}$, $\sigma_{Y_3}$ and $\sigma_{Y_4}$, here we plot the noise experienced by agents $1$, $2$, $3$ and $4$.}
 	\label{fig:noise_pdf}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{seq05_polar_noise.pdf}
+	\includegraphics{output/seq05_polar_noise.pdf}
 	\caption{The noise experienced by agents $1$, $2$, $3$ and $4$, plotted on polar histograms, rotated by the average direction of each agent throughout the sequence.}
 	\label{fig:noise_polar}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{seq05_trace_sigmax.pdf}
+	\includegraphics{output/seq05_trace_sigmax.pdf}
 	\caption{Chains over the parameters $\sigma_{X_1}$, $\sigma_{X_2}$, $\sigma_{X_3}$ and $\sigma_{X_4}$.}
 	\label{fig:trace_sigmax}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{seq05_hist_sigmax.pdf}
+	\includegraphics{output/seq05_hist_sigmax.pdf}
 	\caption{Samples from the posterior distribution over the first four $\sigma_X$ parameters.}
 	\label{fig:hist_sigmax}
 \end{figure}
@@ -346,32 +346,32 @@ Because we are inferring such a large amount of data it is infeasible to assess 
 In \cref{fig:seq05_trace_beg_miss_i=97,fig:seq05_hist_beg_miss_i=97,fig:seq05_polar_hist_beg_miss_i=97} we inspect output relating to data missing at the beginning of the sequence. In fact, we inspect inferred directions for agent $97$ over frames $0$, $1$, $2$ and $3$. \emph{Note, to be consistent with model setup we should label the frames from $1$ and not $0$. As such the below plots need altering.} What we observe in these plots is unusual --- we see that the scheme looks to be working fine, before is proceeds to stick for large numbers of iterations, we are in the process of examining why this happened and hope to resolve the problem shortly.
 
 \begin{figure}[tbp]
-	\includegraphics{seq05_trace_end_miss_i=17.pdf}
+	\includegraphics{output/seq05_trace_end_miss_i=17.pdf}
 	\caption{Chains over the missing directions of agent $17$, missing from frame $2$ until the end of the sequence.}
 	\label{fig:seq05_trace_end_miss_i=17}
 \end{figure}
 \begin{figure}[tbp]
-	\includegraphics{seq05_hist_end_miss_i=17.pdf}
+	\includegraphics{output/seq05_hist_end_miss_i=17.pdf}
 	\caption{Our posterior beliefs about the missing directions of agent $17$, over frames $2$, $3$, $4$ and $5$.}
 	\label{fig:seq05_hist_end_miss_i=17}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{seq05_polar_hist_end_miss_i=17.pdf}
+	\includegraphics{output/seq05_polar_hist_end_miss_i=17.pdf}
 	\caption{Polar histograms showing our posterior beliefs about the missing directions of agent $17$, over frames $2$, $3$, $4$ and $5$.}
 	\label{fig:seq05_polar_hist_end_miss_i=17}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{seq05_trace_beg_miss_i=97.pdf}
+	\includegraphics{output/seq05_trace_beg_miss_i=97.pdf}
 	\caption{Inferring directions missing at the beginning of a sequence. In particular we show trace plots over agent $97$'s missingness.}
 	\label{fig:seq05_trace_beg_miss_i=97}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{seq05_hist_beg_miss_i=97.pdf}
+	\includegraphics{output/seq05_hist_beg_miss_i=97.pdf}
 	\caption{Histogram plots of our posterior beliefs about the missing trajectories of agent $97$.}
 	\label{fig:seq05_hist_beg_miss_i=97}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{seq05_polar_hist_beg_miss_i=97.pdf}
+	\includegraphics{output/seq05_polar_hist_beg_miss_i=97.pdf}
 	\caption{Polar histogram showing our posterior beliefs about the missing directions of agent $97$ at the beginning of the sequence.}
 	\label{fig:seq05_polar_hist_beg_miss_i=97}
 \end{figure}
