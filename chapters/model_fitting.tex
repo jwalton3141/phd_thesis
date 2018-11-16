@@ -26,10 +26,10 @@ Of course, animations aren't always an appropriate way to visualise sequences. A
 	\includemovie[attach=false,
 				 depth=-175pt,
 				 % Display an image to show before the video is played
-				 text={\includegraphics{/data/meetings/2018-06-11/sequence05frame00.png}},
+				 text={\includegraphics{sequence05frame00.png}},
 				 repeat]
 				 %{width}{height}{file}
-				 {\textwidth}{\textwidth}{/data/surf_scoter/animate/sequence05.mp4}
+				 {\textwidth}{\textwidth}{fig/model_fitting/sequence05.mp4}
 	% Caption of video needs manual adjustment
 	\vspace{-190pt}
 	\caption{Animation of the data contained in sequence $5$. Each agent is annotated by its identifying number.}
@@ -319,12 +319,12 @@ Looking at the chains over the first four $\sigma_X$ parameters and the correspo
 	\label{fig:hist_sigmay}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{/data/meetings/2018-04-30/noise_plot.pdf}
+	\includegraphics{noise_plot.pdf}
 	\caption{Taking the mean values of the chains over $\sigma_{Y_1}$, $\sigma_{Y_2}$, $\sigma_{Y_3}$ and $\sigma_{Y_4}$, here we plot the noise experienced by agents $1$, $2$, $3$ and $4$.}
 	\label{fig:noise_pdf}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{/data/meetings/2018-05-28/seq05_polar_noise.pdf}
+	\includegraphics{seq05_polar_noise.pdf}
 	\caption{The noise experienced by agents $1$, $2$, $3$ and $4$, plotted on polar histograms, rotated by the average direction of each agent throughout the sequence.}
 	\label{fig:noise_polar}
 \end{figure}
@@ -346,32 +346,32 @@ Because we are inferring such a large amount of data it is infeasible to assess 
 In \cref{fig:seq05_trace_beg_miss_i=97,fig:seq05_hist_beg_miss_i=97,fig:seq05_polar_hist_beg_miss_i=97} we inspect output relating to data missing at the beginning of the sequence. In fact, we inspect inferred directions for agent $97$ over frames $0$, $1$, $2$ and $3$. \emph{Note, to be consistent with model setup we should label the frames from $1$ and not $0$. As such the below plots need altering.} What we observe in these plots is unusual --- we see that the scheme looks to be working fine, before is proceeds to stick for large numbers of iterations, we are in the process of examining why this happened and hope to resolve the problem shortly.
 
 \begin{figure}[tbp]
-	\includegraphics{/data/meetings/2018-05-28/seq05_trace_end_miss_i=17.pdf}
+	\includegraphics{seq05_trace_end_miss_i=17.pdf}
 	\caption{Chains over the missing directions of agent $17$, missing from frame $2$ until the end of the sequence.}
 	\label{fig:seq05_trace_end_miss_i=17}
 \end{figure}
 \begin{figure}[tbp]
-	\includegraphics{/data/meetings/2018-05-28/seq05_hist_end_miss_i=17.pdf}
+	\includegraphics{seq05_hist_end_miss_i=17.pdf}
 	\caption{Our posterior beliefs about the missing directions of agent $17$, over frames $2$, $3$, $4$ and $5$.}
 	\label{fig:seq05_hist_end_miss_i=17}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{/data/meetings/2018-05-28/seq05_polar_hist_end_miss_i=17.pdf}
+	\includegraphics{seq05_polar_hist_end_miss_i=17.pdf}
 	\caption{Polar histograms showing our posterior beliefs about the missing directions of agent $17$, over frames $2$, $3$, $4$ and $5$.}
 	\label{fig:seq05_polar_hist_end_miss_i=17}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{/data/meetings/2018-05-28/seq05_trace_beg_miss_i=97.pdf}
+	\includegraphics{seq05_trace_beg_miss_i=97.pdf}
 	\caption{Inferring directions missing at the beginning of a sequence. In particular we show trace plots over agent $97$'s missingness.}
 	\label{fig:seq05_trace_beg_miss_i=97}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{/data/meetings/2018-05-28/seq05_hist_beg_miss_i=97.pdf}
+	\includegraphics{seq05_hist_beg_miss_i=97.pdf}
 	\caption{Histogram plots of our posterior beliefs about the missing trajectories of agent $97$.}
 	\label{fig:seq05_hist_beg_miss_i=97}
 \end{figure}
 \begin{figure}[!tbp]
-	\includegraphics{/data/meetings/2018-05-28/seq05_polar_hist_beg_miss_i=97.pdf}
+	\includegraphics{seq05_polar_hist_beg_miss_i=97.pdf}
 	\caption{Polar histogram showing our posterior beliefs about the missing directions of agent $97$ at the beginning of the sequence.}
 	\label{fig:seq05_polar_hist_beg_miss_i=97}
 \end{figure}
