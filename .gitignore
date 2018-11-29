@@ -1,5 +1,6 @@
 #Ignore backup files from gedit
 *~
+
 #Ignore intermediate latex files
 introduction.pdf
 *.dvi
@@ -14,5 +15,10 @@ introduction.pdf
 #Ignore any data lying around
 *.npy
 
-# Ignore progress scripts
-/progress/*
+# Ignore any latexmk files
+*.fls
+*.fdb_latexmk
+*.xml
+
+# Vim files
+*.swp
