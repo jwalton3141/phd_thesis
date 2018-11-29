@@ -19,6 +19,7 @@ introduction.pdf
 *.fls
 *.fdb_latexmk
 *.xml
+*.bcf
 
 # Vim files
 *.swp
