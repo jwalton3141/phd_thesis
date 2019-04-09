@@ -16,6 +16,28 @@
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
+% Automatically center all floats and remove need to add \centering all the
+% time 
+\makeatletter
+\g@addto@macro\@floatboxreset{\centering}
+\makeatother
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Renew table environment to always centre content, use Minion Pro's tabular
+% lining figures and use threeparttable to ensure the caption is the width of
+% the table
+\let\originaltable\table
+\let\endoriginaltable\endtable
+\renewenvironment{table}[1][ht]{%
+	\originaltable[#1]
+	\centering
+	\figureversion{tabular,lf}
+	}%
+	{\endoriginaltable}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
 % Formatting of part, chapter, section etc.
 
 \newcommand\titlehang[1]{%
@@ -147,10 +169,10 @@
 	final,
 	linktocpage,
 	pdfmenubar,
-    colorlinks,
-    linkcolor=my_purple,
-    urlcolor=my_purple,
-    citecolor=black
+	colorlinks,
+	linkcolor=my_purple,
+	urlcolor=my_purple,
+    	citecolor=black
 }
 %------------------------------------------------------------------------------
 
@@ -158,3 +180,4 @@
 % Ensure titles of Bibliography are set in sentence case
 \DeclareFieldFormat{titlecase}{\MakeSentenceCase{#1}}
 %------------------------------------------------------------------------------
+
