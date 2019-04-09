@@ -131,12 +131,17 @@
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
+% You know it
+\include{internal/colour_scheme}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
 % Colour equation tag
 \makeatletter
 \renewcommand{\eqref}[1]{\textup{\eqreftagform@{\ref{#1}}}}
 \let\eqreftagform@\tagform@
 \def\tagform@#1{%
-  \maketag@@@{\color{my_purple}(\ignorespaces#1\unskip\@@italiccorr)}%
+  \maketag@@@{\color{link_purple}(\ignorespaces#1\unskip\@@italiccorr)}%
 }
 \makeatother
 %------------------------------------------------------------------------------
@@ -151,27 +156,14 @@
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-% Custom colors --- seaborn pulled from thesis.mplstyle
-\definecolor{my_purple}{HTML}{660066}
-\colorlet{grey}{white!40!black}
-\definecolor{seaborn_face}{HTML}{EAEAF2}
-\definecolor{seaborn_blue}{HTML}{4C72B0}
-\definecolor{seaborn_green}{HTML}{55A868}
-\definecolor{seaborn_red}{HTML}{C44E52}
-\definecolor{seaborn_purple}{HTML}{8172B2}
-\definecolor{seaborn_yellow}{HTML}{CCB974}
-\definecolor{seaborn_light_blue}{HTML}{64B5CD}
-%------------------------------------------------------------------------------
-
-%------------------------------------------------------------------------------
 % Set up hyperlinks
 \hypersetup{
 	final,
 	linktocpage,
 	pdfmenubar,
 	colorlinks,
-	linkcolor=my_purple,
-	urlcolor=my_purple,
+	linkcolor=link_purple,
+	urlcolor=link_purple,
     	citecolor=black
 }
 %------------------------------------------------------------------------------
