@@ -49,16 +49,22 @@
 %------------------------------------------------------------------------------
 % Formatting of part, chapter, section etc.
 
+% Distance to hang section and subsection numbers outside margins
+\newlength\TitleOverhang
+\setlength\TitleOverhang{2.5mm}
+
 % Define titlehang to let sections etc protrude margin
 \newcommand\titlehang[1]{%
-    \llap{#1\hspace{2.5mm}}
+    \llap{%
+        #1\hspace{\TitleOverhang}
+    }%
 }
 
 % Get that big font (for use in \chapter}
 \newcommand\YUGE{\fontsize{100}{120}\selectfont}
 
 \titleformat{\part}%
-  [display]% shape
+  [block]% shape
   {\centering\Huge\scshape}% format applied to label+text
   {\color{partcolor}\textsc{\partname~\thepart}}% label
   {0pt}% horizontal separation between label and title body
@@ -109,10 +115,14 @@
 
 % Remove hrule underneath header
 \renewcommand{\headrulewidth}{0pt}
-
 % See Figure 3 of fancyhdr documentation
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 \renewcommand{\sectionmark}[1]{\markright{#1}{}}
+
+% Distance to hang page number outside of margin
+\newlength\PageOverhang
+\setlength\PageOverhang{11mm}
+\fancyheadoffset[LE,RO]{\PageOverhang}
 
 % Set up to add file modification time / compiled time to draft mode 
 \ifoptiondraft{
@@ -145,8 +155,8 @@
 % Header and footers for mainmatter
 \fancypagestyle{main}{%
     \fancyhf{}
-    \fancyhead[RO]{\textsc{\rightmark}\quad\thepage}
-    \fancyhead[LE]{\thepage\quad\textsc{\leftmark}}
+    \fancyhead[RO]{\textsc{\rightmark}\makebox[\PageOverhang]{\thepage}}
+    \fancyhead[LE]{\makebox[\PageOverhang]{\thepage}\textsc{\leftmark}}
     % If in draft mode add modified and compiled time to footer
     \ifoptiondraft{\fancyfoot[CE, CO]{\setmod}}{}}
 
@@ -157,7 +167,6 @@
     \fancyhead[RO]{\quad\thepage}
     % If in draft mode add modified and compiled time to footer
     \ifoptiondraft{\fancyfoot[CE, CO]{\setmod}}{}}
-
 
 \appto\frontmatter{\pagestyle{front}}
 \appto\mainmatter{\pagestyle{main}}
