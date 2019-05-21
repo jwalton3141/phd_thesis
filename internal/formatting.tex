@@ -11,6 +11,16 @@
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
+% Introduce new column types to be used in tabularx. They allow use of the X
+% column type whilst allowing to center text or align to the left or right
+
+% https://tex.stackexchange.com/a/97188/181010
+\newcolumntype{R}{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}X}
+\newcolumntype{C}{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}X}
+\newcolumntype{L}{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}X}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
 \setlength{\headheight}{15pt}
 \onehalfspacing
 %------------------------------------------------------------------------------
