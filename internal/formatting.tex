@@ -122,7 +122,6 @@
 % Distance to hang page number outside of margin
 \newlength\PageOverhang
 \setlength\PageOverhang{11mm}
-\fancyheadoffset[LE,RO]{\PageOverhang}
 
 % Set up to add file modification time / compiled time to draft mode 
 \ifoptiondraft{
@@ -142,12 +141,12 @@
 \fancypagestyle{plain}{%
     \fancyhf{}
     \fancyfoot[R]{\thepage}
-    \ifoptiondraft{\fancyhead[CE,CO]{\setmod}}{}
 }
 
 % Headers for frontmatter
 \fancypagestyle{front}{%
     \fancyhf{} 
+    \fancyheadoffset[LE,RO]{0pt}
     \fancyfoot[LE,RO]{\thepage}
     % If in draft mode add modified and compiled time to header
     \ifoptiondraft{\fancyhead[CE,CO]{\setmod}}{}}
@@ -155,6 +154,7 @@
 % Header and footers for mainmatter
 \fancypagestyle{main}{%
     \fancyhf{}
+    \fancyheadoffset[LE,RO]{\PageOverhang}
     \fancyhead[RO]{\textsc{\rightmark}\makebox[\PageOverhang]{\thepage}}
     \fancyhead[LE]{\makebox[\PageOverhang]{\thepage}\textsc{\leftmark}}
     % If in draft mode add modified and compiled time to footer
@@ -163,6 +163,7 @@
 % Headers for backmatter
 \fancypagestyle{back}{%
     \fancyhf{}
+    \fancyheadoffset[LE,RO]{0pt}
     \fancyhead[LE]{\thepage\quad}
     \fancyhead[RO]{\quad\thepage}
     % If in draft mode add modified and compiled time to footer
