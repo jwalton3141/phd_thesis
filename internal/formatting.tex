@@ -50,13 +50,12 @@
 %------------------------------------------------------------------------------
 % Formatting of part, chapter, section etc.
 
+% Define titlehang to let sections etc protrude margin
 \newcommand\titlehang[1]{%
-	\llap{%
-		#1\hspace{2.5mm}
-	}%
+    \llap{#1\hspace{2.5mm}}
 }
 
-% Get that big font
+% Get that big font (for use in \chapter}
 \newcommand\YUGE{\fontsize{100}{120}\selectfont}
 
 \titleformat{\part}%
@@ -78,7 +77,7 @@
 \titleformat{\section}%
   [block]% shape
   {\large}% format applied to label+text
-  {\titlehang\thesection}% label
+  {\titlehang\thesection}% label with titlehang
   {0em}% horizontal separation between label and title body
   {\scshape}% code before the title body
   []% after the title body
@@ -86,7 +85,7 @@
 \titleformat{\subsection}%
   [block]% shape
   {\large}% format applied to label+text
-  {\titlehang\thesubsection}% label
+  {\titlehang\thesubsection}% label with titlehang
   {0em}% horizontal separation between label and title body
   {\slshape}% before the title body
   []% after the title body
