@@ -171,6 +171,16 @@
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
+% Colour captions in draft mode, use bold font in final mode
+\ifoptiondraft{%
+    \captionsetup{format=hang, font=small, labelfont={color=link_purple}}
+    }
+    {%
+    \captionsetup{format=hang, font=small, labelfont=bf}
+    }
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
 % Colour equation tag
 \makeatletter
 \renewcommand{\eqref}[1]{\textup{\eqreftagform@{\ref{#1}}}}
@@ -207,4 +217,5 @@
 % Ensure titles of Bibliography are set in sentence case
 \DeclareFieldFormat{titlecase}{\MakeSentenceCase{#1}}
 %------------------------------------------------------------------------------
+
 
