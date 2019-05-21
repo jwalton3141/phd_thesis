@@ -104,58 +104,65 @@
 \titlespacing*{\subsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus.2ex}
 %----------------------------------------------------------------------------
 
-%----------------------------------------------------------------------------
+%------------------------------------------------------------------------------
 % Fancy headers
 \pagestyle{fancy}
 
 % Remove hrule underneath header
 \renewcommand{\headrulewidth}{0pt}
 
-% Add file modification time to draft 
+% See Figure 3 of fancyhdr documentation
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+
+% Set up to add file modification time / compiled time to draft mode 
 \ifoptiondraft{
     \usepackage{currfile, filemod}
     \usepackage[ddmmyy]{datetime}
     \settimeformat{ampmtime}
     \renewcommand*{\thefilemodtime}[4]{\formattime{#1}{#2}{#3}}}{}
 
-% See Figure 3 of fancyhdr documentation
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+% Command to typeset file modification time, name and compile time
+\newcommand{\setmod}{%
+    \footnotesize last modified
+    \FilemodToday{\currfilepath} \hfill \textbf{\currfilename} \hfill
+    compiled \today\ \currenttime
+}
+
+% Style of plain pages
+\fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyfoot[R]{\thepage}
+    \ifoptiondraft{\fancyhead[CE,CO]{\setmod}}{}
+}
+
+% Headers for frontmatter
+\fancypagestyle{front}{%
+    \fancyhf{} 
+    \fancyfoot[LE,RO]{\thepage}
+    % If in draft mode add modified and compiled time to header
+    \ifoptiondraft{\fancyhead[CE,CO]{\setmod}}{}}
 
 % Header and footers for mainmatter
 \fancypagestyle{main}{%
     \fancyhf{}
     \fancyhead[RO]{\textsc{\rightmark}\quad\thepage}
     \fancyhead[LE]{\thepage\quad\textsc{\leftmark}}
-
-    \ifoptiondraft{
-	\fancyfoot[CE, CO]{\footnotesize last modified
-        \FilemodToday{\currfilepath} \hfill \textbf{\currfilename} \hfill
-        compiled \today\ \currenttime}}{}}
-
-% Headers for plain pages and frontmatter
-\fancypagestyle{plain}{%
-    \fancyhf{} 
-    \fancyfoot[LE,RO]{\thepage}
-
-    \ifoptiondraft{
-        \fancyhf{}
-	\fancyfoot[CE, CO]{\footnotesize last modified
-        \FilemodToday{\currfilepath} \hfill \textbf{\currfilename} \hfill
-        compiled \today\ \currenttime}}{}}
+    % If in draft mode add modified and compiled time to footer
+    \ifoptiondraft{\fancyfoot[CE, CO]{\setmod}}{}}
 
 % Headers for backmatter
 \fancypagestyle{back}{%
-  \fancyhf{}
-  \fancyhead[LE]{\thepage\quad}
-  \fancyhead[RO]{\quad\thepage}}
+    \fancyhf{}
+    \fancyhead[LE]{\thepage\quad}
+    \fancyhead[RO]{\quad\thepage}
+    % If in draft mode add modified and compiled time to footer
+    \ifoptiondraft{\fancyfoot[CE, CO]{\setmod}}{}}
 
-\appto\frontmatter{\pagestyle{plain}}
+
+\appto\frontmatter{\pagestyle{front}}
 \appto\mainmatter{\pagestyle{main}}
 \appto\backmatter{\pagestyle{back}}
-%------------------------------------------------------------------------------
-
-%------------------------------------------------------------------------------
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
