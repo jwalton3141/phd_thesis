@@ -1,7 +1,8 @@
 # matplotlib style sheet used to create figures used in my thesis. Based on seaborn's default style.
 
-# So matplotlib can find this style symlink
-# lib/python/site-packages/matplotlib/mpl-data/stylelib/thesis.mplstyle to this file
+# So matplotlib can find this style symlink to
+# lib/python/site-packages/matplotlib/mpl-data/stylelib/thesis.mplstyle
+# from wherever your python distro is kept
 
 # Use this style with plt.style.use('thesis')
 
@@ -43,8 +44,8 @@ patch.facecolor: 4C72B0
 patch.linewidth: .3
 
 text.usetex: True
-# Make sure to load font before bm!
-text.latex.preamble: \usepackage[mathlf]{MinionPro}, \usepackage{bm}
+# Make sure to load font before bm.
+text.latex.preamble: \usepackage[lf]{MinionPro}, \usepackage{bm}
 text.color: .15
 
 xtick.color: .15
