@@ -227,4 +227,38 @@
 \DeclareFieldFormat{titlecase}{\MakeSentenceCase{#1}}
 %------------------------------------------------------------------------------
 
+%------------------------------------------------------------------------------
+% Format TOC like Bringhurst done taught me
 
+% Chapter format  in TOC
+% Format of the chapter number
+\renewcommand*{\cftchappresnum}{\hss}
+% Format after the chapter number
+\renewcommand*{\cftchapaftersnum}{\hspace{.5em}}
+% Content between chapter number and chapter name
+\renewcommand*{\cftchapleader}{\hspace{1.5em}}
+% Formatting after chapter's page number
+\renewcommand*{\cftchapafterpnum}{\hfill\mbox{}}
+\setlength{\cftchapnumwidth}{0pt}
+
+% Section format  in TOC
+\renewcommand*{\cftsecpresnum}{\hss}
+% Format after the section number
+\renewcommand*{\cftsecaftersnum}{\hspace{.5em}}
+% Content between section number and section name
+\renewcommand*{\cftsecleader}{\hspace{1em}}
+% Formatting after section's page number
+\renewcommand*{\cftsecafterpnum}{\hfill\mbox{}}
+\setlength{\cftsecnumwidth}{0pt}
+
+% Subsection format  in TOC
+\renewcommand*{\cftsubsecpresnum}{\hss}
+% Format after the section number
+\renewcommand*{\cftsubsecaftersnum}{\hspace{.5em}}
+% Content between chakpter number and chapter name
+\renewcommand*{\cftsubsecleader}{\hspace{1em}}
+% Formatting after chapter's page number
+\renewcommand*{\cftsubsecafterpnum}{\hfill\mbox{}}
+\setlength{\cftsubsecnumwidth}{0pt}
+
+\renewcommand*{\cftpnumalign}{l}
