@@ -3,70 +3,79 @@
 \chapter{Literature review}
 \label{cha:lit_review}
 
-There is a large body of literature relating to the phenomenon of collective behaviour. Particularly 
-unique to this literature is the variety of backgrounds in which the authors are trained. Biologists, 
-physicists, applied mathematicians and statisticians have all made significant contributions to the 
-field.
+There is a large body of literature relating to the phenomenon of collective behaviour.
+Particularly unique to this literature is the variety of backgrounds in which the authors
+are trained. Biologists, physicists, applied mathematicians and statisticians have all
+made significant contributions to the field.
 
-In this chapter we shall discuss some of the most important ideas and results from the literature 
-surrounding collective behaviour; first by providing a quick overview of the advantages which 
-collective behaviour offers individuals, before discussing the main two approaches to modelling: 
-Eulerian and Lagrangian. After this we shall review previous work which focused on recording and 
-utilising empiricial data to inform model selection.
+In this chapter we shall discuss some of the most important ideas and results from the
+literature surrounding collective behaviour. First, we provide a quick overview of the
+evolutionary advantages which collective behaviour affords individuals. After this we will
+discuss Eulerian and Lagrangian models: the two main modelling paradigms used to simulate
+flocking events. After this we shall review previous work which focused on recording and
+utilising empirical data to inform model selection.
 
 \section{Biological function}
 \label{sec:biological_function}
 
-Behaving as a group can bring many advantages to the individuals involved. One classically considered 
- benefit of aggregation is an improved defence against predation. Shoaling groups of fish have the 
-ability to confuse predators, as predators have difficulty selecting an individual target 
-\parencite{landeau86}. As well as a confusion effect groups of individuals can be more vigilant than 
-a single individual, allowing for the earlier detection of predators \parencite{pitcher93}. Despite 
-these advantages, groups may in fact attract predators \parencite{wittenberger85}.
+Behaving as a group can bring many advantages to the individuals involved. One classically
+considered benefit of aggregation is an improved defence against predation. Shoaling
+groups of fish have the ability to confuse predators, as predators have difficulty
+selecting an individual target \parencite{landeau86}.  In addition to this confusion
+effect, groups of individuals can take-in more sensory information about their environment
+than lone individuals are capable of, promoting the early detection of predators
+\parencite{pitcher93}. Despite these advantages afforded by aggregations, there is
+understanding that flocking behaviours may come at the cost of attracting the attention of 
+predators \parencite{wittenberger85}.
 
-As well as providing defence against predation grouping can aid in foraging for food; collections of 
-individuals are able to gather more information about an environment than lone individuals. In 
-addition to foraging, collective motion aids group navigation and migration \parencite{simmons04}. 
-For birds group navigation often brings an energetic advantage as individuals can work to form 
-aerodynamically efficient shapes \parencite{weimerskirch01}. As well as these advantages, group 
-living can aid in facilitating reproduction and the rearing of young.
+As well as providing defence against predation, grouping can aid in foraging for food as
+collections of individuals are able to gather more information about an environment than
+lone individuals \parencite{clark86}. Collective motion is also understood to aid group
+navigation and migration, with the suggestion that navigational accuracy increases with
+group size through the `many wrongs principle' \parencite{simmons04}. For birds, group
+navigation often brings an additional energetic advantage as individuals can work to form
+aerodynamically efficient shapes \parencite{weimerskirch01}. As well as these advantages,
+group living can aid in facilitating reproduction and the rearing of young.
 
-As we have seen, collective living can bring many advantages to the individuals involved. However, we 
-have yet to discuss the underlying mechanisms which generate and sustain the collective behaviours 
-which are seen in nature.
+As we have seen, much of the \emph{why} of collective behaviour can be understood by
+considering the evolutionary advantages which group behaviour affords individuals of the
+group. However, we have still yet to broach the \emph{how} of collective behaviour.
 
 \section{Mathematical approaches}
 \label{sec:models}
 
-Models of collective behaviour can largely be divided into two classes: Lagrangian and Eulerian. 
-These descriptions are analogous to the models of fluid dynamics, where Lagrangian models consider 
-flow in terms of interactions of fluid parcels and Eulerian models consider the changing fluid 
-properties at a given point in space and time. In the context of collective behaviour, Lagrangian 
-models simulate the movements and interactions of individuals and Eulerian models consider the 
-changing properties of a group through space and time.
+Models of collective behaviour can largely be divided into two classes: Lagrangian and
+Eulerian.  These descriptions are analogous to the models of fluid dynamics, where
+Lagrangian models consider flow in terms of interactions of fluid parcels and Eulerian
+models consider the changing fluid properties at a given point in space and time. In the
+context of collective behaviour, Lagrangian models simulate the movements and interactions
+of individuals and Eulerian models consider the changing properties of a group through
+space and time.
 
 \subsection{Lagrangian models}
 \label{ssec:lagrangian_models}
 
-So called agent-based models (ABMs), also referred to as Lagrangian models, have proven a useful tool 
-in modelling collective behaviours. In these models the behaviour of an agent is simulated at the 
-individual level. An agent's behaviour is determined by social interactions with neighbouring 
-individuals. Examples of typical interactions include the desire to move in the same direction as 
-neighbours (alignment, or orientation), the desire to avoid collisions (repulsion) and a desire to 
-remain close to neighbours (attraction). As well as simulating social behaviours, ABMs also specify 
-how an individual identifies neighbours. An agent may, for example, identify neighbours as those; 
-within a certain distance (metric interaction); positioned inside a field of vision or as one of a 
-fixed number of closest individuals (topological interaction).
+So called agent-based models (ABMs), also referred to as Lagrangian models, have proven a
+useful tool in modelling collective behaviours. In these models the behaviour of an agent
+is simulated at the individual level. An agent's behaviour is determined by social
+interactions with neighbouring individuals. Examples of typical interactions include the
+desire to move in the same direction as neighbours (alignment, or orientation), the desire
+to avoid collisions (repulsion) and a desire to remain close to neighbours (attraction).
+As well as simulating social behaviours, ABMs also specify how an individual identifies
+neighbours. An agent may, for example, identify neighbours as those; within a certain
+distance (metric interaction); positioned inside a field of vision or as one of a fixed
+number of closest individuals (topological interaction).
 
-In a pioneering paper, \textcite{aoki82} developed an ABM to simulate the movements of schooling fish 
-in two-dimensions. Here it was shown that collective behaviour can arise from simple interactions at 
-an individual level and without the need of a leader. The model simulated zonal interactions in which 
-the area around an individual is partitioned into zones of repulsion, alignment and attraction. The 
-partitioning of space in this way is illustrated in \cref{fig:zone_illustration}, and has remained a 
-popular idea in following literature. As well as zonal interactions this model accounted for fish 
-having incomplete fields of vision, that is: a blind spot into which they cannot see. The simulation 
-of a blind spot was utilised in further studies. Later, other models were also devised to simulate 
-fish schools \parencite{okubo86, huth92}.
+In a pioneering paper, \textcite{aoki82} developed an ABM to simulate the movements of
+schooling fish in two-dimensions. Here it was shown that collective behaviour can arise
+from simple interactions at an individual level and without the need of a leader. The
+model simulated zonal interactions in which the area around an individual is partitioned
+into zones of repulsion, alignment and attraction. The partitioning of space in this way
+is illustrated in \cref{fig:zone_illustration}, and has remained a popular idea in
+following literature. As well as zonal interactions this model accounted for fish having
+incomplete fields of vision, that is: a blind spot into which they cannot see. The
+simulation of a blind spot was utilised in further studies. Later, other models were also
+devised to simulate fish schools \parencite{okubo86, huth92}.
 
 \begin{figure}[t]
 	\includegraphics{zonal_tikz.pdf}
