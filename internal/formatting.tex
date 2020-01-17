@@ -262,3 +262,21 @@
 \setlength{\cftsubsecnumwidth}{0pt}
 
 \renewcommand*{\cftpnumalign}{l}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Algorithm / algorithmicx horizontal lines in booktabs style
+% Magic courtesy of egreg: https://tex.stackexchange.com/a/345745/181010
+\makeatletter
+\newcommand\fs@booktabsruled{%
+  \def\@fs@cfont{\bfseries\strut}\let\@fs@capt\floatc@ruled
+  \def\@fs@pre{\hrule height\heavyrulewidth depth0pt \kern\belowrulesep}%
+  \def\@fs@mid{\kern\aboverulesep\hrule height\lightrulewidth\kern\belowrulesep}%
+  \def\@fs@post{\kern\aboverulesep\hrule height\heavyrulewidth\relax}%
+  \let\@fs@iftopcapt\iftrue
+}
+\makeatother
+
+\floatstyle{booktabsruled}
+\restylefloat{algorithm}
+%------------------------------------------------------------------------------
