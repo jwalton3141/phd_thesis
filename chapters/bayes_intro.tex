@@ -163,7 +163,7 @@ the parameter space. Mixing describes how efficiently the chain moves around the
 space and how long it takes for the chain to converge to the target distribution.
 
 Crucially then, the parameter $\Sigma$ can be used to control the mixing of chains. So,
-naturally, we wish to select some `optimum' $\Sigma$ to try and improve mixing. Such a
+naturally, we wish to identify some `optimum' $\Sigma$ to try and improve mixing. Such a
 tuning parameter should allow rapid convergence to $\pi(\bm{\theta} \given \bm{x})$ and
 facilitate exploration of the entire support of the target. If the target distribution is
 Gaussian, it has been shown that 0.234 is an optimum acceptance probability to try achieve
@@ -173,16 +173,16 @@ probability, a common technique is to use
     \Sigma = \frac{2.38^2}{p} \widehat{\text{Var}}(\bm{\theta} \given \bm{x}).
 \end{equation*}
 
-However, even with techniques to identify some optimum tuning parameter, random walk
-samplers tend to perform poorly in high-dimensional problems. As the dimension of a
-problem increases, the probability of proposing a point out in the tails of the target
-distribution increases. With this the acceptance probability becomes small and
-results in a Markov chain which barely moves. The acceptance probability can be increased
+However, even with strategies to try select some optimum innovation structure, random walk
+samplers tend to perform poorly in high-dimensional problems. Consider that as the
+dimension of a problem increases, the probability of proposing a point out in the tails of
+the target distribution increases. As a result the acceptance probability becomes small and
+produces a Markov chain which rarely moves. The acceptance probability can be increased
 by choosing a $\Sigma$ which results in smaller innovations. However, this has the
-distinct advantage that now our Markov chain makes small steps and explores the sample
-space and converges to the target distribution slowly.
+consequence of producing a Markov chain which explores the same space slowly, and
+converges to the target distribution slowly.
 
-Fortunately, there are more sophisticated proposal mechanisms which perform better than
+Fortunately, there exist more sophisticated proposal mechanisms which perform better than
 random walk samplers in higher dimensional problems. One such sampler is represented by
 Hamiltonian Monte Carlo, which seeks to utilise information about the gradient of the
 target distribution to inform innovations.
@@ -215,13 +215,12 @@ target distribution to inform innovations.
 \subsection{Hamiltonian Monte Carlo (HMC)}
 
 Hamiltonian Monte Carlo, originally Hybrid Monte Carlo, was first introduced by
-\textcite{duane87}.  In this now landmark paper, the HMC algorithm was detailed and used
+\textcite{duane87}. In this now landmark paper, the HMC algorithm was detailed and used
 for numerical simulation of Lattice Quantum Chromodynamics. Following this, Radford Neal
 recognised the potential statistical applications of HMC, and used it in his work on
-Bayesian neural network models \parencite{neal95}. Other statistical applications of HMC
-were made \parencite{ishwaran99,williams06}.  However, it wasn't really until Neal's 2011
-review \parencite{neal11} that HMC received mainstream attention in statistical computing
-\parencite{betancourt18}.
+Bayesian neural network models \parencite{neal95}. However, it wasn't really until Neal's
+2011 review \parencite{neal11} that HMC received mainstream attention in statistical
+computing \parencite{betancourt18}.
 
 Hamiltonian Monte Carlo is a realisation of the Metropolis-Hastings algorithm. Here,
 new parameter values are proposed by computing trajectories of motion according to
@@ -290,7 +289,38 @@ considered as the sum of the system's kinetic energy and potential energy.  If w
 constructed a system with kinetic energy given by the negative logarithm of the momentum
 density, and potential energy given by the negative logarithm of the target density.
 
-\subsubsection{Stan}
+\subsubsection{Computer implementation, NUTS \& Stan}
+
+Now that we have described HMC we are in a position to consider its implementation
+\emph{in silico}. For this computer implementation we must first be able to approximate
+solutions to Hamilton's equations. Such approximations can be achieved by discretising
+time using some small time step $\epsilon$. Next, the practitioner must also choose the
+number of steps $L$ for which to simulate Hamilton's equations. With this in place, the
+practitioner typically implements the leapfrog method to solve Hamilton's equations
+\parencite{neal11}. 
+
+As we have seen, in implementing HMC it is left to the practitioner to choose appropriate
+values for $L$ and $\epsilon$. Unfortunately, making a poor choice for either of these
+parameters can result in a significant decrease in the performance of HMC
+\parencite{hoffman14}. Actually, $\epsilon$ can be tuned during the algorithm's
+implementation, using ideas from the adaptive MCMC literature. However, there is no easy
+way to select a value of $L$ \emph{a priori}. Typically, a practitioner will have to make
+multiple costly tuning runs in order to select an appropriate value of $L$.
+
+It was with this tuning problem in mind that \textcite{hoffman14} introduced the No-U-Turn
+Sampler (NUTS). This algorithm extends HMC and eliminates the need for the parameter $L$.
+Using primal-dual averaging the authors were also able to tune $\epsilon$ during the
+implementation of the algorithm. Altogether then, NUTS represents an implementation of HMC
+where the practitioner is left free of the obligation of choosing any tuning parameters.
+
+Although NUTS relieves the practitioner the obligation of selecting parameters $\epsilon$
+and $L$, its implementation remains far from trivial. Here enters Stan. Stan, named after
+Stanislaw Ulam, one of the original pioneers of Monte Carlo methods
+\parencite{metropolis49}, is a probabilistic programming language implemented in C++
+\parencite{gelman15}. Stan requires the user to construct a Stan program, which specifies
+how to compute the log-posterior density for their model of interest
+\parencite{stanteam15}. With this, Stan implements the NUTS algorithm, and returns to the
+user samples from the desired posterior density.
 
 \subsection{Convergence Diagnostics}
 \label{ssec:convergence_diagnostics}
