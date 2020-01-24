@@ -27,8 +27,6 @@ factor=1100, stretch=10, shrink=10]{microtype}
 \usepackage{booktabs}
 % Introduce \multirow for use in tables
 \usepackage{multirow}
-% threeparttable environment ensures a table's caption is the same width of the table
-\usepackage{threeparttable}
 % Needed for tabularx
 \usepackage{array}
 % Set table with requested width
@@ -44,7 +42,7 @@ factor=1100, stretch=10, shrink=10]{microtype}
 % Must be loaded after hyperref. Use \cref for easier references
 % Do capitalise reference but don't abbreviate to fig. tab. etc.
 % Also link word Figure, Table etc. not just the corresponding number
-\usepackage[capitalise, noabbrev, nameinlink]{cleveref}
+\usepackage[capitalise,noabbrev,nameinlink]{cleveref}
 
 % Introduces \ifdraftoption
 \usepackage{ifdraft}
@@ -61,13 +59,13 @@ factor=1100, stretch=10, shrink=10]{microtype}
 
 % Float wrapper for algorithms
 \usepackage{algorithm}
-% Algorithm enviornment
-\usepackage{algorithmic}
+% Also loads algorithmicx
+\usepackage{algpseudocode}
 
 % Colour, including support for tables and links
-\usepackage[table, hyperref]{xcolor}
+\usepackage[table,hyperref]{xcolor}
 % PGF and tikz
-\usepackage{tikz, pgf, pgfplots, pgfplotstable}
+\usepackage{tikz,pgf,pgfplots,pgfplotstable}
 % For backwards compatability (?)
 \pgfplotsset{compat=1.13}
 
