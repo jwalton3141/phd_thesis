@@ -282,14 +282,19 @@
 \algrenewcommand{\alglinenumber}[1]{\footnotesize#1}
 
 % Colour statements
-\algrenewcommand\algorithmicfor{{\color{title-blue}for}}
-\algrenewcommand\algorithmicend{{\color{title-blue}end}}
-\algrenewcommand\algorithmicif{{\color{title-blue}if}}
-\algrenewcommand\algorithmicelse{{\color{title-blue}else}}
-\algrenewcommand\algorithmicthen{{\color{title-blue}then}}
-\algrenewcommand\algorithmicdo{{\color{title-blue}do}}
+\algrenewcommand\algorithmicfor{{\color{title-blue}\textbf{for}}}
+\algrenewcommand\algorithmicend{{\color{title-blue}\textbf{end}}}
+\algrenewcommand\algorithmicif{{\color{title-blue}\textbf{if}}}
+\algrenewcommand\algorithmicelse{{\color{title-blue}\textbf{else}}}
+\algrenewcommand\algorithmicthen{{\color{title-blue}\textbf{then}}}
+\algrenewcommand\algorithmicdo{{\color{title-blue}\textbf{do}}}
 
 % Create better for command
-\algnewcommand\algorithmicto{{\color{title-blue}to}}
+\algnewcommand\algorithmicto{{\color{title-blue}\textbf{to}}}
 \algrenewtext{For}[3]{\algorithmicfor\ $#1$ = $#2$ \algorithmicto\ $#3$ \algorithmicdo}
+
+% Allow a little extra space between line number and command
+\makeatletter
+\xpatchcmd{\algorithmic}{\labelsep 0.5em}{\labelsep 1em}{\typeout{Success!}}{\typeout{Oh dear!}}
+\makeatother
 %------------------------------------------------------------------------------
