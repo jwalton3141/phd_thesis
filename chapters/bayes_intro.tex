@@ -68,7 +68,7 @@ stationary distribution equivalent to the target distribution.
       \State Propose ${\bm{\theta}}^\star \sim q(\bm{\theta}^{(i)} \given \bm{\theta}^{(i-1)})$
       \State Construct acceptance probability $\alpha(\bm{\theta}^\star \given \bm{\theta}^{(i-1)})$ as
       \begin{equation*}
-        \alpha(\bm{\theta}^\star \given \bm{\theta}) =
+          \alpha(\bm{\theta}^\star \given \bm{\theta}^{(i-1)}) =
         \min\bigg\{1,
         \frac{\pi(\bm{\theta}^\star) \, L(\bm{\theta}^\star \given \bm{x})}%
         {\pi(\bm{\theta}^{(i-1)}) \, L(\bm{\theta}^{(i-1)} \given \bm{x})}
@@ -88,46 +88,48 @@ stationary distribution equivalent to the target distribution.
   \end{algorithmic}
 \end{algorithm}
 
-The algorithm begins by initialising a Markov chain with parameters $\bm{\theta}^{0}$.
-Next, the algorithm proposes new parameter values ${\bm{\theta}}^\star$ from a proposal
-distribution, $q(\bm{\theta}^\star \given {\bm{\theta}}^{j-1})$, which is typically chosen
-to have the same support as the target distribution. After this, the proposed values
-${\bm{\theta}}^\star$ are either accepted or rejected. If the proposed values are accepted
-the next values in the Markov chain are set to the proposed values, otherwise the next
-values in the chain are set to the current values. The proposed values are accepted or
-rejected according to the acceptance probability: $\alpha({\bm{\theta}}^\star \given
-{\bm{\theta}^{j-1}})$.  The acceptance probability depends on a ratio of $\pi(\cdot \given
-\bm{x})$, the normalising constants cancel and therefore the target distribution only has
-to be known to a constant of proportionality. Metropolis-Hastings is described more
-formally in \cref{alg:metropolis_hastings}.
+The algorithm begins by initialising a Markov chain with parameters $\bm{\theta}^{(0)}$.
+Next, the algorithm proposes new parameter values $\bm{\theta}^\star$ from a proposal
+distribution $q(\bm{\theta}^\star \given \bm{\theta}^{(i-1)})$. These proposed values are
+accepted with probability $\alpha(\bm{\theta}^\star \given \bm{\theta}^{(i-1)})$.  If the
+proposal is accepted the next state of the Markov chain is set to the proposed values,
+otherwise the next state is set to the current values.  The acceptance probability depends
+on a ratio of the posterior density evaluated at the current values and the posterior
+density evaluated at the proposed values.  Because of this, the normalising constants
+cancel in this ratio and we see that the target distribution only need be
+known up to a constant of proportionality.  This process of proposing and accepting or
+rejecting proposals continues until a satisfactory number of draws are made.
+Metropolis-Hastings is described more formally in \cref{alg:metropolis_hastings}.
 
 \subsubsection{Choosing a Proposal Distribution}
 \label{ssec:proposal_distribution}
 
 The practitioner must choose a suitable proposal distribution $q(\bm{\theta}^\star \given
-  \bm{\theta})$. Ideally the choice of proposal distribution will give rapid convergence to
+\bm{\theta})$. Ideally the choice of proposal distribution will give rapid convergence to
 $\pi(\bm{\theta} \given \bm{x})$ and efficiently explore the support of $\pi(\bm{\theta}
-  \given \bm{x})$.
-
-A special case of Metropolis-Hastings arises when the proposal distribution is symmetric,
-that is
+\given \bm{x})$. A special case of Metropolis-Hastings arises when the proposal
+distribution is symmetric, that is
 \begin{equation*}
   q(\bm{\theta}^\star \given \bm{\theta}) = q(\bm{\theta} \given \bm{\theta}^\star).
 \end{equation*}
 In this case we observe cancellation in the acceptance ratio, as it simplifies to become
 \begin{equation*}
-  \alpha({\bm{\theta}}^\star \given \bm{\theta}) = \text{min}\bigg\{ 1,
-  \frac{\pi({\bm{\theta}}^\star)}{\pi({\bm{\theta}}^{j-1})} \frac{L(\bm{\theta}^\star \given
-    \bm{x})}{L({\bm{\theta}}^{j-1} \given \bm{x})} \bigg\}.
+  \alpha({\bm{\theta}}^\star \given \bm{\theta}^{(i-1)})
+    = \text{min}\,\bigg\{1,
+                        \frac{\pi(\bm{\theta}^\star)}{\pi(\bm{\theta}^{(i-1)})}%
+                        \frac{L(\bm{\theta}^\star \given \bm{x})}%
+                        {L(\bm{\theta}^{(i-1)} \given \bm{x})}
+                  \bigg\}.
 \end{equation*}
+
 The random walk sampler is a popular implementation of Metropolis-Hastings which makes
 use of symmetric proposals. With this sampler proposals are realised as
 \begin{equation*}
-  \bm{\theta}^\star = \bm{\theta}^{j-1} + \bm{\omega}^{j-1},
+  \bm{\theta}^\star = \bm{\theta}^{(i-1)} + \bm{\omega}^{(i-1)},
 \end{equation*}
 where the $\bm{\omega}$ are sampled as
 \begin{equation*}
-  \bm{\omega}^{j-1} \sim \mathcal{N}_p(\bm{0}, \Sigma),
+  \bm{\omega}^{(i-1)} \sim \mathcal{N}_p(\bm{0}, \Sigma),
 \end{equation*}
 and $\mathcal{N}_p$ denotes a $p$-dimensional multivariate normal distribution. The
 parameter $\Sigma$ is called the tuning parameter and controls how the chain moves around
@@ -158,31 +160,6 @@ Fortunately, there exist more sophisticated proposal mechanisms which perform be
 random walk samplers in higher dimensional problems. One such sampler is represented by
 Hamiltonian Monte Carlo, which seeks to utilise information about the gradient of the
 target distribution to inform innovations.
-
-%\subsubsection{Blocking Parameters}
-%\label{ssec:blocking}
-%
-%In the schemes considered so far the proposal, acceptance and rejection of the entire parameter space
-%$\bm{\theta}$ happened simultaneously. This approach becomes inefficient for high-dimensional
-%problems. Consider that as the dimension of the problem increases, the chances of proposing a value
-%$\theta_i^\star$ in the tails of the posterior distribution increases. Increasing the chance of
-%proposing a component $\theta_i$ out in the tails of the distribution in turn decreases the
-%acceptance rate of the chain and leads to slower convergence.
-%
-%To overcome this problem the parameter space $\bm{\theta}$ can be split into blocks of parameters
-%$\bm{\theta}_1, \ldots, \bm{\theta}_d$ which are proposed and accepted or rejected separately. There
-%are no theoretical results which determine how best to block the parameter space, though typically
-%blocks are chosen to contain related parameters.
-%
-%Blocking doesn't reduce the risk of a parameter being proposed in the tails of the distribution,
-%however when such a proposal does occur only a subset of all the chains are affected. In this way
-%blocking can alleviate the lower acceptance rates that are associated with high dimensionality.
-%
-%There is, however, an additional computational cost that comes with blocking parameters. Consider
-%that if the parameter space $\bm{\theta}$ is partitioned into $d$ blocks, then for each iteration of
-%the scheme the acceptance ratio, and therefore the likelihood, proposal density and prior
-%distribution must be evaluated $d$ times. In application the practitioner will likely seek some
-%compromise between acceptance rate and computation time.
 
 \subsection{Hamiltonian Monte Carlo (HMC)}
 
