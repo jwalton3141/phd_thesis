@@ -60,7 +60,8 @@ by \textcite{metropolis53} in a now classic paper, and was later generalised by
 stationary distribution equivalent to the target distribution.
 
 \begin{algorithm}
-  \caption{Implement Metropolis-Hastings for $n$ iterations to target $\pi(\bm{\theta} \given \bm{x})$.}
+  \caption{Run Metropolis-Hastings for $n$ iterations to target $\pi(\bm{\theta} \given
+           \bm{x})$.}
   \label{alg:metropolis_hastings}
   \begin{algorithmic}[1]
     \State Initialise chain with $\bm{\theta}^{(0)}$
@@ -181,19 +182,19 @@ space typically experienced by random walk samplers in higher-dimensions.
 
 \subsubsection{Mathematical formulation}
 
-Hamiltonian mechanics represent a reformulation of classical mechanics, where a system is
-described by a $d$-dimensional position vector, $q$, and a $d$-dimensional momentum
-vector, $p$. This system then evolves through time according to Hamilton's
-equations:
+Hamiltonian mechanics represents a reformulation of classical mechanics. In Hamiltonian
+mechanics a  system is described by a $d$-dimensional position vector, $q$, and a
+$d$-dimensional momentum vector, $p$. This system then evolves through time according to
+Hamilton's equations:
 \begin{align}
   \begin{split}
-    \pdv{p_i}{t} &= - \pdv{\mathcal{H}}{q_i}\\
-    \pdv{q_i}{t} &= \hphantom{-} \pdv{\mathcal{H}}{p_i}
+    \pdv{p_i}{t} &= - \pdv{\mathcal{H}}{q_i},\\
+    \pdv{q_i}{t} &= \hphantom{-} \pdv{\mathcal{H}}{p_i},
   \end{split}
 \end{align}
-where $i=1,\ldots,d$ and $\mathcal{H}(p, q)$ is the Hamiltonian. The
-Hamiltonian is often interpreted to represent the total energy of a system, which can be
-considered as the sum of the kinetic energy, $T$, and potential energy, $V$:
+where $i=1,\ldots,d$ and $\mathcal{H}(p, q)$ is the Hamiltonian. The Hamiltonian is often
+interpreted to represent the total energy of a system, which can be considered as the sum
+of the kinetic energy, $T$, and potential energy, $V$:
 \begin{equation}
   \label{eq:hamiltonian_decomp}
   \mathcal{H}(q, p) = T(p) + V(q).
@@ -236,7 +237,45 @@ Recall from \cref{eq:hamiltonian_decomp} that the total energy in a system can b
 considered as the sum of the system's kinetic energy and potential energy.  If we compare
 \cref{eq:hamiltonian_decomp} and \cref{eq:canonical_decomp} we can see that we have
 constructed a system with kinetic energy given by the negative logarithm of the momentum
-density, and potential energy given by the negative logarithm of the target density.
+density, and potential energy given by the negative logarithm of the target density, that
+is:
+\begin{equation*}
+    T(p) = -\log{\pi(p \given q)} \quad\text{and}\quad V(q) = -\log{\pi(q)}.
+\end{equation*}
+
+\begin{algorithm}
+  \caption{Hamiltonian Monte Carlo}
+  \begin{algorithmic}[1]
+    \State Initialise chain with $q^{(0)}$
+    \For{i}{1}{n}
+      \State \Comment{Mass matrix $M$}
+      \State Draw momentum $p^{(i-1)} \sim \mathcal{N}_d(0, M)$
+      \State $p^\star \leftarrow p^{(i-1)}$
+      \State $q^\star \leftarrow q^{(i-1)}$
+      \State \Comment{Simulate Hamiltonian with leapfrog method for $L$ steps and step
+      size $\epsilon$.}
+      \For{j}{1}{L}
+        \State $q^\star, p^\star \leftarrow$ Leapfrog($q^\star, p^\star, \epsilon$)
+      \EndFor
+      \State Construct acceptance probability $\alpha(q^\star, p^\star \given
+                                                q^{(i-1)}, p^{(i-1)})$ as
+        \begin{equation*}
+            \alpha(q^\star, p^\star \given q^{(i-1)}, p^{(i-1)}) =
+            \min\big\{1, \exp{\mathcal{H}(q^{(i-1)}, p^{(i-1)}) -
+                           \mathcal{H}(q^\star, p^\star)}
+                  \big\}
+        \end{equation*}
+      \State Draw $u \sim$ Uniform$(0, 1)$
+      \If{$u < \alpha(q^\star, p^\star \given q^{(i-1)}, p^{(i-1)})$}
+        \State \Comment{Accept proposal}
+        \State $q^{(i)} \leftarrow q^\star$
+      \Else
+        \State \Comment{Reject proposal}
+        \State $q^{(i)} \leftarrow q^{(i-1)}$
+      \EndIf
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
 
 \subsubsection{Computer implementation, NUTS \& Stan}
 
