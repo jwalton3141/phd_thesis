@@ -78,7 +78,7 @@ stationary distribution equivalent to the target distribution.
         \bigg\}.
       \end{equation*}
       \State Draw $u \sim$ Uniform$(0, 1)$
-      \If{$u < \alpha(\bm{\theta}^\star \given \bm{\theta}^{(i-1)})$}
+      \If{$u \leq \alpha(\bm{\theta}^\star \given \bm{\theta}^{(i-1)})$}
         \State \Comment{Accept proposal}
         \State $\bm{\theta}^{(i)} \leftarrow \bm{\theta}^\star$
       \Else
@@ -266,7 +266,7 @@ is:
                   \big\}
         \end{equation*}
       \State Draw $u \sim$ Uniform$(0, 1)$
-      \If{$u < \alpha(q^\star, p^\star \given q^{(i-1)}, p^{(i-1)})$}
+      \If{$u \leq \alpha(q^\star, p^\star \given q^{(i-1)}, p^{(i-1)})$}
         \State \Comment{Accept proposal}
         \State $q^{(i)} \leftarrow q^\star$
       \Else
