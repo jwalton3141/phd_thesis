@@ -288,10 +288,15 @@
 \algrenewcommand\algorithmicelse{{\color{title-blue}\textbf{else}}}
 \algrenewcommand\algorithmicthen{{\color{title-blue}\textbf{then}}}
 \algrenewcommand\algorithmicdo{{\color{title-blue}\textbf{do}}}
+\algrenewcommand\algorithmicprocedure{{\color{title-blue}\textbf{function}}}
+\algrenewcommand\algorithmicreturn{{\color{title-blue}\textbf{return}}}
 
 % Create better for command
 \algnewcommand\algorithmicto{{\color{title-blue}\textbf{to}}}
 \algrenewtext{For}[3]{\algorithmicfor\ $#1$ = $#2$ \algorithmicto\ $#3$ \algorithmicdo}
+
+% Redefine procedure as I don't like the use of \textsc
+\algrenewtext{Procedure}[2]{\algorithmicprocedure\ #1(#2)}
 
 % Allow a little extra space between line number and command
 \makeatletter
