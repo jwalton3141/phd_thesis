@@ -17,27 +17,27 @@ perhaps most importantly, discuss when our methodologies may fail us.
 \section{Bayesian inference}
 \label{sec:bayesian_inference}
 
-Having observed data $\bm{x}$ we wish to quantify beliefs and uncertainties about
-parameters $\bm{\theta} = (\theta_1, \theta_2,\dots,\theta_p)^T$. Given the observed data,
+Having observed data $x$ we wish to quantify beliefs and uncertainties about
+parameters $\theta = (\theta_1,\theta_2,\dots,\theta_d)^T$. Given the observed data,
 the likelihood function of the parameters is defined as:
 \begin{equation}
-  L(\bm{\theta}\given\bm{x}) = f(\bm{x} \given \bm{\theta}).
+  L(\theta \given x) = f(x \given\theta).
 \end{equation}
 The likelihood details the probability density of the data in terms of the parameters. We
-may then specify our prior knowledge about the parameters $\bm{\theta}$ through the prior
-distribution $\pi(\bm{\theta})$. Bayes Theorem can then be used to form our posterior
+may then specify our prior knowledge about the parameters $\theta$ through the prior
+distribution $\pi(\theta)$. Bayes Theorem can then be used to form our posterior
 beliefs from the likelihood function and our prior beliefs:
 \begin{equation}
   \label{eq:bayes_theorem}
-  \pi(\bm{\theta}\given\bm{x}) =
-    \frac{\pi(\bm{\theta}) L(\bm{\theta}\given\bm{x})}%
-         {\int_{\bm{\theta}} \pi(\bm{\theta}) L(\bm{\theta}\given\bm{x}) \, \textup{d}\bm{\theta}}.
+  \pi(\theta \given x) =
+    \frac{\pi(\theta) L(\theta\given x)}%
+         {\int_{\theta} \pi(\theta) L(\theta\given x) \, \textup{d}\theta}.
 \end{equation}
-As the integral in the denominator is not a function of $\bm{\theta}$ we may consider it a
+As the integral in the denominator is not a function of $\theta$ we may consider it a
 constant of proportionality. With this we can express our posterior beliefs as
 proportional to the product of the likelihood and our prior beliefs:
 \begin{align*}
-  \pi(\bm{\theta}\given\bm{x}) & \propto \pi(\bm{\theta}) \times L(\bm{\theta}\given\bm{x}), \\
+  \pi(\theta\given x) & \propto \pi(\theta) \times L(\theta\given x), \\
   \text{posterior}             & \propto \text{prior} \times \text{likelihood}.
 \end{align*}
 
@@ -48,51 +48,51 @@ For the most part, the normalising constant (given in the denominator of
 \cref{eq:bayes_theorem}) will have multiple dimensions, not produce a density function of
 standard form, and be difficult to evaluate in all but the most trivial cases. Markov
 chain Monte Carlo algorithms provide methods to sample from the targeted density
-$\pi(\bm{\theta} \given \bm{x})$, whilst avoiding evaluating the bothersome normalising
+$\pi(\theta \given x)$, whilst avoiding evaluating the bothersome normalising
 constant.
 
-\subsection{Metropolis-Hastings}
+\subsection{Metropolis--Hastings}
 \label{ssec:metropolis_hastings}
 
-The Metropolis-Hastings algorithm is a popular MCMC scheme. The algorithm was introduced
+The Metropolis--Hastings algorithm is a popular MCMC scheme. The algorithm was introduced
 by \textcite{metropolis53} in a now classic paper, and was later generalised by
 \textcite{hastings70}. The algorithm works by constructing a Markov chain which has
 stationary distribution equivalent to the target distribution.
 
 \begin{algorithm}
-  \caption{Run Metropolis-Hastings for $n$ iterations to target $\pi(\bm{\theta} \given
-           \bm{x})$.}
+  \caption{Targeting $\pi(\theta \given x)$ with $n$ iterations of the
+    Metropolis--Hastings algorithm.}
   \label{alg:metropolis_hastings}
   \begin{algorithmic}[1]
-    \State Initialise chain with $\bm{\theta}^{(0)}$
+    \State Initialise chain with $\theta^{(0)}$
     \For{i}{1}{n}
-      \State Propose ${\bm{\theta}}^\star \sim q(\bm{\theta}^{(i)} \given \bm{\theta}^{(i-1)})$
-      \State Construct acceptance probability $\alpha(\bm{\theta}^\star \given \bm{\theta}^{(i-1)})$ as
+      \State Propose ${\theta}^\star \sim q(\theta^{(i)} \given \theta^{(i-1)})$
+      \State Construct acceptance probability $\alpha(\theta^\star \given \theta^{(i-1)})$ as
       \begin{equation*}
-          \alpha(\bm{\theta}^\star \given \bm{\theta}^{(i-1)}) =
+          \alpha(\theta^\star \given \theta^{(i-1)}) =
         \min\bigg\{1,
-        \frac{\pi(\bm{\theta}^\star) \, L(\bm{\theta}^\star \given \bm{x})}%
-        {\pi(\bm{\theta}^{(i-1)}) \, L(\bm{\theta}^{(i-1)} \given \bm{x})}
-        \frac{q(\bm{\theta}^{(i-1)} \given \bm{\theta}^\star)}%
-        {q(\bm{\theta}^\star \given \bm{\theta}^{(i-1)})}
+        \frac{\pi(\theta^\star) \, L(\theta^\star \given  x)}%
+        {\pi(\theta^{(i-1)}) \, L(\theta^{(i-1)} \given  x)}
+        \frac{q(\theta^{(i-1)} \given \theta^\star)}%
+        {q(\theta^\star \given \theta^{(i-1)})}
         \bigg\}.
       \end{equation*}
       \State Draw $u \sim$ Uniform$(0, 1)$
-      \If{$u \leq \alpha(\bm{\theta}^\star \given \bm{\theta}^{(i-1)})$}
+      \If{$u \leq \alpha(\theta^\star \given \theta^{(i-1)})$}
         \State \Comment{Accept proposal}
-        \State $\bm{\theta}^{(i)} \leftarrow \bm{\theta}^\star$
+        \State $\theta^{(i)} \leftarrow \theta^\star$
       \Else
         \State \Comment{Reject proposal}
-        \State $\bm{\theta}^{(i)} \leftarrow \bm{\theta}^{(i-1)}$
+        \State $\theta^{(i)} \leftarrow \theta^{(i-1)}$
       \EndIf
     \EndFor
   \end{algorithmic}
 \end{algorithm}
 
-The algorithm begins by initialising a Markov chain with parameters $\bm{\theta}^{(0)}$.
-Next, the algorithm proposes new parameter values $\bm{\theta}^\star$ from a proposal
-distribution $q(\bm{\theta}^\star \given \bm{\theta}^{(i-1)})$. These proposed values are
-accepted with probability $\alpha(\bm{\theta}^\star \given \bm{\theta}^{(i-1)})$.  If the
+The algorithm begins by initialising a Markov chain with parameters $\theta^{(0)}$.
+Next, the algorithm proposes new parameter values $\theta^\star$ from a proposal
+distribution $q(\theta^\star \given \theta^{(i-1)})$. These proposed values are
+accepted with probability $\alpha(\theta^\star \given \theta^{(i-1)})$.  If the
 proposal is accepted the next state of the Markov chain is set to the proposed values,
 otherwise the next state is set to the current values.  The acceptance probability depends
 on a ratio of the posterior density evaluated at the current values and the posterior
@@ -100,61 +100,61 @@ density evaluated at the proposed values.  Because of this, the normalising cons
 cancel in this ratio and we see that the target distribution only need be
 known up to a constant of proportionality.  This process of proposing and accepting or
 rejecting proposals continues until a satisfactory number of draws are made.
-Metropolis-Hastings is described more formally in \cref{alg:metropolis_hastings}.
+Metropolis--Hastings is described more formally in \cref{alg:metropolis_hastings}.
 
 \subsubsection{Choosing a Proposal Distribution}
 \label{ssec:proposal_distribution}
 
-The practitioner must choose a suitable proposal distribution $q(\bm{\theta}^\star \given
-\bm{\theta})$. Ideally the choice of proposal distribution will give rapid convergence to
-$\pi(\bm{\theta} \given \bm{x})$ and efficiently explore the support of $\pi(\bm{\theta}
-\given \bm{x})$. A special case of Metropolis-Hastings arises when the proposal
+The practitioner must choose a suitable proposal distribution $q(\theta^\star \given
+\theta)$. Ideally the choice of proposal distribution will give rapid convergence to
+$\pi(\theta \given  x)$ and efficiently explore the support of $\pi(\theta
+\given  x)$. A special case of Metropolis--Hastings arises when the proposal
 distribution is symmetric, that is
 \begin{equation*}
-  q(\bm{\theta}^\star \given \bm{\theta}) = q(\bm{\theta} \given \bm{\theta}^\star).
+  q(\theta^\star \given \theta) = q(\theta \given \theta^\star).
 \end{equation*}
 In this case we observe cancellation in the acceptance ratio, as it simplifies to become
 \begin{equation*}
-  \alpha({\bm{\theta}}^\star \given \bm{\theta}^{(i-1)})
+  \alpha({\theta}^\star \given \theta^{(i-1)})
     = \text{min}\,\bigg\{1,
-                        \frac{\pi(\bm{\theta}^\star)}{\pi(\bm{\theta}^{(i-1)})}%
-                        \frac{L(\bm{\theta}^\star \given \bm{x})}%
-                        {L(\bm{\theta}^{(i-1)} \given \bm{x})}
+                        \frac{\pi(\theta^\star)}{\pi(\theta^{(i-1)})}%
+                        \frac{L(\theta^\star \given  x)}%
+                        {L(\theta^{(i-1)} \given  x)}
                   \bigg\}.
 \end{equation*}
 
-The random walk sampler is a popular implementation of Metropolis-Hastings which makes
+The random walk sampler is a popular implementation of Metropolis--Hastings which makes
 use of symmetric proposals. With this sampler proposals are realised as
 \begin{equation*}
-  \bm{\theta}^\star = \bm{\theta}^{(i-1)} + \bm{\omega}^{(i-1)},
+  \theta^\star = \theta^{(i-1)} +  \omega^{(i-1)},
 \end{equation*}
-where the $\bm{\omega}$ are sampled as
+where the $ \omega$ are sampled as
 \begin{equation*}
-  \bm{\omega}^{(i-1)} \sim \mathcal{N}_p(\bm{0}, \Sigma),
+   \omega^{(i-1)} \sim \mathcal{N}_d( 0, \Sigma),
 \end{equation*}
-and $\mathcal{N}_p$ denotes a $p$-dimensional multivariate normal distribution. The
+and $\mathcal{N}_d$ denotes a $d$-dimensional multivariate normal distribution. The
 parameter $\Sigma$ is called the tuning parameter and controls how the chain moves around
 the parameter space. Mixing describes how efficiently the chain moves around the sample
 space and how long it takes for the chain to converge to the target distribution.
 
 Crucially then, the parameter $\Sigma$ can be used to control the mixing of chains. So,
 naturally, we wish to identify some `optimum' $\Sigma$ to try and improve mixing. Such a
-tuning parameter should allow rapid convergence to $\pi(\bm{\theta} \given \bm{x})$ and
+tuning parameter should allow rapid convergence to $\pi(\theta \given  x)$ and
 facilitate exploration of the entire support of the target. If the target distribution is
 Gaussian, it has been shown that 0.234 is an optimum acceptance probability to try achieve
 \parencite{roberts01}. In an attempt to tune $\Sigma$ to obtain the optimum acceptance
 probability, a common technique is to use
 \begin{equation*}
-  \Sigma = \frac{2.38^2}{p} \widehat{\text{Var}}(\bm{\theta} \given \bm{x}).
+  \Sigma = \frac{2.38^2}{d} \widehat{\text{Var}}(\theta \given x).
 \end{equation*}
 
 However, even with strategies to try select some optimum innovation structure, random walk
-samplers tend to perform poorly in high-dimensional problems. Consider that as the
+samplers tend to perform poorly in high-dimensional spaces. Consider that as the
 dimension of a problem increases, the probability of proposing a point out in the tails of
 the target distribution increases. As a result the acceptance probability becomes small and
 produces a Markov chain which rarely moves. The acceptance probability can be increased
 by choosing a $\Sigma$ which results in smaller innovations. However, this has the
-consequence of producing a Markov chain which explores the same space slowly, and
+consequence of producing a Markov chain which explores the sample space slowly, and
 converges to the target distribution slowly.
 
 Fortunately, there exist more sophisticated proposal mechanisms which perform better than
@@ -172,38 +172,38 @@ Bayesian neural network models \parencite{neal95}. However, it wasn't really unt
 2011 review \parencite{neal11} that HMC received mainstream attention in statistical
 computing \parencite{betancourt18}.
 
-Hamiltonian Monte Carlo is a realisation of the Metropolis-Hastings algorithm. Here,
+Hamiltonian Monte Carlo is a realisation of the Metropolis--Hastings algorithm. Here,
 new parameter values are proposed by computing trajectories of motion according to
 Hamiltonian dynamics. With this proposal mechanism it is possible to propose parameter
 values which are distant from the current state, but which retain a high probability of
 acceptance. As a result, this proposal mechanism represents an efficient method of
-traversing the parameter space, and circumvents the slow exploration of the parameter
+traversing a parameter space, and circumvents the slow exploration of the parameter
 space typically experienced by random walk samplers in higher-dimensions.
 
 \subsubsection{Mathematical formulation}
 
 Hamiltonian mechanics represents a reformulation of classical mechanics. In Hamiltonian
-mechanics a  system is described by a $d$-dimensional position vector, $q$, and a
-$d$-dimensional momentum vector, $p$. This system then evolves through time according to
-Hamilton's equations:
+mechanics a  system is described by a $d$-dimensional position vector, $\theta$, and
+a $d$-dimensional momentum vector, $p$. This system then evolves through time
+according to Hamilton's equations:
 \begin{align}
   \begin{split}
-    \pdv{p_i}{t} &= - \pdv{\mathcal{H}}{q_i},\\
-    \pdv{q_i}{t} &= \hphantom{-} \pdv{\mathcal{H}}{p_i},
+    \pdv{p_i}{t} &= - \pdv{\mathcal{H}}{\theta_i},\\
+    \pdv{\theta_i}{t} &= \hphantom{-} \pdv{\mathcal{H}}{p_i},
   \end{split}
 \end{align}
-where $i=1,\ldots,d$ and $\mathcal{H}(p, q)$ is the Hamiltonian. The Hamiltonian is often
+where $i=1,\ldots,d$ and $\mathcal{H}(\theta,  p)$ is the Hamiltonian. The Hamiltonian is often
 interpreted to represent the total energy of a system, which can be considered as the sum
 of the kinetic energy, $T$, and potential energy, $V$:
 \begin{equation}
   \label{eq:hamiltonian_decomp}
-  \mathcal{H}(q, p) = T(p) + V(q).
+  \mathcal{H}(\theta, p) = T(p) + V(\theta).
 \end{equation}
 
 We wish to explore our target distribution (typically the posterior distribution) as if
 evolving some Hamiltonian system. This can be achieved if we expand our $d$-dimensional
 parameter space into $2d$-dimensional phase space. Our current state can be considered as
-the position vector, $q$. Introducing auxiliary momentum variables, $p$, expands
+the position vector, $\theta$. Introducing auxiliary momentum variables, $p$, expands
 our parameter space into phase space, as desired.
 
 With our parameter space extended to phase space, we must also expand our target
@@ -211,11 +211,11 @@ distribution to phase space. To do so we formulate the canonical distribution, a
 density function over phase space:
 \begin{equation}
   \label{eq:canonical_dist}
-  \pi(q, p) = \pi(p \given q) \, \pi(q).
+  \pi(\theta, p) = \pi(p \given\theta) \, \pi(\theta).
 \end{equation}
 The momentum is typically introduced as:
 \begin{equation}
-  \pi(p \given q) = \exp{-\frac{p^T M^{-1} p}{2}},
+  p \given \theta \sim \mathcal{N}_d(0, M),
 \end{equation}
 where $M$ is a positive-definite ``mass matrix'', often chosen as the identity matrix or
 some scalar multiple of the identity matrix. See that marginalising out the momentum in
@@ -225,13 +225,13 @@ To proceed, we consider expressing the canonical distribution as the
 negative exponent of a Hamiltonian:
 \begin{equation}
   \label{eq:canonical_as_hamiltonian}
-  \pi(q, p) = \exp{-\mathcal{H}(q,p)}.
+  \pi(\theta, p) = \exp{-\mathcal{H}(\theta, p)}.
 \end{equation}
 Taking the logarithm of \cref{eq:canonical_as_hamiltonian} and using \cref{eq:canonical_dist}
 we see
 \begin{equation}
   \label{eq:canonical_decomp}
-  \mathcal{H}(q, p) = -\log{\pi(p \given q)} - \log{\pi(q)}.
+  \mathcal{H}(\theta, p) = -\log{\pi(p \given\theta)} - \log{\pi(\theta)}.
 \end{equation}
 Recall from \cref{eq:hamiltonian_decomp} that the total energy in a system can be
 considered as the sum of the system's kinetic energy and potential energy.  If we compare
@@ -240,52 +240,61 @@ constructed a system with kinetic energy given by the negative logarithm of the 
 density, and potential energy given by the negative logarithm of the target density, that
 is:
 \begin{equation*}
-    T(p) = -\log{\pi(p \given q)} \quad\text{and}\quad V(q) = -\log{\pi(q)}.
+    T(p) = -\log{\pi(p \given\theta)} \quad\text{and}\quad V(\theta) = -\log{\pi(\theta)}.
 \end{equation*}
-
-\begin{algorithm}
-  \caption{Hamiltonian Monte Carlo}
-  \begin{algorithmic}[1]
-    \State Initialise chain with $q^{(0)}$
-    \For{i}{1}{n}
-      \State \Comment{Mass matrix $M$}
-      \State Draw momentum $p^{(i-1)} \sim \mathcal{N}_d(0, M)$
-      \State $p^\star \leftarrow p^{(i-1)}$
-      \State $q^\star \leftarrow q^{(i-1)}$
-      \State \Comment{Simulate Hamiltonian with leapfrog method for $L$ steps and step
-      size $\epsilon$.}
-      \For{j}{1}{L}
-        \State $q^\star, p^\star \leftarrow$ Leapfrog($q^\star, p^\star, \epsilon$)
-      \EndFor
-      \State Construct acceptance probability $\alpha(q^\star, p^\star \given
-                                                q^{(i-1)}, p^{(i-1)})$ as
-        \begin{equation*}
-            \alpha(q^\star, p^\star \given q^{(i-1)}, p^{(i-1)}) =
-            \min\big\{1, \exp{\mathcal{H}(q^{(i-1)}, p^{(i-1)}) -
-                           \mathcal{H}(q^\star, p^\star)}
-                  \big\}
-        \end{equation*}
-      \State Draw $u \sim$ Uniform$(0, 1)$
-      \If{$u \leq \alpha(q^\star, p^\star \given q^{(i-1)}, p^{(i-1)})$}
-        \State \Comment{Accept proposal}
-        \State $q^{(i)} \leftarrow q^\star$
-      \Else
-        \State \Comment{Reject proposal}
-        \State $q^{(i)} \leftarrow q^{(i-1)}$
-      \EndIf
-    \EndFor
-  \end{algorithmic}
-\end{algorithm}
 
 \subsubsection{Computer implementation, NUTS \& Stan}
 
 Now that we have described HMC we are in a position to consider its implementation
-\emph{in silico}. For this computer implementation we must first be able to approximate
+\emph{in silico}. For computer implementation we must first be able to approximate
 solutions to Hamilton's equations. Such approximations can be achieved by discretising
 time using some small time step $\epsilon$. Next, the practitioner must also choose the
 number of steps $L$ for which to simulate Hamilton's equations. With this in place, the
 practitioner typically implements the leapfrog method to solve Hamilton's equations
-\parencite{neal11}.
+\parencite{neal11}. \cref{alg:hmc} details a realisation of HMC in practice, and
+demonstrates the leapfrog method to simulate Hamiltonian mechanics.
+
+\begin{algorithm}[tb]
+  \caption{Targeting $\pi(\theta \given x)$ with $n$ iterations of Hamiltonian Monte
+  Carlo, using $L$ steps and discretisation $\epsilon$.}
+  \label{alg:hmc}
+  \begin{algorithmic}[1]
+    \State Initialise chain with $\theta^{(0)}$
+    \For{i}{1}{n}
+      \State Draw momentum $p^{(i-1)} \sim \mathcal{N}_d(0, M)$
+      \State $p^\star \leftarrow p^{(i-1)}$
+      \State $\theta^\star \leftarrow\theta^{(i-1)}$
+      \State \Comment{Simulate Hamiltonian with leapfrog method for $L$ steps and 
+      discretisation $\epsilon$}
+      \For{j}{1}{L}
+        \State $\theta^\star$, $p^\star \leftarrow$ Leapfrog$(\theta^\star$,
+                                                             $p^\star$, $\epsilon)$
+      \EndFor
+      \State Construct acceptance probability $\alpha(\theta^\star, p^\star \given
+                                               \theta^{(i-1)}, p^{(i-1)})$ as
+        \begin{equation*}
+            \alpha(\theta^\star, p^\star \given\theta^{(i-1)}, p^{(i-1)}) =
+            \min\big\{1, \exp[\mathcal{H}(\theta^{(i-1)}, p^{(i-1)}) -
+                              \mathcal{H}(\theta^\star, p^\star)]
+                  \big\}
+        \end{equation*}
+      \State Draw $u \sim$ Uniform$(0, 1)$
+      \If{$u \leq \alpha(\theta^\star, p^\star \given\theta^{(i-1)}, p^{(i-1)})$}
+        \State \Comment{Accept proposal}
+        \State $\theta^{(i)} \leftarrow\theta^\star$
+      \Else
+        \State \Comment{Reject proposal}
+        \State $\theta^{(i)} \leftarrow\theta^{(i-1)}$
+      \EndIf
+    \EndFor
+  \State
+  \Procedure{Leapfrog}{$\theta$, $p$, $\epsilon$}
+    \State $p \leftarrow p + \frac{\epsilon}{2} \pdv{V}{\theta}$
+    \State $\theta \leftarrow \theta + \epsilon M^{-1} p$
+    \State $p \leftarrow p + \frac{\epsilon}{2} \pdv{V}{\theta}$
+    \State \Return $\theta$, $p$
+  \end{algorithmic}
+\end{algorithm}
 
 As we have seen, in implementing HMC it is left to the practitioner to choose appropriate
 values for $L$ and $\epsilon$. Unfortunately, making a poor choice for either of these
