@@ -60,12 +60,12 @@ by \textcite{metropolis53} in a now classic paper, and was later generalised by
 stationary distribution equivalent to the target distribution.
 
 \begin{algorithm}
-  \caption{Targeting $\pi(\theta \given x)$ with $n$ iterations of the
+  \caption{Targeting $\pi(\theta \given x)$ with $S$ iterations of the
     Metropolis--Hastings algorithm.}
   \label{alg:metropolis_hastings}
   \begin{algorithmic}[1]
     \State Initialise chain with $\theta^{(0)}$
-    \For{i}{1}{n}
+    \For{i}{1}{S}
       \State Propose ${\theta}^\star \sim q(\theta^{(i)} \given \theta^{(i-1)})$
       \State Construct acceptance probability $\alpha(\theta^\star \given \theta^{(i-1)})$ as
       \begin{equation*}
@@ -255,12 +255,12 @@ practitioner typically implements the leapfrog method to solve Hamilton's equati
 demonstrates the leapfrog method to simulate Hamiltonian mechanics.
 
 \begin{algorithm}[tb]
-  \caption{Targeting $\pi(\theta \given x)$ with $n$ iterations of Hamiltonian Monte
+  \caption{Targeting $\pi(\theta \given x)$ with $S$ iterations of Hamiltonian Monte
   Carlo, using $L$ steps and discretisation $\epsilon$.}
   \label{alg:hmc}
   \begin{algorithmic}[1]
     \State Initialise chain with $\theta^{(0)}$
-    \For{i}{1}{n}
+    \For{i}{1}{S}
       \State Draw momentum $p^{(i-1)} \sim \mathcal{N}_d(0, M)$
       \State $p^\star \leftarrow p^{(i-1)}$
       \State $\theta^\star \leftarrow\theta^{(i-1)}$
@@ -319,19 +319,60 @@ how to compute the log-posterior density for their model of interest
 \parencite{stanteam15}. With this, Stan implements the NUTS algorithm, and returns to the
 user samples from the desired posterior density.
 
-\subsection{Convergence Diagnostics}
+\subsubsection{Limitations of NUTS \& Stan}
+
+\subsection{Convergence diagnostics}
 \label{ssec:convergence_diagnostics}
 
-Though there are theoretical methods to assess the convergence of chains, it is an attractive idea to
-analyse the output of our schemes in an attempt to assess whether the chains have converged. One of
-the simplest informal methods to assess convergence is to inspect the trace plots of the scheme and
-check for any irregularities. It is also good to use autocorrelation plots to assess autocorrelation
-between samples at different lags.
+Though there are theoretical methods to assess the convergence of chains, it is an
+attractive idea to analyse the output of our schemes in an attempt to assess whether the
+chains have converged. One of the simplest informal methods to assess convergence is to
+inspect the trace plots of the scheme and check for any irregularities.
 
-One way to lower autocorrelation between samples is to thin the output. When thinning, every $k$-th
-sample from a chain is kept and the remaining samples are discarded. Another common technique is to
-allow for a burn-in period. The purpose of a burn-in period is to discard any samples from before the
-chain has converged.
+It is also good to use autocorrelation plots to assess autocorrelation between samples at
+different lags.  One way to lower autocorrelation between samples is to thin the output.
+When thinning, every $k$-th sample from a chain is kept and the remaining samples are
+discarded. Another common technique is to allow for a burn-in period. The purpose of a
+burn-in period is to discard any samples from before the chain has converged.
 
 \section{Model selection}
 \label{sec:model_comparison}
+
+Ideally, to test the predictive accuracy of our fitted models, we would wait for
+out-of-sample data (new data, distinct from that used in our fitting).  However, this is
+often not viable. One way around this problem is to use leave-one-out cross-validation
+(LOO-CV). The idea here is to split the data set into training data and test data, perform
+the model fitting on the training data, and assess fit with the test data.  Unfortunately,
+this method comes at computational expense; LOO-CV can necessitate performing up to $n$
+model fits (where $n$ is the number of data points). Instead, there exist many information
+criteria which are used to quantify predictive accuracy.
+
+\subsection{Information criteria}
+
+An appealing idea is to assess predictive accuracy using within-sample data. Established
+methods to do this include AIC, DIC and WAIC: Akaike, Deviance and Widely Available
+Information Criterion, respectively. To compute AIC or DIC it is necessary to evaluate the
+posterior density conditioning on a point estimate. However, WAIC has the more desirable
+property of averaging over the entire posterior distribution. Because of this reason
+\textcite{gelman13} find WAIC more appealing than AIC and DIC.
+
+To compute WAIC for a given fit it is first necessary to compute the log pointwise
+predictive density (lppd), defined as:
+\begin{equation*}
+  \text{lppd} = \sum_{j=1}^n \log(\frac{1}{S} \sum_{i=1}^S \pi(\theta^{(i)} \given x_j)),
+\end{equation*}
+where $S$ is the number of posterior samples. The log pointwise predictive density is a
+biased estimator of elppd, the expected log pointwise predictive density for a new
+dataset. To account for this bias WAIC adds a correction for the effective number of
+parameters in the fit, realised as:
+\begin{equation*}
+    p_{\text{WAIC}} = \sum_{j=1}^n V_{i=1}^{S}\log(\pi(\theta^{(i)} \given x_j))),
+\end{equation*}
+where $V_{i=1}^{S}\log(\pi(\theta^{(i)} \given x_j))$ represents the posterior variance of
+the log predictive density for data point $x_j$. Working on the deviance scale, we can
+then define WAIC as:
+\begin{equation*}
+    \text{e}\widehat{\text{lpp}}\text{d}_{\text{WAIC}} = -2\,\text{lppd}
+    +2p_{\text{WAIC}}.
+\end{equation*}
+
