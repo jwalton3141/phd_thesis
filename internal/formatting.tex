@@ -106,6 +106,9 @@
 % Use title case in bibliography
 \DeclareFieldFormat{titlecase}{\MakeSentenceCase*{#1}}
 
+% Remove superfluous "pp." which prepends page entries
+\DeclareFieldFormat{pages}{#1}
+
 % Remove `In:` from articles.
 \renewbibmacro{in:}{%
 \ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}}
