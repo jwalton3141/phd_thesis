@@ -160,7 +160,9 @@ converges to the target distribution slowly.
 Fortunately, there exist more sophisticated proposal mechanisms which perform better than
 random walk samplers in higher dimensional problems. One such sampler is represented by
 Hamiltonian Monte Carlo, which seeks to utilise information about the gradient of the
-target distribution to inform innovations.
+target distribution to inform innovations. With a problem of dimension $d$, the
+computational expense of a random-walk sampler is $O(d^2)$, whereas the cost of
+Hamiltonian Monte Carlo is roughly $O(d^{5/4}$) \parencite{creutz88}. 
 
 \subsection{Hamiltonian Monte Carlo (HMC)}
 
@@ -293,6 +295,7 @@ demonstrates the leapfrog method to simulate Hamiltonian mechanics.
     \State $\theta \leftarrow \theta + \epsilon M^{-1} p$
     \State $p \leftarrow p + \frac{\epsilon}{2} \pdv{V}{\theta}$
     \State \Return $\theta$, $p$
+  \EndProcedure
   \end{algorithmic}
 \end{algorithm}
 
@@ -344,8 +347,8 @@ often not viable. One way around this problem is to use leave-one-out cross-vali
 (LOO-CV). The idea here is to split the data set into training data and test data, perform
 the model fitting on the training data, and assess fit with the test data.  Unfortunately,
 this method comes at computational expense; LOO-CV can necessitate performing up to $n$
-model fits (where $n$ is the number of data points). Instead, there exist many information
-criteria which are used to quantify predictive accuracy.
+model fits (where $n$ is the number of data points). As an alternative, there exist many
+different information criteria which may used to quantify predictive accuracy.
 
 \subsection{Information criteria}
 
