@@ -77,7 +77,15 @@ factor=1100, stretch=10, shrink=10]{microtype}
 % Biblatex and recommended packages
 \usepackage[UKenglish]{babel}
 \usepackage{csquotes}
-\usepackage[backend=biber, style=authoryear, maxbibnames=10]{biblatex}
+\usepackage[backend=biber,
+            style=authoryear,
+            maxbibnames=99,
+            dashed=false,
+            isbn=false,
+            url=false,
+            doi=false,
+            eprint=false
+            ]{biblatex}
 
 % Fun symbols
 \usepackage{adforn, pgfornament}
