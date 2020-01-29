@@ -322,8 +322,6 @@ how to compute the log-posterior density for their model of interest
 \parencite{stanteam15}. With this, Stan implements the NUTS algorithm, and returns to the
 user samples from the desired posterior density.
 
-\subsubsection{Limitations of NUTS \& Stan}
-
 \subsection{Convergence diagnostics}
 \label{ssec:convergence_diagnostics}
 
@@ -347,8 +345,9 @@ often not viable. One way around this problem is to use leave-one-out cross-vali
 (LOO-CV). The idea here is to split the data set into training data and test data, perform
 the model fitting on the training data, and assess fit with the test data.  Unfortunately,
 this method comes at computational expense; LOO-CV can necessitate performing up to $n$
-model fits (where $n$ is the number of data points). As an alternative, there exist many
-different information criteria which may used to quantify predictive accuracy.
+model fits (where $n$ is the number of data points). To avoid this expense it is common to
+assess predictive accuracy using within-sample data. There exist a variety of information
+criteria which do exactly this.
 
 \subsection{Information criteria}
 
@@ -366,16 +365,16 @@ predictive density (lppd), defined as:
 \end{equation*}
 where $S$ is the number of posterior samples. The log pointwise predictive density is a
 biased estimator of elppd, the expected log pointwise predictive density for a new
-dataset. To account for this bias WAIC adds a correction for the effective number of
-parameters in the fit, realised as:
+dataset.  WAIC accounts for this bias by adding a correction for the effective number of
+parameters in the fit, computed as:
 \begin{equation*}
     p_{\text{WAIC}} = \sum_{j=1}^n V_{i=1}^{S}\log(\pi(\theta^{(i)} \given x_j))),
 \end{equation*}
 where $V_{i=1}^{S}\log(\pi(\theta^{(i)} \given x_j))$ represents the posterior variance of
-the log predictive density for data point $x_j$. Working on the deviance scale, we can
-then define WAIC as:
+the log predictive density for data point $x_j$. With this correction WAIC gives an
+approximately unbiased estimate of elppd. It is common to work with information criteria
+on the deviance scale, with this \textcite{watanabe09} defines WAIC as:
 \begin{equation*}
-    \text{e}\widehat{\text{lpp}}\text{d}_{\text{WAIC}} = -2\,\text{lppd}
-    +2p_{\text{WAIC}}.
+    \text{WAIC} = -2\,\text{lppd} +2p_{\text{WAIC}}.
 \end{equation*}
 
