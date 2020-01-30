@@ -368,7 +368,7 @@ biased estimator of elppd, the expected log pointwise predictive density for a n
 dataset.  WAIC accounts for this bias by adding a correction for the effective number of
 parameters in the fit, computed as:
 \begin{equation*}
-    p_{\text{WAIC}} = \sum_{j=1}^n V_{i=1}^{S}\log(\pi(\theta^{(i)} \given x_j))),
+    p_{\text{WAIC}} = \sum_{j=1}^n V_{i=1}^{S}\log(\pi(\theta^{(i)} \given x_j)),
 \end{equation*}
 where $V_{i=1}^{S}\log(\pi(\theta^{(i)} \given x_j))$ represents the posterior variance of
 the log predictive density for data point $x_j$. With this correction WAIC gives an
