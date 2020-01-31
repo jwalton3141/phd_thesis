@@ -115,7 +115,7 @@
 
 % Abbreviate middle in bibliography, but not first or last name
 % https://tex.stackexchange.com/a/188350/181010
-\renewcommand*{\mkbibnamefirst}[1]{\edef\firstname{#1}\expandafter\first{\firstname}}
+\renewcommand*{\mkbibnamegiven}[1]{\edef\firstname{#1}\expandafter\first{\firstname}}
 
 \def\bibnamedelima{ }%
 \def\bibnamedelimb{ }%
