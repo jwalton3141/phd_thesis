@@ -65,7 +65,7 @@ example, interpreting the directions plotted in \cref{fig:angle_hist}. Polar his
 (sometimes known as rose plots) make for more intuitive representations of angles.
 Instead of using bars, as the histogram does, the rose plot bins data into sectors of a
 circle. Here, the \emph{area} of each sector is constructed to be proportional to the
-frequency of data points in the corresponding bin.
+frequency of data points in the corresponding bin \parencite{mardia09}.
 
 \begin{figure}[tb]
 	\begin{subfigure}[b]{0.5\textwidth}
@@ -148,7 +148,8 @@ function. The $\atantwo$ function dates back to the Fortran programming language
 in the $\atan$ (or $\tan^{-1}$) function. Consider that the inverse tangent function has
 codomain $(-\pi/2, \pi/2)$, though we are often interested in directions in the range
 $(-\pi, \pi]$. In addition to this, the $\arctan$ function is not quadrant-aware; that is,
-it cannot distinguish between directions which differ by $\pi$ radians.  As an example,
+it cannot distinguish between directions which differ by $\pi$ radians (see that
+$\tan^{-1}(\theta + \pi) = \tan^{-1}(\theta))$.  As an example,
 consider calculating the direction from the $x$-axis to the ray extending from the origin
 to the point $(1, 1)$. Naturally, we'd reach for $\tan^{-1}$ to compute the angle as
 $\tan^{-1}(1/1) = \pi/4$, as expected. Now, consider that we wish to calculate the
@@ -192,12 +193,31 @@ as:
 	\langle \theta \rangle = \atantwo\bigg(\frac{1}{n} \sum_{j=1}^n \sin(\theta_j), \frac{1}{n} 
     \sum_{j=1}^n \cos(\theta_j)\bigg),
 \end{equation}
-where the $\atantwo$ function is defined in \cref{eq:atantwo}.
+where the $\atantwo$ function is defined in \cref{eq:atantwo} \parencite{fisher95}.
 
 The definition of the circular mean given in equation \cref{eq:circ_mean} works by
-converting the angles into Cartesian co-ordinates: representing the directions as
-points on the unit circle. The centre of mass of the Cartesian co-ordinates is then
-computed, and the resulting position is converted back to a direction, resulting in our
-mean angle.
+converting the angles into Cartesian co-ordinates: representing the directions as points
+on the unit circle. The centre of mass of the Cartesian co-ordinates is then computed, and
+the resulting position is converted back to a direction, resulting in our mean angle.
 
-In practice, the division by $n$ which occurs in \cref{eq:atantwo} is superfluous.
+In practice, the $1 / n$ which occurs in \cref{eq:circ_mean} is superfluous. Referring to
+\cref{eq:atantwo}, see that all of the cases involving $\atan$ require the quotient of $x$
+and $y$. Because of this ratio, the $1 / n$ terms will always cancel, and so aren't
+strictly necessary.
+
+\section{von Mises distribution}
+
+The von Mises distribution, sometimes simply referred to as the circular normal
+distribution, is a continuous probability density function defined on the circle, with
+support $[-\pi, \pi)$. The distribution is parameterised by two parameters: $\mu \in
+[-\pi, \pi)$ and $\kappa \geq 0$. The parameter $\mu$ is a measure of location and the
+parameter $\kappa$ is a measure of spread. These parameters, $\mu$ and $\kappa$, are
+analogous to $\mu$ and $1/\sigma^2$ of the normal distribution.
+
+For the angle $\theta$, the von Mises distribution has probability density:
+\begin{equation}
+	f(\theta \given \mu, \kappa) = \frac{\exp{\kappa \cos(\theta - \mu)}}%
+	                                    {2 \pi I_0(\kappa)},
+\end{equation}
+where the normalising constant, $I_0(\kappa)$, is the modified Bessel function of the
+first kind of order zero \parencite{jammalamadaka01}.
