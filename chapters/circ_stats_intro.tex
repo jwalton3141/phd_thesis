@@ -3,9 +3,6 @@
 \chapter{Directional statistics}	
 \label{cha:direct_stats}
 
-%NOTES: consider adding section on circular distributions. Show limiting result of von
-%Mise distribution as normal distribution
-
 Circular data arises naturally in the study of collective behaviour; most commonly, in
 describing the direction of motion of individuals. Given some dataset, the first
 instinct of the scientist is to summarise and visualise the data. However, such a
@@ -210,14 +207,31 @@ strictly necessary.
 The von Mises distribution, sometimes simply referred to as the circular normal
 distribution, is a continuous probability density function defined on the circle, with
 support $[-\pi, \pi)$. The distribution is parameterised by two parameters: $\mu \in
-[-\pi, \pi)$ and $\kappa \geq 0$. The parameter $\mu$ is a measure of location and the
+[-\pi, \pi)$ and $\kappa > 0$. The parameter $\mu$ is a measure of location and the
 parameter $\kappa$ is a measure of spread. These parameters, $\mu$ and $\kappa$, are
 analogous to $\mu$ and $1/\sigma^2$ of the normal distribution.
 
 For the angle $\theta$, the von Mises distribution has probability density:
 \begin{equation}
-	f(\theta \given \mu, \kappa) = \frac{\exp{\kappa \cos(\theta - \mu)}}%
+    \label{eq:von_mises}
+	f(\theta \given \mu, \kappa) = \frac{e^{\kappa \cos(\theta - \mu)}}%
 	                                    {2 \pi I_0(\kappa)},
 \end{equation}
 where the normalising constant, $I_0(\kappa)$, is the modified Bessel function of the
-first kind of order zero \parencite{jammalamadaka01}.
+first kind and order zero \parencite{jammalamadaka01}.
+
+In this thesis we do \emph{not} use the von Mises distribution. Instead, we continue to
+use a normal distribution to model circular data. This approximation is
+appropriate when $\kappa$ is large (that is, when there is
+little dispersion). For large $\kappa$ it is known that $I_0(\kappa) \approx e^k /
+\sqrt{2\pi\kappa}$. Using this, and the Taylor expansion $\cos(\alpha) \approx 1 -
+\alpha^2/2$, from \cref{eq:von_mises} we have:
+\begin{align*}
+    f(\theta \given \mu, \kappa) &\approx \frac{e^{\kappa[1-\frac{1}{2}(\theta-\mu)^2]}}%
+                                               {2\pi e^k / \sqrt{2\pi\kappa}}\\
+                                 & = \frac{e^{-\frac{\kappa}{2}(\theta-\mu)^2}}%
+                                          {\sqrt{2\pi/\kappa}},
+\end{align*}
+which is just the probability density of the normal distribution with mean $\mu$ and precision
+$\kappa$. So we see, for distributions with small dispersion, it is appropriate to
+approximate the von Mises distribution with a normal distribution.
