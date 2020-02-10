@@ -6,7 +6,7 @@
 % minionint use minionpro's integral symbol instead of mnsymbols (ugly)
 \IfFileExists{MinionPro.sty}{%
 	\usepackage[mathlf,mathtabular,minionint]{MinionPro}
-}
+}{\usepackage{amsmath,lmodern}}
 
 % Font encoding
 \usepackage[T1]{fontenc}
