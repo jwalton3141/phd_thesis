@@ -3,6 +3,8 @@
 THESIS = thesis
 
 all: $(THESIS).pdf
+
+$(THESIS).pdf:
 	latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make $(THESIS).tex
 
 clean:
