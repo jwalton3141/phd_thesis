@@ -1,0 +1,35 @@
+\graphicspath{{fig/model_development/}}
+
+\chapter{Model Development}
+\label{cha:model_dev}
+
+In this chapter we shall introduce one of the most popular and well studied agent-based
+models in the literature: the Vicsek model. The Vicsek model represents a simple alignment
+model in which agents interact with neighbours within some given distance. Despite its
+simplicity, this model can produce sophisticated dynamics and exhibits a phase
+transition from order to disorder as the amount of noise in the system is regulated.
+
+The Vicsek model, like many other ABMs, implements a discontinuous interaction rule. With
+this, the onset of interaction between individuals is very sensitive to small
+perturbations in distances. We consider continuous interaction rules as a
+biologically-realistic alternative. Such rules ensure the model is more robust to small
+perturbations in distances, but without adding model complexity.
+
+\section{The Vicsek Model}
+
+The Vicsek model describes the movements of $N$ individuals moving with constant
+speed $v$. All movement takes place in a square cell with side length $L$, and periodic
+boundary conditions. To initialise a simulation all agents are allocated a random
+position within the cell, and a random direction of motion. From time $t$ to time $t+1$
+agent $i$ updates its position as:
+\begin{equation*}
+    \bm{x}_{i, t+1} = \bm{x}_{i, t} + \bm{v}_{i, t},
+\end{equation*}
+where the velocity $\bm{v}_{i,t}$ is constructed to have speed $v$ and direction of
+motion:
+\begin{equation*}
+    \theta_{i, t+1} \given \angmean{\theta}_{i, t}, \eta \sim
+                     \mathcal{U}(\angmean{\theta}_{i, t} - \eta/2,
+                                 \angmean{\theta}_{i, t} + \eta/2),
+\end{equation*}
+where $\mathcal{U}$ is the uniform distribution, $\angmean{\theta}_{i, t}$
