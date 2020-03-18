@@ -13,7 +13,8 @@ axes.grid: False
 axes.labelcolor: .15
 axes.labelsize: 10
 axes.linewidth: 0
-axes.prop_cycle: cycler('color', ['4C72B0', 'DD8452', '55A868', 'C44E52', '8172B3', '937860', 'DA8BC3', '8C8C8C', 'CCB974', '64B5CD'])
+
+axes.prop_cycle: cycler('color', ['4C72B0', '55A868', 'C44E52', '8172B2', 'CCB974', '64B5CD'])
 figure.facecolor: white
 
 # Default size of single figure spanning textwidth of thesis
@@ -45,7 +46,7 @@ patch.linewidth: .3
 
 text.usetex: True
 # Make sure to load font before bm.
-text.latex.preamble: \usepackage[lf]{MinionPro}, \usepackage{bm}
+text.latex.preamble: \usepackage[lf]{MinionPro} \usepackage{bm}
 text.color: .15
 
 xtick.color: .15
