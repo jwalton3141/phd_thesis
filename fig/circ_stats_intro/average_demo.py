@@ -14,7 +14,7 @@ from pretty import set_size, savefig
 def main():
     """Plot and save desired graph."""
     fig, ax = make_fig_ax()
-    fig, ax = plot_arith_mean(fig, ax)
+    plot_arith_mean(fig, ax)
     savefig(fig, 'arith_mean', tight=None)
 
     fig, ax = make_fig_ax()
@@ -61,8 +61,6 @@ def setup_plot(ax):
 
     add_arrow(ax, colour, 350)
 
-    return ax
-
 
 def add_arrow(ax, colour, angle):
     # Bug in plotting arrows on polar plot. Work around is to plot at 0 and transform
@@ -77,24 +75,22 @@ def add_arrow(ax, colour, angle):
 
 def plot_arith_mean(fig, ax):
     """Plot the arithmetic mean of 350 and 10."""
-    ax = setup_plot(ax)
+    setup_plot(ax)
 
     colour = 'C2'
     ax.plot([0, np.pi], [0, 0.9], c=colour, lw=2)
     add_arrow(ax, colour, 180)
-    fig, ax = adjust_plots(fig, ax)
-    return fig, ax
+    adjust_plots(fig, ax)
 
 
 def plot_circ_mean(fig, ax):
     """Plot the circular mean of 350 and 10."""
-    ax = setup_plot(ax)
+    setup_plot(ax)
 
     colour = 'C1'
     ax.plot([0, 0], [0, 0.9], c=colour, lw=2)
     add_arrow(ax, colour, 0)
-    fig, ax = adjust_plots(fig, ax)
-    return fig, ax
+    adjust_plots(fig, ax)
 
 
 def adjust_plots(fig, ax):
@@ -102,7 +98,6 @@ def adjust_plots(fig, ax):
     ax.set_ylim([0, 1.05])
     fig.tight_layout(pad=0.1)
     fig.subplots_adjust(left=1 - fig.subplotpars.right)
-    return fig, ax
 
 
 if __name__ == "__main__":
