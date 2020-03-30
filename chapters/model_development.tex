@@ -13,23 +13,45 @@ The Vicsek model, like many other ABMs, implements a discontinuous interaction r
 this, the onset of interaction between individuals is very sensitive to small
 perturbations in distances. We consider continuous interaction rules as a
 biologically-realistic alternative. Such rules ensure the model is more robust to small
-perturbations in distances, but without adding model complexity.
+perturbations in distances, but without the penalty of extra model complexity.
 
 \section{The Vicsek Model}
 
-The Vicsek model describes the movements of $N$ individuals moving with constant
-speed $v$. All movement takes place in a square cell with side length $L$, and periodic
-boundary conditions. To initialise a simulation all agents are allocated a random
-position within the cell, and a random direction of motion. From time $t$ to time $t+1$
-agent $i$ updates its position as:
+The Vicsek model describes the movements of $N$ individuals moving with constant speed
+$v$. All movement takes place in a square cell with periodic boundary conditions and side
+length $L$. To initialise a simulation all agents are allocated a random position within
+the cell, and a random direction of motion. From time $t$ to time $t+1$ agent $i$ updates
+its position as:
 \begin{equation*}
     \bm{x}_{i, t+1} = \bm{x}_{i, t} + \bm{v}_{i, t},
 \end{equation*}
 where the velocity $\bm{v}_{i,t}$ is constructed to have speed $v$ and direction of
-motion:
+motion $\theta_{i, t+1}$. The computation of $\theta_{i, t+1}$ describes how agents update
+their direction in light of their neighbours' movements, and an additional noise term. In
+the Vicsek model the noise is realised from a $\mathcal{U}(-\eta/2, \eta/2)$
+distribution. The directional update of agent $i$ can then be expressed as:
 \begin{equation*}
     \theta_{i, t+1} \given \angmean{\theta}_{i, t}, \eta \sim
                      \mathcal{U}(\angmean{\theta}_{i, t} - \eta/2,
                                  \angmean{\theta}_{i, t} + \eta/2),
 \end{equation*}
-where $\mathcal{U}$ is the uniform distribution, $\angmean{\theta}_{i, t}$
+where $\angmean{\theta}_{i, t}$ represents the average direction of motion of agent $i$'s
+neighbours at time $t$. As $\angmean{\theta}_{i, t}$ describes a mean of circular
+quantities (directions of motion), its computation necessitates the use of the
+circular mean:
+\begin{equation*}
+    \angmean{\theta}_{i, t+1} = \atantwo\bigg(
+        \sum_{j=1}^N \omega_{ij, t} \sin\theta_{j,t},
+        \sum_{j=1}^N \omega_{ij, t} \cos\theta_{j,t}
+    \bigg).
+\end{equation*}
+With this, $\omega_{ij, t}$ determines the strength of the interaction between agent $i$
+and neighbour $j$ at time $t$. In the Vicsek model agents interact with neighbours within
+some interaction radius $r$, and so we have:
+\begin{equation*}
+    \omega_{ij,t} =
+    \begin{cases}
+        1 & \text{ if } d_{ij, t} \leq r,\\
+        0 & \text{ otherwise.}
+    \end{cases}
+\end{equation*}
