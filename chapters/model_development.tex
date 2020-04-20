@@ -30,11 +30,12 @@ motion $\theta_{i, t+1}$. The computation of $\theta_{i, t+1}$ describes how age
 their direction in light of their neighbours' movements, and an additional noise term. In
 the Vicsek model the noise is realised from a $\mathcal{U}(-\eta/2, \eta/2)$
 distribution. The directional update of agent $i$ can then be expressed as:
-\begin{equation*}
+\begin{equation}
+    \label{eq:vicsek_update}
     \theta_{i, t+1} \given \angmean{\theta}_{i, t}, \eta \sim
                      \mathcal{U}(\angmean{\theta}_{i, t} - \eta/2,
                                  \angmean{\theta}_{i, t} + \eta/2),
-\end{equation*}
+\end{equation}
 where $\angmean{\theta}_{i, t}$ represents the average direction of motion of agent $i$'s
 neighbours at time $t$. As $\angmean{\theta}_{i, t}$ describes a mean of circular
 quantities (directions of motion), its computation necessitates the use of the
@@ -55,3 +56,29 @@ some interaction radius $r$, and so we have:
         0 & \text{ otherwise.}
     \end{cases}
 \end{equation*}
+
+\begin{figure}[tb]
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics{vicsek_simulation_1.pdf}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics{vicsek_simulation_4.pdf}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics{vicsek_simulation_7.pdf}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics{vicsek_simulation_10.pdf}
+    \end{subfigure}
+    \caption{Visualisations from a simulation of the Vicsek model. At time $t=1$, $N=10$
+        agents are assigned random positions within a square-cell of side length $L=1$.
+        Initially, the directions of motion of individuals are realised from a
+        $\mathcal{U}(-\pi, \pi)$ distribution. Between time steps agents move with speed
+        $v=0.03$, and update directions according to \cref{eq:vicsek_update}, with
+        $\eta=\pi/16$. The interaction radius $r$ of agent $i$ is illustrated throughout
+        the model simulation. The positions of neighbours within agent $i$'s interaction
+        radius are visualised with a green cross. Individuals which lie outside of agent
+        $i$'s interaction radius have their positions denoted by a red cross.}
+\end{figure}
+
