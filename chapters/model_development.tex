@@ -151,8 +151,22 @@ boundary conditions and side-length $L$. In this way the density of the cell rem
 constant throughout a simulation. However, implementing periodic boundary conditions when
 we attempt to mimic real flocking events is clearly inappropriate. Instead, we shall
 consider simulations to take place in the unrestricted continuous domain represented by
-$\mathbb{R}^2$.
+$\mathbb{R}^2$.  On top of realism, performing simulations in this unrestricted domain
+allows more informative visualisations of the resulting data, as in
+\cref{fig:example_traj}.
+\begin{figure}[tb]
+    \includegraphics{example_traj_plot.pdf}
+    \caption{A trajectory plot representing the movements of $N=45$ agents moving in an
+    unrestricted domain. Agents are initially positioned at the locations represented by
+    the green markers. The model is simulated for $200$ time steps. The red markers
+    represent the positions of agents at the end of a simulation. Blue lines represent
+    the trajectories of motion of individual agents.}
+    \label{fig:example_traj}
+\end{figure}
 
 
+\section{Continuous interaction models}
 
+\subsection{Metric models}
 
+\subsection{Topological models}
