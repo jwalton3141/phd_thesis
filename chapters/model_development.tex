@@ -117,5 +117,30 @@ the same direction at time $t$ have an alignment $v_{a,t}=1$.
         denoted by a red cross.}
 \end{figure}
 
+\subsection{Considerations of stochasticity}
 
+Developed from models of ferromagnetism, the uniformly distributed noise implemented in
+simulations of the Vicsek model is analogous to temperature in a physical system. However,
+it is not clear whether this distribution is a reasonable choice for biologically-motivated
+systems. In much of the literature authors instead assume that noise is normally
+distributed. In this case an agent's directional update typically takes the form:
+\begin{equation*}
+    \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \sigma_Y \sim
+        \mathcal{N}(\angmean{\theta}_{i,t}, \sigma_Y).
+\end{equation*}
+
+Throughout this work we shall also consider the possibility that the noise experienced by
+individuals is distributed according to some generalised Student's $t$-distribution with
+$\nu$ degrees of freedom. The directional update of agent $i$ is then expressed as:
+\begin{equation*}
+    \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \nu, \sigma_Y \sim
+    t_{\nu}(\angmean{\theta}_{i,t}, \sigma_Y).
+\end{equation*}
+The Student's $t$-distribution allows more weight in its tails than the normal
+distribution permits. However, as $\nu\rightarrow\infty$ the Student's $t$-distribution
+with location $\mu$ and scale $\sigma_Y$ recovers a normal distribution with mean and
+standard deviation corresponding to these location and scale parameters.  Although the
+Student's $t$-distribution represents a more flexible noise structure, it also comes at
+the cost of model complexity: with the introduction of the degrees of freedom as an
+additional model parameter.
 
