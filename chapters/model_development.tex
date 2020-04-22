@@ -182,4 +182,40 @@ parameter inference on models with these rules is expected to be more attainable
 
 \subsection{Metric models}
 
+Metric models, of which Vicsek is an example, implement weighting rules which are
+explicitly distance-dependant. Here we shall introduce two additional metric interaction
+models, both of which represent continuous rules.
+
+\subsubsection{Power-law interaction}
+
+A power-law relationship between two quantities is realised when a relative increase in
+one quantity results in a proportional change in the remaining quantity. Power-law
+relationships are found frequently in physical and biological systems, and so represent a
+natural choice of interaction rule to investigate.
+
+\begin{equation}
+	\omega_{ij,t} =
+	\begin{cases}
+		1                  & \, \text{if } d_{ij,t} = 0, \\
+		d_{ij,t}^{-\alpha} & \, \text{otherwise}.
+	\end{cases}
+\end{equation}
+
+\subsubsection{Gaussian interaction}
+
+\begin{equation}
+	\omega_{ij,t} =
+	\frac{1}{\sqrt{2\pi\sigma_X^2}}
+	e^{-\frac{1}{2}\big(\frac{d_{ij,t}}{\sigma_X}\big)^2}.
+\end{equation}
+
 \subsection{Topological models}
+
+\begin{equation}
+	\omega_{ij,t} =
+	\begin{cases}
+		1           & \, \text{if } d_{ij, t} \leq \min_j(d_{ij,t},\, \floor{k}), \\
+		k-\floor{k} & \, \text{if } d_{ij, t} = \min_j(d_{ij,t},\, \ceil{k}),     \\
+		0           & \, \text{otherwise,}
+	\end{cases}
+\end{equation}
