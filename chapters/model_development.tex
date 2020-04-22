@@ -193,21 +193,44 @@ one quantity results in a proportional change in the remaining quantity. Power-l
 relationships are found frequently in physical and biological systems, and so represent a
 natural choice of interaction rule to investigate.
 
+For the power-law weighted model we assume that the interaction strength between
+individuals decays as some power-law relationship with their distance apart:
 \begin{equation}
+    \label{eq:power_law_interaction}
 	\omega_{ij,t} =
 	\begin{cases}
 		1                  & \, \text{if } d_{ij,t} = 0, \\
 		d_{ij,t}^{-\alpha} & \, \text{otherwise}.
 	\end{cases}
 \end{equation}
+The interaction of the Vicsek model is parameterised by the radius $r$. Here the
+interaction is parameterised by some $\alpha\in\mathbb{R}^+$. The parameter $\alpha$
+controls the rate at which the interaction strength between individuals decays. 
+
+In this model the closer the neighbour to agent $i$, the more influence it has over agent
+$i$'s behaviour. It follows from this that the further away a neighbour is from the
+position of agent $i$, the less influence it has on agent $i$'s movement.
 
 \subsubsection{Gaussian interaction}
 
+As with the power-law weighted model, here the influence which neighbour $j$ exerts over
+agent $i$ is inversely related to their distance apart.
+
 \begin{equation}
+    \label{eq:gaussian_interaction}
 	\omega_{ij,t} =
 	\frac{1}{\sqrt{2\pi\sigma_X^2}}
 	e^{-\frac{1}{2}\big(\frac{d_{ij,t}}{\sigma_X}\big)^2}.
 \end{equation}
+
+\begin{figure}
+    \includegraphics{weighting_rules.pdf}
+    \caption{Visualising how interaction strength decays with distance for the three
+        considered interaction rules. From left to right the interactions represented are:
+        the Vicsek model (\cref{eq:vicsek_interaction}), the power-law weighted
+        interaction (\cref{eq:power_law_interaction}), the Gaussian weighted interaction
+        (\cref{eq:gaussian_interaction}).}
+\end{figure}
 
 \subsection{Topological models}
 
@@ -219,3 +242,7 @@ natural choice of interaction rule to investigate.
 		0           & \, \text{otherwise,}
 	\end{cases}
 \end{equation}
+
+\section{Behavioural \& biological variation}
+
+Chat about hierarchical models.
