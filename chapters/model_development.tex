@@ -13,8 +13,8 @@ the model is regulated.
 The Vicsek model, like many other ABMs, implements a discontinuous interaction rule. With
 this the onset of interaction between individuals is very sensitive to small perturbations
 in distances. We consider continuous interaction rules as a biologically-motivated
-alternative. Such rules ensure the model is more robust to small perturbations in
-distances, but without the penalty of adding extra model complexity.
+alternative. Such rules ensure interactions are more robust to small perturbations in
+distances, but without the penalty of additional model complexity.
 
 \section{The Vicsek Model}
 
@@ -27,7 +27,7 @@ its position as:
     \bm{x}_{i, t+1} = \bm{x}_{i, t} + \bm{v}_{i, t},
 \end{equation*}
 where the velocity $\bm{v}_{i,t}$ is constructed to have speed $v$ and direction of motion
-$\theta_{i, t+1}$. Updating $\theta{i,t}$ to $\theta_{i, t+1}$ models how agents update
+$\theta_{i, t+1}$. Updating $\theta_{i,t}$ to $\theta_{i, t+1}$ models how agents update
 their directions of motion in light of their neighbours' movements. The ability of
 individuals to observe and react to the movements of their neighbours is assumed to be
 imperfect, and so a noise term, in the form of a random directional perturbation, is
@@ -52,7 +52,7 @@ weighted circular mean:
 With this, the weighting $\omega_{ij, t}$ represents the strength of the interaction
 between agent $i$ and agent $j$ at time $t$. In the Vicsek model agent $i$ interacts
 with neighbours which are within distance $r$ of its current position. This interaction
-can be implemented with the weighting rule,
+can be implemented with the weighting rule
 \begin{equation}
     \label{eq:vicsek_interaction}
     \omega_{ij,t} =
@@ -69,7 +69,7 @@ $j$ at time $t$:
 
 The interaction rule implemented in the Vicsek model represents a discontinuous
 interaction, as the interaction kernel is very sensitive to small perturbations in
-distances.  More formally, this discontinuity can be considered by the value of
+distances.  More formally, this discontinuity can be shown by considering the value of
 $\omega_{ij, t}$ as $d_{ij,t}$ tends to $r$ from above and below. As $d_{ij,t}$ tends to
 $r$ from above we realise $\lim_{d_{ij,t} \rightarrow r^+} \omega_{ij,t} = 0$.
 Conversely, as $d_{ij,t}$ tends to $r$ from below we observe: $\lim_{d_{ij,t} \rightarrow
@@ -119,7 +119,7 @@ the same direction at time $t$ have an alignment $v_{a,t}=1$.
 
 \subsection{Considerations of stochasticity}
 
-Developed from models of ferromagnetism, the uniformly distributed noise implemented in
+Inspired by models of interacting particles, the uniformly distributed noise implemented in
 simulations of the Vicsek model is analogous to temperature in a physical system. However,
 it is not clear whether this distribution is a reasonable choice for biologically-motivated
 systems. In much of the literature authors instead assume that noise is normally
@@ -131,14 +131,15 @@ distributed. In this case an agent's directional update typically takes the form
 
 Throughout this work we shall also consider the possibility that the noise experienced by
 individuals is distributed according to some generalised Student's $t$-distribution with
-$\nu$ degrees of freedom. The directional update of agent $i$ is then expressed as:
+$\nu$ degrees of freedom. In this situation, the directional update of agent $i$ would
+then be expressed as:
 \begin{equation*}
     \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \nu, \sigma_Y \sim
     t_{\nu}(\angmean{\theta}_{i,t}, \sigma_Y).
 \end{equation*}
 The Student's $t$-distribution allows more weight in its tails than the normal
 distribution permits. However, as $\nu\rightarrow\infty$ the Student's $t$-distribution
-with location $\mu$ and scale $\sigma_Y$ recovers a normal distribution with mean and
+with location $\mu$ and scale $\sigma_Y$ converges to a normal distribution with mean and
 standard deviation corresponding to these location and scale parameters.  Although the
 Student's $t$-distribution represents a more flexible noise structure, it also comes at
 the cost of model complexity: with the introduction of the degrees of freedom as an
@@ -156,16 +157,28 @@ allows more informative visualisations of the resulting data, as in
 \cref{fig:example_traj}.
 \begin{figure}[tb]
     \includegraphics{example_traj_plot.pdf}
-    \caption{A trajectory plot representing the movements of $N=45$ agents moving in an
-    unrestricted domain. Agents are initially positioned at the locations represented by
-    the green markers. The model is simulated for $200$ time steps. The red markers
-    represent the positions of agents at the end of a simulation. Blue lines represent
-    the trajectories of motion of individual agents.}
+    \caption{A trajectory plot representing the movements of $N=45$ agents moving through
+        the unrestricted continuous domain $\mathbb{R}^2$. Agents are initially positioned
+        at the locations represented by the green markers. The model is simulated for
+        $200$ time steps. The red markers represent the positions of agents at the end of
+        a simulation. Blue lines represent the trajectories of motion of individual agents
+        throughout the simulation.}
     \label{fig:example_traj}
 \end{figure}
 
-
 \section{Continuous interaction models}
+
+It has been seen that the interaction rule implemented in the Vicsek model exhibits a
+discontinuity. This discontinuity represents two concerns for the authors. Firstly, the
+biological realism of an interaction rule implementing a hard cut-off is brought into
+question. Secondly, the ability to fit such a model to data is seen to be potentially
+problematic: effectively exploring the sample space of a discontinuous target
+distribution can be difficult.
+
+Such concerns can be addressed by considering variations of the Vicsek model in which
+continuous interaction rules are implemented. The authors consider that such rules may
+represent more biologically realistic behaviours. In addition to this, effective
+parameter inference on models with these rules is expected to be more attainable.
 
 \subsection{Metric models}
 
