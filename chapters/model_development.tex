@@ -11,18 +11,18 @@ events. A phase transition from order to disorder is observed as the amount of n
 the model is regulated.
 
 The Vicsek model, like many other ABMs, implements a discontinuous interaction rule. With
-this the onset of interaction between individuals is very sensitive to small perturbations
+this, the onset of interaction between individuals is very sensitive to small perturbations
 in distances. We consider continuous interaction rules as a biologically-motivated
 alternative. Such rules ensure interactions are more robust to small perturbations in
-distances, but without the penalty of additional model complexity.
+distances, and without the penalty of additional model complexity.
 
 \section{The Vicsek Model}
 
-The Vicsek model simulates the movements of $N$ individuals moving with constant speed
-$v$. All movement takes place in a square-cell with periodic boundary conditions and side
-length $L$. To initialise a simulation agents are allocated a random position within
-the cell, and a random direction of motion. From time $t$ to time $t+1$ agent $i$ updates
-its position as:
+The Vicsek model simulates the movements of $N$ individuals moving with constant speed $v$
+(\cref{fig:vicsek_sim}). All movement takes place in a square-cell with periodic boundary
+conditions and side length $L$. To initialise a simulation agents are allocated a random
+position within the cell, and a random direction of motion. From time $t$ to time $t+1$
+agent $i$ updates its position as:
 \begin{equation*}
     \bm{x}_{i, t+1} = \bm{x}_{i, t} + \bm{v}_{i, t},
 \end{equation*}
@@ -32,19 +32,18 @@ their directions of motion in light of their neighbours' movements. The ability 
 individuals to observe and react to the movements of their neighbours is assumed to be
 imperfect, and so a noise term, in the form of a random directional perturbation, is
 introduced. In the Vicsek model noise is considered to be uniformly distributed as
-$\mathcal{U}(-\eta/2, \eta/2)$. The directional update of agent $i$ can then be expressed
-as:
+$\mathcal{U}(-\eta/2, \eta/2)$. The directional update of agent $i$ can then be realised by the draw
 \begin{equation}
     \label{eq:vicsek_update}
     \theta_{i, t+1} \given \angmean{\theta}_{i, t}, \eta \sim
-                     \mathcal{U}(\angmean{\theta}_{i, t} - \eta/2,
-                                 \angmean{\theta}_{i, t} + \eta/2),
+                   \mathcal{U}(\angmean{\theta}_{i, t} - \eta/2,
+                               \angmean{\theta}_{i, t} + \eta/2),
 \end{equation}
-where $\angmean{\theta}_{i, t}$ represents the average direction of motion of agent $i$'s
-neighbours at time $t$. The computation of $\angmean{\theta}_{i, t}$ is described by a
-weighted circular mean:
+where $\angmean{\theta}_{i, t}$ represents the average direction of motion of
+agent $i$'s neighbours at time $t$.  A weighted circular mean is used to
+compute $\angmean{\theta}_{i, t}$ as
 \begin{equation}
-    \angmean{\theta}_{i, t+1} = \atantwo\bigg(
+    \angmean{\theta}_{i, t} = \atantwo\bigg(
         \sum_{j=1}^N \omega_{ij, t} \sin\theta_{j,t},
         \sum_{j=1}^N \omega_{ij, t} \cos\theta_{j,t}
     \bigg).
@@ -70,12 +69,12 @@ $j$ at time $t$:
 The interaction rule implemented in the Vicsek model represents a discontinuous
 interaction, as the interaction kernel is very sensitive to small perturbations in
 distances.  More formally, this discontinuity can be shown by considering the value of
-$\omega_{ij, t}$ as $d_{ij,t}$ tends to $r$ from above and below. As $d_{ij,t}$ tends to
-$r$ from above we realise $\lim_{d_{ij,t} \rightarrow r^+} \omega_{ij,t} = 0$.
+$\omega_{ij, t}$ as $d_{ij,t}$ tends to $r$ from above and below.  As $d_{ij,t}$ tends to
+$r$ from above it can be seen that $\lim_{d_{ij,t} \rightarrow r^+} \omega_{ij,t} = 0$.
 Conversely, as $d_{ij,t}$ tends to $r$ from below we observe: $\lim_{d_{ij,t} \rightarrow
 r^-} \omega_{ij,t} = 1$. As the weighting tends to different values as the limit of
-$d_{ij,t}=r$ is approached from above and below we see that this weighting rule exhibits a
-discontinuity.
+$d_{ij,t}=r$ is approached from above and below, we see that there is a discontinuity at
+$d_{ij,t}=r$.
 
 The Vicsek model was motivated by considering models for ferromagnetism. In these models
 particles align spin states with neighbouring particles. Although a discontinuous
@@ -87,10 +86,9 @@ of the normalised velocity of a flock:
 \begin{equation}
     v_{a,t} = \frac{1}{Nv} \abs{\,\sum_{i=1}^N \bm{v}_{i,t}\,}.
 \end{equation}
-A flock in which
-agents are directed randomly, and not moving in any cohesive manner at time $t$, exhibit
-$v_{a,t}\approx0$. Conversely, a highly polarised flock in which all members are moving in
-the same direction at time $t$ have an alignment $v_{a,t}=1$.
+At time $t$, a flock not moving cohesively, with individual members directed randomly, has
+polarisation $v_{a,t}\approx0$. Conversely, a highly polarised flock in which all members are moving in
+the same direction at time $t$ has an alignment $v_{a,t}\approx1$.
 
 \begin{figure}[tb]
     \begin{subfigure}[b]{0.5\textwidth}
@@ -115,6 +113,7 @@ the same direction at time $t$ have an alignment $v_{a,t}=1$.
         neighbours within agent $i$'s interaction zone are visualised with a green cross.
         Individuals which lie outside of agent $i$'s interaction zone have their positions
         denoted by a red cross.}
+        \label{fig:vicsek_sim}
 \end{figure}
 
 \subsection{Considerations of stochasticity}
@@ -131,8 +130,8 @@ distributed. In this case an agent's directional update typically takes the form
 
 Throughout this work we shall also consider the possibility that the noise experienced by
 individuals is distributed according to some generalised Student's $t$-distribution with
-$\nu$ degrees of freedom. In this situation, the directional update of agent $i$ would
-then be expressed as:
+$\nu$ degrees of freedom. In this situation, the directional update of agent $i$ is given
+as:
 \begin{equation*}
     \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \nu, \sigma_Y \sim
     t_{\nu}(\angmean{\theta}_{i,t}, \sigma_Y).
@@ -176,19 +175,30 @@ problematic: effectively exploring the sample space of a discontinuous target
 distribution can be difficult.
 
 Such concerns can be addressed by considering variations of the Vicsek model in which
-continuous interaction rules are implemented. The authors consider that such rules may
-represent more biologically realistic behaviours. In addition to this, effective
-parameter inference on models with these rules is expected to be more attainable.
+continuous interaction rules are implemented. The authors consider that such rules
+represent more biologically realistic behaviours. In addition to this, the MCMC algorithms
+used to draw samples from our posterior beliefs are expected to be better behaved for the
+models implementing continuous interaction rules.
 
 \subsection{Metric models}
 
 Metric models, of which Vicsek is an example, implement weighting rules which are
-explicitly distance-dependant. Here we shall introduce two additional metric interaction
-models, both of which represent continuous rules.
+explicitly distance-dependant. Here we shall motivate two novel metric interaction
+rules. We propose that the weighting rules introduced represent intuitive and biologically
+realistic rules.
+
+\begin{figure}[tb]
+    \includegraphics{weighting_rules.pdf}
+    \caption{Visualising the relationship between interaction strength $\omega_{ij,t}$ and
+        distance $d_{ij,t}$ for three different weighting rules. From left to right we
+        represent: the Vicsek interaction (\cref{eq:vicsek_interaction}), the power-law
+        weighted interaction (\cref{eq:power_law_interaction}), and the Gaussian weighted
+    interaction (\cref{eq:gaussian_interaction}).}
+\end{figure}
 
 \subsubsection{Power-law interaction}
 
-A power-law relationship between two quantities is realised when a relative increase in
+A power-law relationship between two quantities is realised when a relative change in
 one quantity results in a proportional change in the remaining quantity. Power-law
 relationships are found frequently in physical and biological systems, and so represent a
 natural choice of interaction rule to investigate.
@@ -207,15 +217,20 @@ The interaction of the Vicsek model is parameterised by the radius $r$. Here the
 interaction is parameterised by some $\alpha\in\mathbb{R}^+$. The parameter $\alpha$
 controls the rate at which the interaction strength between individuals decays. 
 
-In this model the closer the neighbour to agent $i$, the more influence it has over agent
+In this model, the closer a neighbour to agent $i$, the more influence it has over agent
 $i$'s behaviour. It follows from this that the further away a neighbour is from the
 position of agent $i$, the less influence it has on agent $i$'s movement.
 
+This interaction rule is continuous for $d_{ij,t} > 0$, but still exhibits a discontinuity
+at $d_{ij,t}=0$. Although this may present a problem theoretically, in practice we do not
+consider that this should pose an issue.
+
 \subsubsection{Gaussian interaction}
 
-As with the power-law weighted model, here the influence which neighbour $j$ exerts over
-agent $i$ is inversely related to their distance apart.
-
+As with the power-law weighted model, with the Gaussian weighted model the influence which
+neighbour $j$ exerts over agent $i$ is inversely related to their distance apart; the
+further away a neighbour the less influence it exerts. The Gaussian weighted interaction
+is continuous over all $d_{ij,t}$, and can be expressed as:
 \begin{equation}
     \label{eq:gaussian_interaction}
 	\omega_{ij,t} =
@@ -223,16 +238,14 @@ agent $i$ is inversely related to their distance apart.
 	e^{-\frac{1}{2}\big(\frac{d_{ij,t}}{\sigma_X}\big)^2}.
 \end{equation}
 
-\begin{figure}
-    \includegraphics{weighting_rules.pdf}
-    \caption{Visualising how interaction strength decays with distance for the three
-        considered interaction rules. From left to right the interactions represented are:
-        the Vicsek model (\cref{eq:vicsek_interaction}), the power-law weighted
-        interaction (\cref{eq:power_law_interaction}), the Gaussian weighted interaction
-        (\cref{eq:gaussian_interaction}).}
-\end{figure}
+Here the parameter $\sigma_X$ sets the length-scale over which the 
 
 \subsection{Topological models}
+
+Much interest in topological interaction rules was generated by \cite{ballerini08}. In
+this model agents interact wither their $k\in\mathbb{N}$ nearest neighbours. Here we look
+to relax the constraint in which agents interact with some fixed integer number of closest
+neighbours. Instead, we allow agents to respond to the movements of partial neighbours and 
 
 \begin{equation}
 	\omega_{ij,t} =
