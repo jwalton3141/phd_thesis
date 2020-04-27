@@ -77,7 +77,7 @@ r^-} \omega_{ij,t} = 1$. As the weighting tends to different values as the limit
 $d_{ij,t}=r$ is approached from above and below, we see that there is a discontinuity at
 $d_{ij,t}=r$.
 
-The Vicsek model was motivated by considering models for ferromagnetism. In these models
+The Vicsek model was motivated by models for ferromagnetism. In these models
 particles align spin states with neighbouring particles. Although a discontinuous
 interaction rule may be appropriate for such models, it is not clear whether the
 hard cut-off imposed by the interaction radius is appropriate for biological systems.
@@ -153,13 +153,15 @@ additional model parameter.
 \subsection{Boundary conditions \& trajectory plots}
 
 Recall that all simulations of the Vicsek model take place in a square-cell with periodic
-boundary conditions and side-length $L$. In this way the density of the cell remains
+boundary conditions and side-length $L$. In this way the density of a cell remains
 constant throughout a simulation. However, implementing periodic boundary conditions when
 we attempt to mimic real flocking events is clearly inappropriate. Instead, we shall
 consider simulations to take place in the unrestricted continuous domain represented by
 $\mathbb{R}^2$.  On top of realism, performing simulations in this unrestricted domain
 allows more informative visualisations of the resulting data, as in
-\cref{fig:example_traj}.
+\cref{fig:example_traj}. Here we are able to visualise the positions of agents throughout
+a simulation in a single graphic.
+
 \begin{figure}[tb]
     \includegraphics{example_traj_plot.pdf}
     \caption{A trajectory plot representing the movements of $N=45$ agents moving through
@@ -189,9 +191,10 @@ models implementing continuous interaction rules.
 \subsection{Metric models}
 
 Metric models, of which Vicsek is an example, implement weighting rules which are
-explicitly distance-dependant. Here we shall motivate two novel metric interaction
-rules. We propose that the weighting rules introduced represent intuitive and biologically
-realistic rules.
+explicitly distance-dependant. Here we shall motivate two novel metric interaction rules.
+We propose that the weighting rules introduced represent intuitive and biologically
+realistic rules. \cref{fig:weighting_rules} visualises the interaction rule of Vicsek,
+along with the two novel interaction rules to be introduced.
 
 \begin{figure}[tb]
     \includegraphics{weighting_rules.pdf}
@@ -200,6 +203,7 @@ realistic rules.
         visualise: the Vicsek interaction (\cref{eq:vicsek_interaction}), the power-law
         weighted interaction (\cref{eq:power_law_interaction}), and the Gaussian weighted
     interaction (\cref{eq:gaussian_interaction}).}
+    \label{fig:weighting_rules}
 \end{figure}
 
 \subsubsection{Power-law interaction}
@@ -253,6 +257,13 @@ weighting function which is very peaked around agent $i$'s position. As $\sigma_
 \rightarrow \infty$ the weighting approaches a schema in which all neighbours in the flock
 are awarded the same weight. This limiting behaviour is equivalent to that of Vicsek as
 $r\rightarrow\infty$, and the power-law weighted model as $\alpha\rightarrow0$.
+
+Although the Gaussian model implements a similar interaction kernel to that of the
+power-law weighted model, there remains differences in their functional forms.
+Most notably we see that the power-law interaction represents a convex weighting function, whereas
+the Gaussian interaction is a concave weighting. The Gaussian model also has some inherent
+length scale, expressed by the parameter $\sigma_X$, whereas the power-law weighted
+interaction is scale-free.
 
 \subsection{Topological models}
 
