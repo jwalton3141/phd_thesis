@@ -1,6 +1,6 @@
 \graphicspath{{fig/model_development/}}
 
-\chapter{Model Development}
+\chapter{Model development}
 \label{cha:model_dev}
 
 In this chapter we shall introduce one of the most popular and well studied agent-based
@@ -16,7 +16,7 @@ in distances. We consider continuous interaction rules as a biologically-motivat
 alternative. Such rules ensure interactions are more robust to small perturbations in
 distances, and without the penalty of additional model complexity.
 
-\section{The Vicsek Model}
+\section{The Vicsek model}
 
 The Vicsek model simulates the movements of $N$ individuals moving with constant speed $v$
 (\cref{fig:vicsek_sim}). All movement takes place in a square-cell with periodic boundary
@@ -240,10 +240,10 @@ consider that this should pose an issue.
 
 \subsubsection{Gaussian interaction}
 
-As with the power-law weighted model, with the Gaussian weighted model the influence which
-neighbour $j$ exerts over agent $i$ is inversely proportional to their distance apart; the
-further away a neighbour the less influence it exerts. The Gaussian weighted interaction
-is continuous over all $d_{ij,t}$, and can be expressed as:
+Similar to the power-law weighted model, in the Gaussian weighted model the influence
+which neighbour $j$ exerts over agent $i$ is inversely proportional to their distance
+apart; the further away a neighbour the less influence it exerts. The Gaussian weighted
+interaction is continuous over all $d_{ij,t}$, and can be expressed as:
 \begin{equation}
     \label{eq:gaussian_interaction}
 	\omega_{ij,t} =
@@ -259,11 +259,11 @@ are awarded the same weight. This limiting behaviour is equivalent to that of Vi
 $r\rightarrow\infty$, and the power-law weighted model as $\alpha\rightarrow0$.
 
 Although the Gaussian model implements a similar interaction kernel to that of the
-power-law weighted model, there remains differences in their functional forms.
-Most notably we see that the power-law interaction represents a convex weighting function, whereas
-the Gaussian interaction is a concave weighting. The Gaussian model also has some inherent
-length scale, expressed by the parameter $\sigma_X$, whereas the power-law weighted
-interaction is scale-free.
+power-law weighted model, there remains differences in their functional forms.  Most
+notably is that the power-law interaction represents a convex weighting function, whereas
+the Gaussian interaction is a concave weighting (\cref{fig:weighting_rules}). The Gaussian
+model also has some inherent length scale, expressed by the parameter $\sigma_X$, whereas
+the power-law weighted interaction is scale-free.
 
 \subsection{Topological models}
 
@@ -273,14 +273,15 @@ rules. Here, agents interact with their $k\in\mathbb{N}$ nearest neighbours, reg
 their distance apart. This interaction rule was motivated by simulations which suggested
 that flocks implementing topological rules were more resistant to perturbations, such as
 those by predators, than those implementing metric rules. As such, it was argued that
-topological interaction rules offer an evolutionary advantage to flocks over metric rules.
+topological interaction rules offer an evolutionary advantage to flocks over metric
+interaction rules.
 It was also posed that the cognitive limits of individuals puts some upper bound on the
-number of neighbours which they can react to at any one time.
+number of neighbours which agents can interact with at any one time.
 
-Whilst retaining the topological rule, we look to relax the constraint in which agents may
-only interact with some \emph{integer} number of closest neighbours. Instead, we 
-allow an agent to interact with some $k\in\mathbb{R}^+$ nearest neighbours. This allows a
-partial neighbour to make some minor contribution to an agent's behaviour.
+Whilst retaining the form of the topological rule, we look to relax the constraint that
+agents may only interact with some \emph{integer} number of closest neighbours.  Instead,
+we allow an agent to interact with some $k\in\mathbb{R}^+$ nearest neighbours.  This
+allows partial neighbours, which may make some lesser contribution to an agent's behaviour.
 
 For some $k\in\mathbb{R}^+$ we say that each agent gives weighting $1$ to its $\floor{k}$
 nearest neighbours, weighting $k - \floor{k}$ to its $\ceil{k}$-th nearest neighbour, and
