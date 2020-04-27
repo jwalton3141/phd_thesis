@@ -300,4 +300,93 @@ time $t$.
 
 \section{Behavioural \& biological variation}
 
-Chat about hierarchical models.
+In all the model variations considered thus far, there has been no allowance for
+behavioural or biological variation within flocks. That is, presented with the same
+circumstances, all of our agents would behave identically. This is despite our
+understanding of the importance of biological variation in nature.
+
+Within a single flock, we may reasonably expect there to be variation in the age,
+cognitive ability, social standing and physical attributes of the individuals. Naturally
+then, it seems reasonable to suggest that as the attributes of individuals may vary, then
+the behavioural response of individuals to a particular set of circumstances may vary too.
+This is in keeping with the observation that the orientation abilities of migrating
+raptors is age dependent \parencite{thorup03}.
+
+This isn't to say that models allowing intra-flock variation haven't been considered
+before. Particularly memorable was the work of \textcite{couzin05}, which simulated flocks
+of individuals partitioned into a group of leaders and a group of followers. The two groups
+interacted according to different behavioural rules. Followers sought only to amend their
+directions in response to the movements of their neighbours. Whereas leaders balanced
+their desire to interact with neighbours and their desire to move in a particular
+direction (for example, toward a migratory of foraging goal).
+
+Instead of dividing agents into distinct behavioural categories, we permit a range of
+behavioural responses by allowing interaction and noise parameters to vary between
+individuals. Some agents may be more or less susceptible to noise than others. Consider
+then that agent $i$ experiences noise distributed according to a generalised Students
+$t$-distribution with $\nu$ degrees of freedom and scale $\sigma_{Y_i}$. Agent $i$'s
+directional update is then given as
+\begin{equation*}
+    \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \nu, \sigma_{Y_i} \sim
+    t_{\nu}(\angmean{\theta}_{i,t}, \sigma_{Y_i}).
+\end{equation*}
+
+In addition to allowing noise parameters to vary within a flock, we also seek to allow
+interaction parameters to vary within a flock. In the case of Vicsek, agent $i$ would then
+interact with neighbours positioned within distance $r_i$. This corresponds to the
+weighting rule:
+\begin{equation}
+    \label{eq:vicsek_interaction}
+    \omega_{ij,t} =
+    \begin{cases}
+        1 & \text{ if } d_{ij, t} \leq r_i,\\
+        0 & \text{ otherwise.}
+    \end{cases}
+\end{equation}
+A similar allowance can be made for the power-law weighted, Gaussian weighted and
+topological models considered.
+
+\subsection{Imposing hierarchy}
+
+Rather than considering the individual interaction and noise parameters as completely
+independent, we can consider them as being realisations from a population-level
+distribution. Hierarchical models allow us to incorporate this extra level of structure
+into our models.
+
+Hyperparameters are introduced as parameters of the specified population-level distribution.
+Hyperpriors are then specified to reflect the practitioners beliefs about feasible values
+of the hyperparameters.
+
+The noise and interaction parameters in our models are all strictly positive, and not
+bounded above. As such, we shall assume that the population distributions for these
+parameters follow some gamma distribution. Consider, for example, that the noise
+parameters $\sigma_{Y_i}$ are distributed according to some gamma distribution with shape
+$\alpha_Y$ and rate $\beta_Y$. More concisely, we consider our noise parameters as being
+distributed according to
+\begin{equation}
+    \label{eq:noise_hier}
+    \sigma_{Y_i} \sim \Ga(\alpha_Y, \beta_Y).
+\end{equation}
+As such, our hyperparameters here are $\alpha_Y$ and $\beta_Y$. The practitioner is then
+required to specify hyperpriors: their prior beliefs about plausible values for $\alpha_Y$
+and $\beta_Y$. It can be hard to get an intuitive feel for plausible values for the shape
+and rate parameters, and so we shall instead re-parameterise our population-level
+distribution in terms of the mean and variance. Consider that the mean and variance of the
+gamma distribution can be computed as $m_Y = \alpha_Y / \beta_Y$ and $v_Y =
+\alpha_Y/\beta_Y^2$ respectively. From these two relations it can be seen that $\alpha_Y =
+m_Y^2 / v_Y$ and $\beta_Y = m_Y / v_Y$. \cref{eq:noise_hier} can then be re-expressed as:
+\begin{equation}
+    \sigma_{Y_i} \sim \Ga\bigg(\frac{m_Y^2}{v_Y}, \frac{m_Y}{v_Y}\bigg).
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
