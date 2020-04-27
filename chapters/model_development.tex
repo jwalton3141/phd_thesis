@@ -32,7 +32,8 @@ their directions of motion in light of their neighbours' movements. The ability 
 individuals to observe and react to the movements of their neighbours is assumed to be
 imperfect, and so a noise term, in the form of a random directional perturbation, is
 introduced. In the Vicsek model noise is considered to be uniformly distributed as
-$\mathcal{U}(-\eta/2, \eta/2)$. The directional update of agent $i$ can then be realised by the draw
+$\mathcal{U}(-\eta/2, \eta/2)$. The directional update of agent $i$ can then be expressed
+as a realisation from
 \begin{equation}
     \label{eq:vicsek_update}
     \theta_{i, t+1} \given \angmean{\theta}_{i, t}, \eta \sim
@@ -80,15 +81,18 @@ The Vicsek model was motivated by considering models for ferromagnetism. In thes
 particles align spin states with neighbouring particles. Although a discontinuous
 interaction rule may be appropriate for such models, it is not clear whether the
 hard cut-off imposed by the interaction radius is appropriate for biological systems.
+Later, we shall introduce models implementing continuous interaction rules as a
+biologically-motivated alternative.
 
-To quantify the polarisation of a flock at time $t$ Vicsek considered the absolute value
-of the normalised velocity of a flock:
+Along with the introduction of their model, \cite{vicsek95} examined the polarisation of
+simulated flocks as flock density and noise were varied. The polarisation of a flock at
+time $t$ was quantified by the absolute value of the normalised velocity of a flock:
 \begin{equation}
     v_{a,t} = \frac{1}{Nv} \abs{\,\sum_{i=1}^N \bm{v}_{i,t}\,}.
 \end{equation}
 At time $t$, a flock not moving cohesively, with individual members directed randomly, has
-polarisation $v_{a,t}\approx0$. Conversely, a highly polarised flock in which all members are moving in
-the same direction at time $t$ has an alignment $v_{a,t}\approx1$.
+polarisation $v_{a,t}\approx0$. Conversely, a highly polarised flock in which all members
+are moving in the same direction at time $t$ has an alignment $v_{a,t}\approx1$.
 
 \begin{figure}[tb]
     \begin{subfigure}[b]{0.5\textwidth}
@@ -97,8 +101,7 @@ the same direction at time $t$ has an alignment $v_{a,t}\approx1$.
     \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics{vicsek_simulation_4.pdf}
     \end{subfigure}
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics{vicsek_simulation_7.pdf}
+    \begin{subfigure}[b]{0.5\textwidth} \includegraphics{vicsek_simulation_7.pdf}
     \end{subfigure}%
     \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics{vicsek_simulation_10.pdf}
