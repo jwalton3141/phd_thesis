@@ -85,14 +85,17 @@ Later, we shall introduce models implementing continuous interaction rules as a
 biologically-motivated alternative.
 
 Along with the introduction of their model, \cite{vicsek95} examined the polarisation of
-simulated flocks as flock density and noise were varied. The polarisation of a flock at
+simulated flocks as the magnitude of the noise was varied. The polarisation of a flock at
 time $t$ was quantified by the absolute value of the normalised velocity of a flock:
 \begin{equation}
     v_{a,t} = \frac{1}{Nv} \abs{\,\sum_{i=1}^N \bm{v}_{i,t}\,}.
 \end{equation}
 At time $t$, a flock moving incohesively, with individual members directed randomly, has
 polarisation $v_{a,t}\approx0$. Conversely, a highly polarised flock in which all members
-are moving in the same direction at time $t$ has an alignment $v_{a,t}\approx1$.
+are moving in the same direction at time $t$ has an alignment $v_{a,t}\approx1$. As the
+amount of noise in a simulation is increased flocks are observed to transition from an
+ordered $v_{a,t}\approx1$ state to a disordered $v_{a,t}\approx0$ state. For a fixed flock
+density, smaller flocks are observed to be more resistant to noise than larger flocks.
 
 \begin{figure}[tb]
     \begin{subfigure}[b]{0.5\textwidth}
