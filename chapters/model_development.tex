@@ -74,19 +74,18 @@ $\omega_{ij, t}$ as $d_{ij,t}$ tends to $r$ from above and below.  As $d_{ij,t}$
 $r$ from above it can be seen that $\lim_{d_{ij,t} \rightarrow r^+} \omega_{ij,t} = 0$.
 Conversely, as $d_{ij,t}$ tends to $r$ from below we observe: $\lim_{d_{ij,t} \rightarrow
 r^-} \omega_{ij,t} = 1$. As the weighting tends to different values as the limit of
-$d_{ij,t}=r$ is approached from above and below, we see that there is a discontinuity at
-$d_{ij,t}=r$.
+$d_{ij,t}=r$ is approached, we see that there is a discontinuity at $d_{ij,t}=r$.
 
-The Vicsek model was motivated by models for ferromagnetism. In these models
-particles align spin states with neighbouring particles. Although a discontinuous
-interaction rule may be appropriate for such models, it is not clear whether the
-hard cut-off imposed by the interaction radius is appropriate for biological systems.
-Later, we shall introduce models implementing continuous interaction rules as a
-biologically-motivated alternative.
+The Vicsek model was motivated by models for ferromagnetism. In these models particles
+align spin states with neighbouring particles. Although a discontinuous interaction rule
+may be appropriate for such models, it is not clear whether the hard cut-off imposed by
+the interaction radius $r$ is appropriate for biological systems. Later, we shall
+introduce models implementing continuous interaction rules as a biologically-motivated
+alternative.
 
 Along with the introduction of their model, \cite{vicsek95} examined the polarisation of
 simulated flocks as the magnitude of the noise was varied. The polarisation of a flock at
-time $t$ was quantified by the absolute value of the normalised velocity of a flock:
+time $t$ was quantified by the absolute value of the normalised velocity of the flock:
 \begin{equation}
     v_{a,t} = \frac{1}{Nv} \abs{\,\sum_{i=1}^N \bm{v}_{i,t}\,}.
 \end{equation}
@@ -147,12 +146,12 @@ distribution permits. However, as $\nu\rightarrow\infty$ the Student's $t$-distr
 with location $\mu$ and scale $\sigma_Y$ converges to a normal distribution with mean and
 standard deviation corresponding to these location and scale parameters.  Although the
 Student's $t$-distribution represents a more flexible noise structure, it also comes at
-the cost of model complexity: with the introduction of the degrees of freedom as an
+the cost of model complexity: with the introduction of the degrees of freedom $\nu$ as an
 additional model parameter.
 
 \subsection{Boundary conditions \& trajectory plots}
 
-Recall that all simulations of the Vicsek model take place in a square-cell with periodic
+Recall that simulations of the Vicsek model take place in a square-cell with periodic
 boundary conditions and side-length $L$. In this way the density of a cell remains
 constant throughout a simulation. However, implementing periodic boundary conditions when
 we attempt to mimic real flocking events is clearly inappropriate. Instead, we shall
@@ -175,7 +174,7 @@ a simulation in a single graphic.
 
 \section{Continuous interaction models}
 
-It has been seen that the interaction rule implemented in the Vicsek model exhibits a
+We have observed that the interaction rule implemented in the Vicsek model exhibits a
 discontinuity. This discontinuity represents two concerns for the authors. Firstly, the
 biological realism of an interaction rule implementing a hard cut-off is brought into
 question. Secondly, the ability to fit such a model to data is seen to be potentially
@@ -183,7 +182,7 @@ problematic: effectively exploring the sample space of a discontinuous target
 distribution can be difficult.
 
 Such concerns can be addressed by considering variations of the Vicsek model in which
-continuous interaction rules are implemented. The authors consider that such rules
+continuous interaction rules are instead implemented. The authors consider that such rules
 represent more biologically realistic behaviours. In addition to this, the MCMC algorithms
 used to draw samples from our posterior beliefs are expected to be better behaved for the
 models implementing continuous interaction rules.
@@ -252,10 +251,10 @@ interaction is continuous over all $d_{ij,t}$, and can be expressed as:
 \end{equation}
 
 From \cref{eq:gaussian_interaction} the parameter $\sigma_X$ can be seen to control the
-length scale over which interaction takes place. Small values of $\sigma_X$ detail a
+length-scale over which interaction takes place. Small values of $\sigma_X$ represent a
 weighting function which is very peaked around agent $i$'s position. As $\sigma_X
 \rightarrow \infty$ the weighting approaches a schema in which all neighbours in the flock
-are awarded the same weight. This limiting behaviour is equivalent to that of Vicsek as
+are given the same weight. This limiting behaviour is equivalent to that of Vicsek as
 $r\rightarrow\infty$, and the power-law weighted model as $\alpha\rightarrow0$.
 
 Although the Gaussian model implements a similar interaction kernel to that of the
@@ -281,7 +280,10 @@ number of neighbours which agents can interact with at any one time.
 Whilst retaining the form of the topological rule, we look to relax the constraint that
 agents may only interact with some \emph{integer} number of closest neighbours.  Instead,
 we allow an agent to interact with some $k\in\mathbb{R}^+$ nearest neighbours.  This
-allows partial neighbours, which may make some lesser contribution to an agent's behaviour.
+allows partial neighbours, which may make some lesser contribution to an agent's
+behaviour. An additional benefit of this more flexible interaction structure is given by
+the observation that real-valued parameters are typically easier to infer from data than
+discrete parameters are.
 
 For some $k\in\mathbb{R}^+$ we say that each agent gives weighting $1$ to its $\floor{k}$
 nearest neighbours, weighting $k - \floor{k}$ to its $\ceil{k}$-th nearest neighbour, and
@@ -307,8 +309,8 @@ understanding of the importance of biological variation in nature.
 
 Within a single flock, we may reasonably expect there to be variation in the age,
 cognitive ability, social standing and physical attributes of the individuals. Naturally
-then, it seems reasonable to suggest that as the attributes of individuals may vary, then
-the behavioural response of individuals to a particular set of circumstances may vary too.
+then, it seems reasonable to suggest that if the attributes of individuals may vary, then
+their behavioural responses to a particular set of circumstances may vary too.
 This is in keeping with the observation that the orientation abilities of migrating
 raptors is age dependent \parencite{thorup03}.
 
@@ -344,31 +346,31 @@ weighting rule:
     \end{cases}
 \end{equation}
 A similar allowance can be made for the power-law weighted, Gaussian weighted and
-topological models considered.
+topological models considered earlier.
 
 \subsection{Imposing hierarchy}
 
 Rather than considering the individual interaction and noise parameters as completely
-independent, we can consider them as being realisations from a population-level
+unrelated, we can consider them as being realisations from some population-level
 distribution. Hierarchical models allow us to incorporate this extra level of structure
 into our models.
 
-Hyperparameters are introduced as parameters of the specified population-level distribution.
-Hyperpriors are then specified to reflect the practitioners beliefs about feasible values
-of the hyperparameters.
+Hyperparameters are introduced as parameters of the population-level distribution.
+Hyperpriors are then specified to reflect the practitioner's prior beliefs about likely
+values of the hyperparameters.
 
 The noise and interaction parameters in our models are all strictly positive, and not
 bounded above. As such, we shall assume that the population distributions for these
 parameters follow some gamma distribution. Consider, for example, that the noise
-parameters $\sigma_{Y_i}$ are distributed according to some gamma distribution with shape
+parameters $\sigma_{Y_i}$ are distributed according to a gamma distribution with shape
 $\alpha_Y$ and rate $\beta_Y$. More concisely, we consider our noise parameters as being
 distributed according to
 \begin{equation}
     \label{eq:noise_hier}
-    \sigma_{Y_i} \sim \Ga(\alpha_Y, \beta_Y).
+    \sigma_{Y_i}\given\alpha_Y,\beta_Y \sim \Ga(\alpha_Y, \beta_Y).
 \end{equation}
-As such, our hyperparameters here are $\alpha_Y$ and $\beta_Y$. The practitioner is then
-required to specify hyperpriors: their prior beliefs about plausible values for $\alpha_Y$
+Our hyperparameters here are $\alpha_Y$ and $\beta_Y$. The practitioner is then
+required to specify hyperpriors: their prior beliefs about likely values for $\alpha_Y$
 and $\beta_Y$. It can be hard to get an intuitive feel for plausible values for the shape
 and rate parameters, and so we shall instead re-parameterise our population-level
 distribution in terms of the mean and variance. Consider that the mean and variance of the
@@ -376,9 +378,11 @@ gamma distribution can be computed as $m_Y = \alpha_Y / \beta_Y$ and $v_Y =
 \alpha_Y/\beta_Y^2$ respectively. From these two relations it can be seen that $\alpha_Y =
 m_Y^2 / v_Y$ and $\beta_Y = m_Y / v_Y$. \cref{eq:noise_hier} can then be re-expressed as:
 \begin{equation}
-    \sigma_{Y_i} \sim \Ga\bigg(\frac{m_Y^2}{v_Y}, \frac{m_Y}{v_Y}\bigg).
+    \sigma_{Y_i}\given m_Y, v_Y \sim \Ga\bigg(\frac{m_Y^2}{v_Y}, \frac{m_Y}{v_Y}\bigg).
 \end{equation}
-
+This parameterisation allows the practitioner to specify their hyperpriors over the mean and
+variance, instead of the shape and rate. The hope is that this will give the practitioner a
+more intuitive feel for likely values of the hyperparameters.
 
 
 
