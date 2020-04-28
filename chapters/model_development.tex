@@ -384,3 +384,13 @@ This parameterisation allows the practitioner to specify their hyperpriors over 
 and variance of the distribution, instead of the shape and rate. The hope is that this
 will give the practitioner a more intuitive feel for likely values of the hyperparameters.
 
+Population-level distributions are specified in a similar way for the interaction
+parameters of the Vicsek weighting, power-law weighting, Gaussian weighting and
+topological models:
+\begin{align}
+    r_i &\given m_r, v_r  \sim \Ga\bigg(\frac{m_r^2}{v_r}, \frac{m_r}{v_r}\bigg)\\
+    \alpha_i &\given m_{\alpha}, v_{\alpha}  \sim
+        \Ga\bigg(\frac{m_{\alpha}^2}{v_{\alpha}}, \frac{m_{\alpha}}{v_{\alpha}}\bigg)\\
+    \sigma_{X_i} &\given m_X, v_X  \sim \Ga\bigg(\frac{m_X^2}{v_X}, \frac{m_X}{v_X}\bigg)\\
+    k_i &\given m_k, v_k  \sim \Ga\bigg(\frac{m_k^2}{v_k}, \frac{m_k}{v_k}\bigg)
+\end{align}
