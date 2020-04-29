@@ -137,10 +137,11 @@ Throughout this work we shall also consider the possibility that the noise exper
 individuals is distributed according to some generalised Student's $t$-distribution with
 $\nu$ degrees of freedom. In this situation, the directional update of agent $i$ is given
 as:
-\begin{equation*}
+\begin{equation}
+    \label{eq:students_update}
     \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \nu, \sigma_Y \sim
     t_{\nu}(\angmean{\theta}_{i,t}, \sigma_Y).
-\end{equation*}
+\end{equation}
 The Student's $t$-distribution allows more weight in its tails than the normal
 distribution permits. However, as $\nu\rightarrow\infty$ the Student's $t$-distribution
 with location $\mu$ and scale $\sigma_Y$ converges to a normal distribution with mean and
