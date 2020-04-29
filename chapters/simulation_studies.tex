@@ -27,7 +27,7 @@ $\theta_{i, t}$ to $\theta_{i, t+1}$. Considering that agent $i$ experiences noi
 distributed according to a generalised Students $t$-distribution with $\nu$ degrees of
 freedom (\cref{eq:students_update}), we realise this likelihood as:
 \begin{equation*}
-    L(\sigma_Y, \nu, \angmean{\theta}_{i,t} \given \theta_{i,t+1}, \theta_{i,t}) = 
+    L(\sigma_Y, \nu, \angmean{\theta}_{i,t} \given \theta_{i,t+1}) = 
     \frac{\Gamma(\frac{\nu +1 }{2})}{\Gamma(\frac{\nu}{2})\sqrt{\pi\nu}\sigma_Y}
         \Bigg(1 + \frac{1}{\nu}
                   \bigg(\frac{\theta_{i,t+1}-\angmean{\theta}_{i,t}}{\sigma_Y}\bigg)^2
