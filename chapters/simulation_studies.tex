@@ -3,4 +3,80 @@
 \chapter{Simulation studies}
 \label{cha:sim_studies}
 
+The feasibility of performing parameter inference on real data can be assessed by
+simulation study. In simulation studies, candidate models are forward simulated for known
+parameter values. This simulated data is then used to verify that the known parameter
+values can be recovered by inference.
 
+If parameter inference is not possible on simulated data, we know that the same inference
+will not be possible on real data. Simulation studies also provide good opportunity to
+assess the implementation of MCMC algorithms intended to target the posterior
+distribution.
+
+\section{Global models}
+
+Global models refer to those in which all agents take the same parameter values. These are
+in contrast to hierarchical models, in which all agents take different parameter values.
+We shall first seek to perform simulation studies on these global models, as they
+represent a simpler modelling paradigm.  
+
+Recall from Bayes' Theorem that to target the posterior distribution we need to combine
+the likelihood of the data with prior beliefs. Let us begin by considering the likelihood
+of observing a single agent updating its direction, in the presence of neighbours, from
+$\theta_{i, t}$ to $\theta_{i, t+1}$. Considering that agent $i$ experiences noise
+distributed according to a generalised Students $t$-distribution with $\nu$ degrees of
+freedom (\cref{eq:students_update}), we realise this likelihood as:
+\begin{equation*}
+    L(\sigma_Y, \nu, \angmean{\theta}_{i,t} \given \theta_{i,t+1}, \theta_{i,t}) = 
+    \frac{\Gamma(\frac{\nu +1 }{2})}{\Gamma(\frac{\nu}{2})\sqrt{\pi\nu}\sigma_Y}
+        \Bigg(1 + \frac{1}{\nu}
+                  \bigg(\frac{\theta_{i,t+1}-\angmean{\theta}_{i,t}}{\sigma_Y}\bigg)^2
+        \Bigg)^{-\frac{\nu+1}{2}},
+\end{equation*}
+where $\Gamma$ is the gamma function. Building on this, let us consider the likelihood of
+observing agent $i$'s directions at time $t$, $t+1$ and $t+2$. As successive noise terms
+are independent, we may express this likelihood as a product:
+\begin{equation*}
+    L(\sigma_Y,\nu,\angmean{\theta}_{i,t},\angmean{\theta}_{i,t+1}\given\theta_{i,t+1},
+    \theta_{i,t+2}) =
+    L(\sigma_Y,\nu,\angmean{\theta}_{i,t+1}\given\theta_{i,t+2})\times
+    L(\sigma_Y,\nu,\angmean{\theta}_{i,t}\given\theta_{i,t+1}).
+\end{equation*}
+In general, we wish to express the likelihood of observing agent $i$'s directional updates
+from time $t=1$ to time $t=T$. Again, as realisations from the noise distribution are
+independent, we may express this likelihood as a product:
+\begin{align*}
+    L(\sigma_Y, \nu, \angmean{\theta}_{i,1:T-1} \given \theta_{i,2:T})
+    =& \prod_{t=1}^{T-1} L(\sigma_Y,\nu,\angmean{\theta}_{i,t} \given \theta_{i,t+1}) \\
+    =& \prod_{t=1}^{T-1} 
+        \frac{\Gamma(\frac{\nu +1 }{2})}{\Gamma(\frac{\nu}{2})\sqrt{\pi\nu}\sigma_Y}
+        \Bigg(1 + \frac{1}{\nu}
+                  \bigg(\frac{\theta_{i,t+1}-\angmean{\theta}_{i,t}}{\sigma_Y}\bigg)^2
+        \Bigg)^{-\frac{\nu+1}{2}},
+\end{align*}
+where $\angmean{\theta}_{i,1:T-1}$ is shorthand for
+$\angmean{\theta}_{i,1},\angmean{\theta}_{i,2},\ldots,\angmean{\theta}_{i,T-1}$, and
+similarly for $\theta_{i,2:T}$. Finally, although we have expressed the likelihood of
+observing a single agent's directional changes over $T$ observations, we wish to express
+the likelihood of observing an entire flock's movements over $T$ time steps. Consider then
+observing a flock of $N$ individuals observed at $T$ times. The likelihood of observing
+this data is then given by
+\begin{align*}
+    L(\sigma_Y, \nu, \angmean{\theta}_{1:N,1:T-1} \given\theta_{1:N,2:T}) 
+    &= \prod_{i=1}^N \prod_{t=1}^{T-1} L(\sigma_Y,\nu,\angmean{\theta}_{i,t}\given\theta_{i,t+1})  \\
+    &= \prod_{i=1}^N \prod_{t=1}^{T-1} 
+        \frac{\Gamma(\frac{\nu +1 }{2})}{\Gamma(\frac{\nu}{2})\sqrt{\pi\nu}\sigma_Y}
+        \Bigg(1 + \frac{1}{\nu}
+                  \bigg(\frac{\theta_{i,t+1}-\angmean{\theta}_{i,t}}{\sigma_Y}\bigg)^2
+        \Bigg)^{-\frac{\nu+1}{2}}.
+\end{align*}
+
+\subsection{Vicsek interaction}
+
+The NUTS algorithm implemented by Stan requires a continuously differentiable posterior
+distribution. Unfortunately, the discontinuity in the weighting function of the
+Vicsek model results in a discontinuous posterior. As such, Stan cannot be used to infer
+the parameters of this model. Instead, we shall target the posterior distribution with a
+random walk Metropolis--Hastings sampler.
+
+\section{Hierarchical models}
