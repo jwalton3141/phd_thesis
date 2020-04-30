@@ -24,22 +24,25 @@ def main():
     labels = ['$r$', r'$\sigma_Y$', r'$\nu$']
     [ax[i].set_xlabel(lab) for i, lab in enumerate(labels)]
 
-    x = np.linspace(20, 60, num=100)
-    ax[0].plot(x, gamma.pdf(x, gamma.pdf(x, a=50, scale=5)))
-    ax[0].set_xlim(20, 60)
+    lower, upper = 30, 70
+    x = np.linspace(lower, upper, num=100)
+    ax[0].plot(x, gamma.pdf(x, a=50, scale=1))
+    ax[0].set_xlim(lower, upper)
 
-    x = np.linspace(0.04, 0.15, num=100)
-    ax[1].plot(x, gamma.pdf(x, gamma.pdf(x, a=2, scale=1 / 100)))
-    ax[1].set_xlim(0.04, 0.15)
+    lower, upper = 0, 0.1
+    x = np.linspace(lower, upper, num=100)
+    ax[1].plot(x, gamma.pdf(x, a=2, scale=1 / 100))
+    ax[1].set_xlim(lower, upper)
 
-    x = np.linspace(0, 10, num=100)
-    ax[2].plot(x, gamma.pdf(x, gamma.pdf(x, a=2, scale=1 / 0.1)))
-    ax[2].set_xlim(0, 10)
+    lower, upper = 0, 75
+    x = np.linspace(lower, upper, num=100)
+    ax[2].plot(x, gamma.pdf(x, a=2, scale=1 / 0.1))
+    ax[2].set_xlim(lower, upper)
 
     fig.subplots_adjust(top=0.925,
-                        bottom=0.215,
-                        right=0.98,
-                        left=0.08,
+                        bottom=0.25,
+                        right=0.995,
+                        left=0.09,
                         wspace=0.35)
 
     fig.savefig('priors.pdf')
