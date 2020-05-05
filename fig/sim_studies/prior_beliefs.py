@@ -14,7 +14,7 @@ from pretty import set_size, savefig
 def main():
     figsize = set_size()
     # Ignore my over-engineered plot dimension considerations
-    figsize[1] = 1.8
+    figsize[1] = 1.7
 
     fig, ax = plt.subplots(1, 3, figsize=figsize)
 
@@ -26,24 +26,25 @@ def main():
 
     lower, upper = 30, 70
     x = np.linspace(lower, upper, num=100)
-    ax[0].plot(x, gamma.pdf(x, a=50, scale=1))
+    ax[0].plot(x, gamma.pdf(x, a=50, scale=1), c='C2')
     ax[0].set_xlim(lower, upper)
 
     lower, upper = 0, 0.1
     x = np.linspace(lower, upper, num=100)
-    ax[1].plot(x, gamma.pdf(x, a=2, scale=1 / 100))
+    ax[1].plot(x, gamma.pdf(x, a=2, scale=1 / 100), c='C2')
     ax[1].set_xlim(lower, upper)
 
     lower, upper = 0, 75
     x = np.linspace(lower, upper, num=100)
-    ax[2].plot(x, gamma.pdf(x, a=2, scale=1 / 0.1))
+    ax[2].plot(x, gamma.pdf(x, a=2, scale=1 / 0.1), c='C2')
     ax[2].set_xlim(lower, upper)
 
-    fig.subplots_adjust(top=0.925,
-                        bottom=0.25,
-                        right=0.995,
-                        left=0.09,
-                        wspace=0.35)
+#    fig.subplots_adjust(top=0.925,
+#                        bottom=0.25,
+#                        right=0.995,
+#                        left=0.09,
+#                        wspace=0.35)
+    fig.tight_layout(pad=0)
 
     fig.savefig('priors.pdf')
 
