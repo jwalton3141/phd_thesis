@@ -122,7 +122,7 @@ beliefs, allowing a large range of possible parameter values.
     \end{split}
 \end{align}
 \begin{figure}[tb]
-    \includegraphics{priors.pdf}
+    \includegraphics{vicsek_priors.pdf}
     \caption{Probability density functions representing our prior beliefs about plausible
     parameter values of the Vicsek model. These distributions represent
     weakly-informative priors, allowing a large range of possible parameter values.}
@@ -194,23 +194,67 @@ confidence in moving forward to fit this model to real data.
 
 \subsection{Continuous models}
 
-We have demonstrated that we can successfully fit the Vicsek model to simulated data.
-Continuing on from this we seek to perform simulation studies on the power-law weighted
-(\cref{eq:power_law_interaction}) and Gaussian weighted models
-(\cref{eq:gaussian_interaction}).
+We have demonstrated that we can fit the Vicsek model to simulated data.  We now seek to
+fit the power-law weighted (\cref{eq:power_law_interaction}) and Gaussian weighted models
+(\cref{eq:gaussian_interaction}) to simulated data.
 
-As these models represent continuous interaction rules, we may attempt parameter inference
-using the Stan programming language. We can already express the likelihood of observing
-simulated data given the model. All that remains is to specify our prior beliefs.
+As these models implement continuous interaction rules, we may attempt parameter inference
+using the Stan programming language. \cref{eq:likelihood} can be used to quantify the likelihood of
+observing simulated data. To target the posterior we combine this likelihood with our prior
+beliefs.
 
-The power-law and Gaussian weighted models represent similar interaction rules. To ensure
-that our prior beliefs between these models are consistent, we shall determine our priors
-by considering plausible values of the weighting $\omega_{ij,t}$. This can then be used to 
-determine our priors on $\alpha$ and $\sigma_X$.
+The power-law and Gaussian weighted models represent similar interaction rules. Both
+interactions are parameterised by strictly positive measures. As with the parameters
+$\nu$, $\sigma_Y$ and $r$, we shall use gamma distributions to quantify our prior beliefs
+about $\alpha$ and $\sigma_X$.  To ensure that our prior beliefs between these models are
+consistent, we shall determine our priors by considering plausible values of the weighting
+$\omega_{ij,t}$. Using information about $d_{ij,t}$, along with
+\cref{eq:power_law_interaction,eq:gaussian_interaction}, we can use our beliefs about
+$\omega_{ij,t}$ to derive prior beliefs about $\alpha$ and $\sigma_X$.
+
+To realise our prior beliefs we shall make two probabilistic statements about
+$\omega_{ij,t}$. These can be used to determine prior distributions which best reflect
+these statements. First, we consider the weighting which agent $i$ gives to its closest
+neighbour at time $t$. We believe that the probability that this weighting is less than or
+equal to $0.25$ is $0.025$. Similarly, we believe with probability $0.975$ that the
+weighting which agent $i$ gives to its fifth closest neighbour will be less than or equal
+to $0.9$.  More concisely, we can express these statements as:
+\begin{align*}
+    P(\omega_{ij, t}({\min_j(d_{ij,t}, 1)}) \leq 0.25) &= 0.025, \\
+    P(\omega_{ij, t}({\min_j(d_{ij,t}, 5)}) \leq 0.90) &= 0.975,
+\end{align*}
+where $\omega_{ij, t}({\min_j(d_{ij,t}, k)})$ is the influence of agent $i$'s $k$-th
+closest neighbour at time $t$. A simple numerical optimisation scheme can be used to
+determine shape and scale parameters of our gamma priors, by minimising the function:
+\begin{equation*}
+    [P(\omega_{ij, t}({\min_j(d_{ij,t}, 1)}) \leq 0.25) - 0.025]^2
+    + [P(\omega_{ij, t}({\min_j(d_{ij,t}, 5)}) \leq 0.90) - 0.975]^2 = 0.
+\end{equation*}
+With this we realise prior beliefs:
+\begin{align*}
+    \alpha   & \sim \Ga(2, 2) \\
+    \sigma_X & \sim \Ga(5, 5).
+\end{align*}
+
+\begin{figure}[tb]
+    \includegraphics{gauss_power_priors.pdf}
+    \caption{}
+\end{figure}
+
 
 \subsubsection{Power-law weighted}
 
+\begin{figure}[tb]
+    \includegraphics{power_sim.pdf}
+    \caption{}
+\end{figure}
+
 \subsubsection{Gaussian weighted}
+
+\begin{figure}[tb]
+    \includegraphics{gauss_sim.pdf}
+    \caption{}
+\end{figure}
 
 \subsection{Topological model}
 
