@@ -3,12 +3,13 @@
 \chapter{Bayesian statistics}
 \label{cha:bayes_intro}
 
-In this thesis we utilise techniques from Bayesian inference to fit mathematical models of
-collective behaviour to real data. Bayesian inference allows a practitioner to capture
-uncertainty about fitted model parameters. In addition to this, the Bayesian framework
-permits flexible model structures and potential inclusion of expert information via the
-prior distribution. With this we seek to fit newly acquired data to generalisations of a
-popular agent-based model from the literature.
+In this thesis we utilise methods from Bayesian inference to fit mathematical models of
+collective behaviour to real and simulated data.  Bayesian inference represents a fully
+probabilistic approach to parameter inference. This allows a practitioner to quantify
+their uncertainties about inferred parameter values.  In addition to this, the Bayesian
+framework permits flexible model structures and potential inclusion of expert information
+via the prior distribution. With this we seek to fit newly acquired data to
+generalisations of a popular agent-based model from the literature.
 
 In this chapter we shall introduce and give overviews of some important concepts of
 Bayesian inference, outline schemes which can be used to infer model parameters, and
@@ -17,16 +18,16 @@ perhaps most importantly, discuss when our methodologies may fail us.
 \section{Bayesian inference}
 \label{sec:bayesian_inference}
 
-Having observed data $x$ we wish to quantify beliefs and uncertainties about
-parameters $\theta = (\theta_1,\theta_2,\dots,\theta_d)^T$. Given the observed data,
-the likelihood function of the parameters is defined as:
+Having observed data $x$ we wish to quantify our beliefs about the model parameters
+$\theta = (\theta_1,\theta_2,\dots,\theta_d)^T$. Given the observed data, the likelihood
+function is defined as:
 \begin{equation}
   L(\theta \given x) = f(x \given\theta).
 \end{equation}
-The likelihood details the probability density of the data in terms of the parameters. We
-may then specify our prior knowledge about the parameters $\theta$ through the prior
-distribution $\pi(\theta)$. Bayes' Theorem can then be used to form our posterior
-beliefs from the likelihood function and our prior beliefs:
+The likelihood represents the probability density of observing data $x$, given the model
+parameters $\theta$. The prior distribution $\pi(\theta)$ is used to quantify our prior
+knowledge about the parameters.  Bayes' Theorem provides a way to realise posterior
+beliefs from a combination of our prior beliefs and the likelihood of the data:
 \begin{equation}
   \label{eq:bayes_theorem}
   \pi(\theta \given x) =
@@ -38,7 +39,7 @@ constant of proportionality. With this we can express our posterior beliefs as
 proportional to the product of the likelihood and our prior beliefs:
 \begin{align*}
   \pi(\theta\given x) & \propto \pi(\theta) \times L(\theta\given x), \\
-  \text{posterior}             & \propto \text{prior} \times \text{likelihood}.
+  \text{posterior}    & \propto \text{prior} \times \text{likelihood}.
 \end{align*}
 
 \section{Markov chain Monte Carlo (MCMC)}
