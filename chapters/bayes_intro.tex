@@ -4,16 +4,16 @@
 \label{cha:bayes_intro}
 
 In this thesis we utilise methods from Bayesian inference to fit mathematical models of
-collective behaviour to real and simulated data.  Bayesian inference represents a fully
+collective behaviour to real and simulated data. Bayesian inference represents a fully
 probabilistic approach to parameter inference. This allows a practitioner to quantify
-their uncertainties about inferred parameter values.  In addition to this, the Bayesian
+their uncertainties about inferred parameter values. In addition to this, the Bayesian
 framework permits flexible model structures and potential inclusion of expert information
 via the prior distribution. With this we seek to fit newly acquired data to
 generalisations of a popular agent-based model from the literature.
 
-In this chapter we shall introduce and give overviews of some important concepts of
-Bayesian inference, outline schemes which can be used to infer model parameters, and
-perhaps most importantly, discuss when our methodologies may fail us.
+In this chapter we shall introduce and outline some important concepts of Bayesian
+inference. Algorithms to infer model parameters from data will be presented, and the
+interpretation of such output shall be discussed.
 
 \section{Bayesian inference}
 \label{sec:bayesian_inference}
@@ -26,7 +26,7 @@ function is defined as:
 \end{equation}
 The likelihood represents the probability density of observing data $x$, given the model
 parameters $\theta$. The prior distribution $\pi(\theta)$ is used to quantify our prior
-knowledge about the parameters.  Bayes' Theorem provides a way to realise posterior
+knowledge about the parameters. Bayes' Theorem provides a way to realise posterior
 beliefs from a combination of our prior beliefs and the likelihood of the data:
 \begin{equation}
   \label{eq:bayes_theorem}
@@ -49,7 +49,7 @@ For the most part, the normalising constant (given in the denominator of
 \cref{eq:bayes_theorem}) will have multiple dimensions, not produce a density function of
 standard form, and be difficult to evaluate in all but the most trivial cases. Markov
 chain Monte Carlo algorithms provide methods to sample from the targeted density
-$\pi(\theta \given x)$, whilst avoiding evaluating the bothersome normalising
+$\pi(\theta \given x)$, whilst avoiding the evaluation of the bothersome normalising
 constant.
 
 \subsection{Metropolis--Hastings}
@@ -61,12 +61,12 @@ by \textcite{metropolis53} in a now classic paper, and was later generalised by
 stationary distribution equivalent to the target distribution.
 
 \begin{algorithm}
-  \caption{Targeting $\pi(\theta \given x)$ with $S$ iterations of the
+  \caption{Targeting $\pi(\theta \given x)$ with $n$ iterations of the
     Metropolis--Hastings algorithm.}
   \label{alg:metropolis_hastings}
   \begin{algorithmic}[1]
     \State Initialise chain with $\theta^{(0)}$
-    \For{i}{1}{S}
+    \For{i}{1}{n}
       \State Propose ${\theta}^\star \sim q(\theta^{(i)} \given \theta^{(i-1)})$
       \State Construct acceptance probability $\alpha(\theta^\star \given \theta^{(i-1)})$ as
       \begin{equation*}
@@ -90,31 +90,34 @@ stationary distribution equivalent to the target distribution.
   \end{algorithmic}
 \end{algorithm}
 
-The algorithm begins by initialising a Markov chain with parameters $\theta^{(0)}$.
-Next, the algorithm proposes new parameter values $\theta^\star$ from a proposal
-distribution $q(\theta^\star \given \theta^{(i-1)})$. These proposed values are
-accepted with probability $\alpha(\theta^\star \given \theta^{(i-1)})$.  If the
-proposal is accepted the next state of the Markov chain is set to the proposed values,
-otherwise the next state is set to the current values.  The acceptance probability depends
-on a ratio of the posterior density evaluated at the current values and the posterior
-density evaluated at the proposed values.  Because of this, the normalising constants
-cancel in this ratio and we see that the target distribution only need be
-known up to a constant of proportionality.  This process of proposing and accepting or
-rejecting proposals continues until a satisfactory number of draws are made.
-Metropolis--Hastings is described more formally in \cref{alg:metropolis_hastings}.
+The algorithm begins by initialising a Markov chain with parameters $\theta^{(0)}$. Next,
+the algorithm proposes new parameter values $\theta^\star$ from a proposal distribution
+$q(\theta^\star \given \theta^{(i-1)})$. The proposed values are accepted with probability
+$\alpha(\theta^\star \given \theta^{(i-1)})$. If the proposal is accepted the next state
+of the Markov chain is set to the proposed value. Otherwise, the next state is set to the
+current value. The acceptance probability depends on a ratio of the posterior density
+evaluated at the current state and the posterior density evaluated at the proposed state.
+In this ratio the normalising constants from \cref{eq:bayes_theorem} cancel, and we see
+that the target distribution need only be known up to a constant of proportionality. The
+process of proposing and accepting or rejecting proposals continues until a satisfactory
+number of draws are made.  Metropolis--Hastings is described more formally in
+\cref{alg:metropolis_hastings}.
 
 \subsubsection{Choosing a Proposal Distribution}
 \label{ssec:proposal_distribution}
 
 The practitioner must choose a suitable proposal distribution $q(\theta^\star \given
 \theta)$. Ideally the choice of proposal distribution will give rapid convergence to
-$\pi(\theta \given  x)$ and efficiently explore the support of $\pi(\theta
-\given  x)$. A special case of Metropolis--Hastings arises when the proposal
-distribution is symmetric, that is
+$\pi(\theta \given x)$, and efficiently explore the support of $\pi(\theta
+\given x)$. However, it is not obvious how a proposal distribution should be constructed
+to realise these desires.
+
+A special case of Metropolis--Hastings arises when the proposal distribution is symmetric.
+Symmetric proposals have the property that:
 \begin{equation*}
   q(\theta^\star \given \theta) = q(\theta \given \theta^\star).
 \end{equation*}
-In this case we observe cancellation in the acceptance ratio, as it simplifies to become
+This symmetry results in a simplification of the acceptance ratio:
 \begin{equation*}
   \alpha({\theta}^\star \given \theta^{(i-1)})
     = \text{min}\,\bigg\{1,
@@ -125,28 +128,29 @@ In this case we observe cancellation in the acceptance ratio, as it simplifies t
 \end{equation*}
 
 The random walk sampler is a popular implementation of Metropolis--Hastings which makes
-use of symmetric proposals. With this sampler proposals are realised as
+use of symmetric proposals. Here, proposals are generated as
 \begin{equation*}
   \theta^\star = \theta^{(i-1)} +  \omega^{(i-1)},
 \end{equation*}
-where the $ \omega$ are sampled as
+where the $\omega$ are sampled as
 \begin{equation*}
-   \omega^{(i-1)} \sim \mathcal{N}_d( 0, \Sigma),
+   \omega^{(i-1)} \sim \mathcal{N}_d(0, \Sigma),
 \end{equation*}
 and $\mathcal{N}_d$ denotes a $d$-dimensional multivariate normal distribution. The
-parameter $\Sigma$ is called the tuning parameter and controls how the chain moves around
-the parameter space. Mixing describes how efficiently the chain moves around the sample
-space and how long it takes for the chain to converge to the target distribution.
+parameter $\Sigma$ is called the `tuning parameter' and controls how the chain moves around
+the parameter space.
 
-Crucially then, the parameter $\Sigma$ can be used to control the mixing of chains. So,
-naturally, we wish to identify some `optimum' $\Sigma$ to try and improve mixing. Such a
-tuning parameter should allow rapid convergence to $\pi(\theta \given  x)$ and
-facilitate exploration of the entire support of the target. If the target distribution is
-Gaussian, it has been shown that 0.234 is an optimum acceptance probability to try achieve
-\parencite{roberts01}. In an attempt to tune $\Sigma$ to obtain the optimum acceptance
-probability, a common technique is to use
+Mixing describes how efficiently a chain moves around the sample space, and how long it
+takes for the chain to converge to the target distribution.  Crucially then, the parameter
+$\Sigma$ can be used to control the mixing of chains. So, naturally, we wish to identify
+some `optimum' $\Sigma$ to try and improve mixing. Such a tuning parameter should allow
+rapid convergence to $\pi(\theta \given  x)$ and facilitate exploration of the entire
+support of the target. If the target distribution is Gaussian, it has been shown that
+$0.234$ is an optimum acceptance probability to try achieve \parencite{roberts01}. In an
+attempt to tune $\Sigma$ to obtain the optimum acceptance probability, a common technique
+is to use
 \begin{equation*}
-  \Sigma = \frac{2.38^2}{d} \widehat{\text{Var}}(\theta \given x).
+ \Sigma = \frac{2.38^2}{d} \widehat{\text{Var}}(\theta \given x).
 \end{equation*}
 
 However, even with strategies to try select some optimum innovation structure, random walk
@@ -191,7 +195,7 @@ a $d$-dimensional momentum vector, $p$. This system then evolves through time
 according to Hamilton's equations:
 \begin{align}
   \begin{split}
-    \pdv{p_i}{t} &= - \pdv{\mathcal{H}}{\theta_i},\\
+    \pdv{p_i}{t}      &= - \pdv{\mathcal{H}}{\theta_i},      \\
     \pdv{\theta_i}{t} &= \hphantom{-} \pdv{\mathcal{H}}{p_i},
   \end{split}
 \end{align}
@@ -258,12 +262,12 @@ practitioner typically implements the leapfrog method to solve Hamilton's equati
 demonstrates the leapfrog method to simulate Hamiltonian mechanics.
 
 \begin{algorithm}[tb]
-  \caption{Targeting $\pi(\theta \given x)$ with $S$ iterations of Hamiltonian Monte
+  \caption{Targeting $\pi(\theta \given x)$ with $n$ iterations of Hamiltonian Monte
   Carlo, using $L$ steps and discretisation $\epsilon$.}
   \label{alg:hmc}
   \begin{algorithmic}[1]
     \State Initialise chain with $\theta^{(0)}$
-    \For{i}{1}{S}
+    \For{i}{1}{n}
       \State Draw momentum $p^{(i-1)} \sim \mathcal{N}_d(0, M)$
       \State $p^\star \leftarrow p^{(i-1)}$
       \State $\theta^\star \leftarrow\theta^{(i-1)}$
@@ -303,7 +307,7 @@ demonstrates the leapfrog method to simulate Hamiltonian mechanics.
 As we have seen, in implementing HMC it is left to the practitioner to choose appropriate
 values for $L$ and $\epsilon$. Unfortunately, making a poor choice for either of these
 parameters can result in a significant decrease in the performance of HMC
-\parencite{hoffman14}. Actually, $\epsilon$ can be tuned during the algorithm's
+\parencite{hoffman14}. Fortunately, $\epsilon$ can be tuned during the algorithm's
 implementation, using ideas from the adaptive MCMC literature. However, there is no easy
 way to select a value of $L$ \emph{a priori}. Typically, a practitioner will have to make
 multiple costly tuning runs in order to select an appropriate value of $L$.
@@ -326,16 +330,113 @@ user samples from the desired posterior density.
 \subsection{Convergence diagnostics}
 \label{ssec:convergence_diagnostics}
 
-Though there are theoretical methods to assess the convergence of chains, it is an
-attractive idea to analyse the output of our schemes in an attempt to assess whether the
-chains have converged. One of the simplest informal methods to assess convergence is to
-inspect the trace plots of the scheme and check for any irregularities.
+Although there exist empirical methods which seek to assess convergence of chains, it is
+also appealing to analyse the output of our schemes in an attempt to inspect convergence.
+One of the simplest informal methods to assess convergence is to inspect the trace plots
+of a scheme and check for any irregularities. For a more robust inspection of convergence
+it is advisable to run multiple chains initialised at different locations
+(\cref{fig:convergence}).
+\begin{figure}[tb]
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \includegraphics{B.pdf}
+    \subcaption{}
+    \label{fig:B}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \includegraphics{W.pdf}
+    \subcaption{}
+    \label{fig:W}
+  \end{subfigure}
+  \caption{The importance of running multiple chains. \subref{fig:B} If only a single
+    chain had been inspected, here we may have concluded that the corresponding sampler
+    had converged. However, in running multiple chains it is clear that the chains have
+    \emph{not} converged to a common distribution. \subref{fig:W} Likewise, viewed
+    separately, the trajectories here do not appear stationary, but taken together
+    they do appear to cover a common distribution.}
+  \label{fig:convergence}
+\end{figure}
 
-It is also good to use autocorrelation plots to assess autocorrelation between samples at
-different lags.  One way to lower autocorrelation between samples is to thin the output.
-When thinning, every $k$-th sample from a chain is kept and the remaining samples are
-discarded. Another common technique is to allow for a burn-in period. The purpose of a
-burn-in period is to discard any samples from before the chain has converged.
+\subsubsection{Split-$\widehat{R}$}
+
+Split-$\widehat{R}$ represents a popular convergence diagnostic \parencite{gelman13}. This
+measure uses information about the within-chain variance \emph{and} between-chain variance
+to quantify how well chains have mixed.
+
+Consider that we have $m$ chains of length $n$, which target some estimand of interest
+$\theta$. We label the draws as $\theta^{(i, j)}$ for $i=1,\ldots,n; j=1,\ldots,m$. The
+between-chain variance $B$ is then computed as:
+\begin{equation*}
+  B = \frac{n}{m - 1} \sum_{j=1}^m (\bar{\theta}^{(\cdot, j)} - \bar{\theta}^{(\cdot,\cdot)})^2
+    \quad \text{where} \quad
+    \bar{\theta}^{(\cdot, j)} = \frac{1}{n} \sum_{i=1}^{n} \theta^{(i, j)},
+    \quad
+    \bar{\theta}^{(\cdot, \cdot)} = \frac{1}{m} \sum_{j=1}^m \bar{\theta}^{(\cdot, j)}.
+\end{equation*}
+The within-chain variance $W$ is captured in a similar manner:
+\begin{equation*}
+  W = \frac{1}{m} \sum_{j=1}^m s_j^2,
+    \quad \text{and} \quad
+    s_j^2 = \frac{1}{n-1} \sum_{i=1}^{n}(\theta^{(i, j)} - \bar{\theta}^{(\cdot,j)})^2,
+\end{equation*}
+The between-chain and within-chain variance can be combined in a weighted sum to estimate
+the marginal posterior variance of the estimand:
+\begin{equation}
+  \label{eq:marg_post_var}
+  \widehat{\text{Var}}^+ (\theta \given x) = \frac{n-1}{n} W + \frac{1}{n} B.
+\end{equation}
+The convergence diagnostic split-$\widehat{R}$ is then computed as:
+\begin{equation}
+  \label{eq:rhat}
+  \widehat{R} = \sqrt{\frac{\widehat{\text{Var}}^+ (\theta \given x)}{W}}.
+\end{equation}
+From \cref{eq:marg_post_var} observe that as $n\rightarrow\infty$ the estimated marginal
+posterior variance tends to $W$. With this, and \cref{eq:rhat}, we see that
+$\widehat{R}\rightarrow1$ as $n\rightarrow\infty$.
+
+\subsubsection{Effective sample size}
+
+The effective sample size is introduced as a notion to assess the `size' of a sample when
+the samples are correlated. The idea is that $10,000$ autocorrelated samples from a
+distribution represent less information than $10,000$ \emph{independent} samples from that
+same distribution. The effective sample size can be considered to penalise sample size by
+the autocorrelation of the draws.
+
+For a single chain, a common definition of the effective sample size is:
+\begin{equation}
+    \label{eq:ess}
+    \text{ESS} = \frac{n}{1 + 2 \sum_{k=1}^\infty \rho_k},
+\end{equation}
+where $n$ is the number of samples and $\rho_k$ is the autocorrelation at lag $k$.
+Although a popular definition, in practice this measure is often too optimistic when
+chains haven't converged. The practitioner must also decide when to truncate the infinite
+sum which appears in the denominator.
+
+A more sophisticated estimate of the effective sample size is presented by
+\textcite{gelman13}. In this definition the authors circumvent the infinite sum in the
+denominator of \cref{eq:ess}. The inclusion of between-chain variance also makes this
+measure more robust.
+
+In estimating ESS, the authors first estimate the sum of the correlations $\rho$. To
+compute the correlations it is first necessary to compute the variogram at each lag $t$:
+\begin{equation*}
+    V_t = \frac{1}{m(n-t)} \sum_{j=1}^m \sum_{i=t+1}^{n} (\theta^{(i, j)} -
+    \theta^{(i-t,j)})^2.
+\end{equation*}
+Using the variogram computed at each lag $t$, along with the estimate of the marginal
+posterior variance given in \cref{eq:marg_post_var}, the correlations can be estimated as:
+\begin{equation*}
+  \widehat{\rho}_t = 1 - \frac{V_t}{2\widehat{\text{Var}}^+}.
+\end{equation*}
+The infinite sum of \cref{eq:ess} is replaced by a partial sum. Here, correlations are
+added until the sum of two successive lags $\widehat{\rho}_{2t'} + \widehat{\rho}_{2t'+1}$
+is negative. This gives the estimate:
+\begin{equation*}
+  \text{ESS} = \frac{mn}{1+ 2\sum_{t=1}^{T}\widehat{\rho}_t},
+\end{equation*}
+where $T$ is the first odd positive integer for which $\widehat{\rho}_{T+1} +
+\hat{\rho}_{T+2}$ is negative.
 
 \section{Model selection}
 \label{sec:model_comparison}
@@ -364,7 +465,7 @@ predictive density (lppd), defined as:
 \begin{equation*}
   \text{lppd} = \sum_{j=1}^n \log(\frac{1}{S} \sum_{i=1}^S \pi(\theta^{(i)} \given x_j)),
 \end{equation*}
-where $S$ is the number of posterior samples. The log pointwise predictive density is a
+where $n$ is the number of posterior samples. The log pointwise predictive density is a
 biased estimator of elppd, the expected log pointwise predictive density for a new
 dataset.  WAIC accounts for this bias by adding a correction for the effective number of
 parameters in the fit, computed as:
