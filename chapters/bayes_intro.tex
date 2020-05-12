@@ -436,7 +436,7 @@ is negative. This gives the estimate:
   \text{ESS} = \frac{mn}{1+ 2\sum_{t=1}^{T}\widehat{\rho}_t},
 \end{equation*}
 where $T$ is the first odd positive integer for which $\widehat{\rho}_{T+1} +
-\hat{\rho}_{T+2}$ is negative.
+\widehat{\rho}_{T+2}$ is negative.
 
 \section{Model selection}
 \label{sec:model_comparison}
@@ -459,6 +459,14 @@ Information Criterion, respectively. To compute AIC or DIC it is necessary to ev
 posterior density conditioning on a point estimate. However, WAIC has the more desirable
 property of averaging over the entire posterior distribution. Because of this reason
 \textcite{gelman13} find WAIC more appealing than AIC and DIC.
+
+% I shall not amend this section just yet, but shall leave it to a later date.
+
+% After consideration we see that WAIC isn't appropriate to use with our type of data.
+% WAIC requires a practitioner to partition the data into independent-ish groups. However,
+% it has been observed that this can be very difficult to do for time-series data or data
+% with a spatial component. Since our data has both a time and space component, we seem
+% to be out of luck with WAIC
 
 To compute WAIC for a given fit it is first necessary to compute the log pointwise
 predictive density (lppd), defined as:
