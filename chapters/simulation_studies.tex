@@ -154,7 +154,7 @@ light of the data.
 \begin{table}[tb]
   \begin{tabular}{@{}lrrrrr@{}}
     \toprule
-    Parameter    & mean   & sd    & 5\%    & 95\%   & $N_{\textrm{eff}}$ \\
+    Parameter    & mean   & sd    & 5\%    & 95\%   & ESS \\
     \midrule
     $r$          & 50.019 & 0.041 & 49.992 & 50.112 & 12\,290            \\
     $\sigma_{Y}$ & 0.030  & 0.000 & 0.029  & 0.030  & 44\,560            \\
@@ -165,7 +165,7 @@ light of the data.
     Vicsek model to simulated data. Realisations were made by implementing a random walk
     Metropolis--Hastings sampler. Columns report the posterior mean and standard deviation
     of each parameter. In addition to this, the fifth and ninety-fifth percentiles of our
-    posteriors are quantified. Finally, the effective sample size $N_{\textrm{eff}}$ of
+    posteriors are quantified. Finally, the effective sample size ESS of
     each posterior is computed.}
   \label{tab:vicsek_sim_study_summary}
 \end{table}
@@ -282,7 +282,7 @@ from the data.
 \begin{table}[p]
   \begin{tabular}{@{}lrrrrrr@{}}
     \toprule
-    Parameter    & mean  & sd    & 5\%   & 95\%  & $N_{\textrm{eff}}$ & $\hat{R}$ \\
+    Parameter    & mean  & sd    & 5\%   & 95\%  & ESS & $\hat{R}$ \\
     \midrule
     $\alpha$     & 1.507 & 0.018 & 1.476 & 1.536 & 13\,130            & 1.0       \\
     $\sigma_{Y}$ & 0.03  & 0.0   & 0.029 & 0.031 & 11\,395            & 1.0       \\
@@ -293,8 +293,8 @@ from the data.
       parameter of the power-law weighted model, and our posterior beliefs about it.
       Columns show the posterior mean and standard deviation of each parameter, along with
       the fifth and ninety-fifth percentiles of our beliefs. The number of effective
-      samples drawn from the posterior is quantified by $N_{\textrm{eff}}$. The values of
-      $\hat{R}$ computed give confidence that our chains have converged.}
+      samples drawn from the posterior is quantified by ESS. The values of
+      $\hat{R}$ computed indicate that our chains have converged.}
   \label{tab:power_sim_study_summary}
 \end{table}
 \begin{figure}[p]
@@ -332,7 +332,7 @@ and $T=200$ time steps, using initial conditions from a real flocking event.
 \begin{table}[tbp]
   \begin{tabular}{@{}lrrrrrr@{}}
     \toprule
-    Parameter    & mean   & sd    & 5\%     & 95\%     & $N_{\textrm{eff}}$ & $\hat{R}$ \\
+    Parameter    & mean   & sd    & 5\%     & 95\%     & ESS & $\hat{R}$ \\
     \midrule
     $\sigma_{X}$ & 19.938 & 0.203 & 19.601  & 20.265   & 13\,310            & 1.0       \\
     $\sigma_{Y}$ & 0.025  & 0.0   & 0.024   & 0.025    & 11\,700            & 1.0       \\
