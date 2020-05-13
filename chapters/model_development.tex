@@ -209,11 +209,16 @@ models implementing continuous interaction rules.
         \caption{Topological weighting}
         \label{fig:top_weight}
     \end{subfigure}
-    \caption{Visualising the weighting rules of the four models considered in this
-    section. \subref{fig:vicsek_weight} Visualising the Vicsek interaction, parameterised by
-    the interaction radius $r$, as detailed in \cref{eq:vicsek_interaction}.
-    \subref{fig:power_weight} The power-law weighting (\cref{eq:power_law_interaction}) is
-    parameterised by rate $\alpha$.
+    \caption{Visualisations of the weighting rules investigated in this thesis.
+        \subref{fig:vicsek_weight} The interaction implemented in the Vicsek model,
+        parameterised by the interaction radius $r$ (\cref{eq:vicsek_interaction}).
+        \subref{fig:power_weight} The strength of interaction between individuals decays
+        as a power-law relationship with their distance apart, parameterised by the decay
+        rate $\alpha$ (\cref{eq:power_law_interaction}). \subref{fig:gauss_weight} The
+        strength of interaction between individuals is controlled by a Gaussian kernel
+        with standard deviation $\sigma_X$ (\cref{eq:gaussian_interaction}).
+        \subref{fig:top_weight} A realisation of a topological interaction which allows
+        contributions from partial neighbours (\cref{eq:top_interaction}).
     }
     \label{fig:weighting_rules}
 \end{figure}
