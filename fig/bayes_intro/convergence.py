@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+"""
+Produce plots which aim to illustrate the importance of running multiple
+chains to assess convergence.
+"""
+
 import sys
 sys.path.insert(0, '..')
 import numpy as np
@@ -9,6 +14,10 @@ from pretty import set_size, savefig
 
 
 def between_var(iters):
+    """
+    Produce a plot which illustrates two chains which have large between-chain
+    variance, but small within-chain variance.
+    """
     fig, ax = make_fig_ax()
 
     y1 = np.random.normal(size=iters)
@@ -24,6 +33,10 @@ def between_var(iters):
 
 
 def within_var(iters):
+    """
+    Produce a plot which illustrates two chains which have large within-chain
+    variance, but small between-chain variance.
+    """
     fig, ax = make_fig_ax()
 
     y1 = (np.random.normal(size=iters, scale=1)
@@ -39,10 +52,12 @@ def within_var(iters):
 
 
 def make_fig_ax():
+    """Lazy function to control figure and ax size in plots."""
     return plt.subplots(1, 1, figsize=set_size(fraction=0.5))
 
 
 def tidy_ax(ax, iters):
+    """Tidy up the labels and limits of ax."""
     ax.set_xlabel('')
     ax.set_xlim(0, iters)
     ax.set_xticks([0, iters // 2, iters])
