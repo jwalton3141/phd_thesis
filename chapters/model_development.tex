@@ -188,6 +188,36 @@ represent more biologically realistic behaviours. In addition to this, the MCMC 
 used to draw samples from our posterior beliefs are expected to be better behaved for the
 models implementing continuous interaction rules.
 
+\begin{figure}[tb]
+    \begin{subfigure}[b]{0.5\textwidth}
+        \caption{Vicsek weighting}
+        \label{fig:vicsek_weight}
+        \includegraphics{vicsek_weighting.pdf}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.5\textwidth}
+        \caption{Power-law weighting}
+        \label{fig:power_weight}
+        \includegraphics{power_weighting.pdf}
+    \end{subfigure}\\
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics{gaussian_weighting.pdf}
+        \caption{Gaussian weighting}
+        \label{fig:gauss_weight}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics{topological_weighting.pdf}
+        \caption{Topological weighting}
+        \label{fig:top_weight}
+    \end{subfigure}
+    \caption{Visualising the weighting rules of the four models considered in this
+    section. \subref{fig:vicsek_weight} Visualising the Vicsek interaction, parameterised by
+    the interaction radius $r$, as detailed in \cref{eq:vicsek_interaction}.
+    \subref{fig:power_weight} The power-law weighting (\cref{eq:power_law_interaction}) is
+    parameterised by rate $\alpha$.
+    }
+    \label{fig:weighting_rules}
+\end{figure}
+
 \subsection{Metric models}
 
 Metric models, of which Vicsek is an example, implement weighting rules which are
@@ -196,15 +226,6 @@ We propose that the weighting rules introduced represent intuitive and biologica
 realistic rules. \cref{fig:weighting_rules} visualises the interaction rule of Vicsek,
 along with the two novel interaction rules to be introduced.
 
-\begin{figure}[tb]
-    \includegraphics{weighting_rules.pdf}
-    \caption{Visualising the relationship between interaction strength $\omega_{ij,t}$ and
-        distance $d_{ij,t}$ for three different weighting rules. From left to right we
-        visualise: the Vicsek interaction (\cref{eq:vicsek_interaction}), the power-law
-        weighted interaction (\cref{eq:power_law_interaction}), and the Gaussian weighted
-    interaction (\cref{eq:gaussian_interaction}).}
-    \label{fig:weighting_rules}
-\end{figure}
 
 \subsubsection{Power-law interaction}
 
@@ -291,6 +312,7 @@ nearest neighbours, weighting $k - \floor{k}$ to its $\ceil{k}$-th nearest neigh
 weighting $0$ to all other agents, where $\floor{\cdot}$ and $\ceil{\cdot}$ are the floor
 and ceiling function respectively. More concisely, we can express this as the weighting
 \begin{equation}
+    \label{eq:top_interaction}
 	\omega_{ij,t} =
 	\begin{cases}
 		1           & \, \text{if } d_{ij, t} \leq \min_j(d_{ij,t},\, \floor{k}), \\

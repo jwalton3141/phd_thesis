@@ -11,12 +11,19 @@ from scipy.stats import norm
 from pretty import set_size, savefig
 
 
+def adjust_fig(fig):
+    fig.subplots_adjust(top=1,
+                        bottom=0.25,
+                        left=0.1,
+                        right=0.9)
+
+
 def equate_y_lims(ax):
     """Ensure all axes have the same y-limits."""
     ax.set_ylim(-0.1, 1.1)
 
 
-def vicsek(ax):
+def vicsek(fig, ax):
     """Plot the interaction kernel from OG Vicsek model."""
 
     # Weighting
@@ -26,8 +33,8 @@ def vicsek(ax):
     # Show discontinuity
     ax.vlines(0.5, 0, 1, color='C0', linestyle='--')
 
-    ax.set_xticks([0, 0.5, 1])
-    ax.set_xticklabels(['$0$', '$r$', '$2r$'])
+    ax.set_xticks([0, 0.5])
+    ax.set_xticklabels(['$0$', '$r$'])
     
     ax.set_yticks([0, 0.5, 1])
     # Make axis label inline with tickdata, for extra space
@@ -36,6 +43,7 @@ def vicsek(ax):
     # Roate and resize the omega label
     for label in ax.get_yticklabels():
         if len(label._text) > 5:
+            label.set_va('center')
             label.set_rotation(90)  
             label.set_fontsize(10)
 
@@ -45,9 +53,11 @@ def vicsek(ax):
 
     equate_y_lims(ax)
     ax.set_xlim(0, 1)
+    adjust_fig(fig)
+    fig.savefig('vicsek_weighting.pdf')
 
 
-def power_law(ax):
+def power_law(fig, ax):
     """Plot the interaction kernel for the power-law weighted model."""
     ax.scatter(0, 1, c='C0')
 
@@ -60,12 +70,13 @@ def power_law(ax):
     ax.set_xticklabels(['$0$', '$d$'])
 
     equate_y_lims(ax)
-    ax.set_yticks([])
+    ax.set_yticks([0, 1])
     ax.set_xlim(-0.4, 10)
-    
+    adjust_fig(fig)
+    fig.savefig('power_weighting.pdf')
 
 
-def gaussian(ax):
+def gaussian(fig, ax):
     """Plot the interaction kernel for the Gaussian weighted model."""
     ax.set_xlabel(r'$d_{ij,t}$')
     equate_y_lims(ax)
@@ -80,27 +91,105 @@ def gaussian(ax):
     ax.vlines(2*sd, 0, norm.pdf(2*sd, scale=sd),
               color='C0', linestyle='--')
 
-    ax.set_yticks([])
+    ax.set_yticks([0, 0.5, 1])
+    # Make axis label inline with tickdata, for extra space
+    ax.set_yticklabels(['$0$', '$\omega_{ij,t}$', '$1$'])
+    # Roate and resize the omega label
+    for label in ax.get_yticklabels():
+        if len(label._text) > 5:
+            label.set_va('center')
+            label.set_rotation(90)  
+            label.set_fontsize(10)
+
     ax.set_xlim(0, 1.5)    
+    adjust_fig(fig)
+    fig.savefig('gaussian_weighting.pdf')
+
+
+def topological(fig, ax):
+    """Plot the interaction kernel for our topological model."""
+    ax.set_xticks(range(6))
+    ax.set_yticks(range(3))
+
+    partial_weight = 0.4
+
+    ax.scatter([0, 1, 3, 4, 5],
+               [1, 1, 1, partial_weight, 0],
+               marker='x')
+
+    ax.set_xlabel('$n$-th closest neighbour')
+
+    ax.set_xticks([0, 1, 2, 3, 4, 5])
+    ax.set_xticklabels(['$1$',
+                        '$2$',
+                        r'$\ldots$',
+                        r'$\lfloor k \rfloor$',
+                        r'$\lceil k \rceil$',
+                        r'$\lceil k \rceil$+1'])
+
+    ax.set_yticks([0, partial_weight, 1])
+    ax.set_yticklabels(['$0$',
+                        r'$k - \lfloor k \rfloor$',
+                        '$1$'])
+
+    xlims = ax.get_xlim()
+    ylims = ax.get_ylim()
+    ax.hlines(1, 
+              xlims[0],
+              3,
+              color='C0',
+              linestyle='--',
+              alpha=0.5)
+    ax.hlines(partial_weight, 
+              xlims[0],
+              4,
+              color='C0',
+              linestyle='--',
+              alpha=0.5)
+    ax.hlines(0, 
+              xlims[0],
+              5,
+              color='C0',
+              linestyle='--',
+              alpha=0.5)
+    ax.vlines([0, 1, 3],
+              ylims[0] * 3,
+              [1] * 3,
+              color='C0',
+              linestyle='--',
+              alpha=0.5)
+    ax.vlines(4,
+              ylims[0],
+              partial_weight,
+              color='C0',
+              linestyle='--',
+              alpha=0.5)
+    ax.set_xlim(xlims)
+    ax.set_ylim(ylims)
+
+    for label in ax.get_yticklabels():
+        if len(label._text) > 5:
+            label.set_va('center')
+            label.set_rotation('vertical')
+            
+
+    equate_y_lims(ax)
+    adjust_fig(fig)
+    fig.savefig('topological_weighting.pdf')
+
+
+def make_fig_ax():
+    return plt.subplots(1, 1, figsize=set_size(fraction=0.5))
 
 
 def main():
     """Make the plot."""
-    figsize = set_size()
-    # Ignore my over-engineered plot dimension considerations
-    figsize[1] = 2
-    fig, ax = plt.subplots(1, 3, figsize=figsize)
 
-    # Plot kernels on seperate axes
-    for axi, fun, in zip(ax, [vicsek, power_law, gaussian]):
-        fun(axi)
+    for fun in [vicsek, power_law, gaussian, topological]:
+        fig, ax = make_fig_ax() 
+        fun(fig, ax)
 
-    # Adjust spacing a little
-    fig.subplots_adjust(left=0.05,
-                        right=1,
-                        top=0.99,
-                        bottom=0.25)
-    fig.savefig('weighting_rules.pdf', format='pdf')
+    # fig.savefig('weighting_rules.pdf', format='pdf')
 
 
 if __name__ == "__main__":
