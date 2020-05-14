@@ -304,18 +304,22 @@ demonstrates the leapfrog method to simulate Hamiltonian mechanics.
 \end{algorithm}
 
 As we have seen, in implementing HMC it is left to the practitioner to choose appropriate
-values for $L$ and $\epsilon$. Unfortunately, making a poor choice for either of these
-parameters can result in a significant decrease in the performance of HMC
-\parencite{hoffman14}. Fortunately, $\epsilon$ can be tuned during the algorithm's
-implementation, using ideas from the adaptive MCMC literature. However, there is no easy
-way to select a value of $L$ \emph{a priori}. Typically, a practitioner will have to make
-multiple costly tuning runs in order to select an appropriate value of $L$.
+values for the number of steps $L$, the step size $\epsilon$, and the mass matrix $M$.
+Unfortunately, making a poor choice for any of these parameters can result in a
+significant decrease in the performance of HMC \parencite{hoffman14}. Fortunately,
+$\epsilon$ can be tuned during the algorithm's implementation, using ideas from the
+adaptive MCMC literature. However, there is no easy way to select a value of $L$ \emph{a
+priori}. Typically, a practitioner will have to make multiple costly tuning runs in order
+to select an appropriate value of $L$.
 
 It was with this tuning problem in mind that \textcite{hoffman14} introduced the No-U-Turn
 Sampler (NUTS). This algorithm extends HMC and eliminates the need for the parameter $L$.
-Using primal-dual averaging the authors were also able to tune $\epsilon$ during the
-implementation of the algorithm. Altogether then, NUTS represents an implementation of HMC
-where the practitioner is left free of the obligation of choosing any tuning parameters.
+Using ideas from stochastic optimisation in numerical analysis, the authors were able to
+tune $\epsilon$ and $M$ during the implementation of their algorithm. NUTS performs
+\emph{at least} as efficiently as, and often \emph{more} efficiently than, an equivalent
+well-tuned implementation of a standard HMC method. Altogether then, NUTS represents an
+efficient implementation of a HMC-like algorithm, where the practitioner is left free of
+the obligation of choosing any tuning parameters. 
 
 Although NUTS relieves the practitioner the obligation of selecting parameters $\epsilon$
 and $L$, its implementation remains far from trivial. Here enters Stan. Stan, named after
