@@ -229,7 +229,7 @@ Metric models, of which Vicsek is an example, implement weighting rules which ar
 explicitly distance-dependant. Here we shall motivate two novel metric interaction rules.
 We propose that the weighting rules introduced represent intuitive and biologically
 realistic rules. \cref{fig:weighting_rules} visualises the interaction rule of Vicsek,
-along with the two novel interaction rules to be introduced.
+alongside the metric models here introduced.
 
 \subsubsection{Power-law interaction}
 
@@ -299,13 +299,12 @@ their distance apart. This interaction rule was motivated by simulations which s
 that flocks implementing topological rules were more resistant to perturbations, such as
 those by predators, than those implementing metric rules. As such, it was argued that
 topological interaction rules offer an evolutionary advantage to flocks over metric
-interaction rules.
-It was also posed that the cognitive limits of individuals puts some upper bound on the
-number of neighbours which agents can interact with at any one time.
+interaction rules. It was also posed that the cognitive limits of individuals puts some
+upper bound on the number of neighbours which agents can interact with at any one time.
 
 Whilst retaining the form of the topological rule, we look to relax the constraint that
-agents may only interact with some \emph{integer} number of closest neighbours.  Instead,
-we allow an agent to interact with some $k\in\mathbb{R}^+$ nearest neighbours.  This
+agents may only interact with some \emph{integer} number of closest neighbours. Instead,
+we allow an agent to interact with some $k\in\mathbb{R}^+$ nearest neighbours. This
 allows partial neighbours, which may make some lesser contribution to an agent's
 behaviour. An additional benefit of this more flexible interaction structure is given by
 the observation that real-valued parameters are typically easier to infer from data than
@@ -325,7 +324,7 @@ and ceiling function respectively. More concisely, we can express this as the we
 	\end{cases}
 \end{equation}
 where $\min_j(d_{ij,t},\, k)$ is the distance to agent $i$'s $k$-th closest neighbour at
-time $t$. 
+time $t$. This weighting rule is illustrated in \cref{fig:top_weight}.
 
 \section{Intra-flock variation}
 
