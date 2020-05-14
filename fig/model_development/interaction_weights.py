@@ -31,7 +31,7 @@ def vicsek(fig, ax):
     ax.hlines(0, 0.5, 1, color='C0')
 
     # Show discontinuity
-    ax.vlines(0.5, 0, 1, color='C0', linestyle='--')
+    ax.vlines(0.5, 0, 1, color='C0', linestyle='--', alpha=0.5)
 
     ax.set_xticks([0, 0.5])
     ax.set_xticklabels(['$0$', '$r$'])
@@ -86,14 +86,21 @@ def gaussian(fig, ax):
 
     ax.plot(x, norm.pdf(x, scale=sd), c='C0')
 
-    ax.set_xticks([0, 2 * sd])
-    ax.set_xticklabels(['$0$', r'$2\,\sigma_X$'])
-    ax.vlines(2*sd, 0, norm.pdf(2*sd, scale=sd),
-              color='C0', linestyle='--')
-
     ax.set_yticks([0, 0.5, 1])
     # Make axis label inline with tickdata, for extra space
     ax.set_yticklabels(['$0$', '$\omega_{ij,t}$', '$1$'])
+    ylims = ax.get_ylim()
+
+    ax.set_xticks([0, 2 * sd])
+    ax.set_xticklabels(['$0$', r'$2\,\sigma_X$'])
+    ax.vlines(2*sd,
+              ylims[0],
+              norm.pdf(2*sd, scale=sd),
+              color='C0',
+              linestyle='--',
+              alpha=0.5)
+    ax.set_ylim(ylims)
+
     # Roate and resize the omega label
     for label in ax.get_yticklabels():
         if len(label._text) > 5:
@@ -153,14 +160,20 @@ def topological(fig, ax):
               linestyle='--',
               alpha=0.5)
     ax.vlines([0, 1, 3],
-              ylims[0] * 3,
               [1] * 3,
+              ylims[0] * 3,
               color='C0',
               linestyle='--',
               alpha=0.5)
     ax.vlines(4,
-              ylims[0],
               partial_weight,
+              ylims[0] - 1,
+              color='C0',
+              linestyle='--',
+              alpha=0.5)
+    ax.vlines(5,
+              0,
+              ylims[0] - 1,
               color='C0',
               linestyle='--',
               alpha=0.5)
