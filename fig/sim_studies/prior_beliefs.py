@@ -79,9 +79,29 @@ def gauss_power():
     fig.savefig('gauss_power_priors.pdf')
 
 
+def top():
+    """Plot prior beliefs about nearest neighbours which an individual interacts with."""
+    fig, ax = plt.subplots(1, 1, figsize=set_size(fraction=0.7))
+
+    ax.set_ylabel('density')
+    ax.set_xlabel('$k$')
+
+    lower, upper = 0, 8
+    x = np.linspace(lower, upper, num=100)
+    ax.plot(x, gamma.pdf(x, a=6, scale=0.5), c='C2')
+    ax.set_xlim(lower, upper)
+
+    ax.set_yticks(np.r_[:5] * 0.1)
+
+    fig.tight_layout(pad=0)
+
+    fig.savefig('top_priors.pdf')
+
+
 def main():
     #vicsek_n_noise()
-    gauss_power()
+    #gauss_power()
+    top()
 
 
 if __name__ == "__main__":
