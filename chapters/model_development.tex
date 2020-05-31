@@ -404,6 +404,7 @@ gamma distribution can be computed as $m_Y = \alpha_Y / \beta_Y$ and $v_Y =
 \alpha_Y/\beta_Y^2$ respectively. From these two relations it can be seen that $\alpha_Y =
 m_Y^2 / v_Y$ and $\beta_Y = m_Y / v_Y$. \cref{eq:noise_hier} can then be re-expressed as:
 \begin{equation}
+    \label{eq:sigma_Y_hierarchy}
     \sigma_{Y_i}\given m_Y, v_Y \sim \Ga\bigg(\frac{m_Y^2}{v_Y}, \frac{m_Y}{v_Y}\bigg).
 \end{equation}
 This parameterisation allows the practitioner to specify their hyperpriors over the mean
@@ -417,6 +418,7 @@ topological models:
     r_i &\given m_r, v_r  \sim \Ga\bigg(\frac{m_r^2}{v_r}, \frac{m_r}{v_r}\bigg)\\
     \alpha_i &\given m_{\alpha}, v_{\alpha}  \sim
         \Ga\bigg(\frac{m_{\alpha}^2}{v_{\alpha}}, \frac{m_{\alpha}}{v_{\alpha}}\bigg)\\
-    \sigma_{X_i} &\given m_X, v_X  \sim \Ga\bigg(\frac{m_X^2}{v_X}, \frac{m_X}{v_X}\bigg)\\
+    \sigma_{X_i} &\given m_X, v_X  \sim \Ga\bigg(\frac{m_X^2}{v_X}, \frac{m_X}{v_X}\bigg)
+    \label{eq:sigma_X_hierarchy}\\
     k_i &\given m_k, v_k  \sim \Ga\bigg(\frac{m_k^2}{v_k}, \frac{m_k}{v_k}\bigg)
 \end{align}
