@@ -19,7 +19,7 @@ distances, and without the penalty of additional model complexity.
 \section{The Vicsek model}
 
 The Vicsek model simulates the movements of $N$ individuals moving with constant speed $v$
-(\cref{fig:vicsek_sim}). All movement takes place in a square-cell with periodic boundary
+(\cref{fig:vicsek_illustration}). All movement takes place in a square-cell with periodic boundary
 conditions and side length $L$. To initialise a simulation agents are allocated a random
 position within the cell, and a random direction of motion. From time $t$ to time $t+1$
 agent $i$ updates its position as:
@@ -103,7 +103,8 @@ density, smaller flocks are observed to be more resistant to noise than larger f
     \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics{vicsek_simulation_4.pdf}
     \end{subfigure}
-    \begin{subfigure}[b]{0.5\textwidth} \includegraphics{vicsek_simulation_7.pdf}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics{vicsek_simulation_7.pdf}
     \end{subfigure}%
     \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics{vicsek_simulation_10.pdf}
@@ -118,7 +119,7 @@ density, smaller flocks are observed to be more resistant to noise than larger f
         neighbours within agent $i$'s interaction zone are visualised with a green cross.
         Individuals which lie outside of agent $i$'s interaction zone have their positions
         denoted by a red cross.}
-        \label{fig:vicsek_sim}
+        \label{fig:vicsek_illustration}
 \end{figure}
 
 \subsection{Stochasticity}
