@@ -528,31 +528,34 @@ simulated from the topological model.
 
 \section{Hierarchical models}
 
-Hierarchical models represent a more demanding inference problem owing to the increased
-number of model parameters to infer. The simulation studies performed in
-\cref{sec:global_models} required three parameters to be inferred per model: one
-interaction parameter and two noise parameters (scale and degrees of freedom). In the
-hierarchical models introduced in \cref{ssec:hier_mod} each agent has its own interaction
-parameter, as well as its own scale parameter for the noise distribution. For simplicity,
-the agents share a global degrees of freedom parameter for the noise distribution. To fit
-a hierarchical model to data describing the movements of $N$ individuals we are then
-required to infer $2N+1$ parameters and $4$ hyperparameters.
+Hierarchical models represent a more demanding inference problem owing to the
+increased number of model parameters to infer. The simulation studies performed
+in \cref{sec:global_models} required three parameters to be inferred per model:
+one interaction parameter and two noise parameters (scale and degrees of
+freedom). In the hierarchical models introduced in \cref{ssec:hier_mod} each
+agent has its own interaction parameter, as well as its own scale parameter for
+the noise distribution. For simplicity, the agents share a global degrees of
+freedom parameter for the noise distribution. To fit a hierarchical model to
+data describing the movements of $N$ individuals we are then required to infer
+$2N+1$ parameters and $4$ hyperparameters.
 
-Introducing this extra level of structure into our model needs to be accounted for in the
-likelihood function. The likelihood function for our differing hierarchical models takes
-the same general form. For illustration purposes, here we shall consider the likelihood of
-data generated from a hierarchical Gaussian weighted model. The likelihood function for
-the remaining hierarchical models can be derived in a similar fashion.
+Introducing this extra level of structure into our model needs to be accounted
+for in the likelihood function. The likelihood function for our differing
+hierarchical models takes the same general form. For illustration purposes,
+here we shall consider the likelihood of data generated from a hierarchical
+Gaussian weighted model. The likelihood function for the remaining hierarchical
+models can be derived in a similar fashion.
 
-Suppose we simulate the movements of $i=1,\ldots,N$ individuals over $t=1,\ldots,T$ time
-steps, according to a hierarchical Gaussian weighted model. Here, agent $i$ has
-interaction parameter $\sigma_{X_i}$ and noise-scale parameter $\sigma_{Y_i}$. The
-interaction parameters are distributed according to a population-level distribution, here
-taking the form of a gamma distribution with mean $m_X$ and variance $v_X$
-(\cref{eq:sigma_X_hierarchy}). Noise-scale parameters $\sigma_{Y_i}$ are distributed in a
-similar manner (\cref{eq:sigma_Y_hierarchy}). The likelihood of observing this flock's
-directional updates, along with the parameters $\sigma_{X_i}$ and $\sigma_{Y_i}$ can be
-expressed as the product:
+Suppose we simulate the movements of $i=1,\ldots,N$ individuals over
+$t=1,\ldots,T$ time steps, according to a hierarchical Gaussian weighted model.
+Here, agent $i$ has interaction parameter $\sigma_{X_i}$ and noise-scale
+parameter $\sigma_{Y_i}$. The interaction parameters are distributed according
+to a population-level distribution, here taking the form of a gamma
+distribution with mean $m_X$ and variance $v_X$ (\cref{eq:sigma_X_hierarchy}).
+Noise-scale parameters $\sigma_{Y_i}$ are distributed in a similar manner
+(\cref{eq:sigma_Y_hierarchy}). The likelihood of observing this flock's
+directional updates, along with the parameters $\sigma_{X_i}$ and
+$\sigma_{Y_i}$ can be expressed as the product:
 \begin{align}
   \label{eq:hier_likelihood}
   \begin{split}
@@ -564,9 +567,9 @@ expressed as the product:
     L(m_Y, v_Y \given \sigma_Y).
   \end{split}
 \end{align}
-Taking the form of the likelihood from \cref{eq:likelihood} and considering the hierarchy
-imposed in \cref{eq:sigma_Y_hierarchy,eq:sigma_X_hierarchy}, we may write down the
-likelihood in full as:
+Taking the form of the likelihood from \cref{eq:likelihood} and considering the
+hierarchy imposed in \cref{eq:sigma_Y_hierarchy,eq:sigma_X_hierarchy}, we may
+write down the likelihood in full as:
 \begin{align}
   \begin{split}
       L(\sigma_X, \sigma_Y, \nu, \angmean{\theta}_{1:N,1:T-1} \given \theta_{1:N,2:T}&,
@@ -585,155 +588,171 @@ likelihood in full as:
 
 \subsection{Continuous models}
 
-In \cref{ssec:continuous_models} we used Stan to perform parameter inference on data
-simulated from \emph{global} continuous models. Similarly, here we shall use Stan to
-perform parameter inference on data simulated from our \emph{hierarchical} continuous
-models.
+In \cref{ssec:continuous_models} we used Stan to perform parameter inference on
+data simulated from \emph{global} continuous models. Similarly, here we shall
+use Stan to perform parameter inference on data simulated from our
+\emph{hierarchical} continuous models.
 
 \subsubsection{Power-law weighted}
 
 \cref{fig:power_hier_sim} shows data simulated from the hierarchical power-law
-weighted model. The interaction parameters of the $45$ simulated agents are drawn from a
-gamma distribution with mean $m_{\alpha}=1.2$ and variance $v_{\alpha}=0.02$. The
-noise-scale parameters of the agents are drawn from a gamma distribution with mean
-$m_Y=0.04$ and variance $v_Y=0.001$. As such, $m_{\alpha}$, $v_{\alpha}$, $m_Y$ and $v_Y$
-represent the hyperparameters of this model.
+weighted model. The interaction parameters of the $45$ simulated agents are
+drawn from a gamma distribution with mean $m_{\alpha}=1.2$ and variance
+$v_{\alpha}=0.02$. The noise-scale parameters of the agents are drawn from a
+gamma distribution with mean $m_Y=0.04$ and variance $v_Y=0.001$. As such,
+$m_{\alpha}$, $v_{\alpha}$, $m_Y$ and $v_Y$ represent the hyperparameters of
+this model.
 
 \begin{figure}[tbp]
   \includegraphics{power_hier_sim.pdf}
-  \caption{Forward simulation of the hierarchical power-law weighted model. The movements
-    of $N=45$ agents are simulated for $T=200$ time steps. For realism, the initial
-    positions and directions of motions of the agents are taken from an observation
-    of a real flocking event. The interaction parameters $\alpha_i$ are drawn from a
-    gamma distribution with mean $m_{\alpha}=1.2$ and variance $v_{\alpha}=0.02$. Similarly,
-    the noise-scale parameters $\sigma_{Y_i}$ are realisations from a gamma distribution
-    with mean $m_Y=0.04$ and variance $v_Y=0.001$.}
+  \caption{Forward simulation of the hierarchical power-law weighted model. The
+    movements of $N=45$ agents are simulated for $T=200$ time steps. For
+    realism, the initial positions and directions of motions of the agents
+    are taken from an observation of a real flocking event. The interaction
+    parameters $\alpha_i$ are drawn from a gamma distribution with mean
+    $m_{\alpha}=1.2$ and variance $v_{\alpha}=0.02$. Similarly, the
+    noise-scale parameters $\sigma_{Y_i}$ are realisations from a gamma
+    distribution with mean $m_Y=0.04$ and variance $v_Y=0.001$.}
   \label{fig:power_hier_sim}
 \end{figure}
 
-Vague hyperpriors are chosen to represent our prior beliefs about the hyperparameters.
-These, along with the likelihood function, are combined with Bayes' Theorem to target the
-posterior distribution.  We use Stan's NUTS algorithm to simulate four independent chains
-to target the posterior.  Each chain is initialised as a draw from our prior beliefs and
-simulated for $5000$ iterations. The initial $2500$ iterations are discarded to allow the
-chains to converge from their initial conditions toward the posterior.
+Vague hyperpriors are chosen to represent our prior beliefs about the
+hyperparameters. These, along with the likelihood function, are combined with
+Bayes' Theorem to target the posterior distribution.  We use Stan's NUTS
+algorithm to simulate four independent chains to target the posterior.  Each
+chain is initialised as a draw from our prior beliefs and simulated for $5000$
+iterations. The initial $2500$ iterations are discarded to allow the chains to
+converge from their initial conditions toward the posterior.
 
 Our posterior realisations of the hyperparameters are visualised in
 \cref{fig:power_hier_hist}. Each coloured histogram overlain represents the
-realisations generated by an independent chain. Our hyperpriors are overlain in red. See
-that in all cases our hyperpriors appear flat in comparison to our posterior beliefs. This
-reflects having updated our beliefs considerably in light of the data.  In this plot
-vertical green lines represent \emph{population}-level summary statistics (the true values
-of the hyperparameters), and the vertical black lines represent the corresponding
-\emph{sample}-level summary statistics. For example, consider that although the $\alpha_i$
-were drawn from a distribution with population mean $m_{\alpha}=1.20$ (vertical green
-line), their sample mean was $\overline{\alpha}\approx1.18$ (vertical black line).  We see
-that all the hyperparameters are well-captured by our posterior beliefs, and conclude that
+realisations generated by an independent chain. Our hyperpriors are overlain in
+red. See that in all cases our hyperpriors appear flat in comparison to our
+posterior beliefs. This reflects having updated our beliefs considerably in
+light of the data.  In this plot vertical green lines represent
+\emph{population}-level summary statistics (the true values of the
+hyperparameters), and the vertical black lines represent the corresponding
+\emph{sample}-level summary statistics. For example, consider that although the
+$\alpha_i$ were drawn from a distribution with population mean
+$m_{\alpha}=1.20$ (vertical green line), their sample mean was
+$\overline{\alpha}\approx1.18$ (vertical black line).  We see that all the
+hyperparameters are well-captured by our posterior beliefs, and conclude that
 they can be accurately inferred from simulated data.
 
 \begin{figure}[tbp]
   \includegraphics{power_hier_hist.pdf}
-  \caption{Histogram plots representing our posterior beliefs about the hyperparameters of
-    the hierarchical power-law weighted model. Vertical green lines represent the
-    true values of the hyperparameters (the \emph{population} means and variances of the
-    parameters). Vertical black lines represent \emph{sample} means and variances
-    of the parameters. Hyperpriors are overlain in red.}
+  \caption{Histogram plots representing our posterior beliefs about the
+    hyperparameters of the hierarchical power-law weighted model. Vertical
+    green lines represent the true values of the hyperparameters (the
+    \emph{population} means and variances of the parameters). Vertical black
+    lines represent \emph{sample} means and variances of the parameters.
+    Hyperpriors are overlain in red.}
   \label{fig:power_hier_hist}
 \end{figure}
 
-Posterior beliefs about the $N$ interaction and $N$ noise-scale parameters are summarised
-in \cref{fig:power_hier_summary}. Here, each boxplot represents a posterior density. As
-is convention, box boundaries represent the $25$th and $75$th percentiles of the
-posterior. Whiskers represent the median $\pm1.5\times\text{IQR}$. See that in all but one
-case ($\alpha_6$), the true parameter values lie within our posterior beliefs. We observe
-that the $\sigma_{Y_i}$'s are generally well represented by the posterior median. It
-appears that smaller noise-scale parameters can be captured with less uncertainty than
-larger noise-scale parameters. Although forty-four of the forty-five interaction
-parameters are captured by our posterior beliefs, the interaction parameters are not
-recovered with as much accuracy as the noise-scale parameters. However, we still see that
-our posterior beliefs generally well capture the interaction parameters. 
+Posterior beliefs about the $N$ interaction and $N$ noise-scale parameters are
+summarised in \cref{fig:power_hier_summary}. Here, each boxplot represents a
+posterior density. As is convention, box boundaries represent the $25$th and
+$75$th percentiles of the posterior. Whiskers represent the median
+$\pm1.5\times\text{IQR}$. See that in all but one case ($\alpha_6$), the true
+parameter values lie within our posterior beliefs. We observe that the
+$\sigma_{Y_i}$'s are generally well represented by the posterior median. It
+appears that smaller noise-scale parameters can be captured with less
+uncertainty than larger noise-scale parameters. Although forty-four of the
+forty-five interaction parameters are captured by our posterior beliefs, the
+interaction parameters are not recovered with as much accuracy as the
+noise-scale parameters. However, we still see that our posterior beliefs
+generally well capture the interaction parameters. 
 
 \begin{figure}[tbp]
   \includegraphics{power_hier_summary.pdf}
   \caption{Boxplots summarising our posterior beliefs about the interaction and
     noise-scale parameters of the hierarchical power-law weighted model. As is
-    convention, boxes show the $25$th, $50$th (the median) and $75$th percentiles of
-    the posterior. Whiskers represent the median $\pm 1.5\times\text{IQR}$.}
+    convention, boxes show the $25$th, $50$th (the median) and $75$th percentiles
+    of the posterior. Whiskers represent the median $\pm 1.5\times\text{IQR}$.}
   \label{fig:power_hier_summary}
 \end{figure}
 
-Although not included here for brevity, tabulating split-$\widehat{R}$ for every
-parameter reveals that all chains converged with split-$\widehat{R}=1.00$. Computing
-the effective sample size for each parameter showed that the \emph{worst} performing
-chain still realised approximately $10,000$ effective samples from the posterior. This
-gives confidence that our posteriors have been well realised.
+Although not included here for brevity, tabulating split-$\widehat{R}$ for
+every parameter reveals that all chains converged with
+split-$\widehat{R}=1.00$. Computing the effective sample size for each
+parameter showed that the \emph{worst} performing chain still realised
+approximately $10,000$ effective samples from the posterior. This gives
+confidence that our posteriors have been well realised.
 
-Considering the posterior samples generated by our Stan model, we have demonstrated that
-we can accurately recover the hyperparameters and parameters of data simulated from a
-hierarchical power-law weighted model.
+Considering the posterior samples generated by our Stan model, we have
+demonstrated that we can accurately recover the hyperparameters and parameters
+of data simulated from a hierarchical power-law weighted model.
 
 \subsubsection{Gaussian weighted}
 
-In a similar manner to the simulation study just performed on the hierarchical power-law
-weighted model, we now seek to perform a simulation study on the hierarchical Gaussian
-weighted model. As before, our model is implemented to simulate the movements of $45$
-agents over $200$ observations. Here, the interaction parameters $\sigma_{X_i}$ are drawn
-randomly from a gamma distribution with mean $m_X=25$ and variance $v_X=1$. The forty-five
-$\sigma_{X_i}$'s sampled for this simulation have mean $\overline{\sigma_X}\approx25.2$
-and variance $\text{Var}(\sigma_X)\approx1.1$. The trajectories realised by this
-simulation are illustrated in \cref{fig:gauss_hier_sim}.
+In a similar manner to the simulation study just performed on the hierarchical
+power-law weighted model, we now seek to perform a simulation study on the
+hierarchical Gaussian weighted model. As before, our model is implemented to
+simulate the movements of $45$ agents over $200$ observations. Here, the
+interaction parameters $\sigma_{X_i}$ are drawn randomly from a gamma
+distribution with mean $m_X=25$ and variance $v_X=1$. The forty-five
+$\sigma_{X_i}$'s sampled for this simulation have mean
+$\overline{\sigma_X}\approx25.2$ and variance $\text{Var}(\sigma_X)\approx1.1$.
+The trajectories realised by this simulation are illustrated in
+\cref{fig:gauss_hier_sim}.
 
 \begin{figure}[tbp]
   \includegraphics{gauss_hier_sim.pdf}
-  \caption{Data generated by a simulation of the hierarchical Gaussian weighted model.
-    The interaction parameters $\sigma_{X_i}$ are sampled from a gamma distribution with
-    mean $m_X=25$ and variance $v_X=1$. Similarly, the noise-scale parameters are drawn
-    from a gamma distribution with mean $m_Y=0.04$ and variance $v_Y=0.001$.} 
+  \caption{Data generated by a simulation of the hierarchical Gaussian weighted
+    model. The interaction parameters $\sigma_{X_i}$ are sampled from a gamma
+    distribution with mean $m_X=25$ and variance $v_X=1$. Similarly, the
+    noise-scale parameters are drawn from a gamma distribution with mean
+    $m_Y=0.04$ and variance $v_Y=0.001$.} 
   \label{fig:gauss_hier_sim}
 \end{figure}
 
-We use the Stan modelling language to codify \cref{eq:hier_likelihood} and express our
-vague prior beliefs about the hyperparameters of the model. Four independent chains are
-again simulated for $5000$ iterations, with the first $2500$ iterations discarded to allow
-a warm up period.
+We use the Stan modelling language to codify \cref{eq:hier_likelihood} and
+express our vague prior beliefs about the hyperparameters of the model. Four
+independent chains are again simulated for $5000$ iterations, with the first
+$2500$ iterations discarded to allow a warm up period.
 
 Our posterior realisations about the hyperparameters are visualised in
-\cref{fig:gauss_hier_hist}. The four independent chains simulated are seen to have
-converged to a common distribution. The true values of the hyperparameters (vertical green
-lines) lie well within our posterior beliefs, and lie close to the posterior mode.
+\cref{fig:gauss_hier_hist}. The four independent chains simulated are seen to
+have converged to a common distribution. The true values of the hyperparameters
+(vertical green lines) lie well within our posterior beliefs, and lie close to
+the posterior mode.
 
 \begin{figure}[tbp]
   \includegraphics{gauss_hier_hist_hypers.pdf}
-  \caption{Realisations from the posterior distribution of the hierarchical Gaussian
-    weighted model. Vertical green lines show the true values of the hyperparameters.
-    Vertical black lines show the sample summary statistics of the model parameters.
-    Hyperpriors are ovelain in red.}
+  \caption{Realisations from the posterior distribution of the hierarchical
+    Gaussian weighted model. Vertical green lines show the true values of the
+    hyperparameters. Vertical black lines show the sample summary statistics
+    of the model parameters. Hyperpriors are overlain in red.}
   \label{fig:gauss_hier_hist}
 \end{figure}
 
-\cref{fig:gauss_hier_summary} is constructed to provide a convenient summary of our
-posterior beliefs about the ninety ($2N$) model parameters used for this simulation. The
-true parameter values are shown by green markers, and posterior medians are represented by
-yellow markers. All the true parameter values are seen to lie within our posterior
-beliefs, indicating that they can be captured by parameter inference. Our posterior
-beliefs about the interaction parameters of the agents overlap considerably. This
-indicates that the parameters drawn for simulation represent very similar interaction
-weightings. The noise-scale parameters, on the other hand, are captured with much less
-uncertainty and overlap.
+\cref{fig:gauss_hier_summary} is constructed to provide a convenient summary of
+our posterior beliefs about the ninety ($2N$) model parameters used for this
+simulation. The true parameter values are shown by green markers, and posterior
+medians are represented by yellow markers. All the true parameter values are
+seen to lie within our posterior beliefs, indicating that they can be captured
+by parameter inference. Our posterior beliefs about the interaction parameters
+of the agents overlap considerably. This indicates that the parameters drawn
+for simulation represent very similar interaction weightings. The noise-scale
+parameters, on the other hand, are captured with much less uncertainty and
+overlap.
 
 \begin{figure}[tbp]
   \includegraphics{gauss_hier_summary.pdf}
-  \caption{Boxplots summarising our posterior beliefs about the interaction parameters and
-    the noise-scale parameters used to forward simulate the hierarchical Gaussian weighted
-    model. Each boxplot illustrates the posterior median, lower and upper quartiles, and the
-    posterior median $\pm1.5\times\text{IQR}$.}
+  \caption{Boxplots summarising our posterior beliefs about the interaction
+    parameters and the noise-scale parameters used to forward simulate the
+    hierarchical Gaussian weighted model. Each boxplot illustrates the
+    posterior median, lower and upper quartiles, and the posterior median
+    $\pm1.5\times\text{IQR}$.}
   \label{fig:gauss_hier_summary}
 \end{figure}
 
 \subsection{Topological model}
 
-Having satisfied ourselves that we can fit continuous hierarchical models to simulated
-data, we now turn our attention to our hierarchical topological model. 
+Having satisfied ourselves that we can fit continuous hierarchical models to
+simulated data, we now turn our attention to our hierarchical topological
+model. 
 
 \begin{figure}[tbp]
   \includegraphics{top_hier_sim.pdf}
