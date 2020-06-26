@@ -1,0 +1,43 @@
+\graphicspath{{fig/sheep/}}
+
+\chapter{Case study I: flocking sheep}
+\label{cha:sheep}
+
+In \cref{cha:sim_studies} we showed that it is possible to infer the parameters
+of a number of agent based models from simulated data. Performing simulation
+studies before attempting inference on real data is recommended as it allows an
+opportunity to troubleshoot and assess the accuracy of our inference schemes.
+The schemes constructed to perform inference on simulated data can now be
+reused with little to no alteration, to perform inference on real data. With
+the confidence instilled by the success of our simulation studies, if we find
+our schemes unable to fit a model to real data, we can be confident that this
+is because of a discrepancy between the model and data, rather than an error in
+our fitting process.
+
+This chapter shall focus on data of flocking sheep, unseen before in the
+literature. Aerial footage of flocking sheep was recorded by a commercially
+available drone, and the position of sheep in every frame was extracted using
+custom tracking software. In total, three flocking sequences were extracted and
+analysed. Global models considered in \cref{sec:global_models} will be fit to
+these sequences. The resulting fits will be assessed for validity and ranked
+for performance by Akaike Information Criteria.
+
+\section{Data}
+\label{sec:data}
+
+Aerial footage of flocking sheep was captured with a commercially available DJI
+Phantom $3$ drone equipped with a built in high-definition camera, representing
+a frame resolution of $4000\times3000$ pixels. The aerial footage was recorded
+at a rate of $24$ frames per second. In total, three distinct flocking events
+were captured and analysed. Each flocking event consisted of the same $45$
+sheep.
+
+Captured flocking events took place in large open spaces, in a natural
+environment which the sheep were already familiar with. In some cases the
+flocking events were initiated by the movements of a quad bike, but were then
+allowed to develop naturally and unimpeded. Events generally took place away
+from hard boundaries, such as fences and trees, but the influence of these
+objects from a distance cannot be ruled-out.
+
+
+
