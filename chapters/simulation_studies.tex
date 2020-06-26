@@ -422,8 +422,9 @@ power-law weighted model from simulated data.
   \includegraphics{gauss_hist.pdf}
   \caption{Draws realised by Stan in fitting the Gaussian weighted model to
     simulated data. The true values (green vertical lines) are well
-    represented by the posterior mode. Our posterior beliefs have updated
-    considerably from our prior beliefs (overlain in red).}
+    represented by the posterior mode. Our posterior beliefs appear much more
+    peaked than our prior beliefs (overlain in red), suggesting that our
+    choice of priors had little influence over the realised posteriors.}
   \label{fig:gauss_hist}
 \end{figure}
 
@@ -642,11 +643,11 @@ they can be accurately inferred from simulated data.
 \begin{figure}[tbp]
   \includegraphics{power_hier_hist.pdf}
   \caption{Histogram plots representing our posterior beliefs about the
-    hyperparameters of the hierarchical power-law weighted model. Vertical
-    green lines represent the true values of the hyperparameters (the
-    \emph{population} means and variances of the parameters). Vertical black
-    lines represent \emph{sample} means and variances of the parameters.
-    Hyperpriors are overlain in red.}
+    hyperparameters of the hierarchical power-law weighted model fitted to
+    simulated data. Vertical green lines represent the true values of the
+    hyperparameters (the \emph{population} means and variances of the
+    parameters). Vertical black lines represent \emph{sample} means and
+    variances of the parameters. Hyperpriors are overlain in red.}
   \label{fig:power_hier_hist}
 \end{figure}
 
@@ -667,9 +668,10 @@ generally well capture the interaction parameters.
 \begin{figure}[tbp]
   \includegraphics{power_hier_summary.pdf}
   \caption{Boxplots summarising our posterior beliefs about the interaction and
-    noise-scale parameters of the hierarchical power-law weighted model. As is
-    convention, boxes show the $25$th, $50$th (the median) and $75$th percentiles
-    of the posterior. Whiskers represent the median $\pm 1.5\times\text{IQR}$.}
+    noise-scale parameters of the hierarchical power-law weighted model
+    fitted to simulated data. As is convention, boxes show the $25$th, $50$th
+    (the median) and $75$th percentiles of the posterior. Whiskers represent
+    the median $\pm 1.5\times\text{IQR}$.}
   \label{fig:power_hier_summary}
 \end{figure}
 
@@ -728,7 +730,7 @@ the posterior mode.
 \end{figure}
 
 \cref{fig:gauss_hier_summary} is constructed to provide a convenient summary of
-our posterior beliefs about the ninety ($2N$) model parameters used for this
+our posterior beliefs about the $90$ ($2\times N$) model parameters used for this
 simulation. The true parameter values are shown by green markers, and posterior
 medians are represented by yellow markers. All the true parameter values are
 seen to lie within our posterior beliefs, indicating that they can be captured
@@ -752,18 +754,72 @@ overlap.
 
 Having satisfied ourselves that we can fit continuous hierarchical models to
 simulated data, we now turn our attention to our hierarchical topological
-model. 
+model. The data simulated for this study is shown by the trajectories of
+\cref{fig:top_hier_sim}. The trajectories generated for this simulation bear a
+strong resemblance to that of a real flocking event.
 
 \begin{figure}[tbp]
   \includegraphics{top_hier_sim.pdf}
-  \caption{} 
+  \caption{An illustration of the trajectories realised by a forward
+    simulation of the hierarchical topological model. In this model agent $i$
+    interacts with its closest $k_i$ nearest neighbours, and experiences noise
+    distributed according to a Student's $t$-distribution with scale
+    $\sigma_{Y_i}$ and degrees of freedom $\nu$. Interaction and noise scale
+    parameters are drawn from population level distributions, parameterised by the
+    hyperparameters $m_k=1$, $v_k=2$, $m_Y=0.4$ and $v_Y=0.001$.}
+  \label{fig:top_hier_sim}
 \end{figure}
+
+Interaction and noise-scale parameters were drawn from population-level
+distributions. The interaction parameters $k$ were sampled from a Gamma
+distribution with mean $m_k=4$ and variance $v_k=2$. These hyperparameters are
+represented in \cref{fig:top_hier_hist} by vertical green lines. The sampled
+interaction parameters had mean $\overline{k}\approx4.15$, and variance
+$\text{Var}(k)\approx1.25$. These values are illustrated in
+\cref{fig:top_hier_hist} with vertical black lines. In a similar manner, the
+noise-scale parameters are drawn from a Gamma distribution with hyperparameters
+$m_Y=0.4$ and $v_Y=0.001$, which resulted in parameters $\sigma_Y$ with sample
+mean $\overline{\sigma_Y}\approx0.035$ and sample variance
+$\text{Var}(\sigma_Y)\approx0.001$.
+
+The posterior samples realised by Stan's implementation of the
+No-U-Turn-Sampler are shown in \cref{fig:top_hier_hist}. These histograms
+represent the posterior realisations made by four independent Markov chains,
+each simulated for $5000$ iterations. Sample and population level summary
+statistics of the parameters are shown to be captured well by our posterior
+beliefs, indicating that we can successfully recover the hyperparameters of
+simulated data by inference. Our posterior beliefs are much more peaked than
+our hyperpriors, suggesting that our choice of hyperprior had little influence
+over posteriors.
+
 \begin{figure}[tbp]
   \includegraphics{top_hier_hist.pdf}
-  \caption{} 
+  \caption{Histogram plots showing the posterior samples drawn in fitting the
+    hierarchical topological model to simulated data. Samples were drawn by
+    Stan's implementation of the NUTS algorithm. Our hyperpriors (overlain in
+    red) appear flat in comparison to our posterior beliefs: indicating that
+    our beliefs have updated considerably having observed the simulated data.
+    The true values of the hyperparameters are shown by the veritcal green
+    lines, and the corresponding sample level summary statistics are shown by black
+    vertical lines.}
+  \label{fig:top_hier_hist}
 \end{figure}
+
+Having seen that we can successfully recover the hyperparameters of the
+hierarchical topological model, we know turn our attention to the parameters of
+this model. The posterior densities of the remaining $2N$ parameters are
+summarised in \cref{fig:top_hier_summary}. From this plot we see that we are
+able to capture all $90$ of the model parameters in our posterior beliefs. The
+true values of the parameters are seen to lie close to the posterior median in
+the majority of cases.
+
 \begin{figure}[tbp]
   \includegraphics{top_hier_summary.pdf}
-  \caption{} 
+  \caption{Summarising our posterior beliefs about the interaction and
+    noise-scale parameters of the $N=45$ agents simulated according to the
+    hierarchical topological model. Box boundaries represent the upper and
+    lower quartiles of our beliefs, and the whiskers show the posterior
+    median $\pm1.5\times\text{IQR}$.}
+  \label{fig:top_hier_summary}
 \end{figure}
 
