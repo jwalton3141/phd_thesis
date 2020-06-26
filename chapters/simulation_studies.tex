@@ -785,12 +785,12 @@ $\text{Var}(\sigma_Y)\approx0.001$.
 The posterior samples realised by Stan's implementation of the
 No-U-Turn-Sampler are shown in \cref{fig:top_hier_hist}. These histograms
 represent the posterior realisations made by four independent Markov chains,
-each simulated for $5000$ iterations. Sample and population level summary
-statistics of the parameters are shown to be captured well by our posterior
-beliefs, indicating that we can successfully recover the hyperparameters of
-simulated data by inference. Our posterior beliefs are much more peaked than
-our hyperpriors, suggesting that our choice of hyperprior had little influence
-over posteriors.
+each simulated for $5000$ iterations and initialised at different locations.
+Sample and population level summary statistics of the parameters are shown to
+be captured well by our posterior beliefs, indicating that we can successfully
+recover the hyperparameters of simulated data by inference. Our posterior
+beliefs are much more peaked than our hyperpriors, suggesting that our choice
+of hyperprior had little influence over posteriors, as was intended.
 
 \begin{figure}[tbp]
   \includegraphics{top_hier_hist.pdf}
@@ -806,12 +806,12 @@ over posteriors.
 \end{figure}
 
 Having seen that we can successfully recover the hyperparameters of the
-hierarchical topological model, we know turn our attention to the parameters of
-this model. The posterior densities of the remaining $2N$ parameters are
-summarised in \cref{fig:top_hier_summary}. From this plot we see that we are
-able to capture all $90$ of the model parameters in our posterior beliefs. The
-true values of the parameters are seen to lie close to the posterior median in
-the majority of cases.
+hierarchical topological model, we now turn our attention to the
+\emph{parameters} of this model. The posterior densities of the remaining $2N$
+parameters are summarised in \cref{fig:top_hier_summary}. From this plot we see
+that we are able to capture all $90$ of the model parameters in our posterior
+beliefs. The true values of the parameters are seen to lie close to the
+posterior median in the majority of cases.
 
 \begin{figure}[tbp]
   \includegraphics{top_hier_summary.pdf}
@@ -822,4 +822,16 @@ the majority of cases.
     median $\pm1.5\times\text{IQR}$.}
   \label{fig:top_hier_summary}
 \end{figure}
+
+Having shown that we can accurately capture the true parameter values of data
+simulated from the hierarchical topological model, we have now demonstrated
+that we can perform successful simulation studies on all our continuous
+hierarchical models. The inference schemes constructed to perform these
+inferences can now be repurposed with minimal-to-no-modification for use with
+data of real flocking events. We can be confident in the accuracy and our
+implementation of these schemes. With this, if we find our implementations
+unable to fit real data to our models, we can be confident that this is due to
+a discrepancy between model and data, rather than an error in our
+implementation.
+
 
