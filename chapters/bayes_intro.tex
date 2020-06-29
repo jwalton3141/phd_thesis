@@ -147,8 +147,8 @@ The parameter $\Sigma$ is called the `tuning parameter' and controls how the
 chain moves around the parameter space.
 
 Mixing describes how efficiently a chain moves around the sample space, and how
-long it takes for the chain to converge to the target distribution.  Crucially
-then, the parameter $\Sigma$ can be used to control the mixing of chains.  So,
+long it takes for the chain to converge to the target distribution. Crucially
+then, the parameter $\Sigma$ can be used to control the mixing of chains. So,
 naturally, we desire to select a $\Sigma$ which produces well-behaved chains.
 Such a tuning parameter should allow rapid convergence to $\pi(\theta \given
 x)$ and facilitate exploration of the entire support of the target. If the
@@ -475,7 +475,7 @@ for out-of-sample data (new data, distinct from that used in our fitting).
 However, this is often not viable. One way around this problem is to use
 leave-one-out cross-validation (LOO-CV). The idea here is to split the data set
 into training data and test data, perform the model fitting on the training
-data, and assess fit with the test data.  Unfortunately, this method comes at
+data, and assess fit with the test data. Unfortunately, this method comes at
 computational expense; LOO-CV can necessitate performing up to $n$ model fits
 (where $n$ is the number of data points). To avoid this expense it is common to
 assess predictive accuracy using within-sample data. There exist a variety of
@@ -507,7 +507,7 @@ pointwise predictive density (lppd), defined as:
 \end{equation*}
 where $n$ is the number of posterior samples. The log pointwise predictive
 density is a biased estimator of elppd, the expected log pointwise predictive
-density for a new dataset.  WAIC accounts for this bias by adding a correction
+density for a new dataset. WAIC accounts for this bias by adding a correction
 for the effective number of parameters in the fit, computed as:
 \begin{equation*}
     p_{\text{WAIC}} = \sum_{j=1}^n V_{i=1}^{S}\log(\pi(\theta^{(i)} \given x_j)),

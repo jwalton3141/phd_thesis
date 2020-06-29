@@ -45,7 +45,7 @@ realisation from
                                \angmean{\theta}_{i, t} + \eta/2),
 \end{equation}
 where $\angmean{\theta}_{i, t}$ represents the average direction of motion of
-agent $i$'s neighbours at time $t$.  A weighted circular mean is used to
+agent $i$'s neighbours at time $t$. A weighted circular mean is used to
 compute $\angmean{\theta}_{i, t}$ as
 \begin{equation}
     \angmean{\theta}_{i, t} = \atantwo\bigg(
@@ -73,7 +73,7 @@ and agent $j$ at time $t$:
 
 The interaction rule implemented in the Vicsek model represents a discontinuous
 interaction, as the interaction kernel is very sensitive to small perturbations
-in distances.  More formally, this discontinuity can be shown by considering
+in distances. More formally, this discontinuity can be shown by considering
 the value of $\omega_{ij, t}$ as $d_{ij,t}$ tends to $r$ from above and below.
 As $d_{ij,t}$ tends to $r$ from above it can be seen that $\lim_{d_{ij,t}
 \rightarrow r^+} \omega_{ij,t} = 0$. Conversely, as $d_{ij,t}$ tends to $r$
@@ -158,7 +158,7 @@ The Student's $t$-distribution allows more weight in its tails than the normal
 distribution permits. However, as $\nu\rightarrow\infty$ the Student's
 $t$-distribution with location $\mu$ and scale $\sigma_Y$ converges to a normal
 distribution with mean and standard deviation corresponding to these location
-and scale parameters.  Although the Student's $t$-distribution represents a
+and scale parameters. Although the Student's $t$-distribution represents a
 more flexible noise structure, it also comes at the cost of model complexity:
 with the introduction of the degrees of freedom $\nu$ as an additional model
 parameter.
@@ -170,7 +170,7 @@ periodic boundary conditions and side-length $L$. In this way the density of a
 cell remains constant throughout a simulation. However, implementing periodic
 boundary conditions when we attempt to mimic real flocking events is clearly
 inappropriate. Instead, we shall consider simulations to take place in the
-unrestricted continuous domain represented by $\mathbb{R}^2$.  On top of
+unrestricted continuous domain represented by $\mathbb{R}^2$. On top of
 realism, performing simulations in this unrestricted domain allows more
 informative visualisations of the resulting data, as in
 \cref{fig:example_traj}. Here we are able to visualise the positions of agents
@@ -187,6 +187,8 @@ throughout a simulation in a single graphic.
       simulation.}
     \label{fig:example_traj}
 \end{figure}
+
+\section{The null model}
 
 \section{Continuous interaction models}
 
@@ -308,7 +310,7 @@ the power-law weighted model as $\alpha\rightarrow0$.
 
 Although the Gaussian model implements a similar interaction kernel to that of
 the power-law weighted model, there remains differences in their functional
-forms.  Most notably is that the power-law interaction represents a convex
+forms. Most notably is that the power-law interaction represents a convex
 weighting function, whereas the Gaussian interaction is a concave weighting
 (\cref{fig:weighting_rules}). The Gaussian model also has some inherent length
 scale, expressed by the parameter $\sigma_X$, whereas the power-law weighted
