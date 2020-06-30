@@ -10,12 +10,18 @@ from scipy.stats import gamma
 
 from pretty import set_size, savefig
 
+my_params = {
+    'xtick.major.pad': 3,
+    'ytick.major.pad': 3,
+    }
+plt.rcParams.update(my_params)
+
 
 def vicsek_n_noise():
     """Plot prior beliefs for the parameters r, sigma_Y and nu."""
     figsize = set_size()
     # Ignore my over-engineered plot dimension considerations
-    figsize[1] = 1.7
+    figsize[1] = 1.5
 
     # Make plot
     fig, ax = plt.subplots(1, 3, figsize=figsize)
@@ -38,13 +44,13 @@ def vicsek_n_noise():
     lower, upper = 0, 0.1
     x = np.linspace(lower, upper, num=100)
     ax[1].plot(x, gamma.pdf(x, a=2, scale=1 / 100), c='C2')
-    ax[1].set_xlim(lower, upper)
+    ax[1].set_xlim(-0.001, upper)
 
     # Prior beliefs about nu
     lower, upper = 0, 75
     x = np.linspace(lower, upper, num=100)
     ax[2].plot(x, gamma.pdf(x, a=2, scale=1 / 0.1), c='C2')
-    ax[2].set_xlim(lower, upper)
+    ax[2].set_xlim(-1, upper)
 
     fig.tight_layout(pad=0)
     fig.savefig('vicsek_priors.pdf')
@@ -99,9 +105,9 @@ def top():
 
 
 def main():
-    #vicsek_n_noise()
+    vicsek_n_noise()
     #gauss_power()
-    top()
+    #top()
 
 
 if __name__ == "__main__":
