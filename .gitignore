@@ -1,6 +1,3 @@
-#Ignore backup files from gedit
-*~
-
 #Ignore intermediate latex files
 introduction.pdf
 *.dvi
@@ -12,9 +9,11 @@ introduction.pdf
 *.bbl
 *.out
 *.toc
-#Ignore any data lying around
+
+#Ignore python stuff which I leave lying around sometimes
 *.npy
 *.pkl
+*__pycache__
 
 # Ignore any latexmk files
 *.fls
