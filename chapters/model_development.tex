@@ -3,32 +3,34 @@
 \chapter{Model development}
 \label{cha:model_dev}
 
-In this chapter we shall introduce one of the most popular and well studied
+In this chapter we shall introduce one of the most popular and well-studied
 agent-based models in the literature: the Vicsek model. The Vicsek model
 represents a simple alignment model in which agents interact with neighbours
-within some given distance. Despite its simplicity, this model can produce
+within some fixed distance. Despite its simplicity, this model can produce
 sophisticated dynamics reminiscent of real flocking events. A phase transition
 from order to disorder is observed as the amount of noise in the model is
 regulated.
 
-The Vicsek model, like many other ABMs, implements a discontinuous interaction
-rule. With this, the onset of interaction between individuals is very sensitive
-to small perturbations in distances. We consider continuous interaction rules
-as a biologically-motivated alternative. Such rules ensure interactions are
-more robust to small perturbations in distances, and without the penalty of
-additional model complexity.
+The Vicsek model, like many other ABMs, implements a so-called `zonal'
+interaction rule. These rules represent discontinuous interactions. With this,
+the onset of interaction between individuals is very sensitive to small
+perturbations in distances. We consider continuous interaction rules as
+providing a biologically-motivated alternative to zonal rules. Such rules
+ensure interactions are more robust to small perturbations in distances, but
+without the penalty of introducing additional model complexity.
 
 \section{The Vicsek model}
 
-The Vicsek model simulates the movements of $N$ individuals moving with
-constant speed $v$ (\cref{fig:vicsek_illustration}). All movement takes place
-in a square-cell with periodic boundary conditions and side length $L$. To
+The Vicsek model simulates the movements of $N$ individuals over $T$ time steps
+(\cref{fig:vicsek_illustration}). Individuals travel with constant speed $v$,
+within a square-cell with periodic boundary conditions and side length $L$. To
 initialise a simulation agents are allocated a random position within the cell,
 and a random direction of motion. From time $t$ to time $t+1$ agent $i$ updates
 its position as:
-\begin{equation*}
-    \bm{x}_{i, t+1} = \bm{x}_{i, t} + \bm{v}_{i, t},
-\end{equation*}
+\begin{equation}
+  \label{eq:positional_update}
+  \bm{x}_{i, t+1} = \bm{x}_{i, t} + \bm{v}_{i, t},
+\end{equation}
 where the velocity $\bm{v}_{i,t}$ is constructed to have speed $v$ and
 direction of motion $\theta_{i, t+1}$. Updating $\theta_{i,t}$ to $\theta_{i,
 t+1}$ models how agents update their directions of motion in light of their
@@ -39,47 +41,52 @@ model noise is considered to be uniformly distributed as $\mathcal{U}(-\eta/2,
 \eta/2)$. The directional update of agent $i$ can then be expressed as a
 realisation from
 \begin{equation}
-    \label{eq:vicsek_update}
-    \theta_{i, t+1} \given \angmean{\theta}_{i, t}, \eta \sim
-                   \mathcal{U}(\angmean{\theta}_{i, t} - \eta/2,
-                               \angmean{\theta}_{i, t} + \eta/2),
+  \label{eq:vicsek_update}
+  \theta_{i, t+1} \given \angmean{\theta}_{i, t}, \eta \sim
+                 \mathcal{U}(\angmean{\theta}_{i, t} - \eta/2,
+                             \angmean{\theta}_{i, t} + \eta/2),
 \end{equation}
 where $\angmean{\theta}_{i, t}$ represents the average direction of motion of
-agent $i$'s neighbours at time $t$. A weighted circular mean is used to
-compute $\angmean{\theta}_{i, t}$ as
+agent $i$'s neighbours at time $t$. A weighted circular mean, computed using
+the definition of the $\atantwo$ function given in \cref{eq:atantwo}, is used
+to compute $\angmean{\theta}_{i, t}$ as:
 \begin{equation}
-    \angmean{\theta}_{i, t} = \atantwo\bigg(
-        \sum_{j=1}^N \omega_{ij, t} \sin\theta_{j,t},
-        \sum_{j=1}^N \omega_{ij, t} \cos\theta_{j,t}
-    \bigg).
+  \label{eq:weighted_interaction}
+  \angmean{\theta}_{i, t} = \atantwo\bigg(
+      \sum_{j=1}^N \omega_{ij, t} \sin\theta_{j,t},
+      \sum_{j=1}^N \omega_{ij, t} \cos\theta_{j,t}
+  \bigg).
 \end{equation}
 With this, the weighting $\omega_{ij, t}$ represents the strength of the
 interaction between agent $i$ and agent $j$ at time $t$. In the Vicsek model
-agent $i$ interacts with neighbours which are within distance $r$ of its
-current position. This interaction can be implemented with the weighting rule
+agent $i$ interacts with neighbours which are within distance
+$r\in\mathbb{R}^+$ of its current position. This interaction can be implemented
+with the weighting rule
 \begin{equation}
-    \label{eq:vicsek_interaction}
-    \omega_{ij,t} =
-    \begin{cases}
-        1 & \text{ if } d_{ij, t} \leq r,\\
-        0 & \text{ otherwise,}
-    \end{cases}
+  \label{eq:vicsek_interaction}
+  \omega_{ij,t} =
+  \begin{cases}
+    1 & \text{ if } d_{ij, t} \leq r,\\
+    0 & \text{ otherwise,}
+  \end{cases}
 \end{equation}
 where $d_{ij,t}$ is the Euclidean-distance between the positions of agent $i$
 and agent $j$ at time $t$:
 \begin{equation*}
-    d_{ij,t} = \sqrt{(x_{j,t} - x_{i,t})^2 + (y_{j,t} - y_{i,t})^2}.
+  d_{ij,t} = \sqrt{(x_{j,t} - x_{i,t})^2 + (y_{j,t} - y_{i,t})^2}.
 \end{equation*}
 
 The interaction rule implemented in the Vicsek model represents a discontinuous
 interaction, as the interaction kernel is very sensitive to small perturbations
-in distances. More formally, this discontinuity can be shown by considering
-the value of $\omega_{ij, t}$ as $d_{ij,t}$ tends to $r$ from above and below.
-As $d_{ij,t}$ tends to $r$ from above it can be seen that $\lim_{d_{ij,t}
-\rightarrow r^+} \omega_{ij,t} = 0$. Conversely, as $d_{ij,t}$ tends to $r$
-from below we observe: $\lim_{d_{ij,t} \rightarrow r^-} \omega_{ij,t} = 1$. As
+in distances. More formally, this discontinuity can be shown by considering the
+value of $\omega_{ij, t}$ as $d_{ij,t}$ approaches $r$ from above and below. As
+$d_{ij,t}$ approaches $r$ from above we realise the limit $\lim_{d_{ij,t}
+\rightarrow r^+} \omega_{ij,t} = 0$. Conversely, as $d_{ij,t}$ approaches $r$
+from below we observe $\lim_{d_{ij,t} \rightarrow r^-} \omega_{ij,t} = 1$. As
 the weighting tends to different values as the limit of $d_{ij,t}=r$ is
-approached, we see that there is a discontinuity at $d_{ij,t}=r$.
+approached, we see that there is a discontinuity at $d_{ij,t}=r$. This
+weighting rule and its resulting discontinuity are clearly visualised in
+\cref{fig:vicsek_weight}.
 
 The Vicsek model was motivated by models for ferromagnetism. In these models
 particles align spin states with neighbouring particles. Although a
@@ -90,14 +97,15 @@ implementing continuous interaction rules as a biologically-motivated
 alternative.
 
 Along with the introduction of their model, \cite{vicsek95} examined the
-polarisation of simulated flocks as the magnitude of the noise was varied. The
-polarisation of a flock at time $t$ was quantified by the absolute value of the
-normalised velocity of the flock:
+polarisation of simulated flocks as the magnitude of the noise ($\abs{\eta}$)
+was varied. The polarisation of a flock at time $t$---sometimes referred to as its
+alignment---was quantified by the absolute value of the normalised velocity of
+the flock:
 \begin{equation}
-    \label{eq:alignment}
-    v_{a,t} = \frac{1}{Nv} \abs{\,\sum_{i=1}^N \bm{v}_{i,t}\,}.
+  \label{eq:alignment}
+  v_{a,t} = \frac{1}{Nv} \abs{\,\sum_{i=1}^N \bm{v}_{i,t}\,}.
 \end{equation}
-At time $t$, a flock moving incohesively, with individual members directed
+A flock moving incohesively at time $t$, with individual members directed
 randomly, has polarisation $v_{a,t}\approx0$. Conversely, a highly polarised
 flock in which all members are moving in the same direction at time $t$ has an
 alignment $v_{a,t}\approx1$. As the amount of noise in a simulation is
@@ -106,30 +114,30 @@ state to a disordered $v_{a,t}\approx0$ state. For a fixed flock density,
 smaller flocks are observed to be more resistant to noise than larger flocks.
 
 \begin{figure}[tb]
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics{vicsek_simulation_1.pdf}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics{vicsek_simulation_4.pdf}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics{vicsek_simulation_7.pdf}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics{vicsek_simulation_10.pdf}
-    \end{subfigure}
-    \caption{Visualisations from a simulation of the Vicsek model. At time
-      $t=1$, $N=10$ agents are assigned random positions within a square-cell
-      of side length $L=1$. Initially, the directions of motion of
-      individuals are realised from a $\mathcal{U}(-\pi, \pi)$ distribution.
-      Between time steps agents move with speed $v=0.03$, and update
-      directions according to \cref{eq:vicsek_update}, with $\eta=\pi/16$.
-      The interaction zone of agent $i$ is illustrated throughout the
-      simulation by a circle of radius $r$ centred at $\bm{x}_{i,t}$. The
-      positions of neighbours within agent $i$'s interaction zone are
-      visualised with a green cross. Individuals which lie outside of agent
-      $i$'s interaction zone have their positions denoted by a red cross.}
-    \label{fig:vicsek_illustration}
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics{vicsek_simulation_1.pdf}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics{vicsek_simulation_4.pdf}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics{vicsek_simulation_7.pdf}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics{vicsek_simulation_10.pdf}
+  \end{subfigure}
+  \caption{Visualisations from a simulation of the Vicsek model. At time
+    $t=1$, $N=10$ agents are assigned random positions within a square-cell
+    of side length $L=1$. Initially, the directions of motion of
+    individuals are realised from a $\mathcal{U}(-\pi, \pi)$ distribution.
+    Between time steps agents move with speed $v=0.03$, and update
+    directions according to \cref{eq:vicsek_update}, with $\eta=\pi/16$.
+    The interaction zone of agent $i$ is illustrated throughout the
+    simulation by a circle of radius $r$ centred at $\bm{x}_{i,t}$. The
+    positions of neighbours within agent $i$'s interaction zone are
+    visualised with a green cross. Individuals which lie outside of agent
+    $i$'s interaction zone have their positions denoted by a red cross.}
+  \label{fig:vicsek_illustration}
 \end{figure}
 
 \subsection{Stochasticity}
@@ -141,18 +149,28 @@ reasonable choice for biologically-motivated systems. In much of the literature
 authors instead assume that noise is normally distributed. In this case an
 agent's directional update typically takes the form:
 \begin{equation*}
-    \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \sigma_Y \sim
-        \mathcal{N}(\angmean{\theta}_{i,t}, \sigma_Y).
+  \label{eq:normal_update}
+  \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \sigma_Y \sim
+      \mathcal{N}(\angmean{\theta}_{i,t}, \sigma_Y).
 \end{equation*}
 
-Throughout this work we shall also consider the possibility that the noise
-experienced by individuals is distributed according to some generalised
-Student's $t$-distribution with $\nu$ degrees of freedom. In this situation,
-the directional update of agent $i$ is given as:
+Given that the $\theta_{i,t}$ represent circular quantities, it is not clear
+whether a choice of normally distributed noise is appropriate. Consider that
+the normal distribution has infinite support, yet $\theta_{i,t}\in[-\pi,\pi)$
+for $i=1,\ldots,N$ and $t=1,\ldots,T$. The von Mises distribution is a
+continuous probability distribution on the circle, and so potentially
+represents a more appropriate noise structure. However, we observe that when
+the magnitude of the noise is small, the von Mises distribution can be
+approximated by a normal distribution, as shown in \cref{sec:von_mise}.
+
+Throughout this work we shall consider that the noise experienced by
+individuals is distributed according to some generalised Student's
+$t$-distribution with $\nu$ degrees of freedom and scale $\sigma_Y$. In this
+situation, the directional update of agent $i$ is given as:
 \begin{equation}
-    \label{eq:students_update}
-    \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \nu, \sigma_Y \sim
-    t_{\nu}(\angmean{\theta}_{i,t}, \sigma_Y).
+  \label{eq:students_update}
+  \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \nu, \sigma_Y \sim
+     t_{\nu}(\angmean{\theta}_{i,t}, \sigma_Y).
 \end{equation}
 The Student's $t$-distribution allows more weight in its tails than the normal
 distribution permits. However, as $\nu\rightarrow\infty$ the Student's
@@ -174,21 +192,60 @@ unrestricted continuous domain represented by $\mathbb{R}^2$. On top of
 realism, performing simulations in this unrestricted domain allows more
 informative visualisations of the resulting data, as in
 \cref{fig:example_traj}. Here we are able to visualise the positions of agents
-throughout a simulation in a single graphic.
+throughout a simulation in a single graphic. Trajectory plots of simulations
+taking place in periodic cells can be difficult to interpret, as it is not easy
+to visually track individuals as they cross the periodic boundary.
 
 \begin{figure}[tb]
-    \includegraphics{example_traj_plot.pdf}
-    \caption{A trajectory plot representing the movements of $N=45$ agents
-      moving through the unrestricted continuous domain $\mathbb{R}^2$.
-      Agents are initially positioned at the locations represented by the
-      green markers. The model is simulated for $200$ time steps. The red
-      markers represent the positions of agents at the end of a simulation. Blue
-      lines represent the trajectories of motion of individual agents throughout the
-      simulation.}
+  \includegraphics{example_traj_plot.pdf}
+  \caption{A trajectory plot representing the movements of $N=45$ agents
+    moving through the unrestricted continuous domain $\mathbb{R}^2$.
+    Agents are initially positioned at the locations represented by the red
+    markers. The model is simulated for $200$ time steps. The green markers
+    represent the positions of agents at the end of a simulation. Blue lines
+    represent the trajectories of motion of individual agents throughout the
+    simulation.}
     \label{fig:example_traj}
 \end{figure}
 
-\section{The null model}
+\subsection{Development}
+
+Although we shall consider variations on the standard Vicsek model, we shall
+leave most aspects of this model unchanged. In the proceeding models, agents
+shall always update their positions as was seen in \cref{eq:positional_update}.
+Similarly, agents will always update their directions of motion according to
+\cref{eq:students_update,eq:weighted_interaction}. In fact, all our variations
+on the standard Vicsek model shall be made by manipulating the computation of
+the weighting $\omega_{ij,t}$. Recall that $\omega_{ij,t}$ represents the
+strength of the interaction between agent $i$ and agent $j$ at time $t$.
+Varying the form of $\omega_{ij,t}$ allows us to investigate how the behaviour
+of a neighbour influences a flock member.
+
+\section{The Null model}
+
+In later chapters we will fit a number of different models to data. We will
+then wish to assess the predictive performance of these models. Model
+performance will be assessed by the ability to explain the directional changes
+of individuals. Simple models will be favoured over complex models. In making
+such comparisons, it can be useful to have a baseline with which to compare all
+candidate models. It is with this intention which we introduce the Null model.
+
+In the Null model there are no interactions between flock members. All
+directional changes are attributed to random noise. The Null model implements
+directional updates as in \cref{eq:students_update}, with location
+$\angmean{\theta}_{i,t}$ computed from \cref{eq:weighted_interaction} with
+weighting $\omega_{ij,t}=\delta_{ij}$, where $\delta_{ij}$ is the Kronecker
+delta:
+\begin{equation*}
+  \delta_{ij} =
+  \begin{cases}
+    1 & \text{if } i=j \\
+    0 & \text{otherwise.}
+  \end{cases}
+\end{equation*}
+This ensures that agents effectively ignore all their neighbours, and update
+their directions simply as $\theta_{i,t+1} \given \theta_{i,t}, \nu, \sigma_Y
+\sim t_\nu(\theta_{i,t}, \sigma_Y)$.
 
 \section{Continuous interaction models}
 
@@ -207,39 +264,42 @@ beliefs are expected to be better behaved for the models implementing
 continuous interaction rules.
 
 \begin{figure}[tb]
-    \begin{subfigure}[b]{0.5\textwidth}
-        \caption{Vicsek weighting}
-        \label{fig:vicsek_weight}
-        \includegraphics{vicsek_weighting.pdf}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.5\textwidth}
-        \caption{Power-law weighting}
-        \label{fig:power_weight}
-        \includegraphics{power_weighting.pdf}
-    \end{subfigure}\\
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics{gaussian_weighting.pdf}
-        \caption{Gaussian weighting}
-        \label{fig:gauss_weight}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics{topological_weighting.pdf}
-        \caption{Topological weighting}
-        \label{fig:top_weight}
-    \end{subfigure}
-    \caption{Visualisations of the weighting rules investigated in this thesis.
-      \subref{fig:vicsek_weight} The interaction implemented in the Vicsek
-      model, parameterised by the interaction radius $r$
-      (\cref{eq:vicsek_interaction}). \subref{fig:power_weight} The strength
-      of interaction between individuals decays as a power-law relationship
-      with their distance apart, parameterised by decay rate $\alpha$
-      (\cref{eq:power_law_interaction}). \subref{fig:gauss_weight} The
-      strength of interaction between individuals is controlled by a Gaussian
-      kernel with standard deviation $\sigma_X$
-      (\cref{eq:gaussian_interaction}). \subref{fig:top_weight} A realisation of
-      a topological interaction which allows contributions from partial neighbours
-      (\cref{eq:top_interaction}). }
-    \label{fig:weighting_rules}
+  \begin{subfigure}[b]{0.5\textwidth}
+    \caption{Vicsek weighting}
+    \label{fig:vicsek_weight}
+    \includegraphics{vicsek_weighting.pdf}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \caption{Power-law weighting}
+    \label{fig:power_weight}
+    \includegraphics{power_weighting.pdf}
+  \end{subfigure}\\
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics{gaussian_weighting.pdf}
+    \caption{Gaussian weighting}
+    \label{fig:gauss_weight}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics{topological_weighting.pdf}
+    \caption{Topological weighting}
+    \label{fig:top_weight}
+  \end{subfigure}
+  \caption{Visualisations of the weighting rules investigated in this thesis.
+    \subref{fig:vicsek_weight} The interaction implemented in the Vicsek model,
+    parameterised by the interaction radius $r$, exhibits a discontinuity
+    (\cref{eq:vicsek_interaction}).
+    \subref{fig:power_weight} In the power-law weighted model the strength of
+    the interaction between individuals decays as a power-law relationship with
+    their distance apart, parameterised by decay rate $\alpha$
+    (\cref{eq:power_law_interaction}).
+    \subref{fig:gauss_weight} The
+    strength of interaction between individuals is controlled by a Gaussian
+    kernel with standard deviation $\sigma_X$
+    (\cref{eq:gaussian_interaction}).
+    \subref{fig:top_weight} A realisation of
+    a topological interaction which allows contributions from partial neighbours
+    (\cref{eq:top_interaction}).}
+  \label{fig:weighting_rules}
 \end{figure}
 
 \subsection{Metric models}
@@ -262,12 +322,12 @@ For the power-law weighted model we assume that the interaction strength
 between individuals decays as some power-law relationship with their distance
 apart:
 \begin{equation}
-    \label{eq:power_law_interaction}
-	\omega_{ij,t} =
-	\begin{cases}
-		1                  & \, \text{if } d_{ij,t} = 0, \\
-		d_{ij,t}^{-\alpha} & \, \text{otherwise}.
-	\end{cases}
+  \label{eq:power_law_interaction}
+  \omega_{ij,t} =
+  \begin{cases}
+    1                  & \, \text{if } d_{ij,t} = 0, \\
+	d_{ij,t}^{-\alpha} & \, \text{otherwise}.
+  \end{cases}
 \end{equation}
 The interaction of the Vicsek model is parameterised by the radius $r \geq 0$.
 Here the interaction is parameterised by some $\alpha\in\mathbb{R}^+$. The
@@ -280,25 +340,29 @@ from the position of agent $i$, the less influence it has on agent $i$'s
 movements. The rate at which influence decays is controlled by the value of
 $\alpha$. Small values of $\alpha$ represent a more gradual decay of influence
 with distance, whereas large values of $\alpha$ correspond to a weighting which
-decays more rapidly.
+decays more rapidly. This weighting rule is visualised in
+\cref{fig:power_weight}.
 
-This interaction rule, although continuous for $d_{ij,t} > 0$, exhibits a
-discontinuity at $d_{ij,t}=0$. Although this may present a problem
-theoretically, in practice we do not consider that this should pose an issue.
+This interaction rule, although continuous for $d_{ij,t} > 0$, still exhibits a
+discontinuity at $d_{ij,t}=0$. However, in the flocking events which we will
+fit this model to we observe $d_{ij,t}\gg0$ $\forall i \neq j$, and so we do
+not consider that this discontinuity will pose an issue during the fitting
+process.
 
 \subsubsection{Gaussian interaction}
 
 Similar to the power-law weighted model, in the Gaussian weighted model the
 influence which neighbour $j$ exerts over agent $i$ is inversely proportional
-to their distance apart; the further away a neighbour the less influence it
-exerts. The Gaussian weighted interaction is continuous over all $d_{ij,t}$,
-and can be expressed as:
+to their distance apart; the \emph{further} away a neighbour the \emph{less}
+influence it exerts. The Gaussian weighted interaction is continuous over all
+$d_{ij,t}$, and can be expressed as:
 \begin{equation}
-    \label{eq:gaussian_interaction}
-	\omega_{ij,t} =
+  \label{eq:gaussian_interaction}
+  \omega_{ij,t} =
 	\frac{1}{\sqrt{2\pi\sigma_X^2}}
 	e^{-\frac{1}{2}\big(\frac{d_{ij,t}}{\sigma_X}\big)^2}.
 \end{equation}
+This rule is illustrated in \cref{fig:gauss_weight}.
 
 From \cref{eq:gaussian_interaction} the parameter $\sigma_X$ can be seen to
 control the length-scale over which interaction takes place. Small values of
@@ -345,13 +409,13 @@ nearest neighbour, and weighting $0$ to all other agents, where $\floor{\cdot}$
 and $\ceil{\cdot}$ are the floor and ceiling function respectively. More
 concisely, we can express this as the weighting
 \begin{equation}
-    \label{eq:top_interaction}
-	\omega_{ij,t} =
-	\begin{cases}
-		1           & \, \text{if } d_{ij, t} \leq \min_j(d_{ij,t},\, \floor{k}), \\
-		k-\floor{k} & \, \text{if } d_{ij, t} = \min_j(d_{ij,t},\, \ceil{k}),     \\
-		0           & \, \text{otherwise,}
-	\end{cases}
+  \label{eq:top_interaction}
+  \omega_{ij,t} =
+  \begin{cases}
+    1           & \, \text{if } d_{ij, t} \leq \min_j(d_{ij,t},\, \floor{k}), \\
+    k-\floor{k} & \, \text{if } d_{ij, t} = \min_j(d_{ij,t},\, \ceil{k}),     \\
+    0           & \, \text{otherwise,}
+  \end{cases}
 \end{equation}
 where $\min_j(d_{ij,t},\, k)$ is the distance to agent $i$'s $k$-th closest
 neighbour at time $t$. This weighting rule is illustrated in
@@ -389,7 +453,7 @@ according to a generalised Students $t$-distribution with $\nu$ degrees of
 freedom and scale $\sigma_{Y_i}$. Agent $i$'s directional update is then given
 as
 \begin{equation*}
-    \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \nu, \sigma_{Y_i} \sim
+  \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \nu, \sigma_{Y_i} \sim
     t_{\nu}(\angmean{\theta}_{i,t}, \sigma_{Y_i}).
 \end{equation*}
 
