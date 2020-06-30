@@ -91,10 +91,10 @@ Sequence & Frames & Sheep & Mean speed (px\,s$^{-1}$) & Mean alignment \\
 \bottomrule
 \end{tabular}
 \caption{Summaries of the three flocking sequences analysed in this chapter.
-    Each sequence involved a flock of the same $45$ sheep, recorded over
-    $\approx200$ frames. As the data was recorded at a rate of $24$ frames per
-    second, each sequence represents around $10$ seconds of raw footage. The
-    observed flocks were all highly polarized and moved at similar speeds.}
+  Each sequence involved a flock of the same $45$ sheep, recorded over
+  $\approx200$ frames. As the data was recorded at a rate of $24$ frames per
+  second, each sequence represents around $10$ seconds of raw footage. The
+  observed flocks were all highly polarized and moved at similar speeds.}
 \label{tab:data_summary}
 \end{table}
 
@@ -128,21 +128,52 @@ illustrated by the green markers.
 \end{figure}
 
 The data realised by the drone captured footage resembles the data used in the
-simulation studies of \cref{cha:sim_studies}. In fact, the first observed
-frame of captured sequence one was used to seed these forward simulations.
+simulation studies of \cref{cha:sim_studies}. In fact, the first observed frame
+of sequence 1 was used to seed these forward simulations.
     
 \section{Model fitting}
 
 We shall now proceed to fit the global agent-based models introduced in
-\cref{cha:model_dev}.
+\cref{cha:model_dev} to our three realised sequences. The performance of these
+fitted models will be assess by the Akaike Information Criteria. Model adequacy
+will be inspected with residual plots.
 
 \subsection{Sequence 1}
 
+Sequence 1 represents the most cohesive flocking event of those captured. We
+shall begin by fitting the Null, Vicsek, power-law weighted, Gaussian weighted
+and topological models to the data. Having completed the fitting, we may then
+assess their adequacy by inspecting plots of the resulting standardised
+residuals. To compare the performance of the models considered we use the
+Akaike Information Criteria, and Akaike weights.
+
+\subsubsection{Posterior beliefs}
+
+\subsubsection{Standardised residuals}
+
+\subsubsection{Model rankings}
+
+\subsubsection{Posterior predictive checks}
+
 \subsection{Sequence 2}
+
+\subsubsection{Posterior beliefs}
+
+\subsubsection{Standardised residuals}
+
+\subsubsection{Model rankings}
+
+\subsubsection{Posterior predictive checks}
 
 \subsection{Sequence 3}
 
+\subsubsection{Posterior beliefs}
 
+\subsubsection{Standardised residuals}
+
+\subsubsection{Model rankings}
+
+\subsubsection{Posterior predictive checks}
 
 
 
