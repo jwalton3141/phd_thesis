@@ -1,5 +1,4 @@
 #Ignore intermediate latex files
-introduction.pdf
 *.dvi
 *.aux
 *.loc
@@ -9,6 +8,8 @@ introduction.pdf
 *.bbl
 *.out
 *.toc
+
+thesis.pdf
 
 #Ignore python stuff which I leave lying around sometimes
 *.npy
