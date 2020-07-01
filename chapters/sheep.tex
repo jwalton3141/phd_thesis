@@ -149,9 +149,46 @@ Akaike Information Criteria, and Akaike weights.
 
 \subsubsection{Posterior beliefs}
 
-\begin{figure}[tbp]
-  \includegraphics{seq1/stan_null_hist_sigma_Y.pdf}%
-  \includegraphics{seq1/stan_null_hist_nu.pdf}
+% vspace filth
+% a proper solution would be modify the lengths \abovecaptionskip
+% and \belowcaptionskip
+
+\begin{figure}[p]
+  \captionsetup[subfigure]{aboveskip=0pt,
+                           belowskip=9pt,
+                           oneside,
+                           margin={0.7cm,0cm}}
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics{seq1/null_hist_sigma_Y.pdf}\hspace{0.01\textwidth}
+    \includegraphics{seq1/null_hist_nu.pdf}
+    \caption{Null model}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics{seq1/r_hist_r.pdf}%
+    \includegraphics{seq1/r_hist_sigma_Y.pdf}%
+    \includegraphics{seq1/r_hist_nu.pdf}
+    \caption{Vicsek model}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics{seq1/power_hist_alpha.pdf}%
+    \includegraphics{seq1/power_hist_sigma_Y.pdf}%
+    \includegraphics{seq1/power_hist_nu.pdf}
+    \caption{Power-law weighted model}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics{seq1/gauss_hist_sigma_X.pdf}%
+    \includegraphics{seq1/gauss_hist_sigma_Y.pdf}%
+    \includegraphics{seq1/gauss_hist_nu.pdf}
+    \caption{Gaussian weighted model}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics{seq1/top_hist_k.pdf}%
+    \includegraphics{seq1/top_hist_sigma_Y.pdf}%
+    \includegraphics{seq1/top_hist_nu.pdf}%
+    \caption{Topological model}
+  \end{subfigure}
+  \caption{Posterior beliefs of model fits to sequence $1$.}
 \end{figure}
 
 \subsubsection{Standardised residuals}
@@ -163,6 +200,44 @@ Akaike Information Criteria, and Akaike weights.
 \subsection{Sequence 2}
 
 \subsubsection{Posterior beliefs}
+
+\begin{figure}[p]
+  \captionsetup[subfigure]{aboveskip=0pt,
+                           belowskip=9pt,
+                           oneside,
+                           margin={0.7cm,0cm}}
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics{seq2/null_hist_sigma_Y.pdf}\hspace{0.01\textwidth}
+    \includegraphics{seq2/null_hist_nu.pdf}
+    \caption{Null model}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics{seq2/r_hist_r.pdf}%
+    \includegraphics{seq2/r_hist_sigma_Y.pdf}%
+    \includegraphics{seq2/r_hist_nu.pdf}
+    \caption{Vicsek model}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics{seq2/power_hist_alpha.pdf}%
+    \includegraphics{seq2/power_hist_sigma_Y.pdf}%
+    \includegraphics{seq2/power_hist_nu.pdf}
+    \caption{Power-law weighted model}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics{seq2/gauss_hist_sigma_X.pdf}%
+    \includegraphics{seq2/gauss_hist_sigma_Y.pdf}%
+    \includegraphics{seq2/gauss_hist_nu.pdf}
+    \caption{Gaussian weighted model}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics{seq2/top_hist_k.pdf}%
+    \includegraphics{seq2/top_hist_sigma_Y.pdf}%
+    \includegraphics{seq2/top_hist_nu.pdf}%
+    \caption{Topological model}
+  \end{subfigure}
+  \caption{Posterior beliefs of model fits to sequence $2$.}
+\end{figure}
 
 \subsubsection{Standardised residuals}
 
