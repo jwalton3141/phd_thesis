@@ -100,58 +100,94 @@ Sequence & Frames & Sheep & Mean speed (px\,s$^{-1}$) & Mean alignment \\
 
 \cref{fig:seq_1_traj,fig:seq_2_traj,fig:seq_3_traj} show the trajectories of
 motion of each individual in the three recorded flocking events. The positions
-of sheep in the first frame of the video are represented by red markers. The
-sheep then travel along the blue lines, with their last recorded position
-illustrated by the green markers.
+of sheep in the first frame of the captured footage are represented by red
+markers. The sheep then travel along the blue lines, with their last recorded
+position illustrated by the green markers.
 
 \begin{figure}[tbp]
   \includegraphics{seq_1_traj.pdf}
   \caption{The trajectories of sheep reconstructed from video footage of
-  sequence one. The realised flock shows $45$ individuals moving cohesively
-  over $192$ frames. The observations in the first frame of this sequence were
-  used to seed the forward simulations in \cref{cha:sim_studies}.}
+    sequence $1$. The realised flock shows $45$ individuals moving cohesively
+    over $192$ frames. The observations in the first frame of this sequence were
+    used to seed the forward simulations in \cref{cha:sim_studies}.}
   \label{fig:seq_1_traj}
 \end{figure}
 \begin{figure}[tbp]
   \includegraphics{seq_2_traj.pdf}
-  \caption{The movement of sheep in the second sequence recorded. These
-  trajectories correspond to those shown in the drone footage of
+  \caption{A trajectory plot of the flock realised in sequence $2$. These
+    trajectories correspond to those shown in the drone footage of
   \cref{fig:sheep_frame}.}
   \label{fig:seq_2_traj}
 \end{figure}
 \begin{figure}[tbp]
   \includegraphics{seq_3_traj.pdf}
-  \caption{An illustration of the movements in recorded sequence three. This
-  flock goes through larger changes in direction than seen in sequences
-  one and two, but remains just as cohesive.}
+  \caption{Illustrating the movement of the flock in sequence $3$. Although
+    this flock appears as cohesive as the events in sequences $1$ and $2$,
+    this flock is also seen to go through greater directional changes.}
   \label{fig:seq_3_traj}
 \end{figure}
 
 The data realised by the drone captured footage resembles the data used in the
 simulation studies of \cref{cha:sim_studies}. In fact, the first observed frame
-of sequence 1 was used to seed these forward simulations.
+of sequence $1$ was used to seed these forward simulations.
     
 \section{Model fitting}
 
-We shall now proceed to fit the global agent-based models introduced in
-\cref{cha:model_dev} to our three realised sequences. The performance of these
-fitted models will be assess by the Akaike Information Criteria. Model adequacy
-will be inspected with residual plots.
+We now proceed to fit the global agent-based models introduced in
+\cref{cha:model_dev} to the three flocking events realised. The performance of
+these fitted models is then assessed by the Akaike Information Criteria. Model
+adequacy is inspected with standardised residual plots and posterior predictive
+checking.
 
 \subsection{Sequence 1}
 
-Sequence 1 represents the most cohesive flocking event of those captured. We
-shall begin by fitting the Null, Vicsek, power-law weighted, Gaussian weighted
-and topological models to the data. Having completed the fitting, we may then
-assess their adequacy by inspecting plots of the resulting standardised
-residuals. To compare the performance of the models considered we use the
-Akaike Information Criteria, and Akaike weights.
+Sequence $1$ represents the most cohesive flocking event of the captured
+sequences. We shall use the inference schemes constructed in
+\cref{cha:sim_studies} to fit our candidate models to this data. With the
+models fitted, we can then assess the performance of the model fits, and rank
+the candidate models by their predictive performance.
 
 \subsubsection{Posterior beliefs}
 
+Our posterior beliefs about the parameters of the candidate models fitted to
+sequence $1$ are shown in \cref{fig:posterior_seq1}. Our prior beliefs about
+the parameters are overlain in red. For all the inferred parameters our prior
+beliefs appear flat in comparison to our posterior beliefs. This shows that we
+were able to learn a lot from the data, and that our prior beliefs did not have
+a strong impact on our posterior realisations.
+
+Stan's No-U-Turn-Sampler was used to draw samples from the posterior
+distributions of the Null, power-law weighted, Gaussian weighted and
+topological models. To perform the model fittings we initialised four
+independent Markov chains at draws from our prior beliefs. Chains were
+simulated for $10,000$ iterations, with the first $5,000$ iterations discarded
+to allow the chains to converge. The samples drawn by each independent chain
+are represented by the coloured histograms. The overlain histograms show that
+the independent chains all converged to the same common distribution.
+
+The parameters of the Vicsek model were inferred by implementing a random walk
+Metropolis--Hastings sampler. This algorithm was simulated for $10^6$
+iterations, with the first half of the chains discarded to allow a burn-in
+period. Our posterior beliefs about the interaction radius $r$, shown in
+\cref{subfig:posterior_seq1_vicsek}, show a very strong negative skew. As our
+posterior density rapidly drops to zero as $r\rightarrow3.25$, we see evidence  
+that at $r\approx3.25$ an agent suddenly includes the influence of a neighbour
+which the model finds incompatible. 
+
+The interaction parameters inferred from sequence $1$ all represent weak
+interactions. This finding is consistent with the observation that weak
+alignment interactions are sufficient to maintain groups which are already
+highly polarised \parencite{jhawar20}. The small values inferred for the
+parameter $\nu$, representing the degrees of freedom of the Student's
+$t$-distribution, suggests evidence of non-normality of the noise.
+
+Although we have shown that our candidate models can be fit to sequence $1$, we
+have not yet assessed their adequacy or goodness-of-fit. To do so we
+shall inspect residual plots and perform posterior predictive checks.
+
 \begin{figure}[p]
   \captionsetup[subfigure]{aboveskip=0pt,
-                           belowskip=9pt,
+                           belowskip=6pt,
                            oneside,
                            margin={0.7cm,0cm}}
   \begin{subfigure}[b]{\textwidth}
@@ -159,37 +195,68 @@ Akaike Information Criteria, and Akaike weights.
     \includegraphics{seq1/null_hist_sigma_Y.pdf}%
     \includegraphics{seq1/null_hist_nu.pdf}
     \caption{Null model}
+    \label{subfig:posterior_seq1_null}
   \end{subfigure}
   \begin{subfigure}[b]{\textwidth}
     \includegraphics{seq1/r_hist_r.pdf}%
     \includegraphics{seq1/r_hist_sigma_Y.pdf}%
     \includegraphics{seq1/r_hist_nu.pdf}
     \caption{Vicsek model}
+    \label{subfig:posterior_seq1_vicsek}
   \end{subfigure}
   \begin{subfigure}[b]{\textwidth}
     \includegraphics{seq1/power_hist_alpha.pdf}%
     \includegraphics{seq1/power_hist_sigma_Y.pdf}%
     \includegraphics{seq1/power_hist_nu.pdf}
     \caption{Power-law weighted model}
+    \label{subfig:posterior_seq1_power}
   \end{subfigure}
   \begin{subfigure}[b]{\textwidth}
     \includegraphics{seq1/gauss_hist_sigma_X.pdf}%
     \includegraphics{seq1/gauss_hist_sigma_Y.pdf}%
     \includegraphics{seq1/gauss_hist_nu.pdf}
     \caption{Gaussian weighted model}
+    \label{subfig:posterior_seq1_gauss}
   \end{subfigure}
   \begin{subfigure}[b]{\textwidth}
     \includegraphics{seq1/top_hist_k.pdf}%
     \includegraphics{seq1/top_hist_sigma_Y.pdf}%
     \includegraphics{seq1/top_hist_nu.pdf}%
     \caption{Topological model}
+    \label{subfig:posterior_seq1_top}
   \end{subfigure}
-  \caption{Posterior beliefs of model fits to sequence $1$.}
+  \vspace{-1.5em}
+  \caption{Histogram plots show the posterior samples realised in fitting
+    candidate models to the data of sequence $1$. Our priors beliefs are overlain
+    in red, and in all cases appear flat in comparison to our posterior
+    beliefs; this indicates that the observed data has been very informative.}
+  \label{fig:posteriors_seq1}
 \end{figure}
 
 \subsubsection{Standardised residuals}
 
-\begin{figure}
+Assessing plots of residuals can be used as an informal method to assess
+modelling assumptions. Rearranging \cref{eq:students_update} we have that:
+\begin{equation*}
+  (\theta_{i,t+1} - \angmean{\theta}_{i,t}) / \sigma_Y \given \nu \sim t_{\nu},
+\end{equation*}
+where $t_{\nu}$ is the standard Student's $t$-distribution with $\nu$ degrees
+of freedom. To realise a model's residuals we compute $\angmean{\theta}_{i,t}$
+for $i=1,\ldots,N$ and $t=1,\ldots,T$ for every posterior sample made by our
+inference scheme. The residuals are then standardised by dividing by the
+posterior mean of the scale parameter $\sigma_Y$. The residuals are compared
+with the model graphically by overlaying a standardised Student's
+$t$-distribution with the degrees of freedom parameter taken as from our
+posterior mean.
+
+\cref{fig:residuals_seq1} shows the standardised residuals of our fitted
+models. We see that all the models look to give a good fit to the data. It may
+come as a surprise that the Null model looks to perform so well. However, this
+is again a product of the observation that our flock was already highly
+polarised, and that only weak alignment interactions are necessary to maintain
+a flock which is already cohesive.
+
+\begin{figure}[p]
   \captionsetup[subfigure]{aboveskip=2pt,
                            belowskip=9pt,
                            oneside,
@@ -214,10 +281,43 @@ Akaike Information Criteria, and Akaike weights.
     \includegraphics{seq1/top_residuals.pdf}
     \caption{Topological model}
   \end{subfigure}
-  \caption{Standardised residuals of models fitted to sequence $1$.}
+  \caption{Standardised residuals of the models fitted to sequence $1$. The
+  residuals are standardised by dividing by the posterior mean of the scale
+  parameter $\sigma_Y$. A Student's $t$-distribution with $\nu$ degrees of
+  freedom taken from our posterior mean is overlain in green. We see that
+  models provide a good fit to the data.}
+  \label{fig:residuals_seq1}
 \end{figure}
 
+Although an informal assessment of the standardised residuals of the model fits
+appears to show that all the models perform similarly, it can be useful to
+quantify their performance more formally with an information criteria.
+
 \subsubsection{Model rankings}
+
+Akaike Information Criteria (AIC) favours models which can better explain the
+given data, expressed through a larger likelihood, but penalises model
+complexity---quantified as the number of model parameters. From AIC we may
+compute the Akaike weight of a model. Typically a model's Akaike weight is
+interpreted as the probability that the model will make the best predictions on
+new data, conditional on the set of models considered.
+
+\begin{table}[tbp]
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Model                       &      AIC & rank & pAIC & dAIC & weight \\
+\midrule
+Topological                 & -49\,031 &    1 &  3.0 &  0.0 &   0.98 \\
+Power-law                   & -49\,023 &    2 &  3.0 &  7.4 &   0.02 \\
+Gaussian                    & -48\,985 &    3 &  3.0 & 46.3 &   0.00 \\
+Null                        & -48\,943 &    4 &  2.0 & 87.7 &   0.00 \\
+Vicsek                      & -48\,941 &    5 &  3.0 & 89.7 &   0.00 \\
+\bottomrule
+\end{tabular}
+\caption{Tabulating AIC and the corresponding Akaike weights of each model fit
+to sequence $1$. }
+\label{tab:aic_seq1}
+\end{table}
 
 \subsubsection{Posterior predictive checks}
 
@@ -225,6 +325,7 @@ Akaike Information Criteria, and Akaike weights.
     \includegraphics{alignment/alignment_single_1.pdf}\vspace{1em}\\
     \includegraphics{alignment/alignment_ensemble_1.pdf}
     \caption{Posterior predictive checks for sequence $1$.}
+    \label{fig:checks_seq1}
 \end{figure}
 
 \subsection{Sequence 2}
@@ -267,11 +368,12 @@ Akaike Information Criteria, and Akaike weights.
     \caption{Topological model}
   \end{subfigure}
   \caption{Posterior beliefs of model fits to sequence $2$.}
+  \label{fig:posteriors_seq2}
 \end{figure}
 
 \subsubsection{Standardised residuals}
 
-\begin{figure}
+\begin{figure}[tbp]
   \captionsetup[subfigure]{aboveskip=2pt,
                            belowskip=9pt,
                            oneside,
@@ -297,9 +399,26 @@ Akaike Information Criteria, and Akaike weights.
     \caption{Topological model}
   \end{subfigure}
   \caption{Standardised residuals of models fitted to sequence $2$.}
+  \label{fig:residuals_seq2}
 \end{figure}
 
 \subsubsection{Model rankings}
+
+\begin{table}[tbp]
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Model                       &        AIC & rank & pAIC & dAIC & weight \\
+\midrule
+Power-law                   & -43\,495 &    1 &  3.0 &  0.0 &   0.49 \\
+Topological                 & -43\,494 &    2 &  3.0 &  0.2 &   0.44 \\
+Gaussian                    & -43\,490 &    3 &  3.0 &  4.5 &   0.05 \\
+Null                        & -43\,488 &    4 &  2.0 &  6.9 &   0.02 \\
+Vicsek                      & -43\,486 &    5 &  3.0 &  8.9 &   0.01 \\
+\bottomrule
+\end{tabular}
+\caption{Fits to sequence $2$.}
+\label{tab:aic_seq2}
+\end{table}
 
 \subsubsection{Posterior predictive checks}
 
@@ -307,6 +426,7 @@ Akaike Information Criteria, and Akaike weights.
     \includegraphics{alignment/alignment_single_2.pdf}\vspace{1em}\\
     \includegraphics{alignment/alignment_ensemble_2.pdf}
     \caption{Posterior predictive checks for sequence $2$.}
+    \label{fig:checks_seq2}
 \end{figure}
 
 \subsection{Sequence 3}
@@ -349,11 +469,12 @@ Akaike Information Criteria, and Akaike weights.
     \caption{Topological model}
   \end{subfigure}
   \caption{Posterior beliefs of model fits to sequence $3$.}
+  \label{fig:posteriors_seq3}
 \end{figure}
 
 \subsubsection{Standardised residuals}
 
-\begin{figure}
+\begin{figure}[tbp]
   \captionsetup[subfigure]{aboveskip=2pt,
                            belowskip=9pt,
                            oneside,
@@ -379,9 +500,26 @@ Akaike Information Criteria, and Akaike weights.
     \caption{Topological model}
   \end{subfigure}
   \caption{Standardised residuals of models fitted to sequence $3$.}
+  \label{fig:residuals_seq3}
 \end{figure}
 
 \subsubsection{Model rankings}
+
+\begin{table}[tbp]
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Model                       &        AIC & rank & pAIC &  dAIC & weight \\
+\midrule
+Power-law                   & -52\,242 &    1 &  3.0 &   0.0 &   1.00 \\
+Gaussian                    & -52\,222 &    2 &  3.0 &  20.3 &   0.00 \\
+Topological                 & -52\,169 &    3 &  3.0 &  73.6 &   0.00 \\
+Null                        & -52\,037 &    4 &  2.0 & 205.8 &   0.00 \\
+Vicsek                      & -52\,026 &    6 &  3.0 & 216.1 &   0.00 \\
+\bottomrule
+\end{tabular}
+\caption{Fits to sequence $3$.}
+\label{tab:aic_seq3}
+\end{table}
 
 \subsubsection{Posterior predictive checks}
 
@@ -389,6 +527,7 @@ Akaike Information Criteria, and Akaike weights.
     \includegraphics{alignment/alignment_single_3.pdf}\vspace{1em}\\
     \includegraphics{alignment/alignment_ensemble_3.pdf}
     \caption{Posterior predictive checks for sequence $3$.}
+    \label{fig:checks_seq3}
 \end{figure}
 
 
