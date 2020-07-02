@@ -47,7 +47,7 @@ def plot_ensemble_seq(alignment, seq):
     # Don't include data in ordering (overlaid first)
     median = [med for med in median if 'data' not in med]
 
-    fig, ax = plt.subplots(1, 1, figsize=set_size(fraction=0.55))
+    fig, ax = plt.subplots(1, 1, figsize=set_size(fraction=0.6))
     # Loop over model fits
     for model, _ in median:
         # Alignment of model
@@ -104,6 +104,11 @@ def plot_sample_seq(alignment, seq):
                    alpha=0.75,
                    zorder=-1)
         # Plot for each sequence
+        models = ['stan_null_align.pkl',
+                  'mh_r_align.pkl',
+                  'stan_inv_dist_weighted_align.pkl',
+                  'stan_gauss_dist_weighted_align.pkl',
+                  'stan_top_align.pkl']
         for model in models:
             if i:
                 ax[i].plot(range(frames),
@@ -128,7 +133,7 @@ def plot_sample_seq(alignment, seq):
                handletextpad=0.25,
                columnspacing=1.12,
                loc=9,
-               bbox_to_anchor=(0.562, 1.075))
+               bbox_to_anchor=(0.562, 1.07))
     fig.tight_layout(pad=0)
     fig.subplots_adjust(wspace=0.175, top=0.9)
     fig.savefig('alignment_single_{}.pdf'.format(seq))
