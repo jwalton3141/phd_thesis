@@ -150,7 +150,7 @@ the candidate models by their predictive performance.
 \subsubsection{Posterior beliefs}
 
 Our posterior beliefs about the parameters of the candidate models fitted to
-sequence $1$ are shown in \cref{fig:posterior_seq1}. Our prior beliefs about
+sequence $1$ are shown in \cref{fig:posteriors_seq1}. Our prior beliefs about
 the parameters are overlain in red. For all the inferred parameters our prior
 beliefs appear flat in comparison to our posterior beliefs. This shows that we
 were able to learn a lot from the data, and that our prior beliefs did not have
@@ -182,8 +182,8 @@ parameter $\nu$, representing the degrees of freedom of the Student's
 $t$-distribution, suggests evidence of non-normality of the noise.
 
 Although we have shown that our candidate models can be fit to sequence $1$, we
-have not yet assessed their adequacy or goodness-of-fit. To do so we
-shall inspect residual plots and perform posterior predictive checks.
+have not yet assessed their adequacy or goodness-of-fit. To do so we shall
+inspect residual plots and perform posterior predictive checks.
 
 \begin{figure}[p]
   \captionsetup[subfigure]{aboveskip=0pt,
@@ -256,7 +256,7 @@ is again a product of the observation that our flock was already highly
 polarised, and that only weak alignment interactions are necessary to maintain
 a flock which is already cohesive.
 
-\begin{figure}[p]
+\begin{figure}[tbb]
   \captionsetup[subfigure]{aboveskip=2pt,
                            belowskip=9pt,
                            oneside,
@@ -285,13 +285,13 @@ a flock which is already cohesive.
   residuals are standardised by dividing by the posterior mean of the scale
   parameter $\sigma_Y$. A Student's $t$-distribution with $\nu$ degrees of
   freedom taken from our posterior mean is overlain in green. We see that
-  models provide a good fit to the data.}
+  models all look to provide a good fit to the data.}
   \label{fig:residuals_seq1}
 \end{figure}
 
-Although an informal assessment of the standardised residuals of the model fits
-appears to show that all the models perform similarly, it can be useful to
-quantify their performance more formally with an information criteria.
+Although plots of standardised residuals provide a useful informal measure of
+model fit, it can be useful to use more formal methods such as information
+criteria to quantify fit.
 
 \subsubsection{Model rankings}
 
@@ -301,6 +301,17 @@ complexity---quantified as the number of model parameters. From AIC we may
 compute the Akaike weight of a model. Typically a model's Akaike weight is
 interpreted as the probability that the model will make the best predictions on
 new data, conditional on the set of models considered.
+
+In \cref{tab:aic_seq1} we show the value of AIC computed for each model fit.
+Recall that smaller values of AIC indicate a better estimate of predictive
+performance. Although the residual plots of our model fits all looked similar,
+the computed Akaike weights are much more decisive. We rank the topological
+model as the best performing model, followed by the power-law and Gaussian
+weighted models. The Null and Vicsek models are ranked as the worst performing.
+If we were only comparing maximised likelihoods, we would rank the Null and
+Vicsek model as a tie. However, AIC penalises for model complexity, and so
+having an extra model parameter without being better at describing the data,
+Vicsek is ranked below the Null model.
 
 \begin{table}[tbp]
 \begin{tabular}{@{}lrrrrr@{}}
@@ -314,17 +325,26 @@ Null                        & -48\,943 &    4 &  2.0 & 87.7 &   0.00 \\
 Vicsek                      & -48\,941 &    5 &  3.0 & 89.7 &   0.00 \\
 \bottomrule
 \end{tabular}
-\caption{Tabulating AIC and the corresponding Akaike weights of each model fit
-to sequence $1$. }
+\caption{Tabulating AIC and the corresponding Akaike weights (displayed to $2$
+  decimal places) of each model fitted to sequence $1$. }
 \label{tab:aic_seq1}
 \end{table}
 
 \subsubsection{Posterior predictive checks}
 
+Forward simulating candidate models with parameters drawn from our
+posterior beliefs provides an informal method to assess how well a model can
+reproduce realistic behaviours. Here we forward simulate each candidate model
+one thousand times. To initialise each simulation we randomly draw model
+parameters from our posterior beliefs. We simulate the movement of $45$ sheep,
+initially positioned and directed as in the first observed frame of sequence
+$1$, for $192$ time steps. We compute the alignment of the flocks at each time
+step.
+
 \begin{figure}[tbp]
     \includegraphics{alignment/alignment_single_1.pdf}\vspace{1em}\\
     \includegraphics{alignment/alignment_ensemble_1.pdf}
-    \caption{Posterior predictive checks for sequence $1$.}
+    \caption{.}
     \label{fig:checks_seq1}
 \end{figure}
 
