@@ -161,29 +161,34 @@ distributions of the Null, power-law weighted, Gaussian weighted and
 topological models. To perform the model fittings we initialised four
 independent Markov chains at draws from our prior beliefs. Chains were
 simulated for $10,000$ iterations, with the first $5,000$ iterations discarded
-to allow the chains to converge. The samples drawn by each independent chain
-are represented by the coloured histograms. The overlain histograms show that
-the independent chains all converged to the same common distribution.
+to allow convergence. The samples drawn by each independent chain are
+represented by the different coloured histograms of \cref{fig:posteriors_seq1}.
+The overlain histograms show that the chains all converged to the same common
+distribution.
 
 The parameters of the Vicsek model were inferred by implementing a random walk
 Metropolis--Hastings sampler. This algorithm was simulated for $10^6$
 iterations, with the first half of the chains discarded to allow a burn-in
 period. Our posterior beliefs about the interaction radius $r$, shown in
 \cref{subfig:posterior_seq1_vicsek}, show a very strong negative skew. As our
-posterior density rapidly drops to zero as $r\rightarrow3.25$, we see evidence  
+posterior density rapidly drops to zero as $r\rightarrow3.25$, we conclude  
 that at $r\approx3.25$ an agent suddenly includes the influence of a neighbour
-which the model finds incompatible. 
+which the model finds incompatible. This behaviour is a product of the
+discontinuity of Vicsek's weighting rule.
 
 The interaction parameters inferred from sequence $1$ all represent weak
 interactions. This finding is consistent with the observation that weak
 alignment interactions are sufficient to maintain groups which are already
 highly polarised \parencite{jhawar20}. The small values inferred for the
 parameter $\nu$, representing the degrees of freedom of the Student's
-$t$-distribution, suggests evidence of non-normality of the noise.
+$t$-distribution, suggests evidence of non-normality of the noise. This result
+is significant as thus far the assumption of normally distributed noise has
+been a mainstay of agent-based modelling.
 
-Although we have shown that our candidate models can be fit to sequence $1$, we
-have not yet assessed their adequacy or goodness-of-fit. To do so we shall
-inspect residual plots and perform posterior predictive checks.
+Although we have shown that our candidate models \emph{can} be fit to sequence
+$1$, this does not say anything about their adequacy or goodness-of-fit. To
+assess goodness-of-fit we shall inspect residual plots and make posterior
+predictive checks.
 
 \begin{figure}[p]
   \captionsetup[subfigure]{aboveskip=0pt,
@@ -236,18 +241,20 @@ inspect residual plots and perform posterior predictive checks.
 \subsubsection{Standardised residuals}
 
 Assessing plots of residuals can be used as an informal method to assess
-modelling assumptions. Rearranging \cref{eq:students_update} we have that:
+modelling assumptions. To compare model and residual, we first rearrange
+\cref{eq:students_update} to see that:
 \begin{equation*}
   (\theta_{i,t+1} - \angmean{\theta}_{i,t}) / \sigma_Y \given \nu \sim t_{\nu},
 \end{equation*}
-where $t_{\nu}$ is the standard Student's $t$-distribution with $\nu$ degrees
-of freedom. To realise a model's residuals we compute $\angmean{\theta}_{i,t}$
-for $i=1,\ldots,N$ and $t=1,\ldots,T$ for every posterior sample made by our
-inference scheme. The residuals are then standardised by dividing by the
-posterior mean of the scale parameter $\sigma_Y$. The residuals are compared
-with the model graphically by overlaying a standardised Student's
-$t$-distribution with the degrees of freedom parameter taken as from our
-posterior mean.
+where $t_{\nu}$ is the standardised Student's $t$-distribution with $\nu$
+degrees of freedom. To realise a model's residuals we compute
+$\angmean{\theta}_{i,t}$ for $i=1,\ldots,N$ and $t=1,\ldots,T$ for every
+posterior sample made by our inference scheme. The residuals can then be
+computed as $\theta_{i,t+1} - \angmean{\theta}_{i,t}$ and standardised by
+dividing by the posterior mean of the scale parameter $\sigma_Y$. The residuals
+are compared with the model graphically by overlaying a standardised Student's
+$t$-distribution with the degrees of freedom parameter taken from our posterior
+mean.
 
 \cref{fig:residuals_seq1} shows the standardised residuals of our fitted
 models. We see that all the models look to give a good fit to the data. It may
@@ -295,65 +302,88 @@ criteria to quantify fit.
 
 \subsubsection{Model rankings}
 
-Akaike Information Criteria (AIC) favours models which can better explain the
+Akaike Information Criteria (AIC) favours models which better explain the
 given data, expressed through a larger likelihood, but penalises model
-complexity---quantified as the number of model parameters. From AIC we may
-compute the Akaike weight of a model. Typically a model's Akaike weight is
+complexity---quantified as the number of model parameters. The Akaike weight of
+a model can be computed from its AIC value. Typically a model's Akaike weight is
 interpreted as the probability that the model will make the best predictions on
 new data, conditional on the set of models considered.
 
 In \cref{tab:aic_seq1} we show the value of AIC computed for each model fit.
-Recall that smaller values of AIC indicate a better estimate of predictive
-performance. Although the residual plots of our model fits all looked similar,
-the computed Akaike weights are much more decisive. We rank the topological
-model as the best performing model, followed by the power-law and Gaussian
-weighted models. The Null and Vicsek models are ranked as the worst performing.
-If we were only comparing maximised likelihoods, we would rank the Null and
-Vicsek model as a tie. However, AIC penalises for model complexity, and so
-having an extra model parameter without being better at describing the data,
-Vicsek is ranked below the Null model.
+Recall that \emph{smaller} values of AIC indicate a \emph{better} estimate of
+predictive performance. \cref{tab:aic_seq1} shows the ranking of each model
+fit. We see that the topological model was ranked as the best performing model,
+followed by the power-law and Gaussian weighted models. The Null and Vicsek
+models are ranked as the worst performing. If we were to only compare maximised
+likelihoods we would rank the Null and Vicsek models the same. However, AIC
+penalises for model complexity, and so having an extra model parameter without
+being better at describing the data: the Vicsek model is ranked below the Null
+model.
 
 \begin{table}[tbp]
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 Model                       &      AIC & rank & pAIC & dAIC & weight \\
 \midrule
-Topological                 & -49\,031 &    1 &  3.0 &  0.0 &   0.98 \\
-Power-law                   & -49\,023 &    2 &  3.0 &  7.4 &   0.02 \\
-Gaussian                    & -48\,985 &    3 &  3.0 & 46.3 &   0.00 \\
-Null                        & -48\,943 &    4 &  2.0 & 87.7 &   0.00 \\
-Vicsek                      & -48\,941 &    5 &  3.0 & 89.7 &   0.00 \\
+Topological                 & -49\,031 &    1 &  3 &  0.0 &   0.98 \\
+Power-law                   & -49\,023 &    2 &  3 &  7.4 &   0.02 \\
+Gaussian                    & -48\,985 &    3 &  3 & 46.3 &   0.00 \\
+Null                        & -48\,943 &    4 &  2 & 87.7 &   0.00 \\
+Vicsek                      & -48\,941 &    5 &  3 & 89.7 &   0.00 \\
 \bottomrule
 \end{tabular}
-\caption{Tabulating AIC and the corresponding Akaike weights (displayed to $2$
-  decimal places) of each model fitted to sequence $1$. }
+\caption{Tabulated values of AIC and the corresponding Akaike weights
+  (displayed to $2$ decimal places) of each model fitted to sequence $1$. Models
+  are ranked from $1$--$5$, where $1$ is the best fit and $5$ is the worst.}
 \label{tab:aic_seq1}
 \end{table}
 
 \subsubsection{Posterior predictive checks}
 
-Forward simulating candidate models with parameters drawn from our
-posterior beliefs provides an informal method to assess how well a model can
-reproduce realistic behaviours. Here we forward simulate each candidate model
-one thousand times. To initialise each simulation we randomly draw model
-parameters from our posterior beliefs. We simulate the movement of $45$ sheep,
-initially positioned and directed as in the first observed frame of sequence
-$1$, for $192$ time steps. We compute the alignment of the flocks at each time
-step.
+Forward simulating candidate models with parameters drawn from our posterior
+beliefs provides an informal method to assess how well a model can reproduce
+realistic behaviours. Here we forward simulate each candidate model one
+thousand times. To initialise each simulation we randomly draw model parameters
+from our posterior beliefs. We simulate the movement of $45$ sheep, initially
+positioned and directed as in the first frame of the fitted sequence, for $192$
+time steps. We compute the alignment of the flocks at each time step.
+
+\cref{fig:checks_seq1} shows the alignment of the simulated flocks. The top
+panel shows the alignment of two sets of randomly selected simulations. We see
+that all the models do a reasonable job of capturing the observed flock
+alignment for the first $\approx25$ time steps. After this, the observed flock
+experiences a fluctuation in alignment over a time scale of $\approx100$
+frames. Our models do not appear capable of producing flocks with such
+long-range fluctuations in alignment. This may indicate the presence of
+interactions or external influences not accounted for by our models. It may
+also suggest the presence of a longer range dependence on previous directions.
 
 \begin{figure}[tbp]
-    \includegraphics{alignment/alignment_single_1.pdf}\vspace{1em}\\
-    \includegraphics{alignment/alignment_ensemble_1.pdf}
-    \caption{.}
-    \label{fig:checks_seq1}
+  \includegraphics{alignment/alignment_single_1.pdf}\vspace{1em}\\
+  \includegraphics{alignment/alignment_ensemble_1.pdf}
+  \caption{The alignment of flocks forward simulated with parameters drawn
+    from our posterior beliefs. The top panels show two randomly selected sets
+    of forward simulations. The bottom panel shows the median alignment across
+    all simulations. Bands represent the upper and lower quartiles of
+    the alignments computed at each time step.}
+  \label{fig:checks_seq1}
 \end{figure}
 
+The bottom panel of \cref{fig:checks_seq1} shows the median alignment of
+simulated flocks as a function of time. The coloured bands around the medians
+show the upper and lower quartiles of the realised alignments. We see that the
+topological and Gaussian models, favoured by AIC, produce the most consistently
+cohesive flocks.
+
 \subsection{Sequence 2}
+
+This sequences details the movements of our flock of $45$ sheep over $183$
+frames. The recorded flock is again very coherent and highly polarised.
 
 \subsubsection{Posterior beliefs}
 
 \begin{figure}[p]
-  \captionsetup[subfigure]{aboveskip=0pt,
+  \captionsetup[subfigure]{aboveskip=1pt,
                            belowskip=9pt,
                            oneside,
                            margin={0.7cm,0cm}}
@@ -387,7 +417,12 @@ step.
     \includegraphics{seq2/top_hist_nu.pdf}%
     \caption{Topological model}
   \end{subfigure}
-  \caption{Posterior beliefs of model fits to sequence $2$.}
+  \vspace{-1.75em}
+  \caption{Posterior realisations of the model parameters inferred in fitting
+  candidate models to sequence $2$. Posterior samples of the parameters of the
+  Vicsek model were drawn by the implementation of a Metropolis--Hastings
+  sampler. The remaining models were fitted with the implementation of Stan's
+  NUTS algorithm.}
   \label{fig:posteriors_seq2}
 \end{figure}
 
