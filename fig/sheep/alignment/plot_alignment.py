@@ -95,7 +95,7 @@ def plot_sample_seq(alignment, seq):
                    seq_align['data'],
                    c='k',
                    alpha=0.75,
-                   label='Data',
+                   label='Sequence ${}$'.format(seq),
                    zorder=-1)
         else:
             ax[i].plot(range(frames),
@@ -120,13 +120,15 @@ def plot_sample_seq(alignment, seq):
                        seq_align[model][rand_seq_id],
                        c=colours[model])
 
-        #ax[i].set_ylim(0.968, 0.997)
         ax[i].set_xlim(0, frames-1)
 
         if not i:
             ax[i].set_ylabel('Alignment')
         else:
             ax[i].set_yticks([])
+
+        if seq == 1:
+            ax[i].set_ylim(0.97, 0.998)
 
     fig.legend(ncol=6,
                handlelength=0.7,
@@ -154,9 +156,8 @@ def main():
     alignment = load_data()
 
     # Loop over the fitted sequences
-    #for seq in alignment.keys():
-    for seq in [1, 2, 3]:
-        plot_seq(alignment, seq)
+    seq = 3
+    plot_seq(alignment, seq)
 
 
 if __name__ == "__main__":
