@@ -150,11 +150,12 @@ the candidate models by their predictive performance.
 \subsubsection{Posterior beliefs}
 
 Our posterior beliefs about the parameters of the candidate models fitted to
-sequence $1$ are shown in \cref{fig:posteriors_seq1}. Our prior beliefs about
-the parameters are overlain in red. For all the inferred parameters our prior
-beliefs appear flat in comparison to our posterior beliefs. This shows that we
-were able to learn a lot from the data, and that our prior beliefs did not have
-a strong impact on our posterior realisations.
+sequence $1$ are shown in \cref{fig:posteriors_seq1}. The same vague prior
+beliefs that were specified in \cref{cha:sim_studies} were reused here. These
+prior beliefs are plotted in red on top of our posteriors. For all the inferred
+parameters our prior beliefs appear flat in comparison to our posterior
+beliefs. This shows that we were able to learn a lot from the data, and that
+our prior beliefs did not have a strong impact on our posterior realisations.
 
 Stan's No-U-Turn-Sampler was used to draw samples from the posterior
 distributions of the Null, power-law weighted, Gaussian weighted and
@@ -243,9 +244,10 @@ predictive checks.
 Assessing plots of residuals can be used as an informal method to assess
 modelling assumptions. To compare model and residual, we first rearrange
 \cref{eq:students_update} to see that:
-\begin{equation*}
+\begin{equation}
+  \label{eq:residuals}
   (\theta_{i,t+1} - \angmean{\theta}_{i,t}) / \sigma_Y \given \nu \sim t_{\nu},
-\end{equation*}
+\end{equation}
 where $t_{\nu}$ is the standardised Student's $t$-distribution with $\nu$
 degrees of freedom. To realise a model's residuals we compute
 $\angmean{\theta}_{i,t}$ for $i=1,\ldots,N$ and $t=1,\ldots,T$ for every
@@ -353,10 +355,12 @@ panel shows the alignment of two sets of randomly selected simulations. We see
 that all the models do a reasonable job of capturing the observed flock
 alignment for the first $\approx25$ time steps. After this, the observed flock
 experiences a fluctuation in alignment over a time scale of $\approx100$
-frames. Our models do not appear capable of producing flocks with such
-long-range fluctuations in alignment. This may indicate the presence of
-interactions or external influences not accounted for by our models. It may
-also suggest the presence of a longer range dependence on previous directions.
+frames. The candidate models do not appear capable of producing flocks with
+such long-time fluctuations in alignment. However, this should not come as a
+particular surprise as these models only predict direction of motion one step
+ahead. The disparity between observed alignment and simulated alignment may
+suggest the presence of interactions or external influences not accounted for
+by our models, or of a longer range dependence on previous directions.
 
 \begin{figure}[tbp]
   \includegraphics{alignment/alignment_single_1.pdf}\vspace{1em}\\
@@ -377,14 +381,29 @@ cohesive flocks.
 
 \subsection{Sequence 2}
 
-This sequences details the movements of our flock of $45$ sheep over $183$
-frames. The recorded flock is again very coherent and highly polarised.
+This sequence details the movements of our flock of $45$ sheep over $183$
+frames. The recorded flock is again very coherent and highly polarised. 
 
 \subsubsection{Posterior beliefs}
 
+Parameter inference is again performed by a combination of the Metropolis--Hastings
+and NUTS algorithms. The posterior realisations made by these samplers are shown
+in \cref{fig:posteriors_seq2}. Having overlain our prior densities in red,
+we can see that our beliefs have changed considerably in light of the data.
+
+The inferred parameters are similar to those realised from sequence $1$;
+representing weak interactions between individuals and giving evidence of
+agents experiencing non-normally distributed noise. Similar noise-scale and
+degrees of freedom parameters are inferred for every model fitted to sequence
+$2$.
+
+Our posterior beliefs about the interaction radius of the Vicsek model again
+shows a strongly skewed distribution. It is this sudden drop in posterior
+density which makes the NUTS algorithm ineffective for this problem.
+
 \begin{figure}[p]
   \captionsetup[subfigure]{aboveskip=1pt,
-                           belowskip=9pt,
+                           belowskip=8pt,
                            oneside,
                            margin={0.7cm,0cm}}
   \begin{subfigure}[b]{\textwidth}
@@ -417,7 +436,7 @@ frames. The recorded flock is again very coherent and highly polarised.
     \includegraphics{seq2/top_hist_nu.pdf}%
     \caption{Topological model}
   \end{subfigure}
-  \vspace{-1.75em}
+  \vspace{-2em}
   \caption{Posterior realisations of the model parameters inferred in fitting
   candidate models to sequence $2$. Posterior samples of the parameters of the
   Vicsek model were drawn by the implementation of a Metropolis--Hastings
@@ -427,6 +446,27 @@ frames. The recorded flock is again very coherent and highly polarised.
 \end{figure}
 
 \subsubsection{Standardised residuals}
+
+We use plots of standardised residuals to compare observation and model
+prediction. From \cref{eq:residuals} we expect the standardised difference
+between prediction and observation to follow a Student's $t$-distribution with
+$\nu$ degrees of freedom. Our observations are the directions of motion
+$\theta_{i,t+1}$, and our predictions are given by the interaction
+$\angmean{\theta}_{i,t}$ computed at each posterior sample.
+
+The standardised residuals computed from each model fit are shown in
+\cref{fig:residuals_seq2}. The standardised residuals look to follow a
+generalised Student's $t$-distribution with scale $1$, and location slightly
+below zero. The non-zero mean of the residuals may suggest the presence of
+additional interactions such as attraction or repulsion, which are not
+implemented in our models. The non-zero mean could also be explained by the
+influence of external factors, such as field boundaries, which are not
+accounted for by our models.
+
+The residual plots for each model fit look very similar. This is again a
+product of the observation that our flocks are already highly aligned,
+experience only small fluctuations in directional change, and only require weak
+alignment interactions to maintain cohesion.
 
 \begin{figure}[tbp]
   \captionsetup[subfigure]{aboveskip=2pt,
@@ -453,34 +493,88 @@ frames. The recorded flock is again very coherent and highly polarised.
     \includegraphics{seq2/top_residuals.pdf}
     \caption{Topological model}
   \end{subfigure}
-  \caption{Standardised residuals of models fitted to sequence $2$.}
+  \caption{Standardised residuals of models fitted to sequence $2$. The density
+    overlain in green represents a Student's $t$-distribution with $\nu$ degrees
+    of freedom, where $\nu$ is taken as the posterior mean from the corresponding
+    model fit. The distributions of residuals show a mean slightly below zero,
+    suggesting the presence of behaviours not accounted for in our models.}
   \label{fig:residuals_seq2}
 \end{figure}
 
 \subsubsection{Model rankings}
+
+The standardised residuals of each model fit shown in \cref{fig:residuals_seq2}
+look very similar. Recall that model predictions are made at every iteration of
+our inference schemes. For samples drawn using Stan we have $4$ independent
+Markov chains, simulated for $5000$ post-warm-up iterations, giving a total of
+$20,000$ iterations. Sequence $2$ contains $45\times183$ data points. Given the
+initial directions of individuals, we are then tasked with predicting
+$45\times182=8190$ data points. Making our predictions at every iteration, we
+make a total of $20,000\times8190$ predictions per model. These predictions are
+then used to form our standardised residuals. As such, it can be very difficult
+to visually ascertain small improvements in model performance from plots of
+residuals alone. Because of this, more quantitative measures such as AIC can be
+useful in distinguishing between models.
+
+Computed AIC values and their corresponding model ranks are tabulated in
+\cref{tab:aic_seq2}. The computed Akaike weights are not as conclusive as they
+were with sequence $1$; here the power-law and topological models are awarded
+similar Akaike weights. The similarity in weights computed for these models
+suggests that in application there may be very little practical distinction
+between them, or that their differences are so minute it can be difficult to
+tell them apart.
+
+Below the ranking of the power-law weighted and topological models, the ranking
+follows the same order as was seen in sequence $1$. Again we see that the
+Vicsek model was not able to explain any more of the data than the Null model.
+But as AIC favours simplicity, given that both models have the same value of
+the maximised likelihood function, we see the Vicsek model ranked below the
+Null model.
 
 \begin{table}[tbp]
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 Model                       &        AIC & rank & pAIC & dAIC & weight \\
 \midrule
-Power-law                   & -43\,495 &    1 &  3.0 &  0.0 &   0.49 \\
-Topological                 & -43\,494 &    2 &  3.0 &  0.2 &   0.44 \\
-Gaussian                    & -43\,490 &    3 &  3.0 &  4.5 &   0.05 \\
-Null                        & -43\,488 &    4 &  2.0 &  6.9 &   0.02 \\
-Vicsek                      & -43\,486 &    5 &  3.0 &  8.9 &   0.01 \\
+Power-law                   & -43\,495 &    1 &  3 &  0.0 &   0.49 \\
+Topological                 & -43\,494 &    2 &  3 &  0.2 &   0.44 \\
+Gaussian                    & -43\,490 &    3 &  3 &  4.5 &   0.05 \\
+Null                        & -43\,488 &    4 &  2 &  6.9 &   0.02 \\
+Vicsek                      & -43\,486 &    5 &  3 &  8.9 &   0.01 \\
 \bottomrule
 \end{tabular}
-\caption{Fits to sequence $2$.}
+\caption{Ranking the models fitted to sequence $2$ by their predictive
+  performance, estimated by AIC. The power-law model is ranked as the best
+  performing model, followed closely by the topological model.}
 \label{tab:aic_seq2}
 \end{table}
 
 \subsubsection{Posterior predictive checks}
 
+To assess the ability of our fitted models to produce realistic looking
+behaviours, we forward simulate the candidate models using parameters drawn
+from our posterior beliefs. Simulations are initialised as in the first frame
+of sequence $2$, and repeated one thousand times. For each repetition new
+parameter values are drawn from the posterior.
+
+\cref{fig:checks_seq2} shows alignment as a function of time for the resulting
+flocks. The top panel of \cref{fig:checks_seq2} shows two sets of randomly
+selected flocking instances. Here the models look to provide a good prediction 
+of flock alignment for the first $\approx75$ time steps. The bottom panel of
+\cref{fig:checks_seq2} shows the median flock alignment as a function of time.
+The bands around the coloured lines represent the $25$-th and $75$-th
+percentiles of the observed alignments. The most cohesive flocks were generated
+by the topological and power-law models---again corresponding to the models
+favoured by AIC.
+
 \begin{figure}[tbp]
     \includegraphics{alignment/alignment_single_2.pdf}\vspace{1em}\\
     \includegraphics{alignment/alignment_ensemble_2.pdf}
-    \caption{Posterior predictive checks for sequence $2$.}
+    \caption{Flock alignment as a function of time for forward simulated
+    candidate models. Models are initialised from the first frame of sequence
+    $2$, with model parameters drawn from our posterior beliefs. Each candidate
+    model is forward simulated one thousand times, with new model parameters
+    drawn for each simulation.}
     \label{fig:checks_seq2}
 \end{figure}
 
@@ -569,7 +663,7 @@ Power-law                   & -52\,242 &    1 &  3.0 &   0.0 &   1.00 \\
 Gaussian                    & -52\,222 &    2 &  3.0 &  20.3 &   0.00 \\
 Topological                 & -52\,169 &    3 &  3.0 &  73.6 &   0.00 \\
 Null                        & -52\,037 &    4 &  2.0 & 205.8 &   0.00 \\
-Vicsek                      & -52\,026 &    6 &  3.0 & 216.1 &   0.00 \\
+Vicsek                      & -52\,035 &    5 &  3.0 & 207.8 &   0.00 \\
 \bottomrule
 \end{tabular}
 \caption{Fits to sequence $3$.}
@@ -584,5 +678,9 @@ Vicsek                      & -52\,026 &    6 &  3.0 & 216.1 &   0.00 \\
     \caption{Posterior predictive checks for sequence $3$.}
     \label{fig:checks_seq3}
 \end{figure}
+
+\subsection{Conclusions}
+
+
 
 
