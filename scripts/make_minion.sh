@@ -5,8 +5,8 @@
 # TEXMFHOME can be queried with `$ kpsewhich -expand-var='$TEXMFHOME'`
 
 # REQUIRES:
-#    1. LCDF-typetools (if root `$ sudo apt install lcdf-typetools,
-#                       or build locally)
+#    1. LCDF-typetools (if root: `$ sudo apt install lcdf-typetools`,
+#                       if not root: build locally)
 #    2. Recent TeXLive or MiKTex install
 
 FPDIR=/tmp/FontPro
