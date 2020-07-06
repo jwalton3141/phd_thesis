@@ -165,7 +165,8 @@ simulated for $10,000$ iterations, with the first $5,000$ iterations discarded
 to allow convergence. The samples drawn by each independent chain are
 represented by the different coloured histograms of \cref{fig:posteriors_seq1}.
 The overlain histograms show that the chains all converged to the same common
-distribution.
+distribution. Computing values of $\widehat{R}$ also indicate that our chains
+have converged.
 
 The parameters of the Vicsek model were inferred by implementing a random walk
 Metropolis--Hastings sampler. This algorithm was simulated for $10^6$
@@ -580,7 +581,27 @@ favoured by AIC.
 
 \subsection{Sequence 3}
 
+The flocking event captured in sequence $3$ is much more dynamic than the
+events captured in sequences $1$ and $2$: going through a much larger
+directional change than the other sequences. In addition to this, the flock of
+sequence $3$ is not as densely packed as the flocks of sequences $1$ and $2$,
+as seen in \cref{fig:seq_3_traj}.
+
 \subsubsection{Posterior beliefs}
+
+Parameter values are inferred from sequence $3$ by sampling. The Null,
+power-law weighted, Gaussian weighted and topological models are fit using
+Stan, whereas the Vicsek model is fit with a Metropolis--Hastings algorithm.
+The samples drawn from the posterior are shown in \cref{fig:posteriors_seq3}.
+Computing values of $\widehat{R}$ shows that all our samplers converged.
+Corresponding values of the effective sample size show a large number of
+samples were realised from the posterior.
+
+The inferred parameters broadly align with those inferred from sequences $1$
+and $2$: with the inferred interaction parameters representing weak
+interactions. However, the inferred degrees of freedom parameters are smaller
+than those inferred for sequences $1$ and $2$, revealing a noise distribution
+with more weight in its tails.
 
 \begin{figure}[p]
   \captionsetup[subfigure]{aboveskip=0pt,
@@ -617,11 +638,29 @@ favoured by AIC.
     \includegraphics{seq3/top_hist_nu.pdf}%
     \caption{Topological model}
   \end{subfigure}
-  \caption{Posterior beliefs of model fits to sequence $3$.}
+  \vspace{-2em}
+  \caption{Posterior beliefs about the model parameters fitted to sequence $3$.
+    The Null, power-law weighted, Gaussian weighted and topological models were
+    fit with Stan's NUTS algorithm. The Vicsek model was fit with a
+    Metropolis--Hastings algorithm. Prior beliefs are overlain in red, and
+    appear flat in comparison to our posterior beliefs.}
   \label{fig:posteriors_seq3}
 \end{figure}
 
 \subsubsection{Standardised residuals}
+
+Residuals are computed as the difference between observation and model
+prediction. Residuals are standardised by dividing by the posterior mean of the
+inferred noise-scale parameter $\sigma_Y$. Histogram plots of the standardised
+residuals are shown in \cref{fig:residuals_seq3}; a Student's $t$-distribution
+with $\nu$ degrees of freedom, taken from our posterior mean, is overlain in
+green. From \cref{fig:residuals_seq3} we see a poor fit of model to data:
+although the residuals do look to follow a Student's $t$-distribution they do
+so with a location less than zero. This suggests that we were unable to capture
+the directional changes that the flock went through, and suggests the presence
+of behaviours not included in our model. Such behaviours could be agent-agent
+interactions such as attraction or repulsion, or could be interactions between
+agents and their external environment.
 
 \begin{figure}[tbp]
   \captionsetup[subfigure]{aboveskip=2pt,
@@ -648,39 +687,72 @@ favoured by AIC.
     \includegraphics{seq3/top_residuals.pdf}
     \caption{Topological model}
   \end{subfigure}
-  \caption{Standardised residuals of models fitted to sequence $3$.}
+  \caption{Standardised residuals from sequence $3$ show a poor fit of model to
+    data. Although the residuals do look to follow a Student's $t$-distribution,
+    they do so with a location less than zero. This suggests the presence of
+    behaviours not captured by our models. Missing behaviours could be
+    interactions between sheep and their external environment, or missing
+    sheep-sheep interactions such as repulsion or attraction behaviours.}
   \label{fig:residuals_seq3}
 \end{figure}
 
 \subsubsection{Model rankings}
 
+Although plots of the standardised residuals show that none of the considered
+models provide a particularly good fit to data, it can still be informative to
+consider if any of the models outperformed the others. \cref{tab:aic_seq3}
+shows the AIC values and corresponding Akaike weights computed for each model
+fit. From this we see that the power-law weighted provided the best fit to the
+data. Consistent with sequences $1$ and $2$ we see the Null and Vicsek models
+as the worst performing candidate models.
+
 \begin{table}[tbp]
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
-Model                       &        AIC & rank & pAIC &  dAIC & weight \\
+Model                       &      AIC & rank & pAIC &  dAIC & weight \\
 \midrule
-Power-law                   & -52\,242 &    1 &  3.0 &   0.0 &   1.00 \\
-Gaussian                    & -52\,222 &    2 &  3.0 &  20.3 &   0.00 \\
-Topological                 & -52\,169 &    3 &  3.0 &  73.6 &   0.00 \\
-Null                        & -52\,037 &    4 &  2.0 & 205.8 &   0.00 \\
-Vicsek                      & -52\,035 &    5 &  3.0 & 207.8 &   0.00 \\
+Power-law                   & -52\,242 &    1 &  3 &   0.0 &   1.00 \\
+Gaussian                    & -52\,222 &    2 &  3 &  20.3 &   0.00 \\
+Topological                 & -52\,169 &    3 &  3 &  73.6 &   0.00 \\
+Null                        & -52\,037 &    4 &  2 & 205.8 &   0.00 \\
+Vicsek                      & -52\,035 &    5 &  3 & 207.8 &   0.00 \\
 \bottomrule
 \end{tabular}
-\caption{Fits to sequence $3$.}
+\caption{Estimating predictive performance of models fitted to sequence $3$
+  using Akaike Information Criteria. Models are ranked from best performing ($1$)
+  to worst performing ($5$). The corresponding Akaike weight for each model is
+  computed.}
 \label{tab:aic_seq3}
 \end{table}
 
 \subsubsection{Posterior predictive checks}
 
+Forward simulating fitted models provides an opportunity to assess a model's
+ability to reproduce realistic behaviours. Here we assess the ability of our
+models to replicate the change in alignment over time of our data. Although our
+residual plots show that we were unable to explain the directional changes of
+sequence $3$, \cref{fig:checks_seq3} shows that out models do a reasonable job
+of mimicking the alignment of sequence $3$ over time. The bottom panel of
+\cref{fig:checks_seq3} shows that the power-law weighted model produces the most
+consistently cohesive flocks, which was also the model favoured by AIC.
+
 \begin{figure}[tbp]
     \includegraphics{alignment/alignment_single_3.pdf}\vspace{1em}\\
     \includegraphics{alignment/alignment_ensemble_3.pdf}
-    \caption{Posterior predictive checks for sequence $3$.}
+    \caption{Alignment as a function of time for forward simulated flocks,
+    inferred from sequence $3$.}
     \label{fig:checks_seq3}
 \end{figure}
 
 \subsection{Conclusions}
 
+We have seen that we are able to fit a number of competing agent-based models
+to real flocking events, working in a Bayesian framework. Model performance can
+be assessed using a number of methods. Residual plots can be visualised to
+provide an informal method to compare model fit and data. However, a more
+quantitative comparison of model fit can be realised with information criteria.
 
+Our posterior beliefs consistently showed that only weak interaction parameters
+are necessary to maintain flocking events which are already highly-polarised.
 
 
