@@ -1,4 +1,7 @@
-#Ignore intermediate latex files
+# Ignore build
+thesis.pdf
+
+# Ignore intermediate latex files and latexmk bits
 *.dvi
 *.aux
 *.loc
@@ -8,19 +11,15 @@
 *.bbl
 *.out
 *.toc
-
-thesis.pdf
-
-#Ignore python stuff which I leave lying around sometimes
-*.npy
-*.pkl
-*__pycache__
-
-# Ignore any latexmk files
 *.fls
 *.fdb_latexmk
 *.xml
 *.bcf
 
-# Vim files
+# Ignore python stuff which I leave lying around sometimes
+*.npy
+*.pkl
+*__pycache__
+
+# Ignore vim swap files
 *.swp
