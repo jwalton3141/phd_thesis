@@ -1,7 +1,5 @@
 #! /bin/bash
 
-module load bibtool
-
 # Make a backup before messing anything up
 cp references.bib references.bib.bak
 
