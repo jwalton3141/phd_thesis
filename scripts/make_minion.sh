@@ -32,8 +32,10 @@ cd $FPDIR
 ./scripts/makeall $FONT --quiet
 # Install fonts
 ./scripts/install $(kpsewhich -expand-var='$TEXMFHOME')
-# Move back
-cd $CWD
-
 # Update user font map
 updmap-user --enable Map=$FONT.map
+# Update system font map
+#updmap-sys --enable Map=$FONT.map
+
+# Move back
+cd $CWD
