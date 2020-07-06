@@ -30,11 +30,11 @@
 \let\originaltable\table%
 \let\endoriginaltable\endtable%
 \renewenvironment{table}[1][ht]{%
-	\originaltable[#1]
-	\centering
-    \IfFileExists{MinionPro.sty}{\figureversion{tabular,lf}}{}
-	}%
-	{\endoriginaltable}
+  \originaltable[#1]
+  \centering
+  \IfFileExists{MinionPro.sty}{\figureversion{tabular,lf}}{}
+  }%
+  {\endoriginaltable}
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
