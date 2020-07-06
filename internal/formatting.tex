@@ -25,14 +25,14 @@
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-% Renew table environment to always centre content and use Minion Pro's tabular
-% lining figures
-\let\originaltable\table
-\let\endoriginaltable\endtable
+% Renew table environment to always centre content
+% If using MinionPro always use tabular figures in tables
+\let\originaltable\table%
+\let\endoriginaltable\endtable%
 \renewenvironment{table}[1][ht]{%
 	\originaltable[#1]
 	\centering
-	\figureversion{tabular,lf}
+    \IfFileExists{MinionPro.sty}{\figureversion{tabular,lf}}{}
 	}%
 	{\endoriginaltable}
 %------------------------------------------------------------------------------
