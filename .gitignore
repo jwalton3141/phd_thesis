@@ -23,3 +23,5 @@ thesis.pdf
 
 # Ignore vim swap files
 *.swp
+
+.*
