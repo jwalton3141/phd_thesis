@@ -366,11 +366,13 @@ by our models, or of a longer range dependence on previous directions.
 \begin{figure}[tbp]
   \includegraphics{alignment/alignment_single_1.pdf}\vspace{1em}\\
   \includegraphics{alignment/alignment_ensemble_1.pdf}
-  \caption{The alignment of flocks forward simulated with parameters drawn
-    from our posterior beliefs. The top panels show two randomly selected sets
-    of forward simulations. The bottom panel shows the median alignment across
-    all simulations. Bands represent the upper and lower quartiles of
-    the alignments computed at each time step.}
+  \caption{The alignment of flocks forward simulated with parameters drawn from
+    our posterior beliefs about model fits to sequence $1$. Simulations were
+    initialised as in the first frame of the observed data, and repeated one
+    thousand times. The top panels show two randomly selected sets of forward
+    simulations. The bottom panel shows the median alignment across all
+    simulations. Bands represent the upper and lower quartiles over the one
+    thousand repetitions.}
   \label{fig:checks_seq1}
 \end{figure}
 
@@ -569,14 +571,17 @@ by the topological and power-law models---again corresponding to the models
 favoured by AIC.
 
 \begin{figure}[tbp]
-    \includegraphics{alignment/alignment_single_2.pdf}\vspace{1em}\\
-    \includegraphics{alignment/alignment_ensemble_2.pdf}
-    \caption{Flock alignment as a function of time for forward simulated
+  \includegraphics{alignment/alignment_single_2.pdf}\vspace{1em}\\
+  \includegraphics{alignment/alignment_ensemble_2.pdf}
+  \caption{Flock alignment as a function of time for forward simulated
     candidate models. Models are initialised from the first frame of sequence
     $2$, with model parameters drawn from our posterior beliefs. Each candidate
     model is forward simulated one thousand times, with new model parameters
-    drawn for each simulation.}
-    \label{fig:checks_seq2}
+    drawn for each simulation. The top panel shows two randomly selected sets
+    of forward simulations. The lower panel shows the median alignment of
+    simulations as a function of time, with the bands around the median
+    representing the $25$-th and $75$-th percentiles}
+  \label{fig:checks_seq2}
 \end{figure}
 
 \subsection{Sequence 3}
@@ -737,22 +742,48 @@ of mimicking the alignment of sequence $3$ over time. The bottom panel of
 consistently cohesive flocks, which was also the model favoured by AIC.
 
 \begin{figure}[tbp]
-    \includegraphics{alignment/alignment_single_3.pdf}\vspace{1em}\\
-    \includegraphics{alignment/alignment_ensemble_3.pdf}
-    \caption{Alignment as a function of time for forward simulated flocks,
-    inferred from sequence $3$.}
-    \label{fig:checks_seq3}
+  \includegraphics{alignment/alignment_single_3.pdf}\vspace{1em}\\
+  \includegraphics{alignment/alignment_ensemble_3.pdf}
+  \caption{Alignment as a function of time for forward simulations of sequence
+    $3$. Model parameters were chosen as random draws from our posterior
+    beliefs. Each candidate model was forward simulated one thousand times,
+    with new parameter values drawn for each simulation. The top panel shows two
+    sets of randomly selected forward simulations. The lower panel shows the
+    median alignment of flocks as a function of time, the bands around the
+    median represent the upper and lower quartiles of the alignment.}
+  \label{fig:checks_seq3}
 \end{figure}
 
 \subsection{Conclusions}
 
-We have seen that we are able to fit a number of competing agent-based models
-to real flocking events, working in a Bayesian framework. Model performance can
-be assessed using a number of methods. Residual plots can be visualised to
-provide an informal method to compare model fit and data. However, a more
-quantitative comparison of model fit can be realised with information criteria.
+We have evidenced that we are able to fit a number of competing agent-based
+models to real flocking events, working in a Bayesian framework. We
+demonstrated a number of different ways to assess model fit, and estimate
+predictive performance. Although here we only focussed on a small subset of
+possible candidate models, our approach could be extended to fit and compare
+any number of models.
 
-Our posterior beliefs consistently showed that only weak interaction parameters
-are necessary to maintain flocking events which are already highly-polarised.
+Our inferred posterior beliefs consistently showed that only weak interaction
+parameters are necessary to maintain flocking events which are already
+highly-polarised. The small values of the degrees of freedom parameters
+inferred gave evidence of non-normally distributed noise.
 
+Assessing standardised residual plots showed that the models generally
+provided a good fit to the data. However, for one of our sequences we
+observed that our models were unable to capture all the behaviours of the
+flock. From this we concluded that additional interaction rules, such as
+attraction or repulsion behaviours, or interactions with the environment,
+needed to be included.
+
+In ranking our model fits we observe that the power-law weighted and
+topological models perform the best. That no single model comes out on top
+suggests that there may be aspects to the data which neither model is able to
+capture, or that the practical distinction between these models is so small
+that it is difficult to tell them apart. Though our analysis does not favour a
+single model as providing the best fit, models implementing continuous
+interaction rules consistently outrank those with discontinuous rules. We saw
+that the Vicsek model is no better at describing the data than the Null model,
+even with the additional complexity of an extra model parameter. Penalised for
+complexity, AIC consistently ranked the Vicsek model below the null model;
+making the Vicsek model the worst performing candidate model.
 
