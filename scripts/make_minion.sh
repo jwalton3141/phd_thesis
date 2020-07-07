@@ -1,8 +1,6 @@
 #! /bin/bash
 
 # Install MinionPro locally. Does not require root.
-# Font will be installed to TEXMFHOME
-# TEXMFHOME can be queried with `$ kpsewhich -expand-var='$TEXMFHOME'`
 
 # REQUIRES:
 #    1. LCDF-typetools (if root: `$ sudo apt install lcdf-typetools`,
@@ -11,7 +9,8 @@
 
 FPDIR=/tmp/FontPro
 FONT=MinionPro
-CWD=$(pwd)
+# TEXMFLOCAL or TEXMFHOME. TEXMFLOCAL *will* require root.
+INSTALLDIR=TEXMFLOCAL
 
 # Clone FontPro project
 git clone https://github.com/sebschub/FontPro.git $FPDIR
@@ -25,17 +24,21 @@ curl -fLo $FPDIR/otf/minion-pro.zip \
 
 # Unzip sources
 unzip $FPDIR/otf/minion-pro.zip -d $FPDIR/otf/
+# Delete extras
+rm $FPDIR/otf/*{png,txt,zip}
 
 # Move to project for make / install
 cd $FPDIR
-# Make fonts
-./scripts/makeall $FONT --quiet
-# Install fonts
-./scripts/install $(kpsewhich -expand-var='$TEXMFHOME')
-# Update user font map
-updmap-user --enable Map=$FONT.map
-# Update system font map
-#updmap-sys --enable Map=$FONT.map
 
-# Move back
-cd $CWD
+# Make
+./scripts/makeall $FONT 
+
+# Install
+if [ $INSTALLDIR = TEXMFLOCAL ]; then
+   sudo ./scripts/install "$(kpsewhich -expand-var='$TEXMFLOCAL')"
+   sudo updmap-sys --enable Map=$FONT.map
+else
+   ./scripts/install "$(kpsewhich -expand-var='$TEXMFHOME')"
+   updmap-user --enable Map=$FONT.map
+fi
+
