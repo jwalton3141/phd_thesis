@@ -46,7 +46,7 @@ patch.linewidth: .3
 
 text.usetex: True
 # Make sure to load font before bm.
-text.latex.preamble: \usepackage[lf]{MinionPro} \usepackage{bm}
+text.latex.preamble: \usepackage[mathlf,textlf]{MinionPro} \usepackage{bm}
 text.color: .15
 
 xtick.color: .15
