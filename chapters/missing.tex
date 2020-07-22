@@ -34,7 +34,7 @@ possible unobserved trajectories.
 \section{Types of missingness}
 
 When we consider flocking events with missing observations, it is important to
-consider at which point during the sequence the data went missing. This is
+consider at which point during the sequence a given agent went missing. This is
 because how we handle the missingness will depend on at which point during the
 sequence the agent went missing.
 
@@ -80,12 +80,12 @@ The ID number of each agent, $i$, is shown at the beginning and end of its
 trajectory.
 
 \cref{subfig:beg_missing} shows a schematic representing which data points of
-our simulation were observed and which data points were classified as missing.
-A blue gridpoint in location $(i, t)$ denotes that agent $i$ \emph{was
-observed} at time $t$. Conversely, a red maker at location $(i, t)$ indicates
-that agent $i$ \emph{was missing} at time $t$. From this schematic we can
-see that a number of agents were missing at time $t=1$: the beginning of the
-simulation.
+our simulation were considered observed and which data points were classified
+as missing. A blue gridpoint in location $(i, t)$ tells us that agent $i$
+\emph{was observed} at time $t$. Conversely, a red maker at location $(i, t)$
+indicates that agent $i$ \emph{was missing} at time $t$. From this schematic we
+can see that a number of agents were missing at time $t=1$: the beginning of
+the simulation.
 
 \begin{figure}[tbp]
   \captionsetup[subfigure]{oneside,
@@ -103,9 +103,9 @@ simulation.
   \caption{Illustrating our forward simulation of the Vicsek model and the
     data considered missing. \subref{subfig:beg_data} Simulated trajectories.
     The rectangle overlain in black represents our imitation of a fixed
-    field of vision; analogous to that of recording equipment used in the
+    field of vision: analogous to that of recording equipment used in the
     field. Agents travel from green marker to red marker, with their ID ($i$)
-    shown at the start and end points. Data points outside of the rectangular
+    shown at their start and end points. Data points outside of the rectangular
     region are classified as missing, and are shown by the red trajectories.
     \subref{subfig:beg_missing} Summarising the missing and observed data
     points of our simulation. A blue gridpoint at location $(i, t)$ indicates
@@ -116,18 +116,17 @@ simulation.
 \end{figure}
 
 We may use \cref{eq:likelihood} to quantify the likelihood of observing the
-movements of a flock. However, to do so we must observe all the movements of
-agents $i=1,\ldots,N$ over time steps $t=1,\ldots,T$. To evaluate the
-likelihood of a flock with missing observations we must propose candidate
-values for the missing observations. To do so we shall work backwards from the
-first observation of the agent missing for the longest; for our simulated data
-this corresponds to the observation of agent $i=5$ at time $t=9$.
+movements of a flock. However, to compute the likelihood we must observe the
+positions and directions of each individual in every frame. With this, to
+evaluate the likelihood of a flock with missing observations we must be able to
+propose candidate values for the missing observations. To do so we shall work
+backwards from our first observation of each missing agent.
 
 We propose missing directions of motion backwards in time from our first
-observation of each missing agent. A symmetric proposal
-distribution is used such that:
+observation of each missing agent. A symmetric proposal distribution is used
+such that:
 \begin{equation}
-  \label{eq:propose_beg}
+  \label{eq:propose_beg_dir}
   \theta_{i,t-1}^{\star} \given \nu, \sigma_Y, \theta_{i,t}
     \sim t_{\nu}(\theta_{i,t}, \sigma_Y),
 \end{equation}
@@ -135,25 +134,40 @@ where $t_{\nu}$ denotes a generalised Student's $t$-distribution with $\nu$
 degrees of freedom. An alternative proposal scheme could be formulated using
 the interaction term $\angmean{\theta}_{i,t}$ as:
 \begin{equation}
-  \label{eq:propose_beg_alt}
+  \label{eq:propose_beg_dir_alt}
   \theta_{i,t-1}^{\star} \given \nu, \sigma_Y, \angmean{\theta}_{i,t}
     \sim t_{\nu}(\angmean{\theta}_{i,t}, \sigma_Y).
 \end{equation}
-However, this proposal mechanism is more computationally expensive than that of
-\cref{eq:propose_beg} as it necessitates the computation of
-$\angmean{\theta}_{i,t}$. For highly aligned flocks we expect
-\cref{eq:propose_beg,eq:propose_beg_alt} to propose similar candidate values,
-with \cref{eq:propose_beg} doing so at a smaller computational expense. It is
-for this reason that we shall use the proposal distribution of
-\cref{eq:propose_beg}.
+However, this proposal mechanism is more computationally expensive than the
+proposal scheme outlined in \cref{eq:propose_beg_dir}, as it necessitates the
+computation of $\angmean{\theta}_{i,t}$. For highly aligned flocks we expect
+\cref{eq:propose_beg_dir,eq:propose_beg_dir_alt} to propose similar candidate
+values, with \cref{eq:propose_beg_dir} doing so at a smaller computational
+expense. It is for this reason that we shall use the proposal distribution of
+\cref{eq:propose_beg_dir}.
 
-Having worked backwards in time to propose unobserved directions of motion we
-can compute the corresponding proposed positions of agents. We do this by
-noting that:
+Having worked backwards in time to propose plausible values for the unobserved
+directions of motion, we can now use these values to realise the corresponding
+proposed paths. To do so we rearrange \cref{eq:positional_update} to see:
 \begin{equation}
-    \bm{x}_{i,t-1} = \bm{x}_{i, t} - (\cos, \sin)^T \abs{v}
+  \label{eq:step_back}
+  \bm{x}_{i,t} = \bm{x}_{i,t+1} - \bm{v}_{i,t}.
+\end{equation}
+Recall from \cref{sec:vicsek_model} that $\bm{v}_{i,t}$ is constructed to have
+direction $\theta_{i,t+1}$ and speed $v$. Given $\theta_{i,t+1}$, we may
+compute $\bm{v}_{i,t} = (\cos\theta_{i,t+1}, \sin\theta_{i,t+1})^Tv$. With
+this, and reindexing $t\mapsto t-1$, we may rewrite \cref{eq:step_back} as:
+\begin{equation}
+  \label{eq:propose_beg_pos}
+  \bm{x}_{i,t-1} = \bm{x}_{i,t} - (\cos\theta_{i,t}, \sin\theta_{i,t})^Tv.
 \end{equation}
 
+Having proposed candidate values for the missing directions of motions with
+\cref{eq:propose_beg_dir}, we can use \cref{eq:propose_beg_pos} to compute
+the proposed paths which these directions correspond to. Now having values for the
+positions and directions of motion of every individual at every time step, we
+may use \cref{eq:likelihood} to quantify the likelihood of these paths, given
+the model parameters.
 
 \subsection{Missing in the end}
 
