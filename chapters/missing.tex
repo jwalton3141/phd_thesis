@@ -164,10 +164,14 @@ this, and reindexing $t\mapsto t-1$, we may rewrite \cref{eq:step_back} as:
 
 Having proposed candidate values for the missing directions of motions with
 \cref{eq:propose_beg_dir}, we can use \cref{eq:propose_beg_pos} to compute the
-proposed paths which these directions correspond to. Now having values for the
-positions and directions of motion of every individual at every time step, we
-may use \cref{eq:likelihood} to quantify the likelihood of these paths, given
-some model parameters.
+proposed paths which these directions correspond to. As these proposed
+paths represent missing data, if any of the proposed positions lie
+\emph{within} our frame of vision, then we must reject these proposals and
+continue onto the next iteration of our scheme.
+
+Having values for the positions and directions of motion of every individual at
+every time step, we may use \cref{eq:likelihood} to quantify the likelihood of
+these paths, given some model parameters.
 
 To infer the Vicsek model's parameters from our simulated data we shall
 implement a random walk Metropolis--Hastings scheme. At each iteration of the
@@ -224,7 +228,8 @@ effect by performing parameter inference on the same simulated data, but
 widening our frame of vision to include all agents. Our posterior beliefs about
 the model parameters with and without missingness are overlain in REF. See that
 handling the missingness has introduced only a small amount of additional
-uncertainty. 
+uncertainty. With this we are confident that we can perform parameter inference
+on flocking events with observations missing at the beginning of a sequence.
 
 %\begin{figure}[tbp]
 %  \includegraphics{beg/dir_trace.pdf}
@@ -251,6 +256,50 @@ uncertainty.
 %\end{figure}
 
 \subsection{Missing in the end}
+
+We say that data is missing at the end of a flocking event if some individuals
+leave the frame of vision before the recording event finished. This scenario is
+imitated by simulating the movements of $25$ individuals over $40$ frames,
+according to the specifications of the Vicsek model, and overlaying a fixed
+field of vision. The resulting data is visualised in \cref{fig:end_data}.
+
+\begin{figure}[tbp]
+  \captionsetup[subfigure]{oneside,
+                           margin={0.7cm,0cm}}
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics{end/data.pdf}
+    \caption{}
+    \label{subfig:end_data}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics{end/missing_array.pdf}
+    \caption{}
+    \label{subfig:end_missing}
+  \end{subfigure}
+  \caption{Individuals missing at the end of a sequence.
+  \subref{subfig:end_data} Twenty-five agents are simulated for forty frames
+  according to the rules of the Vicsek model. Agents travel from the positions
+  denoted by the green markers to those denoted by the red markers. The ID of
+  each agent is shown at its start and end point. A fixed field of vision is
+  emulated by the rectangle overlain in black. Any movements which occur
+  outside this area are classified as missing; shown by trajectories
+  transitioning from blue to red. A number of agents are seen to be outside our
+  field of vision at the end of the simulation.
+  \subref{subfig:end_missing} A representation of which data points of our
+  simulation were observed and which were classified as missing. A blue tile at
+  location $(i, t)$ indicates that agent $i$ was within our field of vision at
+  time $t$. Conversely, a red tile at location $(i, t)$ indicates that agent
+  $i$ was outside our field of vision---that is, missing---at time $t$.}
+  \label{fig:end_data}
+\end{figure}
+
+To fit one of our models to this data we must be able to evaluate the
+likelihood as specified in \cref{eq:likelihood}. This likelihood involves a
+product over all $i$ and $t$, and so we must have data for all these
+observations. As some agents are out of frame at the end of the sequence, we do
+not have all the observations necessary to evaluate the likelihood.
+
+
 
 \subsection{Missing in the beginning and end}
 
