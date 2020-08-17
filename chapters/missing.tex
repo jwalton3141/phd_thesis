@@ -67,9 +67,9 @@ fixed field of vision on top of the resulting data. We chose to forward
 simulate $25$ agents for $40$ time steps. At time $t=1$ agents were directed
 and positioned randomly within a square-cell of side length $L=1$. Agents
 experienced noise generated from a generalised Student's $t$-distribution with
-degrees of freedom $\nu=7$ and scale $\sigma_Y=0.1$. Each individual interacted
-with neighbours positioned within distance $r=0.4$, and moved with speed
-$v=0.03$.
+degrees of freedom $\nu=7$ and scale $\sigma_Y=0.075$. Each individual
+interacted with neighbours positioned within distance $r=0.5$, and moved with
+speed $v=0.03$.
 
 The resulting simulated data is illustrated in \cref{subfig:beg_data}. The
 rectangle overlain in black represents a fixed field of vision: analogous to
@@ -185,12 +185,12 @@ dimension to the posterior distribution, and so increases complexity. As a
 result, if the amount of missing data increases then the computational demand
 of the problem increases.
 
-We simulate our random-walk sampler for $10^6$ iterations, and thin the
-resulting output by a factor of $100$. The output is thinned to reduce the
+We simulate our random-walk sampler for $10^5$ iterations, and thin the
+resulting output by a factor of $10$. The output is thinned to reduce the
 autocorrelation between successive samples. We assess convergence by inspecting
 trace plots of the simulated chains. \cref{fig:beg_dir_trace} visualises the
-chains targeting the directions of motion $\theta_{1,4}$, $\theta_{1,3}$,
-$\theta_{1,2}$ and $\theta_{1,1}$, which were classified as missing. From this
+chains targeting the directions of motion $\theta_{6,4}$, $\theta_{6,3}$,
+$\theta_{6,2}$ and $\theta_{6,1}$, which were classified as missing. From this
 plot we see well-behaved chains oscillating regularly around a fixed location,
 evidencing convergence. The true values of the missing observations are
 indicated by the horizontal green lines. See that the true values are all
@@ -199,12 +199,31 @@ time we work the greater the oscillations become. The magnitude of the
 oscillations increase as we extrapolate further backwards in time and become
 more uncertain about the possible movements of missing agents.
 
+\begin{figure}[tbp]
+  \includegraphics{beg/dir_trace.pdf}
+  \caption{Chains targeting directions of motion missing at the beginning of a
+  simulation. Each trajectory was simulated for $10^6$ iterations. To reduce
+  the autocorrelation between samples the output was thinned by a factor of
+  $100$. The true values of the missing directions are shown by the horizontal
+  green lines. The true values are captured within our posterior densities.}
+  \label{fig:beg_dir_trace}
+\end{figure}
+
 \cref{fig:beg_x_trace} shows chains targeting the missing $x$ co-ordinates of
-agent $1$ over frames $4$, $3$, $2$ and $1$. The chains targeting the $x$
+agent $6$ over frames $4$, $3$, $2$ and $1$. The chains targeting the $x$
 co-ordinates are related to the chains targeting the missing directions through
 \cref{eq:propose_beg_pos}. We see further evidence that our chains have
-converged, and that the further back in time we work the less accurate our
-inference becomes.
+converged, and that the further back in time we work the less certain we become.
+
+\begin{figure}[tbp]
+  \includegraphics{beg/x_trace.pdf}
+  \caption{Trajectories of the $x$ co-ordinates of agents corresponding to the
+  directions of motion seen in \cref{fig:beg_dir_trace}. Sampled directions of
+  motion are related to sampled co-ordinates through \cref{eq:propose_beg_pos}.
+  The true missing $x$ co-ordinates are overlain in green and lie within the
+  posterior density.}
+  \label{fig:beg_x_trace}
+\end{figure}
 
 As with the hierarchical models considered in \cref{sec:hier_mod_studies}, we
 now have a posterior distribution with a large number of dimensions, and so
@@ -216,48 +235,6 @@ posterior median, the inner-extent of the whiskers show the upper and lower
 quartiles, and the outer-extent of the whiskers show the posterior median
 $\pm1.5\times\text{IQR}$.
 
-The left-most panel of \cref{fig:beg_summary} summarises the posterior
-densities representing our beliefs about the missing directions of motion. The
-green markers represent the true values of the missing directions. See that as
-we extrapolate further back in time our posterior variance increases, as would
-be expected. The $x$ and $y$ co-ordinates corresponding to these directions are
-shown in the central and right-most panels. As the between-agent variance in
-positions is much greater than our posterior variances, to compare all the
-inferred positions in one plot we first subtract the samples from the true
-values. This results in box and whisker plots centered approximately around
-zero (shown by the green markers): indicating that our posterior beliefs
-accurately captured the true values. Again, we see that our posterior variance
-about the inferred positions increases the further back in time we extrapolate.
-
-Having shown that we can effectively integrate over all the possible movements
-of individuals missing at the beginning of a sequence, we are interested in how
-this extra uncertainty has effected our posterior beliefs about the model
-parameters. We may assess this effect by performing parameter inference on the
-same simulated data, but widening our frame of vision to include all agents.
-Our posterior beliefs about the model parameters with and without missingness
-are overlain in \cref{fig:beg_compare}. See that handling the missingness has
-introduced only a small amount of additional uncertainty. With this we are
-confident that we can perform parameter inference on flocking events with
-observations missing at the beginning of a sequence.
-
-\begin{figure}[tbp]
-  \includegraphics{beg/dir_trace.pdf}
-  \caption{Chains targeting directions of motion missing at the beginning of a
-  simulation. Each trajectory was simulated for $10^6$ iterations. To reduce
-  the autocorrelation between samples the output was thinned by a factor of
-  $100$. The true values of the missing directions are shown by the horizontal
-  green lines. The true values are captured within our posterior densities.}
-  \label{fig:beg_dir_trace}
-\end{figure}
-\begin{figure}[tbp]
-  \includegraphics{beg/x_trace.pdf}
-  \caption{Trajectories of the $x$ co-ordinates of agents corresponding to the
-  directions of motion seen in \cref{fig:beg_dir_trace}. Sampled directions of
-  motion are related to sampled co-ordinates through \cref{eq:propose_beg_pos}.
-  The true missing $x$ co-ordinates are overlain in green and lie within the
-  posterior density.}
-  \label{fig:beg_x_trace}
-\end{figure}
 \begin{figure}[tbp]
   \includegraphics{beg/summary.pdf}
   \caption{Summarising the posterior samples targeting the missing directions
@@ -269,12 +246,48 @@ observations missing at the beginning of a sequence.
   for easier comparison.}
   \label{fig:beg_summary}
 \end{figure}
+
+The left-most panel of \cref{fig:beg_summary} summarises the posterior
+densities representing our beliefs about the missing directions of motion. The
+green markers represent true values. See that as we extrapolate further back in
+time our posterior variance increases, as we would expect. The $x$ and $y$
+co-ordinates corresponding to these directions are shown in the central and
+right-most panels. As the between-agent variance in positions is much greater
+than our posterior variances, to compare all the inferred positions in one plot
+we first subtract the samples from the true values. This results in box and
+whisker plots centered approximately around zero (shown by the green markers):
+indicating that our posterior beliefs accurately captured the true values.
+Again, we see that our posterior variance about the inferred positions
+increases the further back in time we extrapolate.
+
+We have shown that we can capture missing observations by implementing a
+Metropolis--Hastings sampler. Now that we have this, we wish to inspect how
+having missing observations has effected our parameter uncertainty. We also
+wish to investigate how our approach to missing data compares to the more
+naive approach of discarding frames which don't capture every individual. To
+make this comparison we re-perform parameter inference on the simulated data,
+in the first instance increasing our field of vision to capture all
+agents, and in the second instance discarding frames where any individual is
+missing. We expect that the posterior variance about the model parameters with
+the missingness accounted for should be greater than or equal to the posterior
+variance had there been no missingness. Similarly, had we discarded the frames
+with missingness, we would expect a posterior variance greater than or equal to
+the posterior variance with the missingness integrated over. 
+
+\cref{fig:beg_compare} compares posterior densities of the model parameters
+under three different regimes. From this plot we see that integrating over the
+missing observations provides very similar posterior densities to if we had
+observed all the data. We see that our approach to handling missingness gives
+smaller posterior variance than the naive approach of discarding observations,
+indicating that our approach is preferable to the naive one.
+
 \begin{figure}[tbp]
   \includegraphics{beg/compare_params.pdf}
-  \caption{Comparing posterior beliefs about the Vicsek model parameters with
-  and without missingness. The posterior densities are shown by kernel density
-  estimates of the posterior samples. We see that the missing observations are
-  accounted for by a slight increase in parameter uncertainty.}
+  \caption{Comparing posterior beliefs about the Vicsek model parameters
+  without missing observations (blue); integrating over the possible
+  missing trajectories (red), and discarding frames which any individual is
+  missing from (purple). The posterior densities are shown by kernel
+  density estimates of the posterior samples.}
   \label{fig:beg_compare}
 \end{figure}
 
