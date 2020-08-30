@@ -31,7 +31,9 @@ contain missing observations. The movements of missing agents will not be
 ignored, nor will data be discarded. Instead, we will work in a Bayesian framework
 to adjust our posterior beliefs about model parameters to account for
 unobserved behaviours. We will see that this can be achieved by integrating
-over all the possible trajectories of missing agents.
+over all the possible trajectories of missing agents. We show that
+this approach gives more accurate results than the naive approach of discarding
+data.
 
 \section{Types of missingness}
 
@@ -41,7 +43,7 @@ because how we account for the missingness will depend on at which point during
 the sequence the agent went missing.
 
 Although there are many different circumstances which can result in an agent
-leaving our visual field, here we shall consider the two cases which we
+leaving our visual field, here we shall inspect the two cases which we
 consider as the most likely to occur. These two cases arise when agents are
 out of frame at the \emph{beginning} of a recording event, or when
 agents are out of frame at the \emph{end} of a recording event.
@@ -51,10 +53,11 @@ Metropolis--Hastings scheme. A proposal mechanism for generating paths missing
 at the beginning of a sequence is outlined. Proposed paths can then be accepted
 or rejected using results from \cref{cha:sim_studies}. We will then show that
 we can generate paths missing at the end of a sequence by implementing a Gibbs
-sampler; sampling from our full conditional distributions to realise possible
-missing paths.
+sampler; sampling from our full conditional distributions to realise a
+distribution of possible paths.
 
 \subsection{Missing in the beginning}
+\label{subsec:beg_missing}
 
 We say that data is missing at the beginning of a flocking event if the
 observer began recording the sequence before all agents had entered the frame.
@@ -241,9 +244,9 @@ $\pm1.5\times\text{IQR}$.
   of motion (left), $x$ co-ordinates (centre), and $y$ co-ordinates (right).
   True values are shown by the green markers, and posterior medians are shown
   by the yellow markers. The box and whisker plots show the upper and lower
-  quartiles as well as the median $\pm1.5\text{IQR}$. Realisations of the
+  quartiles as well as the median $\pm1.5\times\text{IQR}$. Realisations of the
   missing positions are subtracted from the corresponding true values to make
-  for easier comparison.}
+  comparison easier.}
   \label{fig:beg_summary}
 \end{figure}
 
@@ -279,15 +282,15 @@ under three different regimes. From this plot we see that integrating over the
 missing observations provides very similar posterior densities to if we had
 observed all the data. We see that our approach to handling missingness gives
 smaller posterior variance than the naive approach of discarding observations,
-indicating that our approach is preferable to the naive one.
+indicating the efficacy of our approach.
 
 \begin{figure}[tbp]
   \includegraphics{beg/compare_params.pdf}
-  \caption{Comparing posterior beliefs about the Vicsek model parameters
-  without missing observations (blue); integrating over the possible
-  missing trajectories (red), and discarding frames which any individual is
-  missing from (purple). The posterior densities are shown by kernel
-  density estimates of the posterior samples.}
+  \caption{Comparing posterior beliefs about the Vicsek model parameters had
+    all the data been observed (blue); with the missingness integrated out
+    (red), and when discarding frames which any individual is missing from
+    (purple). The posterior densities are shown by kernel density estimates
+    of the posterior samples.}
   \label{fig:beg_compare}
 \end{figure}
 
@@ -319,8 +322,7 @@ field of vision. The resulting data is visualised in \cref{fig:end_data}.
   each agent is shown at its start and end point. A fixed field of vision is
   emulated by the rectangle overlain in black. Any movements which occur
   outside this area are classified as missing; shown by trajectories
-  transitioning from blue to red. A number of agents are seen to be outside our
-  field of vision at the end of the simulation.
+  transitioning from blue to red.
   \subref{subfig:end_missing} A representation of which data points of our
   simulation were observed and which were classified as missing. A blue tile at
   location $(i, t)$ indicates that agent $i$ was within our field of vision at
@@ -338,23 +340,41 @@ likelihood.
 
 We can propose trajectories for the missing agents by forward simulating the
 model from each agent's last observed position. As we are able to write down
-our full conditional distributions about the missing directions of motion this
-is akin to performing a Gibbs step. With this there is no accept / reject step
-for the sampled trajectories.
+our full conditional distributions about the missing directions of motion
+(\cref{eq:students_update}) this is akin to performing a Gibbs step. With
+this there is no accept / reject step for the sampled trajectories, and so new
+missing paths are evaluated at every iteration of our sampler. This Gibbs step
+is embedded within a Metropolis--Hastings sampler which works to infer the
+model parameters of the Vicsek model.
+
+\cref{fig:end_dir_trace} shows the chains targeting the missing directions of
+motion of agent $i=6$. These trajectories show evidence of convergence and are
+seen to capture the true values of the missing data (green). These directions
+are related to the $y$ component of the missing positions (shown in
+\cref{fig:end_y_trace}) via \cref{eq:positional_update}.
+
+In \cref{fig:end_dir_trace,fig:end_y_trace} we only inspect a small amount of
+the total missingness targeted by our inference. \cref{fig:end_summary}
+summarises our posterior beliefs about all the missing observations of our
+simulated data. We see that in all cases the true values (green) are captured
+within our posterior densities (blue). From the central and rightmost panels of
+\cref{fig:end_summary} we see that posterior variance (uncertainty) increases
+the further into the future we extrapolate.
 
 \begin{figure}[tbp]
   \includegraphics{end/dir_trace.pdf}
-  \caption{Trace plots targeting the directions of motion missing at the end of
-  the sequence. The true values of the missing directions (green) are captured
-  within our posterior densities.}
+  \caption{Trace plots targeting directions of motion missing at the end of the
+  simulated flocking event. The chains give strong evidence of convergence and
+  show that the true values of the missing directions (green) are captured within
+  our posterior densities.}
   \label{fig:end_dir_trace}
 \end{figure}
 \begin{figure}[tbp]
   \includegraphics{end/y_trace.pdf}
-  \caption{Trajectories targeting the $y$ component of the missing positions.
-  The chains show evidence of convergence: oscillating around a fixed point with
-  constant variance. The true values (green) are captured within the
-  oscillations of the chains.}
+  \caption{Trajectories targeting the $y$ component of the missing positions of
+    agent $i=6$. The chains show evidence of convergence: oscillating around
+    a fixed point with constant variance. The true values (green) are
+    captured within the oscillations of the chains.}
   \label{fig:end_y_trace}
 \end{figure}
 \begin{figure}[tbp]
@@ -369,6 +389,13 @@ for the sampled trajectories.
   uncertainty about the values of the missing observations increases.}
   \label{fig:end_summary}
 \end{figure}
+
+We have shown that we can accurately capture observations missing at the end of
+a flocking event with the use of a Gibbs step. The efficacy of this scheme is
+assessed by comparing our posterior densities about model parameters with missing
+data accounted for, with posterior beliefs had all the data been observed, and
+posterior beliefs had all frames including missing been discarded (the naive
+approach).
 
 \begin{figure}
   \includegraphics{end/compare_params.pdf}
