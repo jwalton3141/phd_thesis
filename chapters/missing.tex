@@ -303,10 +303,12 @@ collection.
 \subsection{Missing in the end}
 
 We say that data is missing at the end of a flocking event if some individuals
-leave the frame of vision before the recording event finished. This scenario is
-imitated by simulating the movements of $25$ individuals over $40$ frames,
-according to the specifications of the Vicsek model, and overlaying a fixed
-field of vision. The resulting data is visualised in \cref{fig:end_data}.
+leave the frame of vision before the recording event was completed. When we
+consider this case we assume that agents which leave the frame do not later
+re-enter. We imitate this set-up by simulating the movements of $25$
+individuals over $40$ frames, according to the specifications of the Vicsek
+model, and overlaying a fixed field of vision. The resulting data is visualised
+in \cref{fig:end_data}.
 
 \begin{figure}[tbp]
   \captionsetup[subfigure]{oneside,
@@ -347,11 +349,13 @@ likelihood.
 We can propose trajectories for the missing agents by forward simulating the
 model from each agent's last observed position. As we are able to write down
 our full conditional distributions about the missing directions of motion
-(\cref{eq:students_update}) this is akin to performing a Gibbs step. With
-this there is no accept / reject step for the sampled trajectories, and so new
-missing paths are evaluated at every iteration of our sampler. This Gibbs step
-is embedded within a Metropolis--Hastings sampler which works to infer the
-model parameters of the Vicsek model.
+(\cref{eq:students_update}) this step becomes akin to performing a Gibbs step.
+With this there is no accept / reject step for the sampled trajectories, and so
+new missing paths are evaluated at every iteration of our sampler. As the
+sampled trajectories represent missing observations, any samples that are
+generated within our field of vision are discarded and new trajectories are
+instead sampled. This Gibbs step is embedded within a Metropolis--Hastings
+sampler which works to infer the model parameters of the Vicsek model.
 
 \cref{fig:end_dir_trace} shows the chains targeting the missing directions of
 motion of agent $i=6$. These trajectories show evidence of convergence and are
