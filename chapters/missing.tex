@@ -19,12 +19,13 @@ location the field of vision cannot be adjusted to reinclude those who move
 out-of-frame.
 
 The flock members which move out of frame cannot be ignored during analysis:
-although we may not observe their movements, these missing members may still be
-influencing the behaviour of the flock, and so must be accounted for. Equally
-undesirable is the temptation to discard all the frames in which any individual
-is out of frame, as this has the potential to drastically reduce the amount of
-data available for analysis. As capturing flocking events can be such an
-involved and time-consuming endeavour, it seems remiss to discard observations.
+although we may not observe their movements, they may still be influencing the
+behaviour of the flock, and so must be accounted for. A simple but undesirable
+solution is presented by the temptation to discard \emph{every} frame in which
+any individual is out of view. This ``solution'' has the potential to
+drastically reduce the amount of data available for analysis. As capturing
+flocking events can be such an involved and time-consuming endeavour, it seems
+remiss to discard observations and the information they contain.
 
 In this chapter we will consider how we can handle flocking events which
 contain missing observations. The movements of missing agents will not be
@@ -278,11 +279,16 @@ with missingness, we would expect a posterior variance greater than or equal to
 the posterior variance with the missingness integrated over. 
 
 \cref{fig:beg_compare} compares posterior densities of the model parameters
-under three different regimes. From this plot we see that integrating over the
-missing observations provides very similar posterior densities to if we had
+under three different regimes: the flocking event without any missingness
+(blue), the event with the missingness integrated out (red), and the event with
+the missingness discarded (purple). From this plot we see that integrating over
+the missing observations provides very similar posterior densities to if we had
 observed all the data. We see that our approach to handling missingness gives
 smaller posterior variance than the naive approach of discarding observations,
-indicating the efficacy of our approach.
+indicating the efficacy of our approach. As the computational demand of the
+problem increases as more data goes missing, effort should still be made by the
+scientist to minimise the total amount of missingness incurred during data
+collection.
 
 \begin{figure}[tbp]
   \includegraphics{beg/compare_params.pdf}
