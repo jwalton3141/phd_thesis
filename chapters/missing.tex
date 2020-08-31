@@ -307,8 +307,8 @@ leave the frame of vision before the recording event was completed. When we
 consider this case we assume that agents which leave the frame do not later
 re-enter. We imitate this set-up by simulating the movements of $25$
 individuals over $40$ frames, according to the specifications of the Vicsek
-model, and overlaying a fixed field of vision. The resulting data is visualised
-in \cref{fig:end_data}.
+model (parameters $r=0.45$, $\sigma_Y=0.07$ and $\nu=7$), and overlaying a fixed
+field of vision. The resulting data is visualised in \cref{fig:end_data}.
 
 \begin{figure}[tbp]
   \captionsetup[subfigure]{oneside,
@@ -348,20 +348,21 @@ likelihood.
 
 We can propose trajectories for the missing agents by forward simulating the
 model from each agent's last observed position. As we are able to write down
-our full conditional distributions about the missing directions of motion
+our full conditional distributions about future directions of motion
 (\cref{eq:students_update}) this step becomes akin to performing a Gibbs step.
 With this there is no accept / reject step for the sampled trajectories, and so
 new missing paths are evaluated at every iteration of our sampler. As the
 sampled trajectories represent missing observations, any samples that are
 generated within our field of vision are discarded and new trajectories are
-instead sampled. This Gibbs step is embedded within a Metropolis--Hastings
+sampled instead. This Gibbs step is embedded within a Metropolis--Hastings
 sampler which works to infer the model parameters of the Vicsek model.
 
 \cref{fig:end_dir_trace} shows the chains targeting the missing directions of
 motion of agent $i=6$. These trajectories show evidence of convergence and are
 seen to capture the true values of the missing data (green). These directions
 are related to the $y$ component of the missing positions (shown in
-\cref{fig:end_y_trace}) via \cref{eq:positional_update}.
+\cref{fig:end_y_trace}) via \cref{eq:positional_update}, and again capture the
+true values of the missing data.
 
 In \cref{fig:end_dir_trace,fig:end_y_trace} we only inspect a small amount of
 the total missingness targeted by our inference. \cref{fig:end_summary}
@@ -370,6 +371,7 @@ simulated data. We see that in all cases the true values (green) are captured
 within our posterior densities (blue). From the central and rightmost panels of
 \cref{fig:end_summary} we see that posterior variance (uncertainty) increases
 the further into the future we extrapolate.
+
 
 \begin{figure}[tbp]
   \includegraphics{end/dir_trace.pdf}
@@ -400,16 +402,25 @@ the further into the future we extrapolate.
   \label{fig:end_summary}
 \end{figure}
 
-We have shown that we can accurately capture observations missing at the end of
-a flocking event with the use of a Gibbs step. The efficacy of this scheme is
-assessed by comparing our posterior densities about model parameters with missing
-data accounted for, with posterior beliefs had all the data been observed, and
-posterior beliefs had all frames including missing been discarded (the naive
-approach).
+\cref{fig:end_summary} shows that our approach to missingness is able to
+capture data missing at the end of a recording event. We now wish to inspect
+how this approach has effected our posterior beliefs. To do so we perform
+parameter inference on the simulated data as if all the data had been contained
+within our field of vision. In addition to this we perform the same inference
+but discarding all the frames in which any agent was out of view. The model
+parameters inferred under these three scenarios are compared in
+\cref{fig:end_compare}. We see that integrating out the missingness reveals
+results similar to as if we had observed all the data, and that the naive
+approach of discarding missingness resulted in a larger posterior variance.
 
 \begin{figure}
   \includegraphics{end/compare_params.pdf}
-  \caption{}
+  \caption{Kernel density estimates of the model parameters inferred from
+  simulated data. The blue kernels represent posterior densities when the
+  field of vision was widened to include all movements; the red kernels
+  show posterior densities when the missingness was integrated out, and the
+  purple kernels represent the posterior samples when all the frames
+  containing missing data were discarded.}
   \label{fig:end_compare}
 \end{figure}
 
