@@ -58,7 +58,7 @@ sampler; sampling from our full conditional distributions to realise a
 distribution of possible paths.
 
 \subsection{Missing in the beginning}
-\label{subsec:beg_missing}
+\label{ssec:beg_missing}
 
 We say that data is missing at the beginning of a flocking event if the
 observer began recording the sequence before all agents had entered the frame.
@@ -301,6 +301,7 @@ collection.
 \end{figure}
 
 \subsection{Missing in the end}
+\label{ssec:end_missing}
 
 We say that data is missing at the end of a flocking event if some individuals
 leave the frame of vision before the recording event was completed. When we
@@ -372,7 +373,6 @@ within our posterior densities (blue). From the central and rightmost panels of
 \cref{fig:end_summary} we see that posterior variance (uncertainty) increases
 the further into the future we extrapolate.
 
-
 \begin{figure}[tbp]
   \includegraphics{end/dir_trace.pdf}
   \caption{Trace plots targeting directions of motion missing at the end of the
@@ -413,6 +413,15 @@ parameters inferred under these three scenarios are compared in
 results similar to as if we had observed all the data, and that the naive
 approach of discarding missingness resulted in a larger posterior variance.
 
+The Gibbs sampler explores the sample space more efficiently than the
+Metropolis--Hastings algorithm, an artefact of Gibbs' lack of an accept / reject
+step. As a result we can handle data missing at the end of a sequence with
+less computational expense than data missing at the beginning of a sequence.
+We conclude that although all effort should be made by the scientist to avoid
+recording sequences with any missing observations, where possible care should
+be taken to bias the occurrence of data missing at the end of a sequence over
+data missing at the beginning of a sequence.
+
 \begin{figure}
   \includegraphics{end/compare_params.pdf}
   \caption{Kernel density estimates of the model parameters inferred from
@@ -426,3 +435,14 @@ approach of discarding missingness resulted in a larger posterior variance.
 
 \subsection{Missing in the beginning and end}
 
+Having demonstrated that we can handle sequences with observations missing at
+the beginning of a sequence and sequences with observations missing at the end
+of a sequence, we now seek to verify that we can handle sequences with data
+missing at the beginning \emph{and} end. Having considered these two cases
+separately we now consider them jointly. 
+
+To handle sequences with data missing at the beginning and end, it is
+sufficient to use the Gibbs step as outlined in \cref{ssec:end_missing} to
+sample paths missing at the end of the sequence, and the Metropolis--Hastings
+algorithm to propose paths missing at the beginning of the sequence, as in
+\cref{ssec:beg_missing}.
