@@ -446,3 +446,93 @@ sufficient to use the Gibbs step as outlined in \cref{ssec:end_missing} to
 sample paths missing at the end of the sequence, and the Metropolis--Hastings
 algorithm to propose paths missing at the beginning of the sequence, as in
 \cref{ssec:beg_missing}.
+
+The data simulated for this study are shown in \cref{fig:both_data}. See that
+the simulated data shows data points missing at the beginning \emph{and} end of
+the event. This is again seen in \ref{subfig:both_missing}, which illustrates
+which data points were observed and which classified as missing.
+
+\begin{figure}[tbp]
+  \captionsetup[subfigure]{oneside,
+                           margin={0.7cm,0cm}}
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics{both/data.pdf}
+    \caption{}
+    \label{subfig:both_data}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics{both/missing_array.pdf}
+    \caption{}
+    \label{subfig:both_missing}
+  \end{subfigure}
+  \caption{Simulated data with observations missing at the beginning and end of
+    the sequence. \subref{subfig:both_data} Showing the trajectories of the
+    simulated agents. The rectangle overlain in black shows the simulated
+    field of vision. As agents move from the green markers to the red markers
+    we see that there are agents missing at the beginning and end of the
+    sequence. \subref{subfig:both_missing} Schematic illustrating which data
+    points were observed and which were classified as missing; a blue marker
+    represents an observed data point, and a red marker represents a missing data
+    point.}
+  \label{fig:both_data}
+\end{figure}
+
+We fit the Vicsek model to this simulated data using our implementation of the
+Metropolis--Hastings algorithm. Parameter inference is performed on (i) data
+with no missingness, (ii) data with missingness integrated out and (iii) data
+with missingness discarded. The posterior densities realised under these three
+regimes are compared in \cref{fig:both_compare}. From this figure we see that
+integrating over the missingness resulted in posterior densities more similar
+to the observed-all densities than discarding the data did.
+
+\begin{figure}[tbp]
+  \includegraphics{both/compare_params.pdf}
+  \caption{Comparing posterior densities about the parameters of the Vicsek
+  model with and without missingness. The blue kernels show the posterior
+  densities as if all the data was observed. The red kernels show the
+  posteriors when the missing observations were integrated out. Finally, the
+  purple kernels shows the posterior beliefs had the missing observations been
+  discarded.}
+  \label{fig:both_compare}
+\end{figure}
+
+\section*{Conclusions}
+
+In this chapter we considered the experimental set-ups required to record
+flocking events in the wild. We saw missing data arises naturally as a
+consequence of recording data with fixed-location cameras. However, as
+individuals which move out of frame may still be influencing the movements
+of the observed flock, they cannot simply be ignored.
+
+A naive approach to this missing data problem would be to discard \emph{all}
+the frames in which \emph{any single} agent moves out of frame. Although this
+approach allows us to evaluate the likelihood of the flock---and hence perform
+our desired fitting---it has the potential to drastically reduce the amount of
+data available for analysis.
+
+We outlined an alternative approach in which all possible out of frame
+movements are integrated over. For this approach we first partition missing
+data points into observations missing at the \emph{beginning} of a recording
+event and observations missing at the \emph{end} of recording event. With this
+we outlined inference schemes which could infer data missing under these two
+regimes.
+
+Simulation studies were performed in which an artificial fixed field of vision
+was overlain. We demonstrated that our inference schemes were able to capture
+the true values of the missing observations. We discussed how increasing the
+amount of missing data increases the complexity, and hence computational
+demand, of the problem. Although all care should be taken to avoid recording
+events with missing observations, we advised that as data missing at the end of
+a sequence could be handled at less computational expense than data missing in
+the beginning, emphasis should be put on avoiding observations going missing at
+the beginning of a sequence.
+
+To consider the efficacy of our approach to missing data we compared posterior
+densities generated when integrating over the missingness, to posterior
+densities on the same dataset without missingness, and to posterior densities
+realised with the missingness discarded (the naive approach). We found
+that our approach to missingness generated posterior densities closer to the
+``observed-all'' densities than the naive approach was able to. 
+
+
+
