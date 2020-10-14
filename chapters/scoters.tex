@@ -72,7 +72,18 @@ mind we shall be focussing on events with the \emph{fewest} number of missing
 observations. For the events captured by \textcite{lukeman10} this is
 represented by a sequence of $199$ agents moving over $23$ frames. Of the
 $199\times23=4577$ data points represented by this event, $680$ ($\approx16\%)$
-of these observations are out of frame.
+of these observations are out of frame. This event is visualised in
+\cref{fig:scoter_traj}.
+
+\begin{figure}[tb]
+  \includegraphics{data_00_traj.pdf}
+  \caption{A visualisation of the trajectories of foraging scoters. The scoters
+  move along the blue trajectories, starting from the positions denoted by the
+  green markers and finishing at the positions shown by the red markers. The
+  black frame containing the trajectories represents the fixed field of vision
+  of the recording equipment.}
+  \label{fig:scoter_traj}
+\end{figure}
 
 The simulated flocks considered in \cref{cha:missing} had between $10$ and $20$
 missing observations per sequence. With $680$ data points missing from the
@@ -81,8 +92,48 @@ represents a considerable increase in complexity. With this amount of
 missingness, long and expensive simulations will be necessary to realise a
 satisfactory number of samples from the posterior.
 
+\begin{figure}[tb]
+  \includegraphics{data_00_missing.pdf}
+  \caption{A representation of the missing and observed data points of the
+  foraging event shown in \cref{fig:scoter_traj}. The $x$-axis represents the
+  frame of the sequence, and the $y$-axis corresponds to tracked individuals. A
+  blue tile at location $(i,t)$ tells us that scoter $i$ was observed in frame
+  $t$. A red tile at $(i,t)$ indicates that scoter $i$ was missing at time $t$.}
+  \label{fig:scoter_missing}
+\end{figure}
 
+In \cref{cha:missing} we used summary plots---such as those in
+\cref{fig:beg_summary,fig:end_summary}---to help visualise high-dimensional
+posterior distributions. However, with $680$ dimensions (plus a few extra for
+the model parameters), this posterior has too many dimensions for even these
+summary plots. In such a situation it can be informative to graphically assess
+the convergence of the log-likelihood. If we can observe that the
+log-likelihood has converged, we have good evidence that all the remaining
+parameters have also converged.
 
+\begin{figure}[tb]
+  \includegraphics{log_likelihood.pdf}
+  \caption{Trace and histogram plots of the log-likelihood, as computed at
+    every iteration of the inference scheme. As it can be difficult to assess
+    the convergence of all the parameters for high-dimensional problems, as we have
+    here, it can instead be informative to assess the convergence of the
+    log-likelihood. If we see that the value of the log-likelihood has
+    converged, then we have evidence that the corresponding parameters also
+    converged.}
+\end{figure}
+
+\begin{figure}[tb]
+  \includegraphics{dir_hist.pdf}
+  \caption{Histogram plots of posterior draws of $4$ missing directions (out of
+  a total of $680$) missing data points.}
+  \label{fig:dir_hist}
+\end{figure}
+
+\begin{figure}[tb]
+  \includegraphics{x_hist.pdf}
+  \caption{}
+  \label{fig:x_hist}
+\end{figure}
 
 
 
