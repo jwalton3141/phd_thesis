@@ -14,7 +14,10 @@ agent-based model from the literature.
 
 In this chapter we shall introduce and outline some important concepts of
 Bayesian inference. Algorithms to infer model parameters from data will be
-presented, and the interpretation of such output shall be discussed.
+presented, and the interpretation of such output shall be discussed. We will
+also make brief study of some ideas from the literature of model selection. The
+study of model selection allows a practitioner to make quantitative
+comparison between competing models.
 
 \section{Bayesian inference}
 \label{sec:bayesian_inference}
@@ -45,15 +48,26 @@ prior beliefs:
   \text{posterior}    & \propto \text{prior} \times \text{likelihood}.
 \end{align*}
 
+For reasons of numerical stability it is common practice to target the
+logarithm of the posterior distribution, rather than posterior itself. With
+this we may express the log-posterior as proportional to the product of our
+log-prior and log-likelihood.
+
 \section{Markov chain Monte Carlo (MCMC)}
 \label{sec:mcmc}
 
-For the most part, the normalising constant (given in the denominator of
+For the most part the normalising constant (given in the denominator of
 \cref{eq:bayes_theorem}) will have multiple dimensions, not produce a density
 function of standard form, and be difficult to evaluate in all but the most
-trivial cases. Markov chain Monte Carlo algorithms provide methods to sample
-from the targeted density $\pi(\theta \given x)$, whilst avoiding the
-evaluation of the bothersome normalising constant.
+trivial cases. Markov chain Monte Carlo (MCMC) algorithms represent a class of
+algorithms which provide methods to sample from the posterior density
+$\pi(\theta \given x)$, whilst avoiding the evaluation of the troublesome
+normalising constant.
+
+Unfortunately, although MCMC algorithms circumvent evaluation of the
+normalising constant, the consecutive samples realised by MCMC are \emph{not}
+independent of one another. Instead, as the samples are constructed to form a
+Markov chain, each sample is related to the samples which occur before it.
 
 \subsection{Metropolis--Hastings}
 \label{ssec:metropolis_hastings}
@@ -61,7 +75,7 @@ evaluation of the bothersome normalising constant.
 The Metropolis--Hastings algorithm is a popular MCMC scheme. The algorithm was
 introduced by \textcite{metropolis53} in a now classic paper, and was later
 generalised by \textcite{hastings70}. The algorithm works by constructing a
-Markov chain which has stationary distribution equivalent to the target
+Markov chain which has stationary distribution \emph{equivalent} to the target
 distribution.
 
 \begin{algorithm}
@@ -94,20 +108,28 @@ distribution.
   \end{algorithmic}
 \end{algorithm}
 
-The algorithm begins by initialising a Markov chain with parameters
-$\theta^{(0)}$. Next, the algorithm proposes new parameter values
-$\theta^\star$ from a proposal distribution $q(\theta^\star \given
-\theta^{(i-1)})$. The proposed values are accepted with probability
-$\alpha(\theta^\star \given \theta^{(i-1)})$. If the proposal is accepted the
-next state of the Markov chain is set to the proposed value. Otherwise, the
-next state is set to the current value. The acceptance probability depends on a
-ratio of the posterior density evaluated at the current state and the posterior
-density evaluated at the proposed state. In this ratio the normalising
+The algorithm (described formally in \cref{alg:metropolis_hastings}) begins by
+initialising a Markov chain with parameters $\theta^{(0)}$. After this the
+algorithm proposes new parameter values $\theta^\star$ from a proposal
+distribution $q(\theta^\star \given \theta^{(0)})$. The proposed values are
+accepted with probability $\alpha(\theta^\star \given \theta^{(0)})$. The
+acceptance probability depends on a ratio of the posterior density evaluated at
+the current state and the posterior density evaluated at the proposed state
+(line 4 of \cref{alg:metropolis_hastings}). In this ratio the normalising
 constants from \cref{eq:bayes_theorem} cancel, and we see that the target
-distribution need only be known up to a constant of proportionality. The
-process of proposing and accepting or rejecting proposals continues until a
-satisfactory number of draws are made. Metropolis--Hastings is described more
-formally in \cref{alg:metropolis_hastings}.
+distribution need only be known up to a constant of
+proportionality---effectively circumventing the need to ever compute the
+normalising constant. If the proposed state is accepted then the next state of
+the Markov chain is set to the proposed value; otherwise, the next state is set
+to the current value (lines 5--12 in \cref{alg:metropolis_hastings}). The
+process of proposing and accepting or rejecting proposals continues for a
+predefined number of iterations (in \cref{alg:metropolis_hastings}, $n$
+iterations), and ideally until the sampler ``forgets'' about its starting
+location, and makes a satisfactory number of draws from the posterior. To allow
+the chain to ``forget'' about its starting position, and to converge to the
+posterior distribution, it is common to allow some burn-in period (sometimes
+called the warm-up period). This period is intended to allow the chain to
+converge. Samples drawn during this period are discarded.
 
 \subsubsection{Choosing a Proposal Distribution}
 \label{ssec:proposal_distribution}
@@ -115,8 +137,8 @@ formally in \cref{alg:metropolis_hastings}.
 The practitioner must choose a suitable proposal distribution $q(\theta^\star
 \given \theta)$. Ideally the choice of proposal distribution will give rapid
 convergence to $\pi(\theta \given x)$, and efficiently explore the support of
-$\pi(\theta \given x)$. However, it is not obvious how a proposal distribution
-should be constructed to realise these desires.
+$\pi(\theta \given x)$. However, it is not obvious how to choose a proposal
+distribution which will realise these desires.
 
 A special case of Metropolis--Hastings arises when the proposal distribution is
 symmetric. Symmetric proposals have the property that:
@@ -140,25 +162,28 @@ which makes use of symmetric proposals. Here, proposals are generated as
 \end{equation*}
 where the $\omega$ are sampled as
 \begin{equation*}
-   \omega^{(i-1)} \sim \mathcal{N}_d(0, \Sigma),
+   \omega^{(i-1)} \given \Sigma \sim \mathcal{N}_d(0, \Sigma),
 \end{equation*}
 and $\mathcal{N}_d$ denotes a $d$-dimensional multivariate normal distribution.
-The parameter $\Sigma$ is called the `tuning parameter' and controls how the
+The parameter $\Sigma$ is called the ``tuning parameter'' and controls how the
 chain moves around the parameter space.
 
 Mixing describes how efficiently a chain moves around the sample space, and how
-long it takes for the chain to converge to the target distribution. Crucially
-then, the parameter $\Sigma$ can be used to control the mixing of chains. So,
-naturally, we desire to select a $\Sigma$ which produces well-behaved chains.
-Such a tuning parameter should allow rapid convergence to $\pi(\theta \given
-x)$ and facilitate exploration of the entire support of the target. If the
-target distribution is Gaussian, it has been shown that $0.234$ is an optimum
-acceptance probability to try achieve \parencite{roberts01}. In an attempt to
-tune $\Sigma$ to obtain an optimum acceptance probability, a common technique
-is to chose 
+long it takes for the chain to converge to the target distribution (see
+\cref{fig:mixing} for a visualisation of well-mixing and poorly-mixing chains).
+Crucially then, the parameter $\Sigma$ can be used to control the mixing of
+chains. So, naturally, we desire to select a $\Sigma$ which produces
+well-behaved chains. Such a tuning parameter should allow rapid convergence to
+$\pi(\theta \given x)$ and facilitate exploration of the entire support of the
+target. If the target distribution is Gaussian, it has been shown that $0.234$
+is an optimum acceptance probability to try achieve \parencite{roberts01}. In
+an attempt to tune $\Sigma$ to obtain an optimum acceptance probability, a
+common technique is to choose 
 \begin{equation*}
-  \Sigma = \frac{2.38^2}{d} \widehat{\text{Var}}(\theta \given x).
+  \Sigma = \frac{2.38^2}{d} \widehat{\text{Var}}(\theta \given x),
 \end{equation*}
+where $\widehat{\text{Var}}(\theta \given x)$ represents an estimate of the
+posterior variance made by a sample run.
 
 However, even with strategies to try select some optimum innovation structure,
 random walk samplers tend to perform poorly in high-dimensional spaces.
@@ -263,6 +288,12 @@ negative logarithm of the target density, that is:
     T(p) = -\log{\pi(p \given\theta)} \quad\text{and}\quad V(\theta) = -\log{\pi(\theta)}.
 \end{equation*}
 
+As a consequence of using information about the \emph{gradient} of the
+posterior distribution, HMC requires that the posterior distribution be
+differentiable almost everywhere. Because of this, HMC has the short-coming
+that it \emph{cannot} be used to target distributions with discrete valued
+parameters. Instead HMC requires a continuous-parameter valued posterior.
+
 \subsubsection{Computer implementation, NUTS \& Stan}
 
 Now that we have described HMC we are in a position to consider its
@@ -336,7 +367,7 @@ implementation of their algorithm. NUTS performs \emph{at least} as efficiently
 as, and often \emph{more} efficiently than, an equivalent well-tuned
 implementation of a standard HMC method. Altogether then, NUTS represents an
 efficient implementation of a HMC-like algorithm, where the practitioner is
-left free of the obligation of choosing any tuning parameters. 
+left free the obligation of choosing tuning parameters. 
 
 Although NUTS relieves the practitioner the obligation of selecting parameters
 $\epsilon$ and $L$, its implementation remains far from trivial. Here enters
@@ -351,14 +382,56 @@ density.
 \subsection{Convergence diagnostics}
 \label{ssec:convergence_diagnostics}
 
-Although there exist empirical methods which seek to assess convergence of
-chains, it is also appealing to analyse the output of our schemes in an attempt
-to inspect convergence. One of the simplest informal methods to assess
-convergence is to inspect the trace plots of a scheme and check for any
-irregularities. For a more robust inspection of convergence it is advisable to
-run multiple chains initialised at different locations
-(\cref{fig:convergence}).
-\begin{figure}[tb]
+Having implemented our sampler to make draws from the posterior distribution,
+we are now in a position to inspect our output. However, before we can begin to
+consider assessing measures such as the  predictive performance of our fitted
+models, we must first assess our sampler's output to check for convergence.
+
+\subsubsection{Graphical diagnostics}
+
+An informal, yet simple and effective method to assess convergence is to
+inspect trace plots of the Markov chains produced by our samplers. When we do
+so we check for any irregularities in the chains. In \cref{fig:mixing} we
+visualise Markov chains generated by two samplers which were implemented for
+$n$ iterations, targeting some parameter $\theta$. \cref{fig:good_mixing} shows
+a chain which is mixing well and looks to have converged to the posterior
+distribution, as it moves around some fixed region with constant variance.
+However, the chain displayed in \cref{fig:poor_mixing} does \emph{not} look to
+have converged; consecutive samples look to be strongly autocorrelated, and the
+iterations do not appear to be oscillating around any common distribution.
+
+For a more robust inspection of convergence it is advisable to run multiple
+chains initialised at different locations (\cref{fig:convergence}). Stan makes
+the running of multiple chains initialised at different locations a trivial
+alteration for the user, and allows the user to run each separate chain in
+parallel.
+
+\begin{figure}[tpb]
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \includegraphics{good_mixing.pdf}
+    \subcaption{}
+    \label{fig:good_mixing}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \includegraphics{poor_mixing.pdf}
+    \subcaption{}
+    \label{fig:poor_mixing}
+  \end{subfigure}
+  \caption{Example Markov chains produced by a sampler.
+      \subref{fig:good_mixing} A chain which looks to be mixing well, and
+      shows signs of convergence: the chain oscillating in a regular fashion
+      around a fixed location. The chain displays no obvious irregularities,
+      and successive samples do not appear highly correlated.
+      \subref{fig:poor_mixing} A poorly mixing chain. Realisations
+      are observed to be highly correlated with previous iterations. This chain
+      is inefficiently exploring the sample space, and could benefit from a
+      proposal mechanism allowing larger innovations.}
+  \label{fig:mixing}
+\end{figure}
+
+\begin{figure}[bpt]
   \begin{subfigure}[b]{0.5\textwidth}
     \centering
     \includegraphics{B.pdf}
@@ -420,14 +493,14 @@ marginal posterior variance tends to $W$. With this, and \cref{eq:rhat}, we see
 that $\widehat{R}\rightarrow1$ as $n\rightarrow\infty$. As such, we look to
 compute $\widehat{R}\approx1$ to indicate that a sampler has converged.
 
-\subsubsection{Effective sample size}
+\subsubsection{Effective sample size (ESS)}
 
-The effective sample size is introduced as a notion to assess the `size' of a
-sample when the samples are correlated. The idea is that $10,000$
-autocorrelated samples from a distribution represent less information than
+The effective sample size (ESS) is introduced as a notion to assess the
+``size'' of a sample when the samples are correlated. The idea is that $10,000$
+\emph{autocorrelated} samples from a distribution encode less information than
 $10,000$ \emph{independent} samples from that same distribution. The effective
-sample size can be considered to penalise sample size by the autocorrelation of
-the draws.
+sample size is computed as the number of samples drawn, minus some penalty
+whose size depends on the amount of autocorrelation within the chain.
 
 For a single chain, a common definition of the effective sample size is:
 \begin{equation}
@@ -487,37 +560,31 @@ An appealing idea is to assess predictive accuracy using within-sample data.
 Established methods to do this include AIC, DIC and WAIC: Akaike, Deviance and
 Widely Available Information Criterion, respectively. To compute AIC or DIC it
 is necessary to evaluate the posterior density conditioning on a point
-estimate. However, WAIC has the more desirable property of averaging over the
-entire posterior distribution. Because of this reason \textcite{gelman13} find
-WAIC more appealing than AIC and DIC.
+estimate. \textcite{gelman13} find WAIC more appealing than AIC and DIC as
+WAIC has the more desirable property of averaging over the entire posterior
+distribution.
 
-% I shall not amend this section just yet, but shall leave it to a later date.
+However, to use WAIC a practitioner must partition their data into independent
+(or close to independent) groups. It has been observed that this can be very
+difficult to achieve for time-series data or data with a spatial component.
+Since models of collective behaviour have both a time \emph{and} spatial
+component, WAIC does not seem a viable information criterion for our use case.
 
-% After consideration we see that WAIC isn't appropriate to use with our type
-% of data. WAIC requires a practitioner to partition the data into
-% independent-ish groups. However, it has been observed that this can be very
-% difficult to do for time-series data or data with a spatial component. Since
-% our data has both a time and space component, we seem to be out of luck with
-% WAIC
-
-To compute WAIC for a given fit it is first necessary to compute the log
-pointwise predictive density (lppd), defined as:
+Instead of using WAIC we will opt to use DIC. DIC remains a popular choice of
+information criterion as it is easy to compute from MCMC samples. The deviance
+information criterion penalises model complexity and so is designed to provide
+a measure which trades-off between model-fit and model-complexity. DIC makes
+use of the deviance, defined as:
 \begin{equation*}
-  \text{lppd} = \sum_{j=1}^n \log(\frac{1}{S} \sum_{i=1}^S \pi(\theta^{(i)} \given x_j)),
-\end{equation*}
-where $n$ is the number of posterior samples. The log pointwise predictive
-density is a biased estimator of elppd, the expected log pointwise predictive
-density for a new dataset. WAIC accounts for this bias by adding a correction
-for the effective number of parameters in the fit, computed as:
-\begin{equation*}
-    p_{\text{WAIC}} = \sum_{j=1}^n V_{i=1}^{S}\log(\pi(\theta^{(i)} \given x_j)),
-\end{equation*}
-where $V_{i=1}^{S}\log(\pi(\theta^{(i)} \given x_j))$ represents the posterior
-variance of the log predictive density for data point $x_j$. With this
-correction WAIC gives an approximately unbiased estimate of elppd. It is common
-to work with information criteria on the deviance scale, with this
-\textcite{watanabe09} defines WAIC as:
-\begin{equation*}
-    \text{WAIC} = -2\,\text{lppd} +2p_{\text{WAIC}}.
+    D(\theta) = -2 \log (x \given \theta).
 \end{equation*}
 
+With this DIC can then be defined as:
+\begin{equation*}
+    \text{DIC} = \overline{D(\theta)} + p_D,
+\end{equation*}
+where $\bar{D(\theta)}$ is the mean of the deviance and $p_D$ is the
+effective number of parameters. The effective number of parameters is defined
+as $p_D = \overline{D(\theta)} - D(\overline{\theta})$.
+
+\section*{Conclusions}

@@ -6,8 +6,8 @@
 In the previous chapter we discussed how data could easily go missing during
 flocking events. In \emph{this} chapter we shall consider a dataset which
 details a real flocking event with missing observations. As foreshadowed in the
-previous chapter, the missing observations of this dataset are a consequence of
-employing fixed-location recording equipment.
+previous chapter, the missing observations of this dataset will be realised as
+a consequence of employing fixed-location recording equipment.
 
 The dataset considered in this chapter describes the movements of a large
 number of surf scoters, a migratory sea bird, which gather in groups to forage.
@@ -15,7 +15,7 @@ The captured flocking events take place on the surface of a lake, and so
 movement is effectively restricted to a two-dimensional plane. This dataset was
 provided courtesy of work performed by \textcite{lukeman09,lukeman10}. At the
 time the captured events represented a tenfold increase in the number of
-individuals which could be reliably tracked between frames.
+individuals which could be reliably tracked \emph{between} frames.
 
 Unfortunately, owing to the fixed location cameras used to record these
 flocking events, there were often scoters out of view during recorded frames.
@@ -42,7 +42,7 @@ However, to reliably transform back from the camera co-ordinates to real-world
 co-ordinates, the height of the camera above the lake and its angle with the
 horizontal had to be fixed. With the camera fixed in position, the authors then
 waited for flocking events to occur. Recording began when individuals entered
-the camera's field of vision, and ceased when all the individuals left the
+the camera's field of vision, and ended when all the individuals left the
 frame, or the flock became stationary.
 
 Each recording event captured the movements of $\approx170$ scoters, with each
@@ -61,13 +61,13 @@ which the authors worked so hard to extract.
 Here we take a more holistic approach to model fitting; making sure to account
 for \emph{all} individuals---both observed and missing, as well as internal and
 boundary individuals---and focussing the fitting on reproducing the
-\emph{movements} of the individuals, rather than some \emph{epiphenomena} of
+\emph{movements} of the flock, rather than some \emph{epiphenomena} of
 the movements. With the additional demand of inferring posterior distributions
 of parameters, rather than simple point estimates, as well as handling the
 missing data, this approach will represent a more computationally demanding
 problem than that faced originally.
 
-\section{Inference}
+\section{Performing inference}
 
 In \cref{cha:missing} we discussed how the computational load of our inference
 scheme increases as the number of missing observations increases. With this in
@@ -76,16 +76,19 @@ the \emph{least} amount of missingness. For the events captured by
 \textcite{lukeman10} this is represented by a sequence of $199$ scoters moving
 over $23$ frames. Of the $199\times23=4577$ data points represented by this
 event, $680$ ($\approx16\%)$ of the datapoints occur out of the visual field of
-the camera. This particular event is visualised in \cref{fig:scoter_traj}.
+the camera. This particular event is visualised in \cref{fig:scoter_traj}. From
+this figure we see that the flock was strongly polarised as the individuals
+moved through the frame; it is with this in mind that we consider an
+alignment-based model a possible candidate for fitting.
 
 \begin{figure}[tb]
   \includegraphics{data_00_traj.pdf}
   \caption{A visualisation of the trajectories of foraging scoters in the
-    analysed sequence. The scoters move along the blue trajectories, starting
-    from the positions denoted by the green markers and finishing at the
-    positions shown by the red markers. The black frame containing the
-    trajectories represents the fixed field of vision of the recording
-    equipment.}
+      analysed sequence. The scoters move along the blue trajectories, starting
+      from the positions denoted by the green markers and finishing at the
+      positions shown by the red markers. The black frame containing the
+      trajectories represents an approximation of the fixed field of vision of the
+      recording equipment.}
   \label{fig:scoter_traj}
 \end{figure}
 
