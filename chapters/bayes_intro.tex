@@ -204,6 +204,7 @@ random-walk sampler is $O(d^2)$, whereas the cost of Hamiltonian Monte Carlo is
 roughly $O(d^{5/4}$) \parencite{creutz88}. 
 
 \subsection{Hamiltonian Monte Carlo (HMC)}
+\label{ssec:hmc}
 
 Hamiltonian Monte Carlo, originally Hybrid Monte Carlo, was first introduced by
 \textcite{duane87}. In this now landmark paper, the HMC algorithm was detailed
@@ -565,26 +566,47 @@ WAIC has the more desirable property of averaging over the entire posterior
 distribution.
 
 However, to use WAIC a practitioner must partition their data into independent
-(or close to independent) groups. It has been observed that this can be very
-difficult to achieve for time-series data or data with a spatial component.
-Since models of collective behaviour have both a time \emph{and} spatial
-component, WAIC does not seem a viable information criterion for our use case.
+(or close to independent) groups. It has been remarked that this can be very
+difficult to achieve for time-series data, or data with a spatial component.
+Since models of collective behaviour have both a time component \emph{and} a
+spatial component, WAIC does not seem a viable information criterion for our
+use case.
 
 Instead of using WAIC we will opt to use DIC. DIC remains a popular choice of
-information criterion as it is easy to compute from MCMC samples. The deviance
-information criterion penalises model complexity and so is designed to provide
-a measure which trades-off between model-fit and model-complexity. DIC makes
-use of the deviance, defined as:
+information criterion as it is easy to compute from MCMC samples
+\parencite{spiegelhalter14}. The deviance information criterion penalises model
+complexity and so is designed to provide a measure which trades-off between
+model-fit and model-complexity. DIC makes use of the deviance, defined as:
 \begin{equation*}
     D(\theta) = -2 \log (x \given \theta).
 \end{equation*}
-
-With this DIC can then be defined as:
+With this DIC is defined as:
 \begin{equation*}
     \text{DIC} = \overline{D(\theta)} + p_D,
 \end{equation*}
-where $\bar{D(\theta)}$ is the mean of the deviance and $p_D$ is the
-effective number of parameters. The effective number of parameters is defined
-as $p_D = \overline{D(\theta)} - D(\overline{\theta})$.
+where $\overline{D(\theta)}$ is the mean of the sampled deviance and $p_D$ is
+the effective number of parameters. The effective number of parameters is
+defined as $p_D = \overline{D(\theta)} - D(\overline{\theta})$.
 
 \section*{Conclusions}
+
+The Bayesian paradigm represents a realisation of the scientific process of
+updating beliefs in light of observation. With this, Bayesian inference
+presents itself as a very naturalistic approach to statistics.
+
+As reflected in \cref{sec:numerical_studies}, an important aspect of model
+fitting is capturing \emph{uncertainty} in estimated parameters. This is
+particularly prudent when the data used to form opinion is prone to exhibiting
+high levels of noise. As Bayesian inference represents a fully-probabilistic
+approach to parameter estimation, it's application to the study of collective
+behaviour---a subject of datasets susceptible to large amounts of noise---seems
+pragmatic.
+
+The algorithms outlined in \cref{ssec:metropolis_hastings,ssec:hmc} provide the
+Bayesian practitioner the methodology to make realisations from the posterior
+distribution. These algorithms will prove instrumental to this thesis.
+
+The study of collective behaviour is awash with models formed on aprioristic
+assumption, with little-to-no verification against observation. To compare
+these models we will use ideas from the model selection literature; as we seek
+to trade-off a model's ability to describe data, with its complexity.
