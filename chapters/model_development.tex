@@ -6,18 +6,22 @@
 In this chapter we shall introduce one of the most popular and well-studied
 agent-based models in the literature: the Vicsek model. The Vicsek model
 represents a simple alignment model in which agents interact with neighbours
-within some fixed distance. Despite its simplicity, this model can produce
-sophisticated dynamics reminiscent of real flocking events. A phase transition
-from order to disorder is observed as the amount of noise in the model is
-regulated.
+within some fixed distance \parencite{vicsek95}. Despite its simplicity, this
+model can produce sophisticated dynamics reminiscent of real flocking events
+\parencite{ginelli16}. A phase transition from order to disorder is observed as
+the amount of noise in the model is regulated \parencite{vicsek12}.
 
-The Vicsek model, like many other ABMs, implements a so-called `zonal'
-interaction rule. These rules represent discontinuous interactions. With this,
-the onset of interaction between individuals is very sensitive to small
-perturbations in distances. We consider continuous interaction rules as
-providing a biologically-motivated alternative to zonal rules. Such rules
-ensure interactions are more robust to small perturbations in distances, but
-without the penalty of introducing additional model complexity.
+The Vicsek model, like many other agent based models (ABMs)
+\parencite{aoki82,couzin02,huth92}, implements a
+so-called `zonal' interaction rule. These rules represent discontinuous
+interactions. With this, the onset of interaction between individuals is very
+sensitive to small perturbations in distances. We consider continuous
+interaction rules as providing a biologically-motivated alternative to zonal
+rules. Such rules ensure interactions are more robust to small perturbations in
+distances, but without the penalty of introducing additional model complexity.
+
+We believe that the introduction of continuous interaction rules represents a
+step towards biological realism. 
 
 \section{The Vicsek model}
 \label{sec:vicsek_model}
@@ -39,8 +43,8 @@ neighbours' movements. The ability of individuals to observe and react to the
 movements of their neighbours is assumed to be imperfect, and so a noise term,
 in the form of a random directional perturbation, is introduced. In the Vicsek
 model noise is considered to be uniformly distributed as $\mathcal{U}(-\eta/2,
-\eta/2)$. The directional update of agent $i$ can then be expressed as a
-realisation from
+\eta/2)$, for some constant $\eta \in [0, 2\pi)$. The directional update of
+agent $i$ can then be expressed as a realisation from
 \begin{equation}
   \label{eq:vicsek_update}
   \theta_{i, t+1} \given \angmean{\theta}_{i, t}, \eta \sim
@@ -86,10 +90,10 @@ $d_{ij,t}$ approaches $r$ from above we realise the limit $\lim_{d_{ij,t}
 from below we observe $\lim_{d_{ij,t} \rightarrow r^-} \omega_{ij,t} = 1$. As
 the weighting tends to different values as the limit of $d_{ij,t}=r$ is
 approached, we see that there is a discontinuity at $d_{ij,t}=r$. This
-weighting rule and its resulting discontinuity are clearly visualised in
+weighting rule and its resulting discontinuity are visualised in
 \cref{fig:vicsek_weight}.
 
-The Vicsek model was motivated by models for ferromagnetism. In these models
+The Vicsek model was inspired by models of ferromagnetism. In these models
 particles align spin states with neighbouring particles. Although a
 discontinuous interaction rule may be appropriate for such models, it is not
 clear whether the hard cut-off imposed by the interaction radius $r$ is
@@ -97,11 +101,10 @@ appropriate for biological systems. Later, we shall introduce models
 implementing continuous interaction rules as a biologically-motivated
 alternative.
 
-Along with the introduction of their model, \cite{vicsek95} examined the
-polarisation of simulated flocks as the magnitude of the noise ($\abs{\eta}$)
-was varied. The polarisation of a flock at time $t$---sometimes referred to as its
-alignment---was quantified by the absolute value of the normalised velocity of
-the flock:
+\textcite{vicsek95} used this model to examine polarisation of simulated flocks
+as the magnitude of the noise ($\abs{\eta}$) was varied. The polarisation of a
+flock at time $t$---sometimes referred to as its alignment---was quantified by
+the absolute value of the normalised velocity of the flock:
 \begin{equation}
   \label{eq:alignment}
   v_{a,t} = \frac{1}{Nv} \abs{\,\sum_{i=1}^N \bm{v}_{i,t}\,}.
@@ -146,9 +149,9 @@ smaller flocks are observed to be more resistant to noise than larger flocks.
 Inspired by models of interacting particles, the uniformly distributed noise
 implemented in simulations of the Vicsek model is analogous to temperature in a
 physical system. However, it is not clear whether this distribution is a
-reasonable choice for biologically-motivated systems. In much of the literature
-authors instead assume that noise is normally distributed. In this case an
-agent's directional update typically takes the form:
+reasonable choice for biologically-motivated systems. In some of the literature
+authors instead assume that noise is normally distributed \parencite{couzin02}.
+In this case an agent's directional update typically takes the form:
 \begin{equation*}
   \label{eq:normal_update}
   \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \sigma_Y \sim
@@ -162,7 +165,14 @@ for $i=1,\ldots,N$ and $t=1,\ldots,T$. The von Mises distribution is a
 continuous probability distribution on the circle, and so potentially
 represents a more appropriate noise structure. However, we observe that when
 the magnitude of the noise is small, the von Mises distribution can be
-approximated by a normal distribution, as shown in \cref{sec:von_mise}.
+approximated by a normal distribution, as shown in \cref{sec:von_mise}, and so
+offers no more flexibility than normally distributed noise.
+
+The Student's $t$-distribution allows more weight in its tails than the normal
+distribution. As the degrees of freedom of the Student's $t$-distribution tends
+to infinity, the distribution converges to a normal distribution with location
+$\mu$ and scale $\sigma_Y$. As such, the Student's $t$-distribution represents
+a more flexible noise structure than the normal distribution.
 
 Throughout this work we shall consider that the noise experienced by
 individuals is distributed according to some generalised Student's
@@ -173,14 +183,9 @@ situation, the directional update of agent $i$ is given as:
   \theta_{i,t+1} \given \angmean{\theta}_{i,t}, \nu, \sigma_Y \sim
      t_{\nu}(\angmean{\theta}_{i,t}, \sigma_Y).
 \end{equation}
-The Student's $t$-distribution allows more weight in its tails than the normal
-distribution permits. However, as $\nu\rightarrow\infty$ the Student's
-$t$-distribution with location $\mu$ and scale $\sigma_Y$ converges to a normal
-distribution with mean and standard deviation corresponding to these location
-and scale parameters. Although the Student's $t$-distribution represents a
-more flexible noise structure, it also comes at the cost of model complexity:
-with the introduction of the degrees of freedom $\nu$ as an additional model
-parameter.
+Although the Student's $t$-distribution represents a more flexible noise
+structure, it also comes at the cost of model complexity: with the introduction
+of the degrees of freedom $\nu$ as an additional model parameter.
 
 \subsection{Boundary conditions}
 
@@ -209,10 +214,10 @@ to visually track individuals as they cross the periodic boundary.
     \label{fig:example_traj}
 \end{figure}
 
-\subsection{Development}
+\section{Development}
 
 Although we shall consider variations on the standard Vicsek model, we shall
-leave most aspects of this model unchanged. In the proceeding models, agents
+leave most aspects of this model unchanged. In the following models, agents
 shall always update their positions as was seen in \cref{eq:positional_update}.
 Similarly, agents will always update their directions of motion according to
 \cref{eq:students_update,eq:weighted_interaction}. In fact, all our variations
@@ -222,13 +227,13 @@ strength of the interaction between agent $i$ and agent $j$ at time $t$.
 Varying the form of $\omega_{ij,t}$ allows us to investigate how the behaviour
 of a neighbour influences a flock member.
 
-\section{The Null model}
+\subsection{The Null model}
 \label{sec:null_model}
 
-In later chapters we will fit a number of different models to data. We will
-then wish to assess the predictive performance of these models. Model
-performance will be assessed by the ability to explain the directional changes
-of individuals. Simple models will be favoured over complex models. In making
+In later chapters we fit a number of different models to data. We
+then assess the predictive performance of these models. Model
+performance is assessed by the ability to explain the directional changes
+of individuals. Simple models are favoured over complex models. In making
 such comparisons, it can be useful to have a baseline with which to compare all
 candidate models. It is with this intention which we introduce the Null model.
 
@@ -249,21 +254,20 @@ This ensures that agents effectively ignore all their neighbours, and update
 their directions simply as $\theta_{i,t+1} \given \theta_{i,t}, \nu, \sigma_Y
 \sim t_\nu(\theta_{i,t}, \sigma_Y)$.
 
-\section{Continuous interaction models}
+\subsection{Continuous interaction models}
 
 We have observed that the interaction rule implemented in the Vicsek model
-exhibits a discontinuity. This discontinuity represents two concerns for the
-authors. Firstly, the biological realism of an interaction rule implementing a
-hard cut-off is brought into question. Secondly, the ability to fit such a
-model to data is seen to be potentially problematic: effectively exploring the
-sample space of a discontinuous target distribution can be difficult.
+exhibits a discontinuity. This discontinuity raises two concerns. The
+biological realism of an interaction rule implementing a hard cut-off is
+questionable. Secondly, the ability to fit such a model to data is potentially
+problematic: exploring the sample space of a discontinuous target distribution
+can be difficult.
 
 Such concerns can be addressed by considering variations of the Vicsek model in
-which continuous interaction rules are instead implemented. The authors
-consider that such rules represent more biologically realistic behaviours. In
-addition to this, the MCMC algorithms used to draw samples from our posterior
-beliefs are expected to be better behaved for the models implementing
-continuous interaction rules.
+which continuous interaction rules are implemented, as these arguably represent
+more biologically realistic behaviours. In addition to this, the MCMC
+algorithms used to draw samples from our posterior beliefs are found to be
+better behaved for the models implementing continuous interaction rules.
 
 \begin{figure}[tb]
   \begin{subfigure}[b]{0.5\textwidth}
@@ -304,7 +308,7 @@ continuous interaction rules.
   \label{fig:weighting_rules}
 \end{figure}
 
-\subsection{Metric models}
+\subsubsection{Power-law interaction}
 
 Metric models, of which Vicsek is an example, implement weighting rules which
 are explicitly distance-dependant. Here we shall motivate two novel metric
@@ -312,8 +316,6 @@ interaction rules. We propose that the weighting rules introduced represent
 intuitive and biologically realistic rules. \cref{fig:weighting_rules}
 visualises the interaction rule of Vicsek, alongside the metric models here
 introduced.
-
-\subsubsection{Power-law interaction}
 
 A power-law relationship between two quantities is realised when a relative
 change in one quantity results in a proportional change in the other quantity.
@@ -423,7 +425,7 @@ where $\min_j(d_{ij,t},\, k)$ is the distance to agent $i$'s $k$-th closest
 neighbour at time $t$. This weighting rule is illustrated in
 \cref{fig:top_weight}.
 
-\section{Intra-flock variation}
+\subsection{Intra-flock variation}
 
 In all the model variations considered thus far, there has been no allowance
 for behavioural or biological variation within flocks. That is, presented with
@@ -473,7 +475,7 @@ This corresponds to the weighting rule:
 A similar allowance can be made for the power-law weighted, Gaussian weighted
 and topological models considered earlier.
 
-\subsection{Imposing hierarchy}
+\subsubsection{Imposing hierarchy}
 \label{ssec:hier_mod}
 
 Rather than considering the individual interaction and noise parameters as
