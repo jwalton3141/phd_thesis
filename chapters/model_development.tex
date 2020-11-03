@@ -12,16 +12,15 @@ model can produce sophisticated dynamics reminiscent of real flocking events
 the amount of noise in the model is regulated \parencite{vicsek12}.
 
 The Vicsek model, like many other agent based models (ABMs)
-\parencite{aoki82,couzin02,huth92}, implements a
-so-called `zonal' interaction rule. These rules represent discontinuous
-interactions. With this, the onset of interaction between individuals is very
-sensitive to small perturbations in distances. We consider continuous
-interaction rules as providing a biologically-motivated alternative to zonal
-rules. Such rules ensure interactions are more robust to small perturbations in
-distances, but without the penalty of introducing additional model complexity.
-
-We believe that the introduction of continuous interaction rules represents a
-step towards biological realism. 
+\parencite{aoki82,couzin02,huth92}, implements a so-called `zonal' interaction
+rule. These rules represent discontinuous interactions. With this, the onset of
+interaction between individuals is very sensitive to small perturbations in
+distances. We consider continuous interaction rules as providing a
+biologically-motivated alternative to zonal rules. Such rules ensure
+interactions are more robust to small perturbations in distances, but without
+the penalty of introducing additional model complexity. We believe that the
+introduction of continuous interaction rules represents a step towards
+biological realism. 
 
 \section{The Vicsek model}
 \label{sec:vicsek_model}
@@ -308,22 +307,21 @@ better behaved for the models implementing continuous interaction rules.
   \label{fig:weighting_rules}
 \end{figure}
 
-\subsubsection{Power-law interaction}
-
 Metric models, of which Vicsek is an example, implement weighting rules which
 are explicitly distance-dependant. Here we shall motivate two novel metric
-interaction rules. We propose that the weighting rules introduced represent
-intuitive and biologically realistic rules. \cref{fig:weighting_rules}
-visualises the interaction rule of Vicsek, alongside the metric models here
-introduced.
+interaction rules. We propose that these represent intuitive and biologically
+realistic rules. \cref{fig:weighting_rules} visualises the interaction rule of
+Vicsek, alongside the metric models introduced.
 
-A power-law relationship between two quantities is realised when a relative
-change in one quantity results in a proportional change in the other quantity.
+\subsubsection{Power-law interaction}
+
+A power-law relationship between two quantities occurs when a relative
+change in one quantity results in a proportional change in the other.
 Power-law relationships are found frequently in physical and biological
 systems, and so represent a natural choice of interaction rule to investigate.
 
 For the power-law weighted model we assume that the interaction strength
-between individuals decays as some power-law relationship with their distance
+between individuals decays as some power-law with their distance
 apart:
 \begin{equation}
   \label{eq:power_law_interaction}
@@ -339,19 +337,17 @@ parameter $\alpha$ controls the rate at which the interaction strength between
 individuals decays. 
 
 In this model, the closer a neighbour to agent $i$, the more influence it has
-over agent $i$'s behaviour. Conversely then, the further away a neighbour is
-from the position of agent $i$, the less influence it has on agent $i$'s
-movements. The rate at which influence decays is controlled by the value of
-$\alpha$. Small values of $\alpha$ represent a more gradual decay of influence
-with distance, whereas large values of $\alpha$ correspond to a weighting which
-decays more rapidly. This weighting rule is visualised in
-\cref{fig:power_weight}.
+over agent $i$'s behaviour. Conversely, the further away a neighbour is from
+the position of agent $i$, the less influence it has on agent $i$'s movements.
+The rate at which influence decays is controlled by the value of $\alpha$.
+Small values of $\alpha$ represent a more gradual decay of influence with
+distance, whereas large values of $\alpha$ correspond to a weighting which
+decays rapidly. This weighting rule is visualised in \cref{fig:power_weight}.
 
 This interaction rule, although continuous for $d_{ij,t} > 0$, still exhibits a
 discontinuity at $d_{ij,t}=0$. However, in the flocking events which we will
-fit this model to we observe $d_{ij,t}\gg0$ $\forall i \neq j$, and so we do
-not consider that this discontinuity will pose an issue during the fitting
-process.
+fit this model to we observe $d_{ij,t}\gg0$ $\forall i \neq j$, and so this
+discontinuity will not pose an issue during the fitting process.
 
 \subsubsection{Gaussian interaction}
 
@@ -378,25 +374,25 @@ the power-law weighted model as $\alpha\rightarrow0$.
 
 Although the Gaussian model implements a similar interaction kernel to that of
 the power-law weighted model, there remains differences in their functional
-forms. Most notably is that the power-law interaction represents a convex
-weighting function, whereas the Gaussian interaction is a concave weighting
+forms. Most notably the power-law interaction represents a convex weighting
+function, whereas the Gaussian interaction is a concave weighting
 (\cref{fig:weighting_rules}). The Gaussian model also has some inherent length
 scale, expressed by the parameter $\sigma_X$, whereas the power-law weighted
 interaction is scale-free.
 
 \subsection{Topological models}
 
-Much interest in topological interaction rules was recently generated by
-\cite{ballerini08}. Topological rules represent a different type of interaction
-to metric rules. Here, agents interact with their $k\in\mathbb{N}$ nearest
-neighbours, regardless of their distance apart. This interaction rule was
-motivated by simulations which suggested that flocks implementing topological
-rules were more resistant to perturbations, such as those by predators, than
-those implementing metric rules. As such, it was argued that topological
-interaction rules offer an evolutionary advantage to flocks over metric
-interaction rules. It was also posed that the cognitive limits of individuals
-puts some upper bound on the number of neighbours which agents can interact
-with at any one time.
+Topological rules represent a different type of interaction to metric rules.
+Here, agents interact with their $k\in\mathbb{N}$ nearest neighbours,
+regardless of their distance apart. This interaction rule was motivated by
+simulations which suggested that flocks implementing topological rules were
+more resistant to perturbations, such as those by predators, than those
+implementing metric rules \parencite{ballerini08,camperi12,ginelli10}. As such,
+it was argued that topological interaction rules offer an evolutionary
+advantage to flocks over metric interaction rules. It was also posed that the
+cognitive limits of individuals puts some upper bound on the number of
+neighbours which agents can interact with at any one time
+\parencite{giardina08,nieder05}.
 
 Whilst retaining the form of the topological rule, we look to relax the
 constraint that agents may only interact with some \emph{integer} number of
@@ -405,7 +401,7 @@ $k\in\mathbb{R}^+$ nearest neighbours. This allows partial neighbours, which
 may make some lesser contribution to an agent's behaviour. An additional
 benefit of this more flexible interaction structure is given by the observation
 that real-valued parameters are typically easier to infer from data than
-discrete parameters are.
+discrete parameters.
 
 For some $k\in\mathbb{R}^+$ we say that each agent gives weighting $1$ to its
 $\floor{k}$ nearest neighbours, weighting $k - \floor{k}$ to its $\ceil{k}$-th
@@ -440,14 +436,14 @@ particular set of circumstances may vary too. This is in keeping with the
 observation that the orientation abilities of migrating raptors is age
 dependent \parencite{thorup03}.
 
-This isn't to say that models allowing intra-flock variation haven't been
-considered before. Particularly memorable was the work of \textcite{couzin05},
-which simulated flocks of individuals partitioned into a group of leaders and a
-group of followers. The two groups interacted according to different
-behavioural rules. Followers sought only to amend their directions in response
-to the movements of their neighbours. Whereas leaders balanced their desire to
-interact with neighbours and their desire to move in a particular direction
-(for example, toward a migratory of foraging goal).
+Models allowing intra-flock variation have been considered before. Particularly
+impactful was the work of \textcite{couzin05}, which simulated flocks of
+individuals partitioned into a group of leaders and a group of followers. The
+two groups interacted according to different behavioural rules. Followers
+sought only to amend their directions in response to the movements of their
+neighbours. Whereas leaders balanced their desire to interact with neighbours
+and their desire to move in a particular direction (for example, toward a
+migratory of foraging goal).
 
 Instead of dividing agents into distinct behavioural categories, we permit a
 range of behavioural responses by allowing interaction and noise parameters to
@@ -528,4 +524,24 @@ weighting and topological models:
     \label{eq:sigma_X_hierarchy}\\
     k_i &\given m_k, v_k  \sim \Ga\bigg(\frac{m_k^2}{v_k}, \frac{m_k}{v_k}\bigg)
 \end{align}
+
+\section*{Conclusions}
+
+In this chapter we introduced a model developed by \textcite{vicsek95}. This
+work received much attention in the following literature, and many studies were
+made of its simulations and results. We also considered some of the biological
+shortcomings of this model, and proposed alterations to address them.
+
+To compare the predictive performance of variations on the Vicsek model we
+introduced a null model. This model implements no interaction rules, and
+direction changes are attributed entirely to noise. We also introduced models
+implementing continuous interaction rules, under considerations of biological
+realism. Continuous variations of both metric and topological models were
+introduced.
+
+Variations on these models were considered in which biological and behavioural
+variation between individuals is allowed; again motivated by considerations of
+biological-realism. Population-level variation was modeled by a hierarchical
+structure, with hyperparameters introduced to parameterise the population-level
+distributions.
 
