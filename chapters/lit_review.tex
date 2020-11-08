@@ -3,9 +3,9 @@
 \chapter{Literature review}
 \label{cha:lit_review}
 
-There exists a large body of literature relating to the phenomenon of collective
-behaviour. Particularly unique to this literature is the variety of backgrounds
-in which the authors are trained. Biologists, physicists, applied
+There exists a large body of literature relating to the phenomenon of
+collective behaviour. Particularly unique to this literature is the variety of
+backgrounds in which the authors are trained. Biologists, physicists, applied
 mathematicians and statisticians have all made significant contributions to the
 field of collective behaviour.
 
@@ -64,17 +64,18 @@ affords individuals of the group. However, we have still yet to broach the
 \label{sec:models}
 
 There has long been an appeal of using mathematical models as a tool to
-understand collective behaviour \parencite{aoki82, okubo86, reynolds87, huth92,
-gueron93, vicsek95, couzin02}. These models of collective behaviour are broadly
-partitioned into two paradigms: the Lagrangian and Eulerian approaches. These
-descriptions are analogous to the models of fluid dynamics, where Lagrangian
-models consider flow in terms of interactions of fluid parcels and Eulerian
-models consider the changing fluid properties at a given point in space and
-time. In the analogous models of collective behaviour, Lagrangian models
-simulate the movements and interactions of individuals and Eulerian models
-consider the changing properties of a group through space and time.
+investigate collective behaviour \parencite{aoki82, okubo86, reynolds87,
+huth92, gueron93, vicsek95, couzin02}. These models of collective behaviour are
+broadly partitioned into two paradigms: the Lagrangian and Eulerian approaches.
+These descriptions are analogous to the models of fluid dynamics, where
+Lagrangian models consider flow in terms of interactions of fluid parcels, and
+Eulerian models consider the changing fluid properties at a given point in
+space and time. In the analogous models of collective behaviour, Lagrangian
+models simulate the movements and interactions of individuals, and Eulerian
+models consider the changing properties of a group through space and time.
 
-\subsection{Lagrangian models} \label{ssec:lagrangian_models}
+\subsection{Lagrangian models}
+\label{ssec:lagrangian_models}
 
 So called agent-based models (ABMs), also referred to as Lagrangian models,
 have proven a useful tool in modelling collective behaviours. In these models
@@ -98,20 +99,20 @@ zonal interactions in which the area around each fish was partitioned into
 zones of repulsion, alignment and attraction (correspondingly: avoid, parallel
 and approach in the original publication). The partitioning of space in this
 way is illustrated in \cref{fig:zone_illustration}, and has remained a popular
-idea in following literature. As well as zonal interactions this model
-accounted for fish having incomplete fields of vision, that is: a blind spot
-into which they cannot see. The simulation of a blind spot was utilised in
+idea in following literature \parencite{huth92, vicsek95, couzin02, couzin05}.
+As well as zonal interactions this model accounted for fish having incomplete
+fields of vision. The simulation of some unobserved region was utilised in
 further studies. Later, other models were also devised to simulate fish schools
 \parencite{okubo86, huth92}.
 
 \begin{figure}[tb]
-	\includegraphics{zonal_tikz.pdf}
-    \caption{An illustration of the area around an agent (here, a fish)
-        partitioned into multiple zones, based on the work of
-        \textcite{aoki82}. zor: zone of repulsion, zoo: zone of orientation (or
-        alignment), zoa: zone of attraction. The missing segment behind the
-        fish represents a blind zone into which it cannot see.}
-	\label{fig:zone_illustration}
+  \includegraphics{zonal_tikz.pdf}
+  \caption{An illustration of the area around an agent (here, a fish)
+    partitioned into multiple zones, based on the work of
+    \textcite{aoki82}. zor: zone of repulsion, zoo: zone of orientation (or
+    alignment), zoa: zone of attraction. The missing segment behind the
+    fish represents a blind zone into which it cannot see.}
+  \label{fig:zone_illustration}
 \end{figure}
 
 Following this, \textcite{reynolds87} formulated a mathematical model,
@@ -139,11 +140,12 @@ legacy in mind, in 2018 Regelous received an Emmy award to recognise his
 contribution to the entertainment industry.
 
 \begin{figure}[tb]
-    \includegraphics[width=\textwidth]{GOT.jpg}
-    \caption{The animation company Iloura lent heavily on the Massive software
-        to orchestrate army formations, fighting soldiers and horse actions for the
-        dramatic scenes in HBO's Game of Thrones episode ``Battle of the Bastards''.}
-    \label{fig:got}
+  \includegraphics[width=\textwidth]{GOT.jpg}
+  \caption{The animation company Iloura lent heavily on the Massive software to
+    orchestrate army formations, fighting soldiers and horse actions for the
+    dramatic scenes in HBO's Game of Thrones episode ``Battle of the
+    Bastards''.}
+  \label{fig:got}
 \end{figure}
 
 Not motivated by the lure of an Academy Award, but instead motivated by
@@ -154,8 +156,8 @@ model is commonly referred to as the ``Vicsek Model'' (VM). Despite its
 simplicity this model produces complex behaviour resembling that of a real
 biological system. \textcite{vicsek95} investigated the phase transition
 between ordered and disordered motion as the density of particles and noise in
-the system varied. This transition from order to disorder is an example of a
-spontaneously breaking (rotational) symmetry, as the group has no preferred
+the system was varied. This transition from order to disorder is an example of
+a spontaneously breaking (rotational) symmetry, as the group has no preferred
 direction of motion \emph{a priori}, but under simulation each group converges
 upon some arbitrary direction to travel in. Because of this, the Vicsek model
 stands as an apparent violation of the Mermin-Wagner Theorem, which states that
@@ -165,12 +167,12 @@ However, the Vicsek model is out of equilibrium and Mermin-Wagner only applies
 to systems in equilibrium.
 
 \begin{figure}[tb]
-	\includegraphics[width=0.75\textwidth]{couzin.png}
-    \caption{Taken from \textcite{couzin02}, different steady-state
+  \includegraphics[width=0.75\textwidth]{couzin.png}
+  \caption{Taken from \textcite{couzin02}, different steady-state
     solutions (swarm, torus, dynamically parallel and highly parallel) obtained
     by making small changes to model parameters of a three-dimensional flocking
     model.}
-	\label{fig:couzin}
+  \label{fig:couzin}
 \end{figure}
 
 Later, models were developed to explore the movements of mammals and other
@@ -186,7 +188,7 @@ influences future behaviour as interactions change.
 
 Further research was made by \textcite{couzin05} which investigated how leaders
 influence the motion of travelling groups. A zonal
-repulsion-attraction-alignment model was used as the basis for this work. Here,
+repulsion-alignment-attraction model was used as the basis for this work. Here,
 though, a proportion of the flock were given information about a preferred
 direction of motion, and so balanced their social interactions with the desire
 to move in this direction. Individuals in the flock did not know which members
@@ -203,7 +205,8 @@ simulations of large groups over many time steps. With these advances in
 computing, and a growing interest in the field, a significant proportion of the
 literature focuses on the analysis and exploration of agent-based models.
 
-\subsection{Eulerian models} \label{ssec:eulerian_models}
+\subsection{Eulerian models}
+\label{ssec:eulerian_models}
 
 Sometimes known as continuum models, Eulerian models are complementary to the
 Lagrangian method and work at a coarse-grained level \parencite{giardina08}.
@@ -219,10 +222,10 @@ aerial observations of migrating wildebeest in the Serengeti
 photography were reproduced by their model.
 
 \begin{figure}[tb]
-    \includegraphics[width=\textwidth]{wildebeest.png}
-    \caption{Aerial photography of migrating wildebeest showing large-scale
-      front patterns, as presented in the work of \textcite{gueron93}.}
-    \label{fig:wildebeest}
+  \includegraphics[width=\textwidth]{wildebeest.png}
+  \caption{Aerial photography of migrating wildebeest showing large-scale
+    front patterns, as presented in the work of \textcite{gueron93}.}
+  \label{fig:wildebeest}
 \end{figure}
 
 Later, \textcite{toner98} introduced a quantitative continuum theory of
@@ -256,7 +259,7 @@ desired pattern is not evidence that a model is correctly capturing the
 interactions of individuals. This observation is further compounded by the
 understanding that models implementing different local interactions can produce
 similar looking behaviour at the group level. As such, real data describing the
-dynamics of animal aggregations is essential to assess the validity and
+dynamics of animal aggregations is \emph{essential} to assess the validity and
 efficacy of theoretical models and the assumptions they make. With such data,
 it would be possible to compare and rank the predictive performance of
 competing models.
@@ -275,14 +278,14 @@ Despite the difficulties associated with collecting data, significant effort
 has been made to track the movements and dynamics of groups of individuals.
 
 \begin{figure}[tb]
-	\includegraphics[width=0.75\textwidth]{ballerini_starlings.jpg}
-    \caption{A flock of 1246 starlings reconstructed in three dimensions.
-      Photographs taken at the same instant but $25$m apart (a--b) are used
-      to reconstruct their three-dimensional positions (c--d). To perform
-      reconstruction \textcite{ballerini08} needed to match each bird in (a)
-      to its corresponding image in (b). The red squares show five matched
-      pairs of birds.}
-	\label{fig:ballerini}
+  \includegraphics[width=0.75\textwidth]{ballerini_starlings.jpg}
+  \caption{A flock of 1246 starlings reconstructed in three dimensions.
+    Photographs taken at the same instant but $25$m apart (a--b) are used
+    to reconstruct their three-dimensional positions (c--d). To perform
+    reconstruction \textcite{ballerini08} needed to match each bird in (a)
+    to its corresponding position in (b). The red squares show five matched
+    pairs of birds.}
+  \label{fig:ballerini}
 \end{figure}
 
 Initial work was limited to tracking small numbers of individuals in groups. In
@@ -317,11 +320,11 @@ suggested that on average a starling interacts with between six and seven of
 its closest neighbours.
 
 \begin{figure}[tb]
-	\includegraphics[width=\textwidth]{lukeman_data.jpg}
-    \caption{An image of field data and visualisations of the transformations
-        used to extract positions of individuals in a flock of foraging birds
-        \parencite{lukeman10}.}
-	\label{fig:lukeman_extraction}
+  \includegraphics[width=\textwidth]{lukeman_data.jpg}
+  \caption{An image of field data and visualisations of the transformations
+    used to extract positions of individuals in a flock of foraging birds
+    \parencite{lukeman10}.}
+  \label{fig:lukeman_extraction}
 \end{figure}
 
 A significant contribution to the field was made by \textcite{lukeman10}, who
@@ -420,7 +423,8 @@ In this thesis we seek to address the short-comings of previous work. In
 particular, we seek to fit theoretical models of collective behaviour to
 observations of real events. In contrast with previous work, this fitting
 process will seek to explain the \emph{movements} of flocks, rather than some
-statistical properties of the flocks. In addition to this, multiple competing
-models will be fit to the same observations, allowing us to perform a
-quantitative comparison of predictive performance, and assess aprioristic
-modelling assumptions.
+statistical properties of the flocks. Parameter uncertainty will be quantified
+in all subsequent analyses. In addition to this, multiple competing models will
+be fit to the same observations, allowing us to perform a quantitative
+comparison of predictive performance, and assess aprioristic modelling
+assumptions.
