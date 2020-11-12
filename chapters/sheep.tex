@@ -46,9 +46,9 @@ the influence of these objects from a distance cannot be ruled-out.
 Custom tracking software was constructed to determine the position of each
 sheep in every video frame. To correct for the movement of the drone due to
 external influences, such as wind, the resulting frames were transformed with
-respect to `reference' points. Reference points are stationary and identifiable
-features present in all of the captured frames. Example reference points
-include field boundaries, fence posts and trees.
+respect to some reference points. Reference points are stationary and
+identifiable features present in all of the captured frames. Example reference
+points include field boundaries, fence posts and trees.
 
 Having corrected for extraneous drone-movement, the captured frames were then
 thresholded to separate the pixels representing sheep from their surrounding
@@ -67,7 +67,7 @@ previous frames.
     video frame was extracted using custom tracking software. Coloured lines
     represent the positions of sheep in previous frames. Each flocking event
     tracked the movements of $45$ sheep over $\approx200$ frames. A single
-    flocking sequence then represents approximately $45\times200=9,000$
+    flocking sequence then represents approximately $45\times200=9000$
     observations. Footage was recorded at a rate of 24 frames per second, and so
     each sequence represents $\approx10$\,seconds of raw footage.}
   \label{fig:sheep_frame}
@@ -161,7 +161,7 @@ Stan's No-U-Turn-Sampler was used to draw samples from the posterior
 distributions of the Null, power-law weighted, Gaussian weighted and
 topological models. To perform the model fittings we initialised four
 independent Markov chains at draws from our prior beliefs. Chains were
-simulated for $10,000$ iterations, with the first $5,000$ iterations discarded
+simulated for $10,000$ iterations, with the first $5000$ iterations discarded
 to allow convergence. The samples drawn by each independent chain are
 represented by the different coloured histograms of \cref{fig:posteriors_seq1}.
 The overlain histograms show that the chains all converged to the same common
@@ -171,7 +171,7 @@ have converged.
 The parameters of the Vicsek model were inferred by implementing a random walk
 Metropolis--Hastings sampler. This algorithm was simulated for $10^6$
 iterations, with the first half of the chains discarded to allow a burn-in
-period. Our posterior beliefs about the interaction radius $r$, shown in
+period. Our posterior distributions about the interaction radius $r$, shown in
 \cref{subfig:posterior_seq1_vicsek}, show a very strong negative skew. As our
 posterior density rapidly drops to zero as $r\rightarrow3.25$, we conclude  
 that at $r\approx3.25$ an agent suddenly includes the influence of a neighbour
@@ -347,7 +347,7 @@ Forward simulating candidate models with parameters drawn from our posterior
 beliefs provides an informal method to assess how well a model can reproduce
 realistic behaviours. Here we forward simulate each candidate model one
 thousand times. To initialise each simulation we randomly draw model parameters
-from our posterior beliefs. We simulate the movement of $45$ sheep, initially
+from our posterior density. We simulate the movement of $45$ sheep, initially
 positioned and directed as in the first frame of the fitted sequence, for $192$
 time steps. We compute the alignment of the flocks at each time step.
 
@@ -367,7 +367,7 @@ by our models, or of a longer range dependence on previous directions.
   \includegraphics{alignment/alignment_single_1.pdf}\vspace{1em}\\
   \includegraphics{alignment/alignment_ensemble_1.pdf}
   \caption{The alignment of flocks forward simulated with parameters drawn from
-    our posterior beliefs about model fits to sequence $1$. Simulations were
+    our posterior densities about model fits to sequence $1$. Simulations were
     initialised as in the first frame of the observed data, and repeated one
     thousand times. The top panels show two randomly selected sets of forward
     simulations. The bottom panel shows the median alignment across all
@@ -400,7 +400,7 @@ agents experiencing non-normally distributed noise. Similar noise-scale and
 degrees of freedom parameters are inferred for every model fitted to sequence
 $2$.
 
-Our posterior beliefs about the interaction radius of the Vicsek model again
+Our posterior densities about the interaction radius of the Vicsek model again
 shows a strongly skewed distribution. It is this sudden drop in posterior
 density which makes the NUTS algorithm ineffective for this problem.
 
@@ -556,7 +556,7 @@ Vicsek                      & -43\,486 &    5 &  3 &  8.9 &   0.01 \\
 
 To assess the ability of our fitted models to produce realistic looking
 behaviours, we forward simulate the candidate models using parameters drawn
-from our posterior beliefs. Simulations are initialised as in the first frame
+from our posterior densities. Simulations are initialised as in the first frame
 of sequence $2$, and repeated one thousand times. For each repetition new
 parameter values are drawn from the posterior.
 
@@ -575,7 +575,7 @@ favoured by AIC.
   \includegraphics{alignment/alignment_ensemble_2.pdf}
   \caption{Flock alignment as a function of time for forward simulated
     candidate models. Models are initialised from the first frame of sequence
-    $2$, with model parameters drawn from our posterior beliefs. Each candidate
+    $2$, with model parameters drawn from our posteriors. Each candidate
     model is forward simulated one thousand times, with new model parameters
     drawn for each simulation. The top panel shows two randomly selected sets
     of forward simulations. The lower panel shows the median alignment of
@@ -648,7 +648,7 @@ with more weight in its tails.
     The Null, power-law weighted, Gaussian weighted and topological models were
     fit with Stan's NUTS algorithm. The Vicsek model was fit with a
     Metropolis--Hastings algorithm. Prior beliefs are overlain in red, and
-    appear flat in comparison to our posterior beliefs.}
+    appear flat in comparison to our posteriors.}
   \label{fig:posteriors_seq3}
 \end{figure}
 
@@ -763,7 +763,7 @@ predictive performance. Although here we only focussed on a small subset of
 possible candidate models, our approach could be extended to fit and compare
 any number of models.
 
-Our inferred posterior beliefs consistently showed that only weak interaction
+Our inferred posteriors consistently showed that only weak interaction
 parameters are necessary to maintain flocking events which are already
 highly-polarised. The small values of the degrees of freedom parameters
 inferred gave evidence of non-normally distributed noise.
