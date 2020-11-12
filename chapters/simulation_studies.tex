@@ -13,12 +13,12 @@ simulated for \emph{known} parameter values. This simulated data is then used
 to assess whether the known parameter values can be captured by inference.
 
 Simulation studies provide good opportunity to assess (and frankly, debug) our
-implementation of MCMC algorithms constructed to target the posterior
-distribution. If a simulation study is successful, then the statistical
-machinery built to perform the inference on simulated data can be repurposed
-to perform inference on \emph{real} data. If parameter inference is \emph{not}
-possible on simulated data, we know that the same inference will not be
-possible on real data either.
+implementation of MCMC algorithms constructed to sample realisations from the
+posterior distribution. If a simulation study is successful, then the
+statistical machinery built to perform the inference on simulated data can be
+repurposed to perform inference on \emph{real} data. If parameter inference is
+\emph{not} possible on simulated data, we know that the same inference will not
+be possible on real data either.
 
 \section{Global models}
 \label{sec:global_models}
@@ -180,13 +180,13 @@ generate the simulated data are shown by vertical green lines. See that in each
 posterior the true value is successfully captured by the posterior density, and
 lies close to the posterior mode. The posterior densities about the parameters
 $\nu$ and $\sigma_Y$ look Gaussian, however, the posterior distribution over
-$r$ is not. The non-Gaussian form of the posterior about $r$ is a product of
-the discontinuous interaction rule which it represents. Our prior beliefs are
-overlain in red and appear flat in comparison to our posteriors, reflecting
-that our beliefs have updated considerably in light of the data.
+$r$ is non-Gaussian. The non-Gaussian form of the posterior about $r$ is a
+product of the discontinuous interaction rule which it represents. Our prior
+beliefs are overlain in red and appear flat in comparison to our posteriors,
+reflecting that our beliefs have updated considerably in light of the data.
 
 \begin{table}[p]
-  \begin{tabular}{@{}lrrrrr@{}}
+  \begin{tabular}{@{}crrrrr@{}}
     \toprule
     Parameter    & mean  & sd   & 5\%   & 95\%  & ESS     \\
     \midrule
@@ -285,9 +285,10 @@ With this we realise prior beliefs:
   \label{eq:gauss_power_priors}
   \begin{split}
     \alpha   & \sim \Ga(2, 2) \\
-    \sigma_X & \sim \Ga(5, 5).
+    \sigma_X & \sim \Ga(5, 5),
   \end{split}
 \end{align}
+which we visualise in \cref{fig:gauss_power_priors}.
 
 \begin{figure}[tbp]
   \includegraphics{gauss_power_priors.pdf}
@@ -329,7 +330,7 @@ values (\cref{eq:rhat}) indicate that our sampler has converged for all
 parameter values.
 
 \begin{table}[tbp]
-  \begin{tabular}{@{}lrrrrrr@{}}
+  \begin{tabular}{@{}crrrrrr@{}}
     \toprule
     Parameter    & mean & sd   & 5\%  & 95\% & ESS     & $\widehat{R}$ \\
     \midrule
@@ -425,7 +426,7 @@ well-behaved sampler, capable of capturing the true parameter values of the
 Gaussian weighted model from simulated data.
 
 \begin{table}[tbp]
-  \begin{tabular}{@{}lrrrrrr@{}}
+  \begin{tabular}{@{}crrrrrr@{}}
     \toprule
     Parameter    & mean  & sd   & 5\%   & 95\%  & ESS     & $\widehat{R}$ \\
     \midrule
@@ -450,7 +451,7 @@ Gaussian weighted model from simulated data.
     weighted model to simulated data. Each colour chain represents an independent
     chain. Although the chains are initialised as different draws from our
     priors, they all converge to the same common distribution. The chains look
-    well-behaved; they show now irregularities, and are observed to oscillate
+    well-behaved; they show no irregularities, and are observed to oscillate
     around the true parameter values with constant variance.}
   \label{fig:gauss_trace}
 \end{figure}%
@@ -497,8 +498,9 @@ distribution captures a wide range of plausible values for $k$
 \begin{figure}[tbp]
   \includegraphics{top_priors.pdf}
   \caption{Prior beliefs about the number of nearest neighbours $k$ which an
-    agent interacts with, expressed by a $\Ga(6, 1/2)$ distribution. Our prior
-    beliefs here are in part informed by the work of \textcite{ballerini08}.}
+  agent interacts with in a $2$-dimensional environment, expressed by a $\Ga(6,
+  1/2)$ distribution. Our prior beliefs here are in part informed by the work
+  of \textcite{ballerini08}.}
   \label{fig:top_priors}
 \end{figure}
 
@@ -519,7 +521,7 @@ illustrated in \cref{fig:top_sim}, and resemble that of a real flocking event.
   \label{fig:top_sim}
 \end{figure}
 \begin{table}[tbp]
-  \begin{tabular}{@{}lrrrrrr@{}}
+  \begin{tabular}{@{}crrrrrr@{}}
     \toprule
     Parameter    & mean & sd   & 5\%  & 95\% & ESS     & $\widehat{R}$ \\
     \midrule
@@ -579,11 +581,11 @@ increased number of model parameters to infer. The simulation studies performed
 in \cref{sec:global_models} required three parameters to be inferred per model:
 one interaction parameter and two noise parameters (scale and degrees of
 freedom). In the hierarchical models introduced in \cref{ssec:hier_mod} each
-agent has its own interaction parameter, as well as its own scale parameter for
-the noise distribution. For simplicity, the agents share a global degrees of
-freedom parameter for the noise distribution. To fit a hierarchical model to
-data describing the movements of $N$ individuals we are then required to infer
-$2N+1$ parameters and $4$ hyperparameters.
+agent has its \emph{own} interaction parameter, as well as its \emph{own} scale
+parameter for the noise distribution. For simplicity, the agents share a global
+degrees of freedom parameter for the noise distribution. To fit a hierarchical
+model to data describing the movements of $N$ individuals we are then required
+to infer $2N+1$ parameters and $4$ hyperparameters.
 
 Introducing this extra level of structure into our model needs to be accounted
 for in the likelihood function. The likelihood function for our differing
@@ -726,7 +728,7 @@ capture the interaction parameters.
 
 Although not included here for brevity, tabulating split-$\widehat{R}$ for
 every parameter reveals that all chains converged with
-split-$\widehat{R}=1.00$. Computing the effective sample size for each
+$\widehat{R}=1.00$. Computing the effective sample size for each
 parameter showed that the \emph{worst} performing chain still realised
 approximately $10,000$ effective samples from the posterior. This gives
 confidence that our posteriors have been well realised.
@@ -805,13 +807,14 @@ Having satisfied ourselves that we can fit continuous hierarchical models to
 simulated data, we now turn our attention to our hierarchical topological
 model. The data simulated for this study is shown by the trajectories of
 \cref{fig:top_hier_sim}. The trajectories generated for this simulation bear a
-strong resemblance to that of a real flocking event.
+strong resemblance to that of a real flocking event (see, eg.
+\cref{fig:seq_1_traj}).
 
 \begin{figure}[tbp]
   \includegraphics{top_hier_sim.pdf}
   \caption{An illustration of the trajectories realised by a forward
     simulation of the hierarchical topological model. In this model agent $i$
-    interacts with its closest $k_i$ nearest neighbours, and experiences noise
+    interacts with its $k_i$ nearest neighbours, and experiences noise
     distributed according to a Student's $t$-distribution with scale
     $\sigma_{Y_i}$ and degrees of freedom $\nu$. Interaction and noise scale
     parameters are drawn from population level distributions, parameterised by the
