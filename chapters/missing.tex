@@ -3,20 +3,21 @@
 \chapter{Missing data}
 \label{cha:missing}
 
-Collecting data of flocking events is a demanding process. Along with the
-technical challenges posed by data collection, flocking events are inherently
+Collecting data of flocking events is a demanding process (see, for example,
+\textcite{cavagna08a} and \textcite{lukeman10}). Along with the technical
+challenges posed by data collection, flocking events are inherently
 unpredictable, and so it is not possible to know when and where a flocking
 event may occur next. In this way there can become a frustrating
-`right-place-right-time' component to data collection.
+``right-place-right-time'' component to data collection.
 
 Typically, recording equipment is set up in a fixed location where the
-scientist believes a flocking event may occur. Stationary recording equipment
-results in a fixed field of vision in which data may be captured.
-Unfortunately, this stationary set-up can result in recording incomplete
-flocking events. This may happen when flock members stray outside the field of
-vision during a recording event. As the recording equipment is fixed in
-location the field of vision cannot be adjusted to reinclude those who move
-out-of-frame.
+scientist believes a flocking event may occur \parencite{lukeman10}. Stationary
+recording equipment results in a fixed field of vision in which data may be
+captured. Unfortunately, this stationary set-up can result in recording
+incomplete flocking events. This may happen when flock members stray outside
+the field of vision during a recording event. As the recording equipment is
+fixed in location the field of vision cannot be adjusted to reinclude those who
+move out-of-frame.
 
 The flock members which move out of frame cannot be ignored during analysis:
 although we may not observe their movements, they may still be influencing the
@@ -30,7 +31,7 @@ remiss to discard observations and the information they contain.
 In this chapter we will consider how we can handle flocking events which
 contain missing observations. The movements of missing agents will not be
 ignored, nor will data be discarded. Instead, we will work in a Bayesian framework
-to adjust our posterior beliefs about model parameters to account for
+to adjust our posterior densities about model parameters to account for
 unobserved behaviours. We will see that this can be achieved by integrating
 over all the possible trajectories of missing agents. We show that
 this approach gives more accurate results than the naive approach of discarding

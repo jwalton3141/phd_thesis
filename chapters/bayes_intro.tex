@@ -69,6 +69,41 @@ normalising constant, the consecutive samples realised by MCMC are \emph{not}
 independent of one another. Instead, as the samples are constructed to form a
 Markov chain, each sample is related to the samples which occur before it.
 
+\subsection{Gibbs sampling}
+\label{ssec:gibbs_sampling}
+
+The Gibbs sampler, named after the physicist Josiah Willard Gibbs, was first
+outlined by \textcite{geman84}. This algorithm allows the Bayesian practitioner
+to sample from a multivariate density via full conditional distributions of
+parameters. The Gibbs algorithm is useful when these conditional densities can
+be expressed in a standard form which is easy to sample form. The Gibbs sampler
+is a special case of the Metropolis--Hastings algorithm (introduced in
+\cref{ssec:metropolis_hastings}), and is outlined in \cref{alg:gibbs}.
+
+\begin{algorithm}
+  \caption{Pseudo-code demonstrating $n$ iterations of a Gibbs sampler used
+    to target $\pi(\theta \given x)$, for $\theta=(\theta_1,\ldots,\theta_d)^T$.}
+  \label{alg:gibbs}
+  \begin{algorithmic}[1]
+    \State Initialise chain with $\theta^{(0)}$.
+    \For{i}{1}{n}
+      \For{j}{1}{d}
+      \State $\theta_j^{(i)} \sim
+        \pi\big(\theta_j^{(i)} \given
+          \{ \theta_k^{(i)} \}_{k < j},
+          \{ \theta_k^{(i-1) }\}_{k > j}, x\big)$
+      \EndFor
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+The Gibbs sampler is a popular MCMC algorithm used in Bayesian inference
+problems, partly owing to its ease of implementation. However, Gibbs limits us
+to posteriors for which we can express the full conditional distributions of
+all the parameters of interest. Other algorithms, such as the more general
+Metropolis--Hastings algorithm, allow us to target the posterior \emph{without}
+necessitating that the full conditional distributions be known.
+
 \subsection{Metropolis--Hastings}
 \label{ssec:metropolis_hastings}
 
@@ -595,21 +630,17 @@ Since models of collective behaviour have both a time component \emph{and} a
 spatial component, WAIC does not seem a viable information criterion for our
 use case.
 
-Instead of using WAIC we will opt to use DIC. DIC remains a popular choice of
-information criterion as it is easy to compute from MCMC samples
-\parencite{spiegelhalter14}. The deviance information criterion penalises model
-complexity and so is designed to provide a measure which trades-off between
-model-fit and model-complexity. DIC makes use of the deviance, defined as:
-\begin{equation*}
-    D(\theta) = -2 \log (x \given \theta).
-\end{equation*}
-With this DIC is defined as:
-\begin{equation*}
-    \text{DIC} = \overline{D(\theta)} + p_D,
-\end{equation*}
-where $\overline{D(\theta)}$ is the mean of the sampled deviance and $p_D$ is
-the effective number of parameters. The effective number of parameters is
-defined as $p_D = \overline{D(\theta)} - D(\overline{\theta})$.
+Instead of using WAIC we will opt to use AIC. AIC remains a popular choice of
+information criterion as it is easy to compute from MCMC samples. The Akaike
+information criterion penalises model complexity and so is designed to provide
+a measure which trades-off between model-fit and model-complexity. AIC is
+defined as:
+\begin{equation}
+\label{eq:aic}
+\text{AIC} = 2p_{\text{AIC}} - \log(\widehat{L}),
+\end{equation}
+where $p_{\text{AIC}}$ is the number of model parameters, and $\widehat{L}$ is
+the maximised likelihood.
 
 \section*{Conclusions}
 
