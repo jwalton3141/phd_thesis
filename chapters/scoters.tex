@@ -3,11 +3,12 @@
 \chapter{Case Study II: Foraging Scoters}
 \label{cha:scoters}
 
-In the previous chapter we discussed how data could easily go missing during
-flocking events. In \emph{this} chapter we shall consider a dataset which
-details a real flocking event with missing observations. As foreshadowed in the
-previous chapter, the missing observations of this dataset will be realised as
-a consequence of employing fixed-location recording equipment.
+In the previous chapter we discussed how data could easily go missing
+\emph{during} flocking events. In this chapter we shall consider a dataset
+which details a \emph{real} flocking event with missing observations. As
+foreshadowed in the previous chapter, the missing observations of this dataset
+will be realised as a consequence of employing fixed-location recording
+equipment.
 
 The dataset considered in this chapter describes the movements of a large
 number of surf scoters, a migratory sea bird, which gather in groups to forage.
@@ -17,13 +18,12 @@ provided courtesy of work performed by \textcite{lukeman09,lukeman10}. At the
 time the captured events represented a tenfold increase in the number of
 individuals which could be reliably tracked \emph{between} frames.
 
-Unfortunately, owing to the fixed location cameras used to record these
+Unfortunately, owing to the fixed-location cameras used to record these
 flocking events, there were often scoters out of view during recorded frames.
-This can be seen by considering \cref{fig:lukeman_extraction}, which shows
-frames captured during the recording process. As in \cref{cha:missing}, the
-missing data points can be partitioned into observations missing at the
-\emph{beginning} of the recording event, and observations missing at the
-\emph{end} of the recording event.
+\cref{fig:lukeman_extraction} illustrates this with frames captured during the
+recording process. As in \cref{cha:missing}, the missing data points can be
+partitioned into observations missing at the \emph{beginning} of the recording
+event, and observations missing at the \emph{end} of the recording event.
 
 In this chapter we shall fit a simple variation of the Vicsek model to a
 flocking event of this dataset. The missing data points will be integrated out
@@ -36,7 +36,8 @@ point: an elevated promenade at the side of a large lake. From this position
 the authors were able to direct a camera toward an inlet where overwintering
 scoters had been observed foraging. Knowing the height of this camera above the
 water, and the angle of its approach with the horizontal, the authors were able
-to transform the captured camera data back to `real-world' co-ordinates.
+to transform the captured camera data back to ``real-world'' co-ordinates
+through trigonometry.
 
 However, to reliably transform back from the camera co-ordinates to real-world
 co-ordinates, the height of the camera above the lake and its angle with the
@@ -47,25 +48,28 @@ frame, or the flock became stationary.
 
 Each recording event captured the movements of $\approx170$ scoters, with each
 event lasting for $\approx30$ frames. However, for these sequences between
-$16\%$ and $64\%$ ($\approx800$--$3000$ observations)
-of the data points were missing.
+$16\%$ and $64\%$ ($\approx800$--$3000$ observations) of the data points were
+missing.
 
 \textcite{lukeman10} discounted the influence of individuals out-of-frame, and
 instead focussed on reproducing radial and nearest neighbour distributions of
-\emph{internal} group members. This approach, although representing a
-\emph{significant} step forward in the literature, came with its drawbacks.
-Most significantly, focussing the fitting on reproducing nearest-neighbour and
-radial neighbour distributions removed the \emph{dynamic} component to the data
-which the authors worked so hard to extract.
+internal group members (edge individuals were also discarded). This approach,
+although representing a significant step forward in the literature, came with
+its drawbacks. Most significantly, focussing the fitting on reproducing
+nearest-neighbour and radial neighbour distributions removed the \emph{dynamic}
+component to the data which the authors worked so hard to achieve.
+Additionally, the authors determined the size of the agents' interaction radii
+by visual inspection of nearest-neighbour densities. That is, the interaction
+radii used in their model were chosen \emph{before} the fitting process began.
 
-Here we take a more holistic approach to model fitting; making sure to account
-for \emph{all} individuals---both observed and missing, as well as internal and
-boundary individuals---and focussing the fitting on reproducing the
-\emph{movements} of the flock, rather than some \emph{epiphenomena} of
-the movements. With the additional demand of inferring posterior distributions
-of parameters, rather than simple point estimates, as well as handling the
-missing data, this approach will represent a more computationally demanding
-problem than that faced originally.
+In this chapter we take a more holistic approach to model fitting; making sure
+to account for \emph{all} individuals---both observed and missing, as well as
+internal and boundary individuals---and focussing the fitting on reproducing
+the \emph{movements} of the flock, rather than some epiphenomena of their
+movements. With the additional demand of inferring posterior distributions of
+parameters, rather than simple point estimates, as well as handling the missing
+data, this approach will represent a more computationally demanding problem
+than that faced originally.
 
 \section{Performing inference}
 
@@ -84,11 +88,12 @@ alignment-based model a possible candidate for fitting.
 \begin{figure}[tb]
   \includegraphics{data_00_traj.pdf}
   \caption{A visualisation of the trajectories of foraging scoters in the
-      analysed sequence. The scoters move along the blue trajectories, starting
-      from the positions denoted by the green markers and finishing at the
-      positions shown by the red markers. The black frame containing the
-      trajectories represents an approximation of the fixed field of vision of the
-      recording equipment.}
+      analysed sequence. In total the sequence represents the movements of
+      $199$ scoters over $23$ frames ($4577$ data points). The scoters move
+      along the blue trajectories, starting from the positions denoted by the
+      green markers and finishing at the positions shown by the red markers.
+      The black frame containing the trajectories represents an approximation
+      of the fixed field of vision of the recording equipment.}
   \label{fig:scoter_traj}
 \end{figure}
 
@@ -97,27 +102,28 @@ were observed, and which data points were missing. In this visualisation blue
 markers represent observed data and red markers represent missing data. From
 \cref{fig:scoter_missing} we see that in \emph{every frame} there is \emph{at
 least one} missing agent. As such, if we were to discard all the frames with
-missing scoters (the naive approach, as discussed in \cref{cha:missing}), we
+missing scoters (as in the naive approach outlined in \cref{cha:missing}), we
 would actually end up discarding the entire dataset.
 
 The simulated flocks considered in \cref{cha:missing} had between $10$ and $20$
 missing observations per sequence. With $680$ data points missing from the
 scoter sequence with the \emph{least} amount of missingness, this problem
 represents a considerable increase in complexity. With this amount of
-missingness, long and expensive simulations will be necessary to realise a
+missingness, long and expensive simulations were necessary to realise a
 satisfactory number of samples from the posterior.
 
 \begin{figure}[tb]
   \includegraphics{data_00_missing.pdf}
   \caption{A representation of the missing and observed data points of the
-  foraging event shown in \cref{fig:scoter_traj}. The $x$-axis represents the
-  frame of the sequence, and the $y$-axis corresponds to tracked individuals. A
-  blue tile at location $(i,t)$ tells us that scoter $i$ was observed in frame
-  $t$. A red tile at $(i,t)$ indicates that scoter $i$ was missing at time $t$.}
+    foraging event shown in \cref{fig:scoter_traj}. The $x$-axis represents the
+    frame of the sequence, and the $y$-axis corresponds to tracked individuals. A
+    blue tile at location $(i,t)$ tells us that scoter $i$ was observed in frame
+    $t$. A red tile at location $(i,t)$ indicates that scoter $i$ was missing at
+    time $t$.}
   \label{fig:scoter_missing}
 \end{figure}
 
-We will fit a variation of the Vicsek model to this dataset, where each agent
+We fit a variation of the Vicsek model to this dataset, where each agent
 interacts with neighbours within distance $r$, and experiences noise generated
 from a generalised Student's $t$ distribution with $\nu$ degrees of freedom and
 scale $\sigma_Y$. A random walk Metropolis--Hastings algorithm was implemented
@@ -126,10 +132,10 @@ Metropolis--Hastings algorithm, with proposal scheme as outlined in
 \cref{ssec:beg_missing}, was used to infer the observations missing at the
 beginning of the sequence. Finally, using a Gibbs step within the
 Metropolis--Hastings step allowed observations missing at the end of the
-sequence to be sampled. This sampler was implemented for $10^7$ iterations.
-To reduce the memory overhead of this sampler, the recorded samplers were
-thinned by a factor of $1000$. This means that all but every $1000$-th
-iteration of the sampler was discarded.
+sequence to be sampled. This sampler was implemented for $10^8$ iterations. To
+reduce the memory overhead of this sampler, the recorded samplers were thinned
+by a factor of $1000$. This means that all but every $1000$-th iteration of the
+sampler was discarded, leaving us with $10^8 / 10^3 = 10^5$ iterations.
 
 In \cref{cha:missing} we used summary plots---such as those in
 \cref{fig:beg_summary,fig:end_summary}---to help visualise high-dimensional
@@ -137,39 +143,58 @@ posterior distributions. However, with $680$ dimensions (plus a few extra for
 the model parameters), this posterior has too many dimensions for even these
 summary plots. In such a situation it can be informative to graphically assess
 the trace of the log-likelihood. If we can observe that the log-likelihood has
-converged, we have good evidence that all the changes also converged.
+converged, we have good evidence that all the chains have also converged. In
+\cref{fig:log_ll} we see a trace and histogram plot of values realised from the
+log-likelihood. From this plot we see evidence of convergence, as the
+log-likelihood oscillates regularly around some fixed location.
 
 \begin{figure}[tb]
   \includegraphics{log_likelihood.pdf}
   \caption{Trace and histogram plots of the log-likelihood, as computed at
     every iteration of the inference scheme. As it can be difficult to assess
-    the convergence of all the parameters for high-dimensional problems, as we have
-    here, it can instead be informative to assess the convergence of the
-    log-likelihood. If we see that the value of the log-likelihood has
-    converged, then we have evidence that the corresponding parameters also
-    converged.}
+    the convergence of all the parameters for high-dimensional problems, as
+    we have here, it can instead be informative to assess the convergence of
+    the log-likelihood. If we see that the value of the log-likelihood has
+    converged, then we have evidence that the chains targeting the corresponding
+    parameters also converged.}
+    \label{fig:log_ll}
 \end{figure}
 
+In \cref{fig:dir_hist,fig:x_hist} we see histogram plots of samples realised
+from the posterior: here representing four directions missing at the end of the
+sequence, as well as the $x$-component of the positions which these directions
+correspond to. We see that the uncertainty in the possible directions of motion
+of the missing agent is large. The large posterior variance is a product of the
+large amounts of missingness displayed by this sequence.
+
+\cref{fig:lukeman_params}
+
 \begin{figure}[tb]
-  \includegraphics{dir_hist.pdf}
+  \includegraphics[width=0.9\textwidth]{dir_hist.pdf}
   \caption{Histogram plots of posterior draws of $4$ missing directions (out of
-  a total of $680$) missing data points. The posterior draws visualised
-  correspond to data missing at the end of the sequence.}
+    a total of $680$ missing data points). The posterior draws visualised
+    correspond to data missing at the end of the sequence. We see large amounts
+    of uncertainty in these posterior densities, reflecting the large amount of
+    missingess represented by this sequence.}
   \label{fig:dir_hist}
 \end{figure}
 
 \begin{figure}[tb]
-  \includegraphics{x_hist.pdf}
-  \caption{}
+  \includegraphics[width=0.9\textwidth]{x_hist.pdf}
+  \caption{Histogram plots of posterior draws of $4$ missing $x$-components of
+     a single agent. These positions are related to the directions sampled in
+     \cref{fig:dir_hist} through \cref{eq:positional_update}.}
   \label{fig:x_hist}
 \end{figure}
 
+\begin{figure}[tb]
+  \includegraphics{params_hist.pdf}
+  \caption{Samples drawn from the posterior distribution realised in fitting a
+    sequence of the Lukeman dataset with the \emph{least} amount of missingness
+    to a variation of the Vicsek model. Prior beliefs are overlain in red.}
+  \label{fig:lukeman_params}
+\end{figure}
 
-
-
-
-
-
-
+\section*{Conclusions}
 
 
