@@ -6,42 +6,49 @@
 \begin{center}
   \textbf{Abstract}\\[0.75cm]
 
-  \begin{minipage}{0.8\textwidth}
+  \begin{minipage}{0.9\textwidth}
+    \setlength{\parskip}{0.45em}
+
     The study of collective behaviour---broadly defined as the formation of
-    macro-level structure from the interactions between individuals---has in
+    macro-level structures from the interactions between individuals---has in
     recent years become a thriving topic of multi-disciplinary research. Under
-    the guise of biological-fitness we are able to reason about \emph{why}
-    these structures form, and the advantages which the collective affords the
-    individual. However, much less is known about \emph{how} these structures
-    are formed and maintained.
+    consideration of biological-fitness the scientist has been able to reason
+    about \emph{why} these structures form, and the advantages which the
+    collective can afford the individual. However, much less is known about
+    \emph{how} these structures are formed and maintained in the first place.
 
-    Much work has been invested in developing mathematical models which attempt
-    to explain and understand the formation and maintenance of these
-    structures. Research has shown that behaviour reminiscent of real flocking
-    events can arise from simple mathematical models which describe the
-    interactions between individuals. However, much of this modelling relies
-    on aprioristic assumptions about how individuals behave, with little-to-no 
-    verification against real observation.
+    Much work has been invested in the development of mathematical models which
+    seek to explain the formation and maintenance of animal aggregations.
+    Research has shown that behaviour reminiscent of real flocking events can
+    arise from simple mathematical models which describe how individuals
+    interact with one another. However, much of this modelling relies on
+    aprioristic assumptions about how individuals behave and interact, with
+    little-to-no verification against real observation.
 
-    In this work we examine models popular in the literature and suggest
-    modifications motivated by considerations of biological-realism. In
+    In this work we examine mathematical models popular in the literature and
+    suggest modifications motivated by considerations of biological-realism. In
     particular we advocate adoption of continuous interaction rules, and
     consider how behavioural and biological variation can be accounted for by
     imposing hierarchical structure.
 
-    We proceed to fit models of collective behaviour to observations of real
-    and simulated flocking events. Model fitting is performed within a Bayesian
-    framework, allowing the quantification of parameter uncertainty. Fitting
-    models to simulated data provides opportunity to assess the effectiveness
-    and accuracy of our inference schemes, before attempting the same inference
-    on real observation. Multiple competing models are fit to the same dataset,
-    with the predictive performance of these models compared using ideas from
-    the model-selection literature. We are then able to recommend a subset of
-    the candidate models as providing the best performance.
+    We proceed to fit these models of collective behaviour to observations of
+    real and simulated flocking events. Model fitting is performed in a
+    Bayesian framework, allowing the quantification of parameter uncertainty.
+    Fitting models to simulated data provides opportunity to assess the
+    effectiveness and accuracy of our inference schemes, before attempting the
+    same inference on real observation. Multiple competing models are fit to
+    the same data, with the predictive performance of these models ranked using
+    ideas from the model-selection literature. We are then able to recommend a
+    subset of the candidate models as providing the best performance.
 
     Finally, consideration is made for datasets which exhibit missing
     observations. Such missingess occurs naturally owing to the experimental
-    set-ups used to record flocking events.
+    set-ups used to record flocking events. We argue that this missingness
+    \emph{cannot} simply be ignored, and that it must be accounted for during
+    any model-fitting process. Techniques are outlined which allow the
+    researcher to account for this missingness. Simulation studies
+    are performed which demonstrate the efficacy of this approach. 
+
   \end{minipage}
 
 \end{center}
