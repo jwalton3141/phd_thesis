@@ -1,5 +1,9 @@
 #! /bin/bash
 
+#https://askubuntu.com/a/346580/1037399
+eval "export $(egrep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pgrep -u $LOGNAME gnome-session)/environ)";
+
+
 # I have done zero testing of this script...
 # Stick in cron
 
