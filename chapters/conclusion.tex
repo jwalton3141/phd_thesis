@@ -84,11 +84,16 @@ incorporates the additional uncertainty introduced by missingness into our
 posterior distributions. Simulation studies were performed which showed that
 our approach consistently outperformed the naive approach of discarding data.
 
-The methodology we developed in \cef{cha:missing} was used on a real dataset
+The methodology we developed in \cref{cha:missing} was used on a real dataset
 exhibiting missingness. This dataset detailed the movements of ducks
 foraging on the surface of a lake, and was captured with fixed-location
-recording equipment.
+recording equipment. A large number of data points were missing from this
+sequence, as much movement took place out-of-frame. This presented a
+computationally demanding, high-dimensional inference problem.
 
-
-
-
+Throughout this thesis we demonstrated a fully-Bayesian approach to fitting
+models of collective behaviour to real and simulated data. We advocated
+consideration of simple models over the needlessly complex, and the addition of
+complexity only when simpler models perform poorly. Although this work only
+considered a small number of possible candidate models, the framework we
+outlined can be used to compare any number of competing models.
