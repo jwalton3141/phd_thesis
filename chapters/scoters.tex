@@ -3,8 +3,13 @@
 \chapter{Case Study II: foraging scoters}
 \label{cha:scoters}
 
-In the previous chapter we discussed how data could easily go missing
-\emph{during} flocking events. In this chapter we shall consider a dataset
+In the previous chapter we discussed how the use of fixed-location recording
+equipment during data acquisition allows individuals to move out-of-frame
+\emph{during} recording. Such movements are then missing from the recorded
+flocking event. As the out-of-frame individuals may still be influencing the
+behaviour of the observed flock, their movements must be accounted for during
+any resulting analysis. We demonstrated methodology to account for this
+missingness on \emph{simulated} data. In this chapter we consider a dataset
 which details a \emph{real} flocking event with missing observations. As
 foreshadowed in the previous chapter, the missing observations of this dataset
 will be realised as a consequence of employing fixed-location recording
@@ -41,10 +46,10 @@ through trigonometry.
 
 However, to reliably transform back from the camera co-ordinates to real-world
 co-ordinates, the height of the camera above the lake and its angle with the
-horizontal had to be fixed. With the camera fixed in position, the authors then
-waited for flocking events to occur. Recording began when individuals entered
-the camera's field of vision, and ended when all the individuals left the
-frame, or the flock became stationary.
+horizontal had to be fixed and known. With the camera fixed in position, the
+authors then waited for flocking events to occur. Recording began when
+individuals entered the camera's field of vision, and ended when all the
+individuals left the frame, or the flock became stationary.
 
 Each recording event captured the movements of $\approx170$ scoters, with each
 event lasting for $\approx30$ frames. However, for these sequences between
@@ -66,10 +71,8 @@ In this chapter we take a more holistic approach to model fitting; making sure
 to account for \emph{all} individuals---both observed and missing, as well as
 internal and boundary individuals---and focussing the fitting on reproducing
 the \emph{movements} of the flock, rather than some epiphenomena of their
-movements. With the additional demand of inferring posterior distributions of
-parameters, rather than simple point estimates, as well as handling the missing
-data, this approach will represent a more computationally demanding problem
-than that faced originally.
+movements. Significant computation is necessary to account for the large amount
+of missingness represented by this data.
 
 \section{Performing inference}
 
@@ -83,7 +86,7 @@ event, $680$ ($\approx16\%)$ of the datapoints occur out of the visual field of
 the camera. This particular event is visualised in \cref{fig:scoter_traj}. From
 this figure we see that the flock was strongly polarised as the individuals
 moved through the frame; it is with this in mind that we consider an
-alignment-based model a possible candidate for fitting.
+alignment-based model a plausible candidate model.
 
 \begin{figure}[tb]
   \includegraphics{data_00_traj.pdf}
@@ -133,9 +136,9 @@ Metropolis--Hastings algorithm, with proposal scheme as outlined in
 beginning of the sequence. Finally, using a Gibbs step within the
 Metropolis--Hastings step allowed observations missing at the end of the
 sequence to be sampled. This sampler was implemented for $10^8$ iterations. To
-reduce the memory overhead of this sampler, the recorded samplers were thinned
+reduce the memory overhead of this sampler, the recorded samples were thinned
 by a factor of $1000$. This means that all but every $1000$-th iteration of the
-sampler was discarded, leaving us with $10^8 / 10^3 = 10^5$ iterations.
+sampler were discarded, leaving us with $10^8 / 10^3 = 10^5$ iterations.
 
 In \cref{cha:missing} we used summary plots---such as those in
 \cref{fig:beg_summary,fig:end_summary}---to help visualise high-dimensional
@@ -160,14 +163,30 @@ log-likelihood oscillates regularly around some fixed location.
     \label{fig:log_ll}
 \end{figure}
 
-In \cref{fig:dir_hist,fig:x_hist} we see histogram plots of samples realised
-from the posterior: here representing four directions missing at the end of the
-sequence, as well as the $x$-component of the positions which these directions
-correspond to. We see that the uncertainty in the possible directions of motion
-of the missing agent is large. The large posterior variance is a product of the
-large amounts of missingness displayed by this sequence.
+The parameters of the Vicsek model inferred in this fitting are shown in
+\cref{fig:lukeman_params}. The tendency of the interaction radius $r$ towards
+zero suggests that there is no evidence of a direct alignment behaviour between
+individuals of this flock. The flock's highly polarized structure must then be
+the result of behaviours unaccounted for by our model: such as attraction or
+repulsion interactions. With no effective interaction term, all the observed
+directional changes are accounted for by the inferred noise parameters. The
+small degrees of freedom parameter inferred gives evidence of non-normally
+distributed directional changes.
 
-\cref{fig:lukeman_params}
+\begin{figure}[tb]
+  \includegraphics{params_hist.pdf}
+  \caption{Samples drawn from the posterior distribution realised in fitting a
+    sequence of the Lukeman dataset with the \emph{least} amount of missingness
+    to a variation of the Vicsek model. Prior beliefs are overlain in red.}
+  \label{fig:lukeman_params}
+\end{figure}
+
+In \cref{fig:dir_hist} we see histogram plots of samples realised
+from the posterior: here representing four directions missing at the end of the
+sequence. We see that the uncertainty in the possible directions of motion
+of the missing agent is large. The large posterior variance is a product of the
+large amounts of missingness displayed by this sequence, and the large degrees
+of freedom parameter inferred (\cref{fig:lukeman_params}).
 
 \begin{figure}[tb]
   \includegraphics[width=0.9\textwidth]{dir_hist.pdf}
@@ -179,22 +198,24 @@ large amounts of missingness displayed by this sequence.
   \label{fig:dir_hist}
 \end{figure}
 
-\begin{figure}[tb]
-  \includegraphics[width=0.9\textwidth]{x_hist.pdf}
-  \caption{Histogram plots of posterior draws of $4$ missing $x$-components of
-     a single agent. These positions are related to the directions sampled in
-     \cref{fig:dir_hist} through \cref{eq:positional_update}.}
-  \label{fig:x_hist}
-\end{figure}
-
-\begin{figure}[tb]
-  \includegraphics{params_hist.pdf}
-  \caption{Samples drawn from the posterior distribution realised in fitting a
-    sequence of the Lukeman dataset with the \emph{least} amount of missingness
-    to a variation of the Vicsek model. Prior beliefs are overlain in red.}
-  \label{fig:lukeman_params}
-\end{figure}
-
 \section*{Conclusions}
+
+In this chapter we considered a flocking event in which at least one individual
+was out of view during every frame of the recorded event. Of the $4577$ data
+points in the analysed sequence, $680$ ($\approx16\%$) of the observations were
+missing. To evaluate the likelihood of this data we must be able to account for
+the position and direction of every individual in the analysed frames. As at
+least one individual is missing in every frame, discarding frames containing
+missingness is not a viable approach. Instead we account for the missingness
+using methodology outlined in \cref{cha:missing}.
+
+The large amount of missing data in the analysed sequence resulted in a
+high-dimensional posterior distribution, and hence a computationally intensive
+inference problem. Long simulations were necessary to allow the simulated
+Markov chains to achieve convergence. Although the inference scheme converged,
+our results indicated no evidence of an alignment interaction between
+individuals, suggesting the presence of interactions not accounted for by our
+model.
+
 
 
