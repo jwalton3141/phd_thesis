@@ -1,14 +1,72 @@
 \chapter*{Conclusions}
+\label{cha:conc}
+\addcontentsline{toc}{chapter}{\nameref{cha:conc}}
+\markboth{Conclusions}{Conclusions}
 
 Mathematical modelling has become a cornerstone of the study of collective
-behaviour, as the formation of macro-level structures can be realised by
+behaviour, as the formation of macro-level structure was realised possible by
 implementations of simple behavioural rules. Although model simulation can be
 informative in its own right, its real power comes in comparison with
-observations of flocking events. Comparison of model prediction and real-world
+observations of real events. Comparison of model prediction and real-world
 observation is an essential part of any model-fitting and model-verification
-process. However, in the past the ability to do so has been limited by the
-difficulty in capturing and extracting data of real flocking observations.
+process. However, until recently thorough comparison between collective
+behaviour model and data has been limited by the availability of data of real
+flocking events.
 
-In this thesis we demonstrated the applicability of Bayesian inference to
-problems in collective behaviour. 
+In this work we acknowledged the technical challenges presented by the
+recording of flocking events, and considered the affect of this on the
+resulting literature. A lack of data with which to perform model-verification
+has resulted in a plethora of competing models based on aprioristic assumptions
+about how individuals behave and respond to stimulus. However, more recently
+there have been notable attempts to bridge this gap between model and data. An
+overview of this recent work, and work prior to it, was presented in
+\cref{cha:lit_review}.
+
+Backed by the work of others, we argued the importance of the quantification of
+uncertainty during model-fitting. Bayesian inference, representing a
+fully-probabilist approach to parameter inference, is a natural approach to
+quantifying uncertainty. The underlying philosophy of the Bayesian paradigm was
+outlined in \cref{cha:bayes_intro}, as were modern Bayesian methods for
+performing parameter inference.
+
+In fitting models to data it is advisable to first consider simple models, and
+to only increase model-complexity when necessary. The Vicsek model in
+\cref{cha:model_dev} was introduced as one such simple model, accounting for
+directional changes as some combination of alignment interactions and noise. We
+questioned the biological-realism the zonal interaction rule implemented by
+Vicsek represented, instead advocating the merits of continuously
+differentiable interaction rules. Despite understandings of the importance of
+biological variation in nature, the majority of models in the literature assume
+that all agents behave identically when presented with the same stimulus. With
+this shortcoming in mind we introduced models with hierarchical structure:
+allowing intra-flock behavioural and biological variation.
+
+\cref{cha:sim_studies} was a chapter of simulation studies. Simulation studies
+are a useful tool in assessing the viability of performing parameter inference
+on real data. The models introduced and developed in the preceding chapter
+were forward simulated for known parameter values. We then demonstrated that
+the Metropolis--Hastings and NUTS algorithms could be used to accurately infer
+the true parameter values from observations of the simulated flocks alone.
+
+Having demonstrated the efficacy of our approach to inference on simulated
+data, we proceeded to re-use this statistical machinery to perform inference on
+real data. In \cref{cha:sheep} we introduced a dataset consisting of three
+recording events of flocking sheep. To this data we fit variations of the
+Vicsek model as introduced in \cref{cha:model_dev}. The within-sample
+predictive performance of these models were quantified with information
+criteria. Models were then ranked by their performance. We observed that
+continuous interaction rules consistently outranked their discrete counterpart.
+In general the models provided a good fit to data, however in one of the
+sequences there was evidence of the existence of behaviours \emph{not}
+accounted for in our models. We speculate that these movements could be the
+result of some unaccounted for interactions with the external environment, or
+additional inter-individual interactions such as attraction or repulsion.
+
+
+
+
+
+
+
+
 
