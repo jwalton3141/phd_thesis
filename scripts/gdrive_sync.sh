@@ -4,12 +4,9 @@
 # I should capture exit code of clone, try handle errors etc.
 # but I'm trying hard not to procrastinate
 
-# Allow notify-send to appear in user session when executed with cron
-# https://askubuntu.com/a/346580/1037399
-eval "export $(egrep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pgrep -u $LOGNAME gnome-session)/environ)";
-
 # Give user a heads up
-notify-send "cron: thesis sync started"
+# https://stackoverflow.com/a/53598510/11021886
+XDG_RUNTIME_DIR=/run/user/$(id -u) notify-send Cron: "thesis sync started"
 
 # Work from /tmp/ to allow update to safely continue whilst I work
 rm -rf /tmp/thesis
@@ -22,4 +19,4 @@ make cleaner && make
 # Sync thesis to google drive
 rclone sync /tmp/thesis/thesis.pdf gdrive3141: -P
 
-notify-send "cron: thesis sync finished"
+XDG_RUNTIME_DIR=/run/user/$(id -u) notify-send Cron: "thesis sync finished"
