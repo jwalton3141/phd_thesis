@@ -7,39 +7,44 @@ Mathematical modelling has become a cornerstone of the study of collective
 behaviour, as the formation of macro-level structure was realised possible by
 implementations of simple behavioural rules. Although model simulation can be
 informative in its own right, its real power comes in comparison with
-observations of real events. Comparison of model prediction and real-world
-observation is an essential part of any model-fitting and model-verification
-process. However, until recently thorough comparison between collective
-behaviour model and data has been limited by the availability of data of real
-flocking events.
+observation. Comparison of model prediction and real-world observation is an
+essential part of any model-fitting and model-verification process. However,
+until recently thorough comparison between collective behaviour model and data
+has been limited by the availability of data of real flocking events.
 
 In this work we acknowledged the technical challenges presented by the
 recording of flocking events, and considered the affect of this on the
 resulting literature. A lack of data with which to perform model-verification
 has resulted in a plethora of competing models based on aprioristic assumptions
 about how individuals behave and respond to stimulus. However, more recently
-there have been notable attempts to bridge this gap between model and data. An
+there have been notable attempts to bridge the gap between model and data. An
 overview of this recent work, and work prior to it, was presented in
 \cref{cha:lit_review}.
 
-Backed by the work of others, we argued the importance of the quantification of
+Backed by previous studies, we argued the importance of the quantification of
 uncertainty during model-fitting. Bayesian inference, representing a
 fully-probabilist approach to parameter inference, is a natural approach to
 quantifying uncertainty. The underlying philosophy of the Bayesian paradigm was
-outlined in \cref{cha:bayes_intro}, as were modern Bayesian methods for
-performing parameter inference.
+outlined in \cref{cha:bayes_intro}. Here we also introduced Markov chain Monte
+Carlo methods: a class of algorithms which allow a practitioner to draw samples
+from the posterior distribution, whilst only requiring knowledge of the
+posterior up to a constant of proportionality.
 
 In fitting models to data it is advisable to first consider simple models, and
 to only increase model-complexity when necessary. The Vicsek model in
 \cref{cha:model_dev} was introduced as one such simple model, accounting for
 directional changes as some combination of alignment interactions and noise. We
 questioned the biological-realism the zonal interaction rule implemented by
-Vicsek represented, instead advocating the merits of continuously
-differentiable interaction rules. Despite understandings of the importance of
-biological variation in nature, the majority of models in the literature assume
-that all agents behave identically when presented with the same stimulus. With
-this shortcoming in mind we introduced models with hierarchical structure:
-allowing intra-flock behavioural and biological variation.
+Vicsek represents, instead advocating the merits of continuously differentiable
+interaction rules. As well as biological-realism, we acknowledged the
+difficulties which discontinuous interaction rules pose for parameter
+inference.
+
+Despite understandings of the importance of biological variation in nature, the
+majority of models in the literature assume that all agents behave identically
+when presented with the same stimulus. With this shortcoming in mind we
+introduced models with hierarchical structure: allowing intra-flock behavioural
+and biological variation.
 
 \cref{cha:sim_studies} was a chapter of simulation studies. Simulation studies
 are a useful tool in assessing the viability of performing parameter inference
@@ -49,21 +54,35 @@ the Metropolis--Hastings and NUTS algorithms could be used to accurately infer
 the true parameter values from observations of the simulated flocks alone.
 
 Having demonstrated the efficacy of our approach to inference on simulated
-data, we proceeded to re-use this statistical machinery to perform inference on
+data, we proceeded to re-use our statistical machinery to perform inference on
 real data. In \cref{cha:sheep} we introduced a dataset consisting of three
 recording events of flocking sheep. To this data we fit variations of the
 Vicsek model as introduced in \cref{cha:model_dev}. The within-sample
 predictive performance of these models were quantified with information
 criteria. Models were then ranked by their performance. We observed that
-continuous interaction rules consistently outranked their discrete counterpart.
-In general the models provided a good fit to data, however in one of the
-sequences there was evidence of the existence of behaviours \emph{not}
-accounted for in our models. We speculate that these movements could be the
-result of some unaccounted for interactions with the external environment, or
-additional inter-individual interactions such as attraction or repulsion.
+continuous interaction rules consistently outranked their discrete counterpart,
+as well observing evidence of non-normally distributed noise. In general the
+models provided a good fit to data, however in one of the sequences there was
+evidence of the existence of behaviours \emph{not} accounted for in our models.
+We speculate that these behaviours could be the result of some unaccounted for
+interactions with the external environment, or additional inter-individual
+interactions such as attraction or repulsion.
 
-
-
+As it is impossible to predict when and where a given flocking event may occur
+next, there can become a frustrating ``right-place-right-time'' component to
+data collection. Flocking events may be captured by establishing fixed-location
+recording equipment where a researcher believes a flocking event may occur in
+the future. However, the stationary nature of the recording equipment can
+result in capturing incomplete flocking events. To evaluate the likelihood of
+the data---a critical component of any model-fitting, Bayesian or
+otherwise---the observation of every individual in the flock, at every recorded
+frame, is required. A naive solution to this problem is to discard every frame
+in which the entire flock isn't within frame. However, this approach has the
+potential to drastically reduce the amount of data available for analysis. In
+\cref{cha:missing} we presented an alternative approach which incorporates the
+additional uncertainty introduced by missingness into our posterior
+distributions. Simulation studies were performed which showed that our approach
+consistently outperformed the naive approach.
 
 
 
