@@ -77,14 +77,17 @@ result in capturing incomplete flocking events. To evaluate the likelihood of
 the data---a critical component of any model-fitting, Bayesian or
 otherwise---the observation of every individual in the flock, at every recorded
 frame, is required. A naive solution to this problem is to discard every frame
-in which the entire flock isn't within frame. However, this approach has the
-potential to drastically reduce the amount of data available for analysis. In
-\cref{cha:missing} we presented an alternative approach which incorporates the
-additional uncertainty introduced by missingness into our posterior
-distributions. Simulation studies were performed which showed that our approach
-consistently outperformed the naive approach.
+in which the entire flock isn't visible. However, this approach has the
+potential to \emph{drastically} reduce the amount of data available for
+analysis. In \cref{cha:missing} we presented an alternative approach which
+incorporates the additional uncertainty introduced by missingness into our
+posterior distributions. Simulation studies were performed which showed that
+our approach consistently outperformed the naive approach of discarding data.
 
-
+The methodology we developed in \cef{cha:missing} was used on a real dataset
+exhibiting missingness. This dataset detailed the movements of ducks
+foraging on the surface of a lake, and was captured with fixed-location
+recording equipment.
 
 
 
