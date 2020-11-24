@@ -203,19 +203,19 @@ of freedom parameter inferred (\cref{fig:lukeman_params}).
 In this chapter we considered a flocking event in which at least one individual
 was out of view during every frame of the recorded event. Of the $4577$ data
 points in the analysed sequence, $680$ ($\approx16\%$) of the observations were
-missing. To evaluate the likelihood of this data we must be able to account for
-the position and direction of every individual in the analysed frames. As at
-least one individual is missing in every frame, discarding frames containing
-missingness is not a viable approach. Instead we account for the missingness
+missing. To evaluate the likelihood of this data we had to be able to account
+for the position and direction of every individual in the analysed frames. As
+at least one individual is missing in every frame, discarding frames containing
+missingness is not a viable solution. Instead we account for the missingness
 using methodology outlined in \cref{cha:missing}.
 
 The large amount of missing data in the analysed sequence resulted in a
 high-dimensional posterior distribution, and hence a computationally intensive
 inference problem. Long simulations were necessary to allow the simulated
 Markov chains to achieve convergence. Although the inference scheme converged,
-our results indicated no evidence of an alignment interaction between
-individuals, suggesting the presence of interactions not accounted for by our
-model.
-
-
-
+our results showed evidence that there is no explicit alignment interaction
+between individuals, suggesting the presence of interactions not accounted for
+by our model. As our model couldn't capture these interactions, it instead
+attempted to account for directional changes through noise alone (in a similar
+manner to the null model), which in turn resulted in large uncertainties about
+missing positions and directions of motion.
