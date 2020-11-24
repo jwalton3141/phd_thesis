@@ -6,7 +6,7 @@
 
 # Give user a heads up
 # https://stackoverflow.com/a/53598510/11021886
-XDG_RUNTIME_DIR=/run/user/$(id -u) notify-send Cron: "thesis sync started"
+XDG_RUNTIME_DIR=/run/user/$(id -u) notify-send Cron: "Thesis sync started"
 
 # Work from /tmp/ to allow update to safely continue whilst I work
 rm -rf /tmp/thesis
@@ -19,4 +19,4 @@ make cleaner && make
 # Sync thesis to google drive
 rclone sync /tmp/thesis/thesis.pdf gdrive3141: -P
 
-XDG_RUNTIME_DIR=/run/user/$(id -u) notify-send Cron: "thesis sync finished"
+XDG_RUNTIME_DIR=/run/user/$(id -u) notify-send Cron: "Thesis sync finished"
