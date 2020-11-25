@@ -88,8 +88,8 @@ of the simulation.
 
 \cref{subfig:beg_missing} shows a schematic representing which data points of
 our simulation were considered observed and which data points were classified
-as missing. A blue gridpoint in location $(i, t)$ tells us that agent $i$
-\emph{was observed} at time $t$. Conversely, a red maker at location $(i, t)$
+as missing. A blue gridpoint in location $(t, i)$ tells us that agent $i$
+\emph{was observed} at time $t$. Conversely, a red maker at location $(t, i)$
 indicates that agent $i$ \emph{was missing} at time $t$. From this schematic we
 can see that a number of agents were classified as missing at time $t=1$: the
 beginning of the simulation.
@@ -115,9 +115,9 @@ beginning of the simulation.
     shown at their start and end points. Data points outside of the rectangular
     region are classified as missing, and are shown by red trajectories.
     \subref{subfig:beg_missing} Summarising the missing and observed data
-    points of our simulation. A blue gridpoint at location $(i, t)$ indicates
+    points of our simulation. A blue gridpoint at location $(t, i)$ indicates
     that agent $i$ was within our visual field at time $t$. A red gridpoint at
-    location $(i, t)$ indicates that agent $i$ was outside our visual field
+    location $(t, i)$ indicates that agent $i$ was outside our visual field
     at time $t$.}
   \label{fig:beg_data}
 \end{figure}
@@ -339,8 +339,8 @@ field of vision. The resulting data is visualised in \cref{fig:end_data}.
   transitioning from blue to red.
   \subref{subfig:end_missing} A representation of which data points of our
   simulation were observed and which were classified as missing. A blue tile at
-  location $(i, t)$ indicates that agent $i$ was within our field of vision at
-  time $t$. Conversely, a red tile at location $(i, t)$ indicates that agent
+  location $(t, i)$ indicates that agent $i$ was within our field of vision at
+  time $t$. Conversely, a red tile at location $(t, i)$ indicates that agent
   $i$ was outside our field of vision---that is, missing---at time $t$.}
   \label{fig:end_data}
 \end{figure}
