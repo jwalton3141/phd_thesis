@@ -31,7 +31,7 @@ partitioned into observations missing at the \emph{beginning} of the recording
 event, and observations missing at the \emph{end} of the recording event.
 
 In this chapter we shall fit a simple variation of the Vicsek model to a
-flocking event of this dataset. The missing data points will be integrated out
+flocking event of this dataset. The missing observations will be integrated out
 of the problem, using the methodology developed in \cref{cha:missing}.
 
 \section{Scoter data}
@@ -63,9 +63,9 @@ although representing a significant step forward in the literature, came with
 its drawbacks. Most significantly, focussing the fitting on reproducing
 nearest-neighbour and radial neighbour distributions removed the \emph{dynamic}
 component to the data which the authors worked so hard to achieve.
-Additionally, the authors determined the size of the agents' interaction radii
+Additionally, the authors determined the size of the agents' interaction radius
 by visual inspection of nearest-neighbour densities. That is, the interaction
-radii used in their model were chosen \emph{before} the fitting process began.
+radius used in their model was chosen \emph{before} the fitting process began.
 
 In this chapter we take a more holistic approach to model fitting; making sure
 to account for \emph{all} individuals---both observed and missing, as well as
@@ -82,7 +82,7 @@ mind we will be focussing on an event within the Lukeman dataset which displays
 the \emph{least} amount of missingness. For the events captured by
 \textcite{lukeman10} this is represented by a sequence of $199$ scoters moving
 over $23$ frames. Of the $199\times23=4577$ data points represented by this
-event, $680$ ($\approx16\%)$ of the datapoints occur out of the visual field of
+event, $680$ ($\approx16\%)$ of the data points occur out of the visual field of
 the camera. This particular event is visualised in \cref{fig:scoter_traj}. From
 this figure we see that the flock was strongly polarised as the individuals
 moved through the frame; it is with this in mind that we consider an
@@ -106,7 +106,9 @@ markers represent observed data and red markers represent missing data. From
 \cref{fig:scoter_missing} we see that in \emph{every frame} there is \emph{at
 least one} missing agent. As such, if we were to discard all the frames with
 missing scoters (as in the naive approach outlined in \cref{cha:missing}), we
-would actually end up discarding the entire dataset.
+would actually end up discarding the entire dataset. Therefore to evaluate the
+likelihood of observing this flock we have no choice but to account for the
+missing observations.
 
 The simulated flocks considered in \cref{cha:missing} had between $10$ and $20$
 missing observations per sequence. With $680$ data points missing from the
@@ -133,12 +135,12 @@ scale $\sigma_Y$. A random walk Metropolis--Hastings algorithm was implemented
 to infer the parameters of the model. In a similar manner, a random walk
 Metropolis--Hastings algorithm, with proposal scheme as outlined in
 \cref{ssec:beg_missing}, was used to infer the observations missing at the
-beginning of the sequence. Finally, using a Gibbs step within the
-Metropolis--Hastings step allowed observations missing at the end of the
-sequence to be sampled. This sampler was implemented for $10^8$ iterations. To
-reduce the memory overhead of this sampler, the recorded samples were thinned
-by a factor of $1000$. This means that all but every $1000$-th iteration of the
-sampler were discarded, leaving us with $10^8 / 10^3 = 10^5$ iterations.
+beginning of the sequence. Finally, using a Gibbs step within
+Metropolis--Hastings allowed observations missing at the end of the sequence to
+be sampled. This sampler was implemented for $10^8$ iterations. To reduce the
+memory overhead of this sampler, the recorded samples were thinned by a factor
+of $1000$. This means that all but every $1000$-th iteration of the sampler
+was discarded, leaving us with $10^8 / 10^3 = 10^5$ samples.
 
 In \cref{cha:missing} we used summary plots---such as those in
 \cref{fig:beg_summary,fig:end_summary}---to help visualise high-dimensional
@@ -146,8 +148,8 @@ posterior distributions. However, with $680$ dimensions (plus a few extra for
 the model parameters), this posterior has too many dimensions for even these
 summary plots. In such a situation it can be informative to graphically assess
 the trace of the log-likelihood. If we can observe that the log-likelihood has
-converged, we have good evidence that all the chains have also converged. In
-\cref{fig:log_ll} we see a trace and histogram plot of values realised from the
+converged, we have good evidence that the sampler has converged. In
+\cref{fig:log_ll} we see a trace and histogram plot of evaluations of the
 log-likelihood. From this plot we see evidence of convergence, as the
 log-likelihood oscillates regularly around some fixed location.
 
@@ -165,13 +167,13 @@ log-likelihood oscillates regularly around some fixed location.
 
 The parameters of the Vicsek model inferred in this fitting are shown in
 \cref{fig:lukeman_params}. The tendency of the interaction radius $r$ towards
-zero suggests that there is no evidence of a direct alignment behaviour between
-individuals of this flock. The flock's highly polarized structure must then be
-the result of behaviours unaccounted for by our model: such as attraction or
-repulsion interactions. With no effective interaction term, all the observed
-directional changes are accounted for by the inferred noise parameters. The
-small degrees of freedom parameter inferred gives evidence of non-normally
-distributed directional changes.
+zero suggests that there is no direct alignment interaction between individuals
+of this flock. The flock's highly polarized structure must then be the result
+of behaviours unaccounted for by our model: such as attraction or repulsion
+interactions. With no effective interaction term, all observed directional
+changes must be accounted for by the inferred noise parameters. To reflect this
+the degrees of freedom and noise-scale parameters inferred represent a diffuse
+noise distribution.
 
 \begin{figure}[tb]
   \includegraphics{params_hist.pdf}
@@ -181,12 +183,15 @@ distributed directional changes.
   \label{fig:lukeman_params}
 \end{figure}
 
-In \cref{fig:dir_hist} we see histogram plots of samples realised
-from the posterior: here representing four directions missing at the end of the
-sequence. We see that the uncertainty in the possible directions of motion
-of the missing agent is large. The large posterior variance is a product of the
-large amounts of missingness displayed by this sequence, and the large degrees
-of freedom parameter inferred (\cref{fig:lukeman_params}).
+In \cref{fig:dir_hist} we see histogram plots of samples realised from the
+posterior: here representing four directions missing at the end of the
+sequence. We see that the uncertainty in the possible directions of motion of
+the missing agent is large. This large posterior variance is a result of the
+large proportion of missingness and the uncertainty which it introduces. As no
+effective interaction term was realised, a diffuse noise structure was inferred
+to account for the observed directional changes. This diffuse noise structure
+also contributes to the large posterior variance inferred for the missing
+directions.
 
 \begin{figure}[tb]
   \includegraphics[width=0.9\textwidth]{dir_hist.pdf}
