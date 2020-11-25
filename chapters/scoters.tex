@@ -4,99 +4,100 @@
 \label{cha:scoters}
 
 In the previous chapter we discussed how the use of fixed-location recording
-equipment during data acquisition allows individuals to move out-of-frame
+equipment during data acquisition can result in individuals moving out-of-frame
 \emph{during} recording. Such movements are then missing from the recorded
-flocking event. As the out-of-frame individuals may still be influencing the
-behaviour of the observed flock, their movements must be accounted for during
-any resulting analysis. We demonstrated methodology to account for this
-missingness on \emph{simulated} data. In this chapter we consider a dataset
-which details a \emph{real} flocking event with missing observations. As
-foreshadowed in the previous chapter, the missing observations of this dataset
-will be realised as a consequence of employing fixed-location recording
-equipment.
+flocking event. As out-of-frame movement may still be influencing the behaviour
+of the observed flock, this movement must be accounted for during model
+fitting. In \cref{cha:missing} we demonstrated methodology to account for such
+missingness in \emph{simulated} data. In this chapter we consider a \emph{real}
+flocking event with missing observations. As foreshadowed in the previous
+chapter, the missing observations of this dataset will be realised as a
+consequence of employing fixed-location recording equipment.
 
 The dataset considered in this chapter describes the movements of a large
 number of surf scoters, a migratory sea bird, which gather in groups to forage.
 The captured flocking events take place on the surface of a lake, and so
 movement is effectively restricted to a two-dimensional plane. This dataset was
 provided courtesy of work performed by \textcite{lukeman09,lukeman10}. At the
-time the captured events represented a tenfold increase in the number of
-individuals which could be reliably tracked \emph{between} frames.
+time of their publication the captured events represented a tenfold increase in
+the number of individuals which could be reliably linked \emph{between} frames.
 
 Unfortunately, owing to the fixed-location cameras used to record these
-flocking events, there were often scoters out of view during recorded frames.
-\cref{fig:lukeman_extraction} illustrates this with frames captured during the
-recording process. As in \cref{cha:missing}, the missing data points can be
+flocking events, there were often scoters out of view in the recorded frames.
+\cref{fig:lukeman_extraction} illustrates the steps performed to extract the
+positions of individuals from raw footage; this figure also shows how the flock
+occupied an area larger than that which the camera captured---resulting in
+missing observations. As in \cref{cha:missing}, the missing data points can be
 partitioned into observations missing at the \emph{beginning} of the recording
 event, and observations missing at the \emph{end} of the recording event.
 
 In this chapter we shall fit a simple variation of the Vicsek model to a
-flocking event of this dataset. The missing observations will be integrated out
-of the problem, using the methodology developed in \cref{cha:missing}.
+flocking event of the Lukeman dataset. The missing observations will be
+integrated out of the problem using methodology developed in
+\cref{cha:missing}.
 
 \section{Scoter data}
 
-\textcite{lukeman10} captured their flocking events from an aerial vantage
-point: an elevated promenade at the side of a large lake. From this position
-the authors were able to direct a camera toward an inlet where overwintering
-scoters had been observed foraging. Knowing the height of this camera above the
-water, and the angle of its approach with the horizontal, the authors were able
-to transform the captured camera data back to ``real-world'' co-ordinates
-through trigonometry.
+\textcite{lukeman10} recorded a number of flocking events from an aerial
+vantage point: an elevated promenade at the side of a large lake. From this
+position the authors were able to direct a camera toward an inlet where
+overwintering scoters had been observed foraging. Knowing the height of this
+camera above the water, and the angle of its approach with the horizontal, the
+authors were able to transform the captured camera data back to ``real-world''
+co-ordinates.
 
-However, to reliably transform back from the camera co-ordinates to real-world
+However, to reliably transform back from camera co-ordinates to real-world
 co-ordinates, the height of the camera above the lake and its angle with the
-horizontal had to be fixed and known. With the camera fixed in position, the
-authors then waited for flocking events to occur. Recording began when
-individuals entered the camera's field of vision, and ended when all the
-individuals left the frame, or the flock became stationary.
-
-Each recording event captured the movements of $\approx170$ scoters, with each
-event lasting for $\approx30$ frames. However, for these sequences between
-$16\%$ and $64\%$ ($\approx800$--$3000$ observations) of the data points were
-missing.
+horizontal had to be fixed. With the camera fixed in position, the authors then
+waited for flocking events to occur. Recording began when individuals entered
+the camera's field of vision, and ended when all the individuals left the
+frame, or the flock became stationary. Each recording event captured the
+movements of around $170$ scoters, with each event consisting of approximately
+$30$ frames. However, of the recorded events between $16\%$ and $64\%$ of each
+flock's movements took place out-of-frame.
 
 \textcite{lukeman10} discounted the influence of individuals out-of-frame, and
-instead focussed on reproducing radial and nearest neighbour distributions of
-internal group members (edge individuals were also discarded). This approach,
-although representing a significant step forward in the literature, came with
-its drawbacks. Most significantly, focussing the fitting on reproducing
-nearest-neighbour and radial neighbour distributions removed the \emph{dynamic}
-component to the data which the authors worked so hard to achieve.
-Additionally, the authors determined the size of the agents' interaction radius
-by visual inspection of nearest-neighbour densities. That is, the interaction
-radius used in their model was chosen \emph{before} the fitting process began.
+instead focussed on reproducing radial and angular distributions of
+\emph{internal} group members (edge individuals were also discarded). This
+approach, although representing a significant step forward in the literature,
+came with its drawbacks. Most significantly, focussing the fitting on
+reproducing radial and angular neighbour distributions removed the
+\emph{dynamic} component to the data which the authors worked so hard to
+achieve. Additionally, the authors determined the size of the agents'
+interaction radius by visual inspection of nearest-neighbour densities; the
+interaction radius used in their model being chosen \emph{before} the fitting
+process began.
 
 In this chapter we take a more holistic approach to model fitting; making sure
 to account for \emph{all} individuals---both observed and missing, as well as
 internal and boundary individuals---and focussing the fitting on reproducing
 the \emph{movements} of the flock, rather than some epiphenomena of their
 movements. Significant computation is necessary to account for the large amount
-of missingness represented by this data.
+of data missing from the recorded flocking events.
 
 \section{Performing inference}
 
 In \cref{cha:missing} we discussed how the computational load of our inference
 scheme increases as the number of missing observations increases. With this in
-mind we will be focussing on an event within the Lukeman dataset which displays
-the \emph{least} amount of missingness. For the events captured by
+mind we focus on the event within the Lukeman dataset which displays the
+\emph{least} amount of missingness. For the events captured by
 \textcite{lukeman10} this is represented by a sequence of $199$ scoters moving
 over $23$ frames. Of the $199\times23=4577$ data points represented by this
-event, $680$ ($\approx16\%)$ of the data points occur out of the visual field of
-the camera. This particular event is visualised in \cref{fig:scoter_traj}. From
-this figure we see that the flock was strongly polarised as the individuals
-moved through the frame; it is with this in mind that we consider an
-alignment-based model a plausible candidate model.
+event, $680$ ($\approx16\%)$ occur outside the visual field of the camera.
+This particular event is visualised in \cref{fig:scoter_traj}. From this figure
+we see that the flock was strongly polarised as the individuals moved through
+the frame; it is with this in mind that we consider an alignment-based model a
+plausible candidate model.
 
 \begin{figure}[tb]
   \includegraphics{data_00_traj.pdf}
-  \caption{A visualisation of the trajectories of foraging scoters in the
-      analysed sequence. In total the sequence represents the movements of
-      $199$ scoters over $23$ frames ($4577$ data points). The scoters move
-      along the blue trajectories, starting from the positions denoted by the
-      green markers and finishing at the positions shown by the red markers.
-      The black frame containing the trajectories represents an approximation
-      of the fixed field of vision of the recording equipment.}
+  \caption{A visualisation of the trajectories of foraging surf scoters in an
+    analysed sequence. In total the sequence represents the movements of
+    $199$ scoters over $23$ frames ($4577$ data points). The scoters move
+    along the blue trajectories, starting from the positions denoted by the
+    green markers and finishing at the positions shown by the red markers. The
+    black frame containing the trajectories represents an approximation of the
+    fixed field of vision of the recording equipment.}
   \label{fig:scoter_traj}
 \end{figure}
 
@@ -120,11 +121,11 @@ satisfactory number of samples from the posterior.
 \begin{figure}[tb]
   \includegraphics{data_00_missing.pdf}
   \caption{A representation of the missing and observed data points of the
-    foraging event shown in \cref{fig:scoter_traj}. The $x$-axis represents the
-    frame of the sequence, and the $y$-axis corresponds to tracked individuals. A
-    blue tile at location $(i,t)$ tells us that scoter $i$ was observed in frame
-    $t$. A red tile at location $(i,t)$ indicates that scoter $i$ was missing at
-    time $t$.}
+    foraging event illustrated in \cref{fig:scoter_traj}. The $x$-axis
+    represents the frame of the sequence, and the $y$-axis corresponds to
+    tracked individuals. A blue tile at location $(t, i)$ tells us that scoter
+    $i$ was observed in frame $t$. A red tile at location $(t, i)$ indicates
+    that scoter $i$ was missing at time $t$.}
   \label{fig:scoter_missing}
 \end{figure}
 
