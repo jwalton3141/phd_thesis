@@ -1,5 +1,6 @@
 \chapter*{Conclusions}
 \label{cha:conc}
+
 \addcontentsline{toc}{chapter}{\nameref{cha:conc}}
 \markboth{Conclusions}{Conclusions}
 
@@ -23,7 +24,7 @@ overview of this recent work, and work prior to it, was presented in
 
 Backed by previous studies, we argued the importance of the quantification of
 uncertainty during model-fitting. Bayesian inference, representing a
-fully-probabilist approach to parameter inference, is a natural approach to
+fully-probabilistic approach to parameter inference, is a natural approach to
 quantifying uncertainty. The underlying philosophy of the Bayesian paradigm was
 outlined in \cref{cha:bayes_intro}. Here we also introduced Markov chain Monte
 Carlo methods: a class of algorithms which allow a practitioner to draw samples
@@ -31,7 +32,7 @@ from the posterior distribution, whilst only requiring knowledge of the
 posterior up to a constant of proportionality.
 
 In fitting models to data it is advisable to first consider simple models, and
-to only increase model-complexity when necessary. The Vicsek model in
+to only increase model-complexity as necessary. The Vicsek model in
 \cref{cha:model_dev} was introduced as one such simple model, accounting for
 directional changes as some combination of alignment interactions and noise. We
 questioned the biological-realism the zonal interaction rule implemented by
@@ -58,13 +59,13 @@ data, we proceeded to re-use our statistical machinery to perform inference on
 real data. In \cref{cha:sheep} we introduced a dataset consisting of three
 recording events of flocking sheep. To this data we fit variations of the
 Vicsek model as introduced in \cref{cha:model_dev}. The within-sample
-predictive performance of these models were quantified with information
+predictive performance of these models was quantified with information
 criteria. Models were then ranked by their performance. We observed that
 continuous interaction rules consistently outranked their discrete counterpart,
-as well observing evidence of non-normally distributed noise. In general the
+as well as observing evidence of non-normally distributed noise. In general the
 models provided a good fit to data, however in one of the sequences there was
 evidence of the existence of behaviours \emph{not} accounted for in our models.
-We speculate that these behaviours could be the result of some unaccounted for
+We speculated that these behaviours could be the result of some unaccounted for
 interactions with the external environment, or additional inter-individual
 interactions such as attraction or repulsion.
 
@@ -89,7 +90,13 @@ exhibiting missingness. This dataset detailed the movements of ducks
 foraging on the surface of a lake, and was captured with fixed-location
 recording equipment. A large number of data points were missing from this
 sequence, as much movement took place out-of-frame. This presented a
-computationally demanding, high-dimensional inference problem.
+computationally demanding, high-dimensional inference problem. In fitting a
+variation of Vicsek to this data, we observed evidence that there is no direct
+alignment interaction between individuals. We postulated the existence of
+repulsion or attraction behaviours, not accounted for by our model, which
+maintain the flocks highly polarized structure. Although our model could not
+explain the interactions between individuals, it was only by accounting for the
+missing observations that we were able to reach this conclusion.
 
 Throughout this thesis we demonstrated a fully-Bayesian approach to fitting
 models of collective behaviour to real and simulated data. We advocated
