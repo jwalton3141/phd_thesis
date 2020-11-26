@@ -8,3 +8,4 @@ add-tex-command captionsetup op
 add-tex-command begin pop
 add-tex-command frac pp
 add-tex-command nameref p
+add-tex-command node o
