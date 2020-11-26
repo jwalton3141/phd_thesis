@@ -57,7 +57,7 @@ $30$ frames. However, of the recorded events between $16\%$ and $64\%$ of each
 flock's movements took place out-of-frame.
 
 \textcite{lukeman10} discounted the influence of individuals out-of-frame, and
-instead focussed on reproducing radial and angular distributions of
+instead focussed on reproducing radial and angular neighbour distributions of
 \emph{internal} group members (edge individuals were also discarded). This
 approach, although representing a significant step forward in the literature,
 came with its drawbacks. Most significantly, focussing the fitting on
@@ -77,17 +77,17 @@ of data missing from the recorded flocking events.
 
 \section{Performing inference}
 
-In \cref{cha:missing} we discussed how the computational load of our inference
-scheme increases as the number of missing observations increases. With this in
-mind we focus on the event within the Lukeman dataset which displays the
-\emph{least} amount of missingness. For the events captured by
+In \cref{cha:missing} we discussed how the computational demands of missing
+data problems increase as the amount of missingness increases. With this in
+mind we focus on the flocking event within the Lukeman dataset which displays
+the \emph{least} amount of missingness. For the events captured by
 \textcite{lukeman10} this is represented by a sequence of $199$ scoters moving
 over $23$ frames. Of the $199\times23=4577$ data points represented by this
-event, $680$ ($\approx16\%)$ occur outside the visual field of the camera.
-This particular event is visualised in \cref{fig:scoter_traj}. From this figure
-we see that the flock was strongly polarised as the individuals moved through
-the frame; it is with this in mind that we consider an alignment-based model a
-plausible candidate model.
+event, $680$ ($\approx16\%)$ occur outside the visual field of the camera. This
+flock is visualised in \cref{fig:scoter_traj}. From this figure we see that the
+flock was strongly polarised throughout the recording event; with this
+observation we consider an alignment-based model a plausible candidate model
+for fitting.
 
 \begin{figure}[tb]
   \includegraphics{data_00_traj.pdf}
@@ -105,11 +105,11 @@ plausible candidate model.
 were observed, and which data points were missing. In this visualisation blue
 markers represent observed data and red markers represent missing data. From
 \cref{fig:scoter_missing} we see that in \emph{every frame} there is \emph{at
-least one} missing agent. As such, if we were to discard all the frames with
-missing scoters (as in the naive approach outlined in \cref{cha:missing}), we
-would actually end up discarding the entire dataset. Therefore to evaluate the
-likelihood of observing this flock we have no choice but to account for the
-missing observations.
+least one} missing scoter. As such, if we were to discard all the frames with
+as least one missing scoter (as in the naive approach outlined in
+\cref{cha:missing}), we would discard the entire flocking event. Therefore to
+evaluate the likelihood of observing this flock we have no choice but to
+account for the missing observations.
 
 The simulated flocks considered in \cref{cha:missing} had between $10$ and $20$
 missing observations per sequence. With $680$ data points missing from the
@@ -129,30 +129,31 @@ satisfactory number of samples from the posterior.
   \label{fig:scoter_missing}
 \end{figure}
 
-We fit a variation of the Vicsek model to this dataset, where each agent
-interacts with neighbours within distance $r$, and experiences noise generated
-from a generalised Student's $t$ distribution with $\nu$ degrees of freedom and
-scale $\sigma_Y$. A random walk Metropolis--Hastings algorithm was implemented
-to infer the parameters of the model. In a similar manner, a random walk
+We fit a variation of the Vicsek model to this dataset where each agent
+interacts with neighbours within distance $r$ (\cref{eq:vicsek_interaction}),
+and experiences noise sampled from a generalised Student's $t$ distribution
+with $\nu$ degrees of freedom and scale $\sigma_Y$ (\cref{eq:students_update}).
+A random walk Metropolis--Hastings algorithm was implemented to infer the
+parameters of this model. In a similar manner, a random walk
 Metropolis--Hastings algorithm, with proposal scheme as outlined in
 \cref{ssec:beg_missing}, was used to infer the observations missing at the
-beginning of the sequence. Finally, using a Gibbs step within
-Metropolis--Hastings allowed observations missing at the end of the sequence to
-be sampled. This sampler was implemented for $10^8$ iterations. To reduce the
-memory overhead of this sampler, the recorded samples were thinned by a factor
-of $1000$. This means that all but every $1000$-th iteration of the sampler
-was discarded, leaving us with $10^8 / 10^3 = 10^5$ samples.
+beginning of the sequence. Finally, using a Gibbs step allowed observations
+missing at the end of the sequence to be sampled. This sampler was implemented
+for $10^8$ iterations. To reduce the memory overhead of this sampler, the
+recorded samples were thinned by a factor of $1000$; meaning that all but every
+$1000$-th iteration of the sampler was discarded, producing a total of $10^8 /
+10^3 = 10^5$ samples.
 
 In \cref{cha:missing} we used summary plots---such as those in
 \cref{fig:beg_summary,fig:end_summary}---to help visualise high-dimensional
-posterior distributions. However, with $680$ dimensions (plus a few extra for
-the model parameters), this posterior has too many dimensions for even these
-summary plots. In such a situation it can be informative to graphically assess
-the trace of the log-likelihood. If we can observe that the log-likelihood has
-converged, we have good evidence that the sampler has converged. In
-\cref{fig:log_ll} we see a trace and histogram plot of evaluations of the
-log-likelihood. From this plot we see evidence of convergence, as the
-log-likelihood oscillates regularly around some fixed location.
+posterior distributions. However, with almost $700$ dimensions, this posterior
+has too many dimensions for even these summary plots. In such a situation it
+can be informative to graphically assess the trace of the log-likelihood. If we
+can observe that the log-likelihood has converged, we have good evidence that
+the sampler has converged. In \cref{fig:log_ll} we see a trace and histogram
+plot of evaluations of the log-likelihood. From this plot we see evidence of
+convergence, as the log-likelihood oscillates regularly around some fixed
+location.
 
 \begin{figure}[tb]
   \includegraphics{log_likelihood.pdf}
@@ -172,15 +173,18 @@ zero suggests that there is no direct alignment interaction between individuals
 of this flock. The flock's highly polarized structure must then be the result
 of behaviours unaccounted for by our model: such as attraction or repulsion
 interactions. With no effective interaction term, all observed directional
-changes must be accounted for by the inferred noise parameters. To reflect this
-the degrees of freedom and noise-scale parameters inferred represent a diffuse
-noise distribution.
+changes must be accounted for by the inferred noise parameters, as in the Null
+model (\cref{sec:null_model}). The inferred degrees of freedom and noise-scale
+parameters represent a diffuse noise distribution, reflecting their need to
+capture all directional changes.
 
 \begin{figure}[tb]
   \includegraphics{params_hist.pdf}
   \caption{Samples drawn from the posterior distribution realised in fitting a
-    sequence of the Lukeman dataset with the \emph{least} amount of missingness
-    to a variation of the Vicsek model. Prior beliefs are overlain in red.}
+    sequence of the Lukeman data to a variation of the Vicsek model. The
+    posterior distribution of $r$ is non-normal, and tends towards zero,
+    representing evidence that there is no explicit alignment interaction
+    between individuals.}
   \label{fig:lukeman_params}
 \end{figure}
 
@@ -188,14 +192,17 @@ In \cref{fig:dir_hist} we see histogram plots of samples realised from the
 posterior: here representing four directions missing at the end of the
 sequence. We see that the uncertainty in the possible directions of motion of
 the missing agent is large. This large posterior variance is a result of the
-large proportion of missingness and the uncertainty which it introduces. As no
-effective interaction term was realised, a diffuse noise structure was inferred
-to account for the observed directional changes. This diffuse noise structure
-also contributes to the large posterior variance inferred for the missing
-directions.
+large amounts of missingness. As no effective interaction term was realised, a
+diffuse noise structure was inferred to account for the observed directional
+changes. This diffuse noise structure further contributes to the large
+posterior variance inferred for the missing directions.
+
+Although our model has been unable to capture the interactions between
+individuals present in this flock, it is only by handling the missing data that
+we have been able to fit this model and make this realisation.
 
 \begin{figure}[tb]
-  \includegraphics[width=0.9\textwidth]{dir_hist.pdf}
+  \includegraphics{dir_hist.pdf}
   \caption{Histogram plots of posterior draws of $4$ missing directions (out of
     a total of $680$ missing data points). The posterior draws visualised
     correspond to data missing at the end of the sequence. We see large amounts
@@ -207,7 +214,7 @@ directions.
 \section*{Conclusions}
 
 In this chapter we considered a flocking event in which at least one individual
-was out of view during every frame of the recorded event. Of the $4577$ data
+was out of view during every frame of the recording. Of the $4577$ data
 points in the analysed sequence, $680$ ($\approx16\%$) of the observations were
 missing. To evaluate the likelihood of this data we had to be able to account
 for the position and direction of every individual in the analysed frames. As
@@ -223,5 +230,7 @@ our results showed evidence that there is no explicit alignment interaction
 between individuals, suggesting the presence of interactions not accounted for
 by our model. As our model couldn't capture these interactions, it instead
 attempted to account for directional changes through noise alone (in a similar
-manner to the null model), which in turn resulted in large uncertainties about
-missing positions and directions of motion.
+manner to the Null model), which in turn resulted in large uncertainties about
+missing positions and directions of motion. Despite our candidate model being
+unable to capture the interactions between individuals, it was only by handling
+this missing data that we were able to come to this realisation.
