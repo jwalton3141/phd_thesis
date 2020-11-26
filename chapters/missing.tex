@@ -162,11 +162,11 @@ proposed paths. To do so we rearrange \cref{eq:positional_update} to see:
 \end{equation}
 Recall from \cref{sec:vicsek_model} that $\bm{v}_{i,t}$ is constructed to have
 direction $\theta_{i,t+1}$ and speed $v$. Given $\theta_{i,t+1}$, we may
-compute $\bm{v}_{i,t} = (\cos\theta_{i,t+1}, \sin\theta_{i,t+1})^Tv$. With
+compute $\bm{v}_{i,t} = (\cos\theta_{i,t+1}, \sin\theta_{i,t+1})^T v$. With
 this, and reindexing $t\mapsto t-1$, we may rewrite \cref{eq:step_back} as:
 \begin{equation}
   \label{eq:propose_beg_pos}
-  \bm{x}_{i,t-1} = \bm{x}_{i,t} - (\cos\theta_{i,t}, \sin\theta_{i,t})^Tv.
+  \bm{x}_{i,t-1} = \bm{x}_{i,t} - (\cos\theta_{i,t}, \sin\theta_{i,t})^T v.
 \end{equation}
 
 Having proposed candidate values for the missing directions of motions with
