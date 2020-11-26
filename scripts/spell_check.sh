@@ -11,7 +11,7 @@ NO_COLOUR="\033[0m"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Spell check all .tex files in chapters/ directory
-files=$(find chapters/ . -maxdepth 1 -type f -name "*.tex")
+files=$(find chapters/ preface/ . -maxdepth 1 -type f -name "*.tex")
 
 echo -e "\n`EXT_COLOUR 75`SPELL CHECK RESULTS$NO_COLOUR\n"
 
