@@ -6,6 +6,8 @@
 % minionint use minionpro's integral symbol instead of mnsymbols (ugly)
 \IfFileExists{MinionPro.sty}{%
 	\usepackage[mathlf,mathtabular,minionint]{MinionPro}
+    % Attempt fix for CSG's missing map file
+    \pdfmapfile{=MinionPro.map}
 }{\usepackage{amsfonts,amsmath,lmodern}}
 
 % Font encoding
