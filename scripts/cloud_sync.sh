@@ -23,8 +23,9 @@ if [ $? -eq 0 ]
 then
     notify-send Cron: "Thesis build completed successfully"
 
-    # Sync thesis to google drive
-    rclone sync /tmp/thesis/thesis.pdf gdrive3141: -P \
+    # Sync thesis to google drive (and onedrive)
+    rclone sync /tmp/thesis/thesis.pdf gdrive3141: && \
+    rclone sync /tmp/thesis/thesis.pdf onedrivencl: \
         && notify-send Cron: "Thesis sync completed successfully" \
         || notify-send Cron: "Thesis sync failed"
 
