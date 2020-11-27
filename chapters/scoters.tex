@@ -31,7 +31,7 @@ missing observations. As in \cref{cha:missing}, the missing data points can be
 partitioned into observations missing at the \emph{beginning} of the recording
 event, and observations missing at the \emph{end} of the recording event.
 
-In this chapter we shall fit a simple variation of the Vicsek model to a
+In this chapter we shall fit a variation of the Vicsek model to a
 flocking event of the Lukeman dataset. The missing observations will be
 integrated out of the problem using methodology developed in
 \cref{cha:missing}.
@@ -82,7 +82,7 @@ data problems increase as the amount of missingness increases. With this in
 mind we focus on the flocking event within the Lukeman dataset which displays
 the \emph{least} amount of missingness. For the events captured by
 \textcite{lukeman10} this is represented by a sequence of $199$ scoters moving
-over $23$ frames. Of the $199\times23=4577$ data points represented by this
+over $23$ frames. Of the $199\times23=4,577$ data points represented by this
 event, $680$ ($\approx16\%)$ occur outside the visual field of the camera. This
 flock is visualised in \cref{fig:scoter_traj}. From this figure we see that the
 flock was strongly polarised throughout the recording event; with this
@@ -92,8 +92,8 @@ for fitting.
 \begin{figure}[tb]
   \includegraphics{data_00_traj.pdf}
   \caption{A visualisation of the trajectories of foraging surf scoters in an
-    analysed sequence. In total the sequence represents the movements of
-    $199$ scoters over $23$ frames ($4577$ data points). The scoters move
+    analysed sequence. In total, the sequence represents the movements of
+    $199$ scoters over $23$ frames ($4,577$ data points). The scoters move
     along the blue trajectories, starting from the positions denoted by the
     green markers and finishing at the positions shown by the red markers. The
     black frame containing the trajectories represents an approximation of the
@@ -118,6 +118,8 @@ represents a considerable increase in complexity. With this amount of
 missingness, long and expensive simulations were necessary to realise a
 satisfactory number of samples from the posterior.
 
+% XXX: Label axis explicitly: Individual (i)
+% Would missing be nicer as white? Not sure
 \begin{figure}[tb]
   \includegraphics{data_00_missing.pdf}
   \caption{A representation of the missing and observed data points of the
@@ -129,6 +131,7 @@ satisfactory number of samples from the posterior.
   \label{fig:scoter_missing}
 \end{figure}
 
+%XXX: Not read chap 7 yet, but do you mention why not Stan?
 We fit a variation of the Vicsek model to this dataset where each agent
 interacts with neighbours within distance $r$ (\cref{eq:vicsek_interaction}),
 and experiences noise sampled from a generalised Student's $t$ distribution
@@ -149,12 +152,14 @@ In \cref{cha:missing} we used summary plots---such as those in
 posterior distributions. However, with almost $700$ dimensions, this posterior
 has too many dimensions for even these summary plots. In such a situation it
 can be informative to graphically assess the trace of the log-likelihood. If we
-can observe that the log-likelihood has converged, we have good evidence that
+can observe that the log-likelihood has converged, we have strong evidence that
 the sampler has converged. In \cref{fig:log_ll} we see a trace and histogram
 plot of evaluations of the log-likelihood. From this plot we see evidence of
 convergence, as the log-likelihood oscillates regularly around some fixed
 location.
 
+% XXX: Note sure if it's worth sticking a loess smoother through
+% the LL, to show it's stable?
 \begin{figure}[tb]
   \includegraphics{log_likelihood.pdf}
   \caption{Trace and histogram plots of the log-likelihood, as computed at
@@ -214,7 +219,7 @@ we have been able to fit this model and make this realisation.
 \section*{Conclusions}
 
 In this chapter we considered a flocking event in which at least one individual
-was out of view during every frame of the recording. Of the $4577$ data
+was out of view during every frame of the recording. Of the $4,577$ data
 points in the analysed sequence, $680$ ($\approx16\%$) of the observations were
 missing. To evaluate the likelihood of this data we had to be able to account
 for the position and direction of every individual in the analysed frames. As
