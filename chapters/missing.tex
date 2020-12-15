@@ -39,6 +39,7 @@ this approach gives more accurate results than the naive approach of discarding
 data, before demonstrating the developed methodology on real observation.
 
 \section{Types of missingness}
+\label{sec:missing_types}
 
 When we consider flocking events with missing observations, it is important to
 consider at which point during the sequence a given agent went missing. This is
@@ -46,10 +47,10 @@ because how we account for the missingness will depend on at which point during
 the sequence the agent went missing.
 
 Although there are many different circumstances which can result in an agent
-leaving our visual field, here we shall inspect the two cases which we
-consider as the most likely to occur. These two cases arise when agents are
-out of frame at the \emph{beginning} of a recording event, or when
-agents are out of frame at the \emph{end} of a recording event.
+leaving our visual field, here we shall inspect the two cases which we consider
+as the most likely to occur. These two cases arise when agents are out of frame
+at the \emph{beginning} of a recording event, or when agents are out of frame
+at the \emph{end} of a recording event.
 
 We shall integrate over the possible missing observations using a
 Metropolis--Hastings scheme. A proposal mechanism for generating paths missing
@@ -68,12 +69,12 @@ When we consider this case we assume that all the flock members do eventually
 enter the visual field, and so the total number of individuals in the flock is
 known.
 
-We imitate this set-up by forward simulating the Vicsek model and imposing a
+We imitate this scenario by forward simulating the Vicsek model and imposing a
 fixed field of vision on top of the resulting data. We chose to forward
 simulate $25$ agents for $40$ time steps. At time $t=1$ agents were directed
 and positioned randomly within a square-cell of side length $L=1$. Agents
 experienced noise generated from a generalised Student's $t$-distribution with
-degrees of freedom $\nu=7$ and scale $\sigma_Y=0.075$. Each individual
+$\nu=7$ degrees of freedom and scale $\sigma_Y=0.075$. Each individual
 interacted with neighbours positioned within distance $r=0.5$, and moved with
 speed $v=0.03$.
 
@@ -84,8 +85,8 @@ movements of agents outside this fixed area are classified as missing and are
 represented by the red trajectories. Agents move from the positions denoted by
 the green markers, to the positions represented by the red makers. The ID
 number of each agent, $i$, is shown at the beginning and end of its trajectory.
-It can be seen that some agents were outside our visual field at the beginning
-of the simulation. 
+It can be seen that some agents were \emph{outside} our visual field at the
+beginning of the simulation. 
 
 \cref{subfig:beg_missing} shows a schematic representing which data points of
 our simulation were considered observed and which data points were classified
@@ -146,17 +147,18 @@ the interaction term $\angmean{\theta}_{i,t}$ as:
   \theta_{i,t-1}^{\star} \given \angmean{\theta}_{i,t}, \nu, \sigma_Y
     \sim t_{\nu}(\angmean{\theta}_{i,t}, \sigma_Y).
 \end{equation}
-However, this proposal mechanism is more computationally expensive than the
-proposal scheme outlined in \cref{eq:propose_beg_dir}, as it necessitates the
-computation of $\angmean{\theta}_{i,t}$. For highly aligned flocks we expect
+However, as this proposal necessitates the computation of
+$\angmean{\theta}_{i,t}$, it generates candidate values of
+$\theta_{i,t-1}^{\star}$ at greater computational expense than
+\cref{eq:propose_beg_dir}. For highly aligned flocks we expect
 \cref{eq:propose_beg_dir,eq:propose_beg_dir_alt} to propose similar candidate
-values, with \cref{eq:propose_beg_dir} doing so at a smaller computational
-expense. It is for this reason that we shall use the proposal distribution of
+values, with \cref{eq:propose_beg_dir} doing so at a lesser computational
+cost. It is for this reason that we shall use the proposal distribution of
 \cref{eq:propose_beg_dir}.
 
-Having worked backwards in time to propose plausible values for the unobserved
-directions of motion, we can now use these values to realise the corresponding
-proposed paths. To do so we rearrange \cref{eq:positional_update} to see:
+The proposed directions are used to reconstruct the trajectories which they
+represent. This is achieved by rearranging \cref{eq:positional_update} such
+that:
 \begin{equation}
   \label{eq:step_back}
   \bm{x}_{i,t} = \bm{x}_{i,t+1} - \bm{v}_{i,t}.
@@ -174,8 +176,7 @@ Having proposed candidate values for the missing directions of motions with
 \cref{eq:propose_beg_dir}, we can use \cref{eq:propose_beg_pos} to compute the
 proposed paths which these directions correspond to. As these proposed
 paths represent \emph{missing} data, if any of the proposed positions lie
-\emph{within} our frame of vision, then we must reject these proposals and
-continue onto the next iteration of our scheme.
+\emph{within} our frame of vision, then the proposals must be rejected.
 
 Having values for the positions and directions of motion of every individual at
 every time step, we may use \cref{eq:likelihood} to quantify the likelihood of
@@ -197,8 +198,8 @@ resulting output by a factor of $10$. The output is thinned to reduce the
 autocorrelation between successive samples, and to decrease the memory overhead
 of the computation. We assess convergence by inspecting trace plots of the
 simulated chains. \cref{fig:beg_dir_trace} visualises the chains targeting the
-directions of motion $\theta_{6,4}$, $\theta_{6,3}$, $\theta_{6,2}$ and
-$\theta_{6,1}$, which were classified as missing. From this plot we see
+directions of motion $\theta_{6,1}$, $\theta_{6,2}$, $\theta_{6,3}$ and
+$\theta_{6,4}$ which were classified as missing. From this plot we see
 well-behaved chains oscillating regularly around a fixed location, evidencing
 convergence. The true values of the missing observations are indicated by the
 horizontal green lines. See that the true values are all captured within the
@@ -207,8 +208,8 @@ greater the oscillations become. The magnitude of the oscillations increase as
 we extrapolate further backwards in time and become more uncertain about the
 possible movements of missing agents. \cref{fig:beg_paths} shows the missing
 paths sampled at four randomly chosen iterations of our scheme, and
-demonstrates that our scheme is capable of generating realistic trajectories
-for missing observations.
+demonstrates that our scheme is capable of generating realistic trajectories in
+place of missing observations.
 
 \begin{figure}[tbp]
   \includegraphics{beg/dir_trace.pdf}
@@ -222,11 +223,11 @@ for missing observations.
 \end{figure}
 
 \cref{fig:beg_x_trace} shows chains targeting the missing $x$ co-ordinates of
-agent $6$ over frames $4$, $3$, $2$ and $1$. The chains targeting the $x$
-co-ordinates are related to the chains targeting the missing directions through
-\cref{eq:propose_beg_pos}. We see further evidence that our chains have
-converged, and that the further back in time we extrapolate the less certain we
-become about an agent's whereabouts.
+agent $6$ over the first four frames. The chains targeting the $x$ co-ordinates
+are related to the chains targeting the missing directions through
+\cref{eq:propose_beg_pos}. \cref{fig:beg_x_trace} gives further evidence that
+our chains have converged, and that the further back in time we extrapolate the
+less certain we become about an agent's whereabouts.
 
 \begin{figure}[tbp]
   \includegraphics{beg/x_trace.pdf}
@@ -239,7 +240,7 @@ become about an agent's whereabouts.
 
 \begin{figure}[tbp]
   \includegraphics{beg/paths.pdf}
-  \caption{Visualising the completed paths at four randomly chosen iterations
+  \caption{Visualising completed paths at four randomly chosen iterations
   of our inference scheme. The plots show plausible trajectories were
   constructed by our scheme.}
   \label{fig:beg_paths}
@@ -273,11 +274,11 @@ green markers represent true values. See that as we extrapolate further back in
 time our posterior variance increases, as we would expect. The $x$ and $y$
 co-ordinates corresponding to these directions are shown in the central and
 right-most panels. As the between-agent variance in positions is much greater
-than our posterior variances, to compare all the inferred positions in one plot
-we first subtract the samples from the true values. This results in box and
-whisker plots centered approximately around zero (shown by the green markers):
-indicating that our posterior densities accurately captured the true values.
-Again, we see that our posterior variance about the inferred positions
+than our posterior variance, to compare all the inferred positions in one plot
+we first subtract the realised samples from the true values. This results in
+box and whisker plots centered approximately around zero (shown by the green
+markers): indicating that our posterior densities accurately captured the true
+values. Again, we see that our posterior variance about the inferred positions
 increases the further back in time we extrapolate.
 
 We have shown that we can capture missing observations by implementing a
@@ -320,12 +321,13 @@ collection.
 \label{ssec:end_missing}
 
 We say that data is missing at the end of a flocking event if some individuals
-leave the frame of vision before the recording event was completed. When we
-consider this case we assume that agents which leave the frame do not later
-re-enter. We imitate this set-up by simulating the movements of $25$
+leave the frame of vision \emph{before} the recording event was completed. When
+we consider this case we assume that agents which leave the frame do not later
+re-enter it. We imitate this situation by simulating the movements of $25$
 individuals over $40$ frames, according to the specifications of the Vicsek
-model (parameters $r=0.45$, $\sigma_Y=0.07$ and $\nu=7$), and overlaying a fixed
-field of vision. The resulting data is visualised in \cref{fig:end_data}.
+model (here with parameters $r=0.45$, $\sigma_Y=0.07$ and $\nu=7$), and
+overlaying a fixed field of vision. The resulting data is visualised in
+\cref{fig:end_data}.
 
 \begin{figure}[tbp]
   \captionsetup[subfigure]{oneside,
@@ -364,22 +366,31 @@ sequence, we do not have all the observations necessary to evaluate the
 likelihood.
 
 We can propose trajectories for the missing agents by forward simulating the
-model from each agent's last observed position. As we are able to write down
-our full conditional distributions about future directions of motion
-(\cref{eq:students_update}) this step becomes akin to performing a Gibbs step.
-With this there is no accept / reject step for the sampled trajectories, and so
-new missing paths are evaluated at every iteration of our sampler. As the
-sampled trajectories represent missing observations, any samples that are
-generated within our field of vision are discarded and new trajectories are
-sampled instead. This Gibbs step is embedded within a Metropolis--Hastings
-sampler which works to infer the model parameters of the Vicsek model.
+model from each agent's last observed position
+(\cref{eq:students_update,eq:positional_update}). Doing so we write down the
+full conditional distribution for missing directions at the end of a sequence
+as:
+\begin{equation}
+  \theta_{i,t+1}^\star \given \angmean{\theta}_{i,t}, \nu, \sigma_Y \sim
+  t_{\nu}(\angmean{\theta}_{i,t}, \sigma_Y)
+\end{equation}
+Realising paths missing at the end of a sequence is now achieved with a Gibbs
+step (\cref{alg:gibbs}). With this there is no accept / reject step for the
+sampled trajectories, and so new missing paths are evaluated at every iteration
+of our sampler. As the sampled trajectories represent missing observations, any
+samples that are generated within our field of vision are discarded and new
+trajectories are sampled instead. This Gibbs step is embedded within a
+Metropolis--Hastings sampler which works to infer the model parameters of the
+Vicsek model.
 
 \cref{fig:end_dir_trace} shows the chains targeting the missing directions of
 motion of agent $i=6$. These trajectories show evidence of convergence and are
 seen to capture the true values of the missing data (green). These directions
 are related to the $y$-component of the missing positions (shown in
 \cref{fig:end_y_trace}) via \cref{eq:positional_update}, and again capture the
-true values of the missing data.
+true values of the missing data. \cref{fig:end_paths} goes to demonstrate that
+the paths generated by our scheme are plausible: visualising four randomly
+chosen flock configurations considered by our sampler.
 
 In \cref{fig:end_dir_trace,fig:end_y_trace} we only inspect a small amount of
 the total missingness targeted by our inference. \cref{fig:end_summary}
@@ -410,6 +421,7 @@ the further into the future we extrapolate.
   \caption{Visualising, at four randomly chosen iterations, missing
   trajectories that were completed by our inference scheme. The sampled paths
   look plausible.}
+  \label{fig:end_paths}
 \end{figure}
 \begin{figure}[tbp]
   \includegraphics{end/summary.pdf}
@@ -426,7 +438,7 @@ the further into the future we extrapolate.
 
 \cref{fig:end_summary} shows that our approach to missingness is able to
 capture data missing at the end of a recording event. We now wish to inspect
-how this approach has effected our posterior beliefs. To do so we perform
+how this approach has effected our posterior densities. To do so we perform
 parameter inference on the simulated data as if all the data had been contained
 within our field of vision. In addition to this we perform the same inference
 but discarding all the frames in which any agent was out of view. The model
@@ -466,8 +478,8 @@ separately we now consider them jointly.
 To handle sequences with data missing at the beginning and end, it is
 sufficient to use the Gibbs step as outlined in \cref{ssec:end_missing} to
 sample paths missing at the end of the sequence, and the Metropolis--Hastings
-algorithm to propose paths missing at the beginning of the sequence, as in
-\cref{ssec:beg_missing}.
+algorithm as in \cref{ssec:beg_missing} to propose paths missing at the
+beginning of the sequence.
 
 The data simulated for this study are shown in \cref{fig:both_data}. See that
 the simulated data shows data points missing at the beginning \emph{and} end of
@@ -521,40 +533,34 @@ densities most similar to the densities with all the data observed.
 
 \section{Case Study II: foraging scoters}
 
-In the previous section we discussed how the use of fixed-location recording
+In \cref{sec:missing_types} we discussed how the use of fixed-location recording
 equipment during data acquisition can result in individuals moving out-of-frame
 \emph{during} recording. Such movements are then missing from the recorded
 flocking event. As out-of-frame movement may still be influencing the behaviour
 of the observed flock, this movement must be accounted for during model
 fitting.
 
-In \cref{cha:missing} we demonstrated methodology to account for such
-missingness in \emph{simulated} data. In this chapter we consider a \emph{real}
-flocking event with missing observations. As foreshadowed in the previous
-chapter, the missing observations of this dataset will be realised as a
-consequence of employing fixed-location recording equipment.
+In this section we consider a \emph{real} flocking event with missing
+observations. As foreshadowed in the previous sections, the missing
+observations of this dataset will be realised as a consequence of employing
+fixed-location recording equipment.
 
-The dataset considered in this chapter describes the movements of a large
-number of surf scoters, a migratory sea bird, which gather in groups to forage.
-The captured flocking events take place on the surface of a lake, and so
-movement is effectively restricted to a two-dimensional plane. This dataset was
-provided courtesy of work performed by \textcite{lukeman09,lukeman10}. At the
-time of their publication the captured events represented a tenfold increase in
-the number of individuals which could be reliably linked \emph{between} frames.
+The dataset considered  describes the movements of a large number of surf
+scoters, a migratory sea bird, which gather in groups to forage. The captured
+flocking events take place on the surface of a lake, and so movement is
+effectively restricted to a two-dimensional plane. This dataset was provided
+courtesy of work performed by \textcite{lukeman09,lukeman10}. At the time of
+their publication the captured events represented a tenfold increase in the
+number of individuals which could be reliably linked \emph{between} frames.
 
 Unfortunately, owing to the fixed-location cameras used to record these
 flocking events, there were often scoters out of view in the recorded frames.
 \cref{fig:lukeman_extraction} illustrates the steps performed to extract the
 positions of individuals from raw footage; this figure also shows how the flock
 occupied an area larger than that which the camera captured---resulting in
-missing observations. As in \cref{cha:missing}, the missing data points can be
-partitioned into observations missing at the \emph{beginning} of the recording
-event, and observations missing at the \emph{end} of the recording event.
-
-In this chapter we shall fit a variation of the Vicsek model to a
-flocking event of the Lukeman dataset. The missing observations will be
-integrated out of the problem using methodology developed in
-\cref{cha:missing}.
+missing observations. As earlier, the missing data points can be partitioned
+into observations missing at the \emph{beginning} of the recording event, and
+observations missing at the \emph{end} of the recording event.
 
 \subsection{Scoter data}
 
@@ -577,7 +583,7 @@ $30$ frames. However, of the recorded events between $16\%$ and $64\%$ of each
 flock's movements took place out-of-frame.
 
 \textcite{lukeman10} discounted the influence of individuals out-of-frame, and
-instead focused on reproducing radial and angular neighbour distributions of
+instead focused on reproducing radial and angular neighbour densities of
 \emph{internal} group members (edge individuals were also discarded). This
 approach, although representing a significant step forward in the literature,
 came with its drawbacks. Most significantly, focusing the fitting on
@@ -597,15 +603,14 @@ of data missing from the recorded flocking events.
 
 \subsection{Model fitting}
 
-In \cref{cha:missing} we discussed how the computational demands of missing
-data problems increase as the amount of missingness increases. With this in
-mind we focus on the flocking event within the Lukeman dataset which displays
-the \emph{least} amount of missingness. For the events captured by
-\textcite{lukeman10} this is represented by a sequence of $199$ scoters moving
-over $23$ frames. Of the $199\times23=4,577$ data points represented by this
-event, $680$ ($\approx16\%)$ occur outside the visual field of the camera. This
-flock is visualised in \cref{fig:scoter_traj}. From this figure we see that the
-flock was strongly polarised throughout the recording event; with this
+As the computational demands of missing data problems increase as the amount of
+missingness increases, we focus on the flocking event within the Lukeman dataset
+which displays the \emph{least} amount of missingness. For the events captured
+by \textcite{lukeman10} this is represented by a sequence of $199$ scoters
+moving over $23$ frames. Of the $199\times23=4,577$ data points represented by
+this event, $680$ ($\approx16\%)$ occur outside the visual field of the camera.
+This flock is visualised in \cref{fig:scoter_traj}. From this figure we see
+that the flock was strongly polarised throughout the recording event; with this
 observation we consider an alignment-based model a plausible candidate model
 for fitting.
 
@@ -626,16 +631,15 @@ were observed, and which data points were missing. In this visualisation blue
 markers represent observed data and red markers represent missing data. From
 \cref{fig:scoter_missing} we see that in \emph{every frame} there is \emph{at
 least one} missing scoter. As such, if we were to discard all the frames with
-as least one missing scoter (as in the naive approach outlined in
-\cref{cha:missing}), we would discard the entire flocking event. Therefore to
-evaluate the likelihood of observing this flock we have no choice but to
-account for the missing observations.
+as least one missing scoter (as in the naive approach), we would discard the
+\emph{entire} flocking event. Therefore, to evaluate the likelihood of observing
+this flock we have no choice but to account for the missing observations.
 
-The simulated flocks considered in \cref{cha:missing} had between $10$ and $20$
-missing observations per sequence. With $680$ data points missing from the
-scoter sequence with the \emph{least} amount of missingness, this problem
-represents a considerable increase in complexity. With this amount of
-missingness, long and expensive simulations were necessary to realise a
+The simulated flocks considered in \cref{ssec:beg_missing,ssec:end_missing} had
+between $10$ and $20$ missing observations per sequence. With $680$ data points
+missing from the scoter sequence with the \emph{least} amount of missingness,
+this problem represents a considerable increase in complexity. With this amount
+of missingness, long and expensive simulations were necessary to realise a
 satisfactory number of samples from the posterior.
 
 % XXX: Label axis explicitly: Individual (i)
@@ -667,7 +671,7 @@ recorded samples were thinned by a factor of $1000$; meaning that all but every
 $1000$-th iteration of the sampler was discarded, producing a total of $10^8 /
 10^3 = 10^5$ samples.
 
-In \cref{cha:missing} we used summary plots---such as those in
+Previously we used summary plots---such as those in
 \cref{fig:beg_summary,fig:end_summary}---to help visualise high-dimensional
 posterior distributions. However, with almost $700$ dimensions, this posterior
 has too many dimensions for even these summary plots. In such a situation it
@@ -774,14 +778,13 @@ realised with the missingness discarded (the naive approach). We found
 that our approach to missingness generated posterior densities closer to the
 ``observed-all'' densities than the naive approach was able to. 
 
-In this chapter we considered a flocking event in which at least one individual
-was out of view during every frame of the recording. Of the $4,577$ data
-points in the analysed sequence, $680$ ($\approx16\%$) of the observations were
-missing. To evaluate the likelihood of this data we had to be able to account
-for the position and direction of every individual in the analysed frames. As
-at least one individual is missing in every frame, discarding frames containing
-missingness is not a viable solution. Instead we account for the missingness
-using methodology outlined in \cref{cha:missing}.
+The developed methodology was then applied to a flocking event in which at
+least one individual was out of view during every frame of the recording. Of
+the $4,577$ data points in the analysed sequence, $680$ ($\approx16\%$) of the
+observations were missing. To evaluate the likelihood of this data we had to be
+able to account for the position and direction of every individual in the
+analysed frames. As at least one individual is missing in every frame,
+discarding frames containing missingness is not a viable solution.
 
 The large amount of missing data in the analysed sequence resulted in a
 high-dimensional posterior distribution, and hence a computationally intensive
