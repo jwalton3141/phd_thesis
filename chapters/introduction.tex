@@ -22,22 +22,22 @@ moving as if some fluid object. Coordinated, yet unpredictable, no two such
 murmurations are ever the same. 
 
 Another striking example of collective behaviour is given by the dense milling
-structures sometimes formed by shoals of fish (\cref{fig:milling}). With these
+structures sometimes formed by shoals of fish (\cref{fig:milling}). In these
 structures the individuals form something greater than the sum of their parts:
-their shoal taking on a life of its own. With a flash silver, and in the blink
-of an eye, the shoal can change direction, offering an effective defence
+their shoal taking on a life of its own. With a flash of silver, and in the
+blink of an eye, the shoal can change direction, offering an effective defence
 against predation.
 
 Collective motion, broadly defined as the formation of macro-level structures
-from the interactions of individuals \parencite{camazine03}, has been observed
-over many different length scales, and has been exhibited by many different
-species \parencite{allee31}. But through all its variations and incantations,
-the one thing that remains constant is the phenomenon's ability to capture the
-attention and wonder of the observer.
+from the interactions between individuals \parencite{camazine03}, has been
+observed over many different length scales, and has been exhibited by many
+different species \parencite{allee31}. But through all its variations and
+incantations, the one thing that remains constant is the phenomenon's ability
+to capture the attention and wonder of the observer.
 
 \begin{figure}[t]
   \includegraphics[width=\textwidth]{murmuration.jpg}
-  \caption{A flock of starlings, here consisting of \emph{thousands} of
+  \caption{A group of starlings, here consisting of \emph{thousands} of
     individual members, gather to flock in the evening sky. These flocking
     events (often called murmurations), represent one of the most
     eye-catching displays of collective behaviour. This particular event
@@ -86,10 +86,10 @@ level. Such models have shown that individual interactions are sufficient to
 produce group-level structures \parencite{aoki82}. Many different simulations,
 implementing disparate interaction rules, are able to produce behaviour
 reminiscent of real flocking systems. However, these models have largely only
-been verified with comparison to empirical observation at a qualitative level,
-and thorough quantitative comparison between data and theory has been lacking.
-The lack of quantitative comparison between model and data can largely be
-attributed to the scarcity of appropriate empirical data.
+been verified with comparison to empirical observation at a \emph{qualitative}
+level, and thorough \emph{quantitative} comparison between data and theory has
+been lacking. The lack of quantitative comparison between model and data can
+largely be attributed to the scarcity of appropriate empirical data.
 
 However, in recent years technological and methodological advances have made it
 possible to capture the movements of large groups of animal aggregations
@@ -102,16 +102,16 @@ popular in the literature. This development is guided by considerations of
 biological realism. Simulation studies are performed which show that the
 developed models can be fit to simulated data, after which the same models are
 fit to real data. The efficacy of each fitted model is compared, and a subclass
-of the candidate models are presented as providing the best fit.
+of the candidate models are presented as offering the best fit.
 
 \section{Thesis overview}
 \label{sec:overview_of_thesis}
 
 In \cref{cha:lit_review} the reader is given a review of the literature
-surrounding the study of collective behaviour. Important ideas and results of
+surrounding the study of collective behaviour. Important ideas and results from
 the field are introduced, summarised and discussed. After relaying the main
-results from the literature, open problems and the future of research
-in the field are discussed.
+results from the literature, open problems and the future of research in the
+field are discussed.
 
 Bayesian statistics is introduced to the reader in \cref{cha:bayes_intro}. The
 underlying philosophy of the Bayesian paradigm, as well as important results,
@@ -120,10 +120,10 @@ problems that the Bayesian practitioner may encounter, as well as how one might
 address these problems.
 
 In the proceeding chapter, \cref{cha:model_dev}, a class of model popular in
-the literature of collective behaviour is introduced. The short-comings of this
-model are then considered and summarised, and alterations are proposed to
-address the short-comings. The proposed changes are motivated by considerations
-of biological-realism.
+the literature of collective behaviour is introduced. The shortcomings of this
+model are then considered and summarised, with alterations proposed to address
+the outlined concerns. The proposed changes are motivated by considerations of
+biological-realism.
 
 Following on from this, \cref{cha:sim_studies} details the results of a number
 of so-called simulation studies. In these studies a model is forward simulated
@@ -132,24 +132,22 @@ known parameter values with statistical inference. A number of simulation
 studies are performed on variations of a previously considered model.
 
 The statistical machinery built in \cref{cha:sim_studies} is then repurposed in
-\cref{cha:sheep}, as our developed models are fit to real observations. Fitting
+\cref{cha:sheep}, as our developed models are fit to real observation. Fitting
 a number of different models to the same data, the predictive performance of
 these models are compared, and a subclass of these models are identified as
 providing the best fit.
 
 \cref{cha:missing} considers the problem of missing data. It is argued that the
-nature of flocking events means that missing data becomes an inevitable issue.
+nature of flocking events mean that missing data becomes an inevitable issue.
 Algorithms are outlined which allow the scientist to account for additional
-uncertainty introduced by missingness. Proof-of-concept is shown by performing
-simulation studies on data with artificially imposed missingness.
-
-In \cref{cha:scoters} a dataset of a real flocking event with missing
-observations is introduced. The limitations of previous studies of this data
-are outlined. The analysis presented in this thesis addresses the short-comings
-of previous work, accounting for the additional uncertainty introduced by the
-missing observations.
+uncertainty introduced by missingness. Simulation studies are performed which
+demonstrate the efficacy of this approach. Following this a dataset of a real
+flocking event with missing observations is introduced. The limitations of
+previous studies of this data are outlined. The analysis presented in this
+thesis addresses the shortcomings of this earlier work; accounting for the
+additional uncertainty introduced by the missing observations.
 
 For the uninitiated, a review of circular statistics is presented in
 \cref{cha:direct_stats}. This review motivates the study of circular
-statistics, and argues it relevance to the scientist involved in the study of
+statistics, and argues its relevance to the scientist involved in the study of
 collective behaviour.
