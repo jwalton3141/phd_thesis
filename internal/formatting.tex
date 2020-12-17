@@ -223,7 +223,7 @@
 \renewcommand{\eqref}[1]{\textup{\eqreftagform@{\ref{#1}}}}
 \let\eqreftagform@\tagform@
 \def\tagform@#1{%
-  \maketag@@@{\color{link_purple}(\ignorespaces#1\unskip\@@italiccorr)}%
+    \maketag@@@{\ifoptiondraft{\color{link_purple}}{}(\ignorespaces#1\unskip\@@italiccorr)}%
 }
 \makeatother
 %------------------------------------------------------------------------------
@@ -336,4 +336,9 @@
 \makeatletter
 \xpatchcmd{\algorithmic}{\labelsep 0.5em}{\labelsep 1em}{\typeout{Success!}}{\typeout{Oh dear!}}
 \makeatother
+
+% Change font family in algorithmic
+%\makeatletter
+%\algrenewcommand\ALG@beginalgorithmic{\sffamily}
+%\makeatother
 %------------------------------------------------------------------------------
