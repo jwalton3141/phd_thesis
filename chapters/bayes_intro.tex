@@ -221,7 +221,7 @@ Crucially then, the parameter $\Sigma$ can be used to control the mixing of
 chains. So, naturally, we desire to select a $\Sigma$ which produces
 well-behaved chains. Such a tuning parameter should allow rapid convergence to
 $\pi(\theta \given x)$ and facilitate exploration of the entire support of the
-target. If the target distribution is Gaussian, it has been shown that $0.234$
+target. If the target distribution is Gaussian, it has been shown that 0.234
 is an optimum acceptance probability to try achieve \parencite{roberts01}. In
 an attempt to tune $\Sigma$ to obtain an optimum acceptance probability, a
 common technique is to choose 
@@ -337,9 +337,9 @@ negative logarithm of the target density, that is:
 
 As a consequence of using information about the \emph{gradient} of the
 posterior distribution, HMC requires that the posterior distribution be
-differentiable almost everywhere. Because of this, HMC has the short-coming
+differentiable almost everywhere. Because of this, HMC has the shortcoming
 that it \emph{cannot} be used to target distributions with discrete valued
-parameters. Instead HMC requires a continuous-parameter valued posterior.
+parameters; instead requiring a continuous-parameter valued posterior.
 
 \subsubsection{Computer implementation, NUTS \& Stan}
 
@@ -433,10 +433,9 @@ $\epsilon$ and $L$, its implementation remains far from trivial. Here enters
 Stan. Stan, named after Stanislaw Ulam, one of the original pioneers of Monte
 Carlo methods \parencite{metropolis49}, is a probabilistic programming language
 implemented in C++ \parencite{gelman15}. Stan requires the user to construct a
-Stan program, which specifies how to compute the log-posterior density for
-their model of interest \parencite{stanteam15}. With this, Stan implements the
-NUTS algorithm, and returns to the user samples from the desired posterior
-density.
+Stan programme, specifying how to compute the posterior density for the
+targeted model \parencite{stanteam15}. With this, Stan implements the NUTS
+algorithm, and returns the user samples drawn from the posterior.
 
 \subsection{Convergence diagnostics}
 \label{ssec:convergence_diagnostics}
@@ -555,9 +554,9 @@ compute $\widehat{R}\approx1$ to indicate that a sampler has converged.
 \subsubsection{Effective sample size (ESS)}
 
 The effective sample size (ESS) is introduced as a notion to assess the
-``size'' of a sample when the samples are correlated. The idea is that $10,000$
+``size'' of a sample when the samples are correlated. The idea is that 10,000
 \emph{autocorrelated} samples from a distribution encode less information than
-$10,000$ \emph{independent} samples from that same distribution. The effective
+10,000 \emph{independent} samples from that same distribution. The effective
 sample size is computed as the number of samples drawn, minus some penalty
 whose size depends on some measure of autocorrelation.
 
@@ -568,8 +567,9 @@ For a single chain, a common definition of the effective sample size is:
 \end{equation}
 where $n$ is the number of samples and $\rho_k$ is the autocorrelation at lag
 $k$. Although a popular definition, in practice this measure is often too
-optimistic when chains haven't converged. The practitioner must also decide
-when to truncate the infinite sum which appears in the denominator.
+optimistic when chains haven't converged \parencite{gelman13}. The practitioner
+must also decide when to truncate the infinite sum which appears in the
+denominator.
 
 A more sophisticated estimate of the effective sample size is presented by
 \textcite{gelman13}. In this definition the authors circumvent the infinite sum
@@ -605,7 +605,7 @@ where $T$ is the first odd positive integer for which $\widehat{\rho}_{T+1} +
 Ideally, to test the predictive accuracy of our fitted models, we would wait
 for out-of-sample data (new data, distinct from that used in our fitting).
 However, this is often not viable. One way around this problem is to use
-leave-one-out cross-validation (LOO-CV). The idea here is to split the data set
+leave-one-out cross-validation (LOO-CV). The idea here is to split the dataset
 into training data and test data, perform the model fitting on the training
 data, and assess fit with the test data. Unfortunately, this method comes at
 computational expense; LOO-CV can necessitate performing up to $n$ model fits
@@ -646,13 +646,13 @@ the maximised likelihood.
 
 The Bayesian paradigm represents a realisation of the scientific process of
 updating beliefs in light of observation. With this, Bayesian inference
-presents itself as a very naturalistic approach to statistics.
+presents itself as a very natural approach to statistics.
 
 As reflected in \cref{sec:numerical_studies}, an important aspect of model
 fitting is capturing \emph{uncertainty} in estimated parameters. This is
 particularly prudent when the data used to form opinion is prone to exhibiting
 high levels of noise. As Bayesian inference represents a fully-probabilistic
-approach to parameter estimation, it's application to the study of collective
+approach to parameter estimation, its application to the study of collective
 behaviour---a subject of datasets susceptible to large amounts of noise---seems
 pragmatic.
 
