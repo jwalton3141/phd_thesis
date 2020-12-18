@@ -60,7 +60,7 @@ we can generate paths missing at the end of a sequence by implementing a Gibbs
 sampler (\cref{alg:gibbs}); sampling from our full conditional distributions to
 realise a distribution of possible paths.
 
-\subsection{Missing in the beginning}
+\subsection{Missing in the beginning of a sequence}
 \label{ssec:beg_missing}
 
 We say that data is missing at the beginning of a flocking event if the
@@ -161,15 +161,17 @@ represent. This is achieved by rearranging \cref{eq:positional_update} such
 that:
 \begin{equation}
   \label{eq:step_back}
-  \bm{x}_{i,t} = \bm{x}_{i,t+1} - \bm{v}_{i,t}.
+  \bm{x}_{i,t} = \bm{x}_{i,t+1} - \bm{v}_{i,t}\Delta t.
 \end{equation}
-Recall from \cref{sec:vicsek_model} that $\bm{v}_{i,t}$ is constructed to have
-direction $\theta_{i,t+1}$ and speed $v$. Given $\theta_{i,t+1}$, we may
-compute $\bm{v}_{i,t} = (\cos\theta_{i,t+1}, \sin\theta_{i,t+1})^T v$. With
-this, and reindexing $t\mapsto t-1$, we may rewrite \cref{eq:step_back} as:
+Recall from \cref{sec:vicsek_model} that $\Delta t =1$ and that $\bm{v}_{i,t}$
+is constructed to have direction $\theta_{i,t+1}$ and speed $v$. Given
+$\theta_{i,t+1}$, we may compute $\bm{v}_{i,t} = (\cos\theta_{i,t+1},
+\sin\theta_{i,t+1})^T v$. With this, and reindexing $t\mapsto t-1$, we may
+rewrite \cref{eq:step_back} as:
 \begin{equation}
   \label{eq:propose_beg_pos}
-  \bm{x}_{i,t-1} = \bm{x}_{i,t} - (\cos\theta_{i,t}, \sin\theta_{i,t})^T v.
+  \bm{x}_{i,t-1} = \bm{x}_{i,t} - (\cos\theta_{i,t}, \sin\theta_{i,t})^T
+  v\Delta t.
 \end{equation}
 
 Having proposed candidate values for the missing directions of motions with
@@ -193,8 +195,8 @@ dimension to the posterior distribution, and so increases complexity. As a
 result, as the amount of missing data increases, the computational demand
 of the problem increases.
 
-We simulate our random-walk sampler for $10^5$ iterations, and thin the
-resulting output by a factor of $10$. The output is thinned to reduce the
+We simulate our random-walk sampler for 100,000 iterations, and thin the
+resulting output by a factor of 10. The output is thinned to reduce the
 autocorrelation between successive samples, and to decrease the memory overhead
 of the computation. We assess convergence by inspecting trace plots of the
 simulated chains. \cref{fig:beg_dir_trace} visualises the chains targeting the
@@ -214,16 +216,16 @@ place of missing observations.
 \begin{figure}[tbp]
   \includegraphics{beg/dir_trace.pdf}
   \caption{Chains targeting directions of motion missing at the beginning of a
-    simulation. Each trajectory was simulated for $10^5$ iterations. To
+    simulation. Each trajectory was simulated for 100,000 iterations. To
     decrease the autocorrelation between samples and reduce memory overhead
-    the output was thinned by a factor of $10$. The true values of the
+    the output was thinned by a factor of 10. The true values of the
     missing directions are shown by the horizontal green lines. The true
     values are captured within our posterior densities.}
   \label{fig:beg_dir_trace}
 \end{figure}
 
 \cref{fig:beg_x_trace} shows chains targeting the missing $x$ co-ordinates of
-agent $6$ over the first four frames. The chains targeting the $x$ co-ordinates
+agent 6 over the first four frames. The chains targeting the $x$ co-ordinates
 are related to the chains targeting the missing directions through
 \cref{eq:propose_beg_pos}. \cref{fig:beg_x_trace} gives further evidence that
 our chains have converged, and that the further back in time we extrapolate the
@@ -317,14 +319,14 @@ collection.
   \label{fig:beg_compare}
 \end{figure}
 
-\subsection{Missing in the end}
+\subsection{Missing in the end of a sequence}
 \label{ssec:end_missing}
 
 We say that data is missing at the end of a flocking event if some individuals
 leave the frame of vision \emph{before} the recording event was completed. When
 we consider this case we assume that agents which leave the frame do not later
-re-enter it. We imitate this situation by simulating the movements of $25$
-individuals over $40$ frames, according to the specifications of the Vicsek
+re-enter it. We imitate this situation by simulating the movements of 25
+individuals over 40 frames, according to the specifications of the Vicsek
 model (here with parameters $r=0.45$, $\sigma_Y=0.07$ and $\nu=7$), and
 overlaying a fixed field of vision. The resulting data is visualised in
 \cref{fig:end_data}.
@@ -467,7 +469,7 @@ data missing at the beginning of a sequence.
   \label{fig:end_compare}
 \end{figure}
 
-\subsection{Missing in the beginning and end}
+\subsection{Missing in the beginning and end of a sequence}
 
 Having demonstrated that we can handle sequences with observations missing at
 the \emph{beginning} of an event and sequences with observations missing at the
@@ -579,8 +581,8 @@ horizontal had to be fixed. With the camera fixed in position, the authors then
 waited for flocking events to occur. Recording began when individuals entered
 the camera's field of vision, and ended when all the individuals left the
 frame, or the flock became stationary. Each recording event captured the
-movements of around $170$ scoters, with each event consisting of approximately
-$30$ frames. However, of the recorded events between $16\%$ and $64\%$ of each
+movements of around 170 scoters, with each event consisting of approximately
+30 frames. However, of the recorded events between $16\%$ and $64\%$ of each
 flock's movements took place out-of-frame.
 
 \textcite{lukeman10} discounted the influence of individuals out-of-frame, and
@@ -607,9 +609,9 @@ of data missing from the recorded flocking events.
 As the computational demands of missing data problems increase as the amount of
 missingness increases, we focus on the flocking event within the Lukeman dataset
 which displays the \emph{least} amount of missingness. For the events captured
-by \textcite{lukeman10} this is represented by a sequence of $199$ scoters
-moving over $23$ frames. Of the $199\times23=4,577$ data points represented by
-this event, $680$ ($\approx16\%)$ occur outside the visual field of the camera.
+by \textcite{lukeman10} this is represented by a sequence of 199 scoters
+moving over 23 frames. Of the $199\times23=4,577$ data points represented by
+this event, 680 ($\approx16\%)$ occur outside the visual field of the camera.
 This flock is visualised in \cref{fig:scoter_traj}. From this figure we see
 that the flock was strongly polarised throughout the recording event; with this
 observation we consider an alignment-based model a plausible candidate model
@@ -619,7 +621,7 @@ for fitting.
   \includegraphics{data_00_traj.pdf}
   \caption{A visualisation of the trajectories of foraging surf scoters in an
     analysed sequence. In total, the sequence represents the movements of
-    $199$ scoters over $23$ frames ($4,577$ data points). The scoters move
+    199 scoters over 23 frames (4,577 data points). The scoters move
     along the blue trajectories, starting from the positions denoted by the
     green markers and finishing at the positions shown by the red markers. The
     black frame containing the trajectories represents an approximation of the
@@ -637,7 +639,7 @@ as least one missing scoter (as in the naive approach), we would discard the
 this flock we have no choice but to account for the missing observations.
 
 The simulated flocks considered in \cref{ssec:beg_missing,ssec:end_missing} had
-between $10$ and $20$ missing observations per sequence. With $680$ data points
+between 10 and 20 missing observations per sequence. With 680 data points
 missing from the scoter sequence with the \emph{least} amount of missingness,
 this problem represents a considerable increase in complexity. With this amount
 of missingness, long and expensive simulations were necessary to realise a
@@ -668,13 +670,13 @@ Metropolis--Hastings algorithm, with proposal scheme as outlined in
 beginning of the sequence. Finally, using a Gibbs step allowed observations
 missing at the end of the sequence to be sampled. This sampler was implemented
 for $10^8$ iterations. To reduce the memory overhead of this sampler, the
-recorded samples were thinned by a factor of $1000$; meaning that all but every
-$1000$-th iteration of the sampler was discarded, producing a total of $10^8 /
+recorded samples were thinned by a factor of 1000; meaning that all but every
+1000th iteration of the sampler was discarded, producing a total of $10^8 /
 10^3 = 10^5$ samples.
 
 Previously we used summary plots---such as those in
 \cref{fig:beg_summary,fig:end_summary}---to help visualise high-dimensional
-posterior distributions. However, with almost $700$ dimensions, this posterior
+posterior distributions. However, with almost 700 dimensions, this posterior
 has too many dimensions for even these summary plots. In such a situation it
 can be informative to graphically assess the trace of the log-likelihood. If we
 can observe that the log-likelihood has converged, we have strong evidence that
@@ -733,8 +735,8 @@ we have been able to fit this model and make this realisation.
 
 \begin{figure}[tb]
   \includegraphics{dir_hist.pdf}
-  \caption{Histogram plots of posterior draws of $4$ missing directions (out of
-    a total of $680$ missing data points). The posterior draws visualised
+  \caption{Histogram plots of posterior draws of 4 missing directions (out of
+    a total of 680 missing data points). The posterior draws visualised
     correspond to data missing at the end of the sequence. We see large amounts
     of uncertainty in these posterior densities, reflecting the large amount of
     missingness represented by this sequence.}
@@ -781,7 +783,7 @@ that our approach to missingness generated posterior densities closer to the
 
 The developed methodology was then applied to a flocking event in which at
 least one individual was out of view during every frame of the recording. Of
-the $4,577$ data points in the analysed sequence, $680$ ($\approx16\%$) of the
+the 4,577 data points in the analysed sequence, 680 ($\approx16\%$) of the
 observations were missing. To evaluate the likelihood of this data we had to be
 able to account for the position and direction of every individual in the
 analysed frames. As at least one individual is missing in every frame,
@@ -794,8 +796,8 @@ Markov chains to achieve convergence. Although the inference scheme converged,
 our results showed evidence that there is no explicit alignment interaction
 between individuals, suggesting the presence of interactions not accounted for
 by our model. As our model couldn't capture these interactions, it instead
-attempted to account for directional changes through noise alone (in a similar
-manner to the Null model), which in turn resulted in large uncertainties about
-missing positions and directions of motion. Despite our candidate model being
-unable to capture the interactions between individuals, it was only by handling
-this missing data that we were able to come to this realisation.
+attempted to account for directional changes through noise alone, which in turn
+resulted in large uncertainties about missing positions and directions of
+motion. Despite our candidate model being unable to capture the interactions
+between individuals, it was only by handling this missing data that we were
+able to come to this realisation.
