@@ -22,16 +22,16 @@ sequences were extracted and analysed. The flocking events were captured and
 their data extracted by Hayley Moore (thesis in preparation). Global models
 considered in \cref{sec:global_models} will be fit to these sequences. The
 resulting fits will be assessed for validity and ranked for performance by
-Akaike Information Criteria.
+Akaike Information Criteria (\cref{ssec:inf_cri}).
 
 \section{Flocking data}
 \label{sec:data}
 
 Aerial footage of flocking sheep was captured with a commercially available DJI
-Phantom $3$ drone equipped with a built in high-definition camera, representing
+Phantom 3 drone equipped with a built in high-definition camera, representing
 a frame resolution of $4000\times3000$ pixels. This video footage was recorded
-at a rate of $24$ frames per second. In total, three distinct flocking events
-were captured and analysed. Each flocking event involved the same flock of $45$
+at a rate of 24 frames per second. In total, three distinct flocking events
+were captured and analysed. Each flocking event involved the same flock of 45
 sheep.
 
 The recorded flocking events took place in large open fields: a natural
@@ -66,10 +66,10 @@ previous frames.
     which was located here previously. The position of each sheep in every
     video frame was extracted using custom tracking software. Coloured lines
     represent the positions of sheep in previous frames. Each flocking event
-    tracked the movements of $45$ sheep over $\approx200$ frames. A single
+    tracked the movements of 45 sheep over close to 200 frames. A single
     flocking sequence then represents approximately $45\times200=9000$
     observations. Footage was recorded at a rate of 24 frames per second, and so
-    each sequence represents $\approx10$\,seconds of raw footage.}
+    each sequence represents 10 seconds of raw footage.}
   \label{fig:sheep_frame}
 \end{figure}
 
@@ -91,45 +91,45 @@ Sequence & Frames & Sheep & Mean speed (px\,s$^{-1}$) & Mean alignment \\
 \bottomrule
 \end{tabular}
 \caption{Summaries of the three flocking sequences analysed in this chapter.
-  Each sequence involved a flock of the same $45$ sheep, recorded over
-  $\approx200$ frames. As the data was recorded at a rate of $24$ frames per
-  second, each sequence represents around $10$ seconds of raw footage. The
+  Each sequence involved a flock of the same 45 sheep, recorded over
+  around 200 frames. As the data was recorded at a rate of 24 frames per
+  second, each sequence represents around 10 seconds of raw footage. The
   observed flocks were all highly polarised and moved at similar speeds.}
 \label{tab:data_summary}
 \end{table}
 
 \cref{fig:seq_1_traj,fig:seq_2_traj,fig:seq_3_traj} show the trajectories of
 motion of each individual in the three recorded flocking events. The positions
-of sheep in the first frame of the captured footage are represented by red
+of sheep in the first frame of the captured footage are represented by green 
 markers. The sheep then travel along the blue lines, with their last recorded
-position illustrated by the green markers.
+position illustrated by the red markers.
 
 \begin{figure}[tbp]
   \includegraphics{seq_1_traj.pdf}
   \caption{The trajectories of sheep reconstructed from video footage of
-    sequence $1$. The realised flock shows $45$ individuals moving cohesively
-    over $192$ frames. The observations in the first frame of this sequence were
+    sequence 1. The realised flock shows 45 individuals moving cohesively
+    over 192 frames. The observations in the first frame of this sequence were
     used to seed the forward simulations in \cref{cha:sim_studies}.}
   \label{fig:seq_1_traj}
 \end{figure}
 \begin{figure}[tbp]
   \includegraphics{seq_2_traj.pdf}
-  \caption{A trajectory plot of the flock realised in sequence $2$. These
+  \caption{A trajectory plot of the flock realised in sequence 2. These
     trajectories correspond to those shown in the drone footage of
   \cref{fig:sheep_frame}.}
   \label{fig:seq_2_traj}
 \end{figure}
 \begin{figure}[tbp]
   \includegraphics{seq_3_traj.pdf}
-  \caption{Illustrating the movement of the flock in sequence $3$. Although
-    this flock appears as cohesive as the events in sequences $1$ and $2$,
+  \caption{Illustrating the movement of the flock in sequence 3. Although
+    this flock appears as cohesive as the events in sequences 1 and 2,
     this flock is also seen to go through greater directional changes.}
   \label{fig:seq_3_traj}
 \end{figure}
 
 The data realised by the drone captured footage resembles the data used in the
 simulation studies of \cref{cha:sim_studies}. In fact, the first observed frame
-of sequence $1$ was used to seed these forward simulations.
+of sequence 1 was used to seed these forward simulations.
     
 \section{Model fitting}
 
@@ -141,7 +141,7 @@ checking.
 
 \subsection{Sequence 1}
 
-Sequence $1$ represents the most cohesive flocking event of the captured
+Sequence 1 represents the most cohesive flocking event of the captured
 sequences. We shall use the inference schemes constructed in
 \cref{cha:sim_studies} to fit our candidate models to this data. With the
 models fitted, we can then assess the performance of the model fits, and rank
@@ -150,18 +150,18 @@ the candidate models by their predictive performance.
 \subsubsection{Posterior beliefs}
 
 Our posterior beliefs about the parameters of the candidate models fitted to
-sequence $1$ are shown in \cref{fig:posteriors_seq1}. The same vague prior
+sequence 1 are shown in \cref{fig:posteriors_seq1}. The same vague prior
 beliefs that were specified in \cref{cha:sim_studies} were reused here. These
 prior beliefs are plotted in red on top of our posteriors. For all the inferred
-parameters our prior beliefs appear flat in comparison to our posterior
-beliefs. This shows that we were able to learn a lot from the data, and that
-our prior beliefs did not have a strong impact on our posterior realisations.
+parameters our prior beliefs appear flat in comparison to our posteriors. This
+shows that we were able to learn a lot from the data, and that our prior
+beliefs did not have a strong impact on our posterior realisations.
 
 Stan's No-U-Turn-Sampler was used to draw samples from the posterior
 distributions of the Null, power-law weighted, Gaussian weighted and
 topological models. To perform the model fittings we initialised four
 independent Markov chains at draws from our prior beliefs. Chains were
-simulated for $10,000$ iterations, with the first $5000$ iterations discarded
+simulated for 10,000 iterations, with the first 5000 iterations discarded
 to allow convergence. The samples drawn by each independent chain are
 represented by the different coloured histograms of \cref{fig:posteriors_seq1}.
 The overlain histograms show that the chains all converged to the same common
@@ -178,7 +178,7 @@ that at $r\approx3.25$ an agent suddenly includes the influence of a neighbour
 which the model finds incompatible. This behaviour is a product of the
 discontinuity of Vicsek's weighting rule.
 
-The interaction parameters inferred from sequence $1$ all represent weak
+The interaction parameters inferred from sequence 1 all represent weak
 interactions. This finding is consistent with the observation that weak
 alignment interactions are sufficient to maintain groups which are already
 highly polarised \parencite{jhawar20}. The small values inferred for the
@@ -188,7 +188,7 @@ is significant as thus far the assumption of normally distributed noise has
 been a mainstay of agent-based modelling.
 
 Although we have shown that our candidate models \emph{can} be fit to sequence
-$1$, this does not say anything about their adequacy or goodness-of-fit. To
+1, this does not say anything about their adequacy or goodness-of-fit. To
 assess goodness-of-fit we shall inspect residual plots and make posterior
 predictive checks.
 
@@ -234,7 +234,7 @@ predictive checks.
   \end{subfigure}
   \vspace{-1.5em}
   \caption{Histogram plots show the posterior samples realised in fitting
-    candidate models to the data of sequence $1$. Our priors beliefs are overlain
+    candidate models to the data of sequence 1. Our priors beliefs are overlain
     in red, and in all cases appear flat in comparison to our posterior
     beliefs; this indicates that the observed data has been very informative.}
   \label{fig:posteriors_seq1}
@@ -291,7 +291,7 @@ a flock which is already cohesive.
     \includegraphics{seq1/top_residuals.pdf}
     \caption{Topological model}
   \end{subfigure}
-  \caption{Standardised residuals of the models fitted to sequence $1$. The
+  \caption{Standardised residuals of the models fitted to sequence 1. The
   residuals are standardised by dividing by the posterior mean of the scale
   parameter $\sigma_Y$. A Student's $t$-distribution with $\nu$ degrees of
   freedom taken from our posterior mean is overlain in green. We see that
@@ -336,8 +336,8 @@ Vicsek                      & -48\,941 &    5 &  3 & 89.7 &   0.00 \\
 \bottomrule
 \end{tabular}
 \caption{Tabulated values of AIC and the corresponding Akaike weights
-  (displayed to $2$ decimal places) of each model fitted to sequence $1$. Models
-  are ranked from $1$--$5$, where $1$ is the best fit and $5$ is the worst.}
+  (displayed to 2 decimal places) of each model fitted to sequence 1. Models
+  are ranked from 1--5, where 1 is the best fit and 5 is the worst.}
 \label{tab:aic_seq1}
 \end{table}
 
@@ -347,15 +347,15 @@ Forward simulating candidate models with parameters drawn from our posterior
 beliefs provides an informal method to assess how well a model can reproduce
 realistic behaviours. Here we forward simulate each candidate model one
 thousand times. To initialise each simulation we randomly draw model parameters
-from our posterior density. We simulate the movement of $45$ sheep, initially
-positioned and directed as in the first frame of the fitted sequence, for $192$
+from our posterior density. We simulate the movement of 45 sheep, initially
+positioned and directed as in the first frame of the fitted sequence, for 192
 time steps. We compute the alignment of the flocks at each time step.
 
 \cref{fig:checks_seq1} shows the alignment of the simulated flocks. The top
 panel shows the alignment of two sets of randomly selected simulations. We see
 that all the models do a reasonable job of capturing the observed flock
-alignment for the first $\approx25$ time steps. After this, the observed flock
-experiences a fluctuation in alignment over a time scale of $\approx100$
+alignment for around the first 25 time steps. After this, the observed flock
+experiences a fluctuation in alignment over a time scale of around 100
 frames. The candidate models do not appear capable of producing flocks with
 such long-time fluctuations in alignment. However, this should not come as a
 particular surprise as these models only predict direction of motion one step
@@ -367,7 +367,7 @@ by our models, or of a longer range dependence on previous directions.
   \includegraphics{alignment/alignment_single_1.pdf}\vspace{1em}\\
   \includegraphics{alignment/alignment_ensemble_1.pdf}
   \caption{The alignment of flocks forward simulated with parameters drawn from
-    our posterior densities about model fits to sequence $1$. Simulations were
+    our posterior densities about model fits to sequence 1. Simulations were
     initialised as in the first frame of the observed data, and repeated one
     thousand times. The top panels show two randomly selected sets of forward
     simulations. The bottom panel shows the median alignment across all
@@ -384,7 +384,7 @@ cohesive flocks.
 
 \subsection{Sequence 2}
 
-This sequence details the movements of our flock of $45$ sheep over $183$
+This sequence details the movements of our flock of 45 sheep over 183
 frames. The recorded flock is again very coherent and highly polarised. 
 
 \subsubsection{Posterior beliefs}
@@ -394,11 +394,11 @@ and NUTS algorithms. The posterior realisations made by these samplers are shown
 in \cref{fig:posteriors_seq2}. Having overlain our prior densities in red,
 we can see that our beliefs have changed considerably in light of the data.
 
-The inferred parameters are similar to those realised from sequence $1$;
+The inferred parameters are similar to those realised from sequence 1;
 representing weak interactions between individuals and giving evidence of
 agents experiencing non-normally distributed noise. Similar noise-scale and
 degrees of freedom parameters are inferred for every model fitted to sequence
-$2$.
+2.
 
 Our posterior densities about the interaction radius of the Vicsek model again
 shows a strongly skewed distribution. It is this sudden drop in posterior
@@ -441,7 +441,7 @@ density which makes the NUTS algorithm ineffective for this problem.
   \end{subfigure}
   \vspace{-2em}
   \caption{Posterior realisations of the model parameters inferred in fitting
-  candidate models to sequence $2$. Posterior samples of the parameters of the
+  candidate models to sequence 2. Posterior samples of the parameters of the
   Vicsek model were drawn by the implementation of a Metropolis--Hastings
   sampler. The remaining models were fitted with the implementation of Stan's
   NUTS algorithm.}
@@ -459,7 +459,7 @@ $\angmean{\theta}_{i,t}$ computed at each posterior sample.
 
 The standardised residuals computed from each model fit are shown in
 \cref{fig:residuals_seq2}. The standardised residuals look to follow a
-generalised Student's $t$-distribution with scale $1$, and location slightly
+generalised Student's $t$-distribution with scale 1, and location slightly
 below zero. The non-zero mean of the residuals may suggest the presence of
 additional interactions such as attraction or repulsion, which are not
 implemented in our models. The non-zero mean could also be explained by the
@@ -496,7 +496,7 @@ alignment interactions to maintain cohesion.
     \includegraphics{seq2/top_residuals.pdf}
     \caption{Topological model}
   \end{subfigure}
-  \caption{Standardised residuals of models fitted to sequence $2$. The density
+  \caption{Standardised residuals of models fitted to sequence 2. The density
     overlain in green represents a Student's $t$-distribution with $\nu$ degrees
     of freedom, where $\nu$ is taken as the posterior mean from the corresponding
     model fit. The distributions of residuals show a mean slightly below zero,
@@ -508,9 +508,9 @@ alignment interactions to maintain cohesion.
 
 The standardised residuals of each model fit shown in \cref{fig:residuals_seq2}
 look very similar. Recall that model predictions are made at every iteration of
-our inference schemes. For samples drawn using Stan we have $4$ independent
-Markov chains, simulated for $5000$ post-warm-up iterations, giving a total of
-$20,000$ iterations. Sequence $2$ contains $45\times183$ data points. Given the
+our inference schemes. For samples drawn using Stan we have 4 independent
+Markov chains, simulated for 5000 post-warm-up iterations, giving a total of
+20,000 iterations. Sequence 2 contains $45\times183$ data points. Given the
 initial directions of individuals, we are then tasked with predicting
 $45\times182=8190$ data points. Making our predictions at every iteration, we
 make a total of $20,000\times8190$ predictions per model. These predictions are
@@ -521,14 +521,14 @@ useful in distinguishing between models.
 
 Computed AIC values and their corresponding model ranks are tabulated in
 \cref{tab:aic_seq2}. The computed Akaike weights are not as conclusive as they
-were with sequence $1$; here the power-law and topological models are awarded
+were with sequence 1; here the power-law and topological models are awarded
 similar Akaike weights. The similarity in weights computed for these models
 suggests that in application there may be very little practical distinction
 between them, or that their differences are so minute it can be difficult to
 tell them apart.
 
 Below the ranking of the power-law weighted and topological models, the ranking
-follows the same order as was seen in sequence $1$. Again we see that the
+follows the same order as was seen in sequence 1. Again we see that the
 Vicsek model was not able to explain any more of the data than the Null model.
 But as AIC favours simplicity, given that both models have the same value of
 the maximised likelihood function, we see the Vicsek model ranked below the
@@ -546,7 +546,7 @@ Null                        & -43\,488 &    4 &  2 &  6.9 &   0.02 \\
 Vicsek                      & -43\,486 &    5 &  3 &  8.9 &   0.01 \\
 \bottomrule
 \end{tabular}
-\caption{Ranking the models fitted to sequence $2$ by their predictive
+\caption{Ranking the models fitted to sequence 2 by their predictive
   performance, estimated by AIC. The power-law model is ranked as the best
   performing model, followed closely by the topological model.}
 \label{tab:aic_seq2}
@@ -557,15 +557,15 @@ Vicsek                      & -43\,486 &    5 &  3 &  8.9 &   0.01 \\
 To assess the ability of our fitted models to produce realistic looking
 behaviours, we forward simulate the candidate models using parameters drawn
 from our posterior densities. Simulations are initialised as in the first frame
-of sequence $2$, and repeated one thousand times. For each repetition new
+of sequence 2, and repeated one thousand times. For each repetition new
 parameter values are drawn from the posterior.
 
 \cref{fig:checks_seq2} shows alignment as a function of time for the resulting
 flocks. The top panel of \cref{fig:checks_seq2} shows two sets of randomly
 selected flocking instances. Here the models look to provide a good prediction 
-of flock alignment for the first $\approx75$ time steps. The bottom panel of
+of flock alignment for around the first 75 time steps. The bottom panel of
 \cref{fig:checks_seq2} shows the median flock alignment as a function of time.
-The bands around the coloured lines represent the $25$-th and $75$-th
+The bands around the coloured lines represent the $25$th and $75$th
 percentiles of the observed alignments. The most cohesive flocks were generated
 by the topological and power-law models---again corresponding to the models
 favoured by AIC.
@@ -575,26 +575,26 @@ favoured by AIC.
   \includegraphics{alignment/alignment_ensemble_2.pdf}
   \caption{Flock alignment as a function of time for forward simulated
     candidate models. Models are initialised from the first frame of sequence
-    $2$, with model parameters drawn from our posteriors. Each candidate
+    2, with model parameters drawn from our posteriors. Each candidate
     model is forward simulated one thousand times, with new model parameters
     drawn for each simulation. The top panel shows two randomly selected sets
     of forward simulations. The lower panel shows the median alignment of
     simulations as a function of time, with the bands around the median
-    representing the $25$-th and $75$-th percentiles}
+    representing the $25$th and $75$th percentiles}
   \label{fig:checks_seq2}
 \end{figure}
 
 \subsection{Sequence 3}
 
-The flocking event captured in sequence $3$ is much more dynamic than the
-events captured in sequences $1$ and $2$: going through a much larger
+The flocking event captured in sequence 3 is much more dynamic than the
+events captured in sequences 1 and 2: going through a much larger
 directional change than the other sequences. In addition to this, the flock of
-sequence $3$ is not as densely packed as the flocks of sequences $1$ and $2$,
+sequence 3 is not as densely packed as the flocks of sequences 1 and 2,
 as seen in \cref{fig:seq_3_traj}.
 
 \subsubsection{Posterior beliefs}
 
-Parameter values are inferred from sequence $3$ by sampling. The Null,
+Parameter values are inferred from sequence 3 by sampling. The Null,
 power-law weighted, Gaussian weighted and topological models are fit using
 Stan, whereas the Vicsek model is fit with a Metropolis--Hastings algorithm.
 The samples drawn from the posterior are shown in \cref{fig:posteriors_seq3}.
@@ -602,10 +602,10 @@ Computing values of $\widehat{R}$ shows that all our samplers converged.
 Corresponding values of the effective sample size show a large number of
 samples were realised from the posterior.
 
-The inferred parameters broadly align with those inferred from sequences $1$
-and $2$: with the inferred interaction parameters representing weak
+The inferred parameters broadly align with those inferred from sequences 1
+and 2: with the inferred interaction parameters representing weak
 interactions. However, the inferred degrees of freedom parameters are smaller
-than those inferred for sequences $1$ and $2$, revealing a noise distribution
+than those inferred for sequences 1 and 2, revealing a noise distribution
 with more weight in its tails.
 
 \begin{figure}[p]
@@ -644,7 +644,7 @@ with more weight in its tails.
     \caption{Topological model}
   \end{subfigure}
   \vspace{-2em}
-  \caption{Posterior beliefs about the model parameters fitted to sequence $3$.
+  \caption{Posterior beliefs about the model parameters fitted to sequence 3.
     The Null, power-law weighted, Gaussian weighted and topological models were
     fit with Stan's NUTS algorithm. The Vicsek model was fit with a
     Metropolis--Hastings algorithm. Prior beliefs are overlain in red, and
@@ -692,7 +692,7 @@ agents and their external environment.
     \includegraphics{seq3/top_residuals.pdf}
     \caption{Topological model}
   \end{subfigure}
-  \caption{Standardised residuals from sequence $3$ show a poor fit of model to
+  \caption{Standardised residuals from sequence 3 show a poor fit of model to
     data. Although the residuals do look to follow a Student's $t$-distribution,
     they do so with a location less than zero. This suggests the presence of
     behaviours not captured by our models. Missing behaviours could be
@@ -708,7 +708,7 @@ models provide a particularly good fit to data, it can still be informative to
 consider if any of the models outperformed the others. \cref{tab:aic_seq3}
 shows the AIC values and corresponding Akaike weights computed for each model
 fit. From this we see that the power-law weighted provided the best fit to the
-data. Consistent with sequences $1$ and $2$ we see the Null and Vicsek models
+data. Consistent with sequences 1 and 2 we see the Null and Vicsek models
 as the worst performing candidate models.
 
 \begin{table}[tbp]
@@ -723,9 +723,9 @@ Null                        & -52\,037 &    4 &  2 & 205.8 &   0.00 \\
 Vicsek                      & -52\,035 &    5 &  3 & 207.8 &   0.00 \\
 \bottomrule
 \end{tabular}
-\caption{Estimating predictive performance of models fitted to sequence $3$
-  using Akaike Information Criteria. Models are ranked from best performing ($1$)
-  to worst performing ($5$). The corresponding Akaike weight for each model is
+\caption{Estimating predictive performance of models fitted to sequence 3
+  using Akaike Information Criteria. Models are ranked from best performing (1)
+  to worst performing (5). The corresponding Akaike weight for each model is
   computed.}
 \label{tab:aic_seq3}
 \end{table}
@@ -736,8 +736,8 @@ Forward simulating fitted models provides an opportunity to assess a model's
 ability to reproduce realistic behaviours. Here we assess the ability of our
 models to replicate the change in alignment over time of our data. Although our
 residual plots show that we were unable to explain the directional changes of
-sequence $3$, \cref{fig:checks_seq3} shows that out models do a reasonable job
-of mimicking the alignment of sequence $3$ over time. The bottom panel of
+sequence 3, \cref{fig:checks_seq3} shows that out models do a reasonable job
+of mimicking the alignment of sequence 3 over time. The bottom panel of
 \cref{fig:checks_seq3} shows that the power-law weighted model produces the most
 consistently cohesive flocks, which was also the model favoured by AIC.
 
@@ -745,7 +745,7 @@ consistently cohesive flocks, which was also the model favoured by AIC.
   \includegraphics{alignment/alignment_single_3.pdf}\vspace{1em}\\
   \includegraphics{alignment/alignment_ensemble_3.pdf}
   \caption{Alignment as a function of time for forward simulations of sequence
-    $3$. Model parameters were chosen as random draws from our posterior
+    3. Model parameters were chosen as random draws from our posterior
     beliefs. Each candidate model was forward simulated one thousand times,
     with new parameter values drawn for each simulation. The top panel shows two
     sets of randomly selected forward simulations. The lower panel shows the
@@ -784,6 +784,6 @@ single model as providing the best fit, models implementing continuous
 interaction rules consistently outrank those with discontinuous rules. We saw
 that the Vicsek model is no better at describing the data than the Null model,
 even with the additional complexity of an extra model parameter. Penalised for
-complexity, AIC consistently ranked the Vicsek model below the null model;
+complexity, AIC consistently ranked the Vicsek model below the Null model;
 making the Vicsek model the worst performing candidate model.
 
