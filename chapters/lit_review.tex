@@ -256,11 +256,15 @@ sufficient evidence of model correctness. That is, the emergence of a desired
 pattern is not sufficient evidence that a model is correctly capturing the
 interactions between individuals. This observation is further compounded by the
 understanding that models implementing different local interactions can produce
-similar looking behaviour at the group level. As such, real data describing the
-dynamics of animal aggregations is \emph{essential} to assess the validity and
-efficacy of theoretical models and the assumptions they make. With such data it
-becomes possible to compare and rank the predictive performance of competing
-models.
+similar looking behaviour at the group level; see, for instance, the similar
+behaviours (swarms, undirected mills and moving aligned groups) exhibited by
+the zonal repulsion-alignment-attraction model of \textcite{couzin02} and the
+attraction-blind-angle model of \textcite{strombom11}.
+
+As such, real data describing the dynamics of animal aggregations is
+\emph{essential} to assess the validity and efficacy of theoretical models and
+the assumptions they make. With such data it becomes possible to compare and
+rank the predictive performance of competing models.
 
 Thorough comparison between model and data has proven difficult largely
 because of the scarcity of appropriate data. The collection of suitable data
@@ -352,6 +356,27 @@ instead, alignment occurred as a product of attraction and repulsion between
 individuals. Pairwise interactions were seen to predict the spatial
 distributions of neighbours, and this observation was validated for shoals of
 10 and 30 individuals.
+
+With many different models capable of producing realistic-looking flocks,
+researchers have sought to make quantitative comparison between the
+model-performance using techniques from the model-selection literature.
+\textcite{mann13} fit a number of models---including a topological model, a
+non-local model (in which all agents interact), and a variety of different
+spatial models---to data describing the collective motion of glass prawns. In
+computing the marginal log-likelihood of candidate models the authors were able
+to conclude that a spatial model with a persistent ``memory'' effect provided
+the best fit to data.
+
+The marginal log-likelihood provides an appealing measure with which to compare
+model fits: penalising models for complexity, and favouring simpler models.
+Following the methodology outlined by \textcite{mann13},
+\textcite{strandburg13} used the marginal log-likelihood to compare models with
+metric, topological, Voronoi and visual interaction rules. Although the
+marginal-likelihood is often used to compare model performance, under certain
+situations the marginal-likelihood is also understood to be highly sensitive to
+prior dispersion, even when the posterior is robust against prior dispersion
+\parencite{fong20}. As such, information-criterion approximations to the
+marginal-likelihood represent popular alternatives.
 
 Analysis of empirical data has so far focused on epiphenomena such as nearest
 neighbour distances or angular neighbour densities. Research has then focused

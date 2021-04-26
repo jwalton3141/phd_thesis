@@ -52,12 +52,12 @@ points include field boundaries, fence posts and trees.
 
 Having corrected for extraneous drone-movement, the captured frames were then
 thresholded to separate the pixels representing sheep from their surrounding
-environment. Kalman filtering and the Hungarian algorithm were then used to
-track the positions of individual sheep between frames. Having linked the
-positions of sheep between frames, the trajectories of motion of every
-individual could be reconstructed. \cref{fig:sheep_frame} shows the positions
-of sheep in a single video frame, overlain are the positions of these sheep in
-previous frames.
+environment. Kalman filtering \parencite{kalman60} and the Hungarian algorithm
+\parencite{kuhn55} were then used to track the positions of individual sheep
+between frames. Having linked the positions of sheep between frames, the
+trajectories of motion of every individual could be reconstructed.
+\cref{fig:sheep_frame} shows the positions of sheep in a single video frame,
+overlain are the positions of these sheep in previous frames.
 
 \begin{figure}[tbp]
   \includegraphics[width=0.8\textwidth]{traj0130_crop.png}
