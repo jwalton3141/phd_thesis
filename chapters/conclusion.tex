@@ -98,6 +98,20 @@ maintain the flocks highly polarised structure. Although our model could not
 explain the interactions between individuals, it was only by accounting for the
 missing observations that we were able to reach this conclusion.
 
+We demonstrated to the reader that although fitting models of collective motion
+to real data is difficult, the process can be \emph{greatly} eased by using
+existing, general purpose inference tools such as the Stan programming
+language. Such software will undoubtedly outperform the hand-coded MCMC
+algorithms of all but the most talented computer programmers. To the reader we
+also emphasise the utility of simulation studies. Simulation studies represent
+an invaluable opportunity to assess the feasibility of parameter inference on
+any model of interest, and give scope to develop \emph{and} debug inference
+code in an environment where the answer is known. Although methodology was
+outlined which allowed the researcher to account for missing data within
+recordings of flocking events, the computational cost that this approach incurs
+is so large that in the first instance the greatest effort should be made to
+\emph{avoid} missing data occurring during the recording process.
+
 Throughout this thesis we demonstrated a fully-Bayesian approach to fitting
 models of collective behaviour to real and simulated data. We advocated
 consideration of simple models over the needlessly complex, and the addition of
