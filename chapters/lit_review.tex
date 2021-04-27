@@ -358,25 +358,29 @@ distributions of neighbours, and this observation was validated for shoals of
 10 and 30 individuals.
 
 With many different models capable of producing realistic-looking flocks,
-researchers have sought to make quantitative comparison between the
-model-performance using techniques from the model-selection literature.
-\textcite{mann13} fit a number of models---including a topological model, a
-non-local model (in which all agents interact), and a variety of different
-spatial models---to data describing the collective motion of glass prawns. In
-computing the marginal log-likelihood of candidate models the authors were able
-to conclude that a spatial model with a persistent ``memory'' effect provided
-the best fit to data.
+researchers have sought to use ideas from the model-selection literature to
+quantify model performance. \textcite{mann13} fit a number of
+models---including: a topological model; a non-local model in which all
+individuals interact, and a variety of different spatial models---to data
+describing the collective motion of glass prawns confined to an annular arena.
+To quantify the performance of each candidate model the authors computed the
+marginal likelihood. With this the authors were able to compare model
+performance and conclude that a spatial model with a persistent ``memory''
+effect provided the best fit to their data. Following the methodology outlined
+by \textcite{mann13}, \textcite{strandburg13} used the marginal likelihood to
+compare the performance of models with metric, topological, Voronoi, and visual
+interaction rules, to explain the movements of shoals of fish. In doing so the
+authors were able to conclude that Voronoi and visual models were better at
+explaining their data than metric and topological models.
 
-The marginal log-likelihood provides an appealing measure with which to compare
-model fits: penalising models for complexity, and favouring simpler models.
-Following the methodology outlined by \textcite{mann13},
-\textcite{strandburg13} used the marginal log-likelihood to compare models with
-metric, topological, Voronoi and visual interaction rules. Although the
-marginal-likelihood is often used to compare model performance, under certain
-situations the marginal-likelihood is also understood to be highly sensitive to
-prior dispersion, even when the posterior is robust against prior dispersion
-\parencite{fong20}. As such, information-criterion approximations to the
-marginal-likelihood represent popular alternatives.
+The marginal likelihood provides an appealing measure with which to compare
+model fits: penalising models for complexity, and hence favouring simpler
+models over complex models. Although the marginal likelihood is often used to
+compare model performance, under certain circumstances the marginal likelihood
+is also understood to be highly sensitive to prior dispersion, even when the
+posterior is robust against prior dispersion \parencite{fong20}. As such,
+estimating the marginal likelihood with information criteria
+(\cref{ssec:inf_cri}) remains a popular alternative approach to model comparison.
 
 Analysis of empirical data has so far focused on epiphenomena such as nearest
 neighbour distances or angular neighbour densities. Research has then focused
