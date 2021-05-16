@@ -1,6 +1,9 @@
 name: Build Thesis
 on:
   push:
+    paths-ignore:
+      - README.md
+      - scripts/*
 jobs:
   build_cv:
     runs-on: ubuntu-latest
