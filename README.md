@@ -1,3 +1,5 @@
+[![Build Thesis](https://github.com/jwalton3141/phd_thesis/actions/workflows/main.yml/badge.svg)](https://github.com/jwalton3141/phd_thesis/actions/workflows/main.yml)
+
 # Bayesian Inference for Models of Collective Behaviour
 
 I submitted my thesis to Newcastle University's department of Maths, Stats &

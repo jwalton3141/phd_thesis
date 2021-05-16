@@ -1,0 +1,17 @@
+name: Build Thesis
+on:
+  push:
+    paths-ignore:
+      - README.md
+      - scripts/*
+jobs:
+  build_cv:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Compile Thesis
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: thesis.tex
+          post_compile: "latexmk -c"
