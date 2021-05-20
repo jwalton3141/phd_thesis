@@ -33,12 +33,12 @@ typetools](http://www.lcdf.org/type/) and a complete TeXLive or MiKTeX install.
 This script need only be run once. Before you install and use this font ensure
 that you have a license to do so. 
 
-# Cite it
+## Cite me
 
 ```tex
 @Thesis{	  walton2021,
   Author	= {Jack Walton},
-  Title		= {Bayesian Inference for Models of Collective Behaviour },
+  Title		= {Bayesian Inference for Models of Collective Behaviour},
   School	= {University of Newcastle upon Tyne},
   Year		= {2021}
 }
