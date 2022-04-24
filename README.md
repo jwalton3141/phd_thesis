@@ -3,7 +3,8 @@
 # Bayesian Inference for Models of Collective Behaviour
 
 I submitted my thesis to Newcastle University's department of Maths, Stats &
-Physics in December 2020.
+Physics in December 2020. You can find [a copy of my thesis
+here](https://jwalton.info/assets/thesis.pdf).
 
 [Dr. Richard P. Mann](http://www.richardpmann.com/) performed the role of
 external examiner, and [Dr. Nick
